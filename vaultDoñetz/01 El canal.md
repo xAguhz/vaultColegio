@@ -1,6 +1,7 @@
 ---
 tipo: perfil
 canal: El Profe Juanito
+docente: Doñetz
 handle: "@juanitoprofe"
 channel_id: UCng3NEzosRb4EndSzXXWcfg
 suscriptores: 12000
@@ -11,6 +12,8 @@ tags: [canal]
 ---
 
 # El canal: El Profe Juanito
+
+**Docente:** el profe **Doñetz**, profesor de escuela técnica. El apellido no aparece en el canal; lo confirmó el usuario.
 
 **Descripción oficial:** canal dedicado a la educación técnica en general y principalmente a la enseñanza de automatización industrial.
 **Etiquetas del canal:** educación, técnica, automatización, neumática, PLC, programación, electrónica, ingeniería.

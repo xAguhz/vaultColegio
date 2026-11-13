@@ -1,12 +1,15 @@
 ---
 tipo: índice
 canal: El Profe Juanito
+docente: Doñetz
 url: https://www.youtube.com/@juanitoprofe
 actualizado: 2026-11-13
 tags: [moc, automatización]
 ---
 
 # vaultDoñetz — El Profe Juanito
+
+El vault lleva el apellido del profe: **Doñetz**, autor del canal.
 
 Vault de estudio armado a partir de las **transcripciones** de los 27 videos propios del canal de YouTube [El Profe Juanito (@juanitoprofe)](https://www.youtube.com/@juanitoprofe): 24 públicos y 3 ocultos que aparecen dentro de una de sus listas.
 
