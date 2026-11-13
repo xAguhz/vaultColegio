@@ -9,8 +9,17 @@ Ilustraciones didácticas generadas con Gemini (vía Antigravity, `herramientas/
 
 > [!warning] Detalle conocido
 > En `bomba.png` la etiqueta «Sello» aparece dos veces; la segunda señala en realidad el eje y el soporte de rodamientos.
+> En `centrifugo.png` la flecha de abajo dice «Salida» pero es la entrada del aire al difusor.
 
 <!-- entradas -->
+### portada · 2026-11-13 08:06
+![[portada.png|600]]
+- **Proporción:** 16:9 · **Modelo:** gemini-3.8-flash-medium
+- **Prompt:**
+```
+Clean modern flat vector illustration, wide banner, white background, muted blue/grey/orange palette, no text at all. Subject: an industrial compressor room seen in isometric view: a rotary screw compressor package, a vertical air receiver tank, a refrigerated dryer, line filters and blue overhead pipes leaving the room toward a factory floor with pneumatic machines.
+```
+
 ### fuga · 2026-11-13 08:05
 ![[fuga.png|600]]
 - **Proporción:** 4:3 · **Modelo:** gemini-3.8-flash-medium
