@@ -16,17 +16,17 @@ Vault de estudio de **Sistemas Mecánicos** (profesor Charrute, 7° 1°, ciclo 2
 > Todo gira alrededor de una idea: **un equipo nunca se analiza aislado, sino dentro del sistema.** Cada TP agrega una capa sobre los mismos procesos (aire comprimido, bombeo y calentamiento de agua): primero el **diagrama**, después los **equipos**, las **variables**, las **cañerías**, y por último cada equipo en profundidad (tanques, intercambiadores, bombas, compresores y calderas).
 
 ## Trabajos prácticos
-| TP | Tema | Consigna | Entrega | Estado en Drive |
-|---|---|---|---|---|
-| 1 | [[TP1 Diagramas de proceso\|Diagramas de proceso]] | 20/03 | 27/03 | ✅ Resuelto + Slides |
-| 2 | [[TP2 Equipos de un proceso\|Equipos principales de un proceso]] | 10/04 | 23/04 | ✅ Resuelto (Partes A, B y C) + pptx |
-| 3 | [[TP3 Variables de proceso\|Variables de proceso e instrumentación]] | 14/05 | 05/06 | ✅ Resuelto |
-| 4 | [[TP4 Cañerías y válvulas\|Cañerías, válvulas y recorrido del fluido]] | 12/06 | 26/06 | ✅ Informe Panadería Pilar + plano + machete |
-| 5 | [[TP5 Tanques y recipientes a presión\|Tanques y recipientes a presión]] | 07/08 | 20/08 | ✅ Cuestionario + investigación |
-| 6 | [[TP6 Intercambiadores de calor\|Intercambiadores de calor]] | 04/09 | 18/09 | ⚠️ Entregas en PDF escaneado (sin texto); guía armada desde la teoría |
-| 7 | [[TP7 Bombas industriales\|Bombas industriales]] | 25/09 | 09/10 | ✅ Informe con los 2 cuestionarios |
-| 8 | [[TP8 Compresores de aire\|Compresores de aire]] | 09/10 | 10/11 | ⚠️ Solo una presentación en Google Sites; guía armada desde la teoría |
-| 9 | [[TP9 Calderas industriales\|Calderas industriales]] | 06/11 | — | 🕒 Consigna nueva, sin entrega todavía |
+| TP  | Tema                                                                     | Consigna | Entrega | Estado en Drive                                                       |
+| --- | ------------------------------------------------------------------------ | -------- | ------- | --------------------------------------------------------------------- |
+| 1   | [[TP1 Diagramas de proceso\|Diagramas de proceso]]                       | 20/03    | 27/03   | ✅ Resuelto + Slides                                                   |
+| 2   | [[TP2 Equipos de un proceso\|Equipos principales de un proceso]]         | 10/04    | 23/04   | ✅ Resuelto (Partes A, B y C) + pptx                                   |
+| 3   | [[TP3 Variables de proceso\|Variables de proceso e instrumentación]]     | 14/05    | 05/06   | ✅ Resuelto                                                            |
+| 4   | [[TP4 Cañerías y válvulas\|Cañerías, válvulas y recorrido del fluido]]   | 12/06    | 26/06   | ✅ Informe Panadería Pilar + plano + machete                           |
+| 5   | [[TP5 Tanques y recipientes a presión\|Tanques y recipientes a presión]] | 07/08    | 20/08   | ✅ Cuestionario + investigación                                        |
+| 6   | [[TP6 Intercambiadores de calor\|Intercambiadores de calor]]             | 04/09    | 18/09   | ⚠️ Entregas en PDF escaneado (sin texto); guía armada desde la teoría |
+| 7   | [[TP7 Bombas industriales\|Bombas industriales]]                         | 25/09    | 09/10   | ✅ Informe con los 2 cuestionarios                                     |
+| 8   | [[TP8 Compresores de aire\|Compresores de aire]]                         | 09/10    | 10/11   | ⚠️ Solo una presentación en Google Sites; guía armada desde la teoría |
+| 9   | [[TP9 Calderas industriales\|Calderas industriales]]                     | 06/11    | —       | 🕒 Consigna nueva, sin entrega todavía                                |
 
 ## Equipos
 [[Tanque]] · [[Recipiente a presión]] · [[Bomba]] · [[Compresor]] · [[Válvulas]] · [[Intercambiador de calor]] · [[Caldera]] · [[Cañerías y accesorios]]

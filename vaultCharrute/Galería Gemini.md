@@ -11,6 +11,38 @@ Ilustraciones didácticas generadas con Gemini (vía Antigravity, `herramientas/
 > En `bomba.png` la etiqueta «Sello» aparece dos veces; la segunda señala en realidad el eje y el soporte de rodamientos.
 
 <!-- entradas -->
+### fuga · 2026-11-13 08:05
+![[fuga.png|600]]
+- **Proporción:** 4:3 · **Modelo:** gemini-3.8-flash-medium
+- **Prompt:**
+```
+Clean technical educational illustration for a high-school mechanical engineering class, isometric cutaway, flat vector style, white background, muted blue/grey/orange palette, thin black outlines, very few labels, labels in Spanish only, legible sans-serif text. Subject: close-up of a leaking quick-connect coupling on a blue compressed air pipe in a factory, a small jet of escaping air drawn as white streaks, a technician's handheld ultrasonic leak detector with headphones pointed at it, sound wave arcs. Label: 'Fuga'.
+```
+
+### centrifugo · 2026-11-13 08:05
+![[centrifugo.png|600]]
+- **Proporción:** 4:3 · **Modelo:** gemini-3.8-flash-medium
+- **Prompt:**
+```
+Clean technical educational illustration for a high-school mechanical engineering class, isometric cutaway, flat vector style, white background, muted blue/grey/orange palette, thin black outlines, very few labels, labels in Spanish only, legible sans-serif text. Subject: an industrial centrifugal air compressor in cutaway: high-speed impeller with curved blades, air entering axially at the eye, spiral diffuser and volute around it, gearbox, arrows showing air accelerating then slowing down in the diffuser. Labels: 'Impulsor', 'Difusor', 'Entrada', 'Salida'.
+```
+
+### secadores · 2026-11-13 08:05
+![[secadores.png|600]]
+- **Proporción:** 16:9 · **Modelo:** gemini-3.8-flash-medium
+- **Prompt:**
+```
+Clean technical educational illustration for a high-school mechanical engineering class, isometric cutaway, flat vector style, white background, muted blue/grey/orange palette, thin black outlines, very few labels, labels in Spanish only, legible sans-serif text. Subject: side-by-side comparison of two compressed air dryers in cutaway. Left: refrigerated dryer with air-to-air heat exchanger, refrigerant evaporator, water droplets falling into a separator with drain. Right: twin-tower desiccant (adsorption) dryer with two vertical columns filled with beads, one drying and one regenerating, arrows of air. Two titles only: 'Frigorífico' and 'Adsorción'.
+```
+
+### piston · 2026-11-13 08:04
+![[piston.png|600]]
+- **Proporción:** 4:3 · **Modelo:** gemini-3.8-flash-medium
+- **Prompt:**
+```
+Clean technical educational illustration for a high-school mechanical engineering class, isometric cutaway, flat vector style, white background, muted blue/grey/orange palette, thin black outlines, very few labels, labels in Spanish only, legible sans-serif text. Subject: a two-stage reciprocating piston air compressor in cutaway: crankshaft and connecting rods, a large low-pressure cylinder and a smaller high-pressure cylinder, finned intercooler tube between them, intake and discharge reed valves, belt-driven electric motor, mounted on a small horizontal air tank. Labels: 'Etapa 1', 'Interenfriador', 'Etapa 2', 'Válvulas'.
+```
+
 ### caldera · 2026-11-13 07:15
 ![[caldera.png|600]]
 - **Proporción:** 16:9 · **Modelo:** gemini-3.8-flash-medium
