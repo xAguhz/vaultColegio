@@ -161,7 +161,7 @@ ul.mant { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
 .fx circle { fill: var(--accent); }
 .fx circle.halo { fill: none; stroke: var(--accent); stroke-width: 1.2; opacity: 0.45; }
 .card {
-  position: absolute; pointer-events: auto; overflow: auto; padding: 10px 13px 11px; border-radius: 10px;
+  position: absolute; pointer-events: auto; overflow: auto; overscroll-behavior: contain; padding: 10px 13px 11px; border-radius: 10px;
   background: color-mix(in srgb, var(--panel) 88%, transparent); border: 1px solid var(--line); border-left: 3px solid var(--accent);
   backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); box-shadow: 0 8px 26px rgb(0 0 0 / 0.16);
   transition: opacity 0.3s ease, transform 0.3s ease; animation: flotar 5s ease-in-out infinite;
@@ -189,7 +189,9 @@ ul.mant { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
 
 @media (max-width: 820px) {
   html, body { height: auto; }
-  .app { height: auto; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 62vh auto; grid-template-areas: "top" "stage" "panel"; }
+  .app { height: auto; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 62vh auto; grid-template-rows: auto 62svh auto; grid-template-areas: "top" "stage" "panel"; }
+  .btn { min-height: 40px; padding: 8px 13px; }
+  .slider input { height: 32px; }
   .panel { border-left: 0; border-top: 1px solid var(--line); }
   .pane { overflow: visible; }
   .top .plate { display: none; }
@@ -200,7 +202,13 @@ ul.mant { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
   .focus-name { display: none; }
   .card h4 { font-size: 23px; }
   .pager { bottom: 8px; }
-  .pager button { padding: 6px 10px; }
+  .pager button { padding: 9px 11px; }
+}
+/* celular acostado: el visor ocupa casi toda la pantalla; la ficha queda abajo, deslizando */
+@media (max-width: 820px) and (orientation: landscape) and (max-height: 500px) {
+  .app { grid-template-rows: auto calc(100vh - 52px) auto; grid-template-rows: auto calc(100svh - 52px) auto; }
+  .top { padding-top: 8px; padding-bottom: 8px; }
+  .top .sub { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } .card { animation: none; } }
 </style>
@@ -340,10 +348,10 @@ function resize() {
   camera.aspect = w / h;
   applyViewOffset();
   if (focus && parts.size) {
-    const wasNarrow = focus.region && focus.region.narrow;
+    const wasMerged = !!(focus.region && focus.region.merged);
     fitFocus(false);
-    // si cambió entre diseño angosto y ancho, las tarjetas se arman de nuevo (una sola o varias)
-    if (focus.show) { if (focus.region.narrow !== wasNarrow) renderCards(); else layoutCards(); }
+    // si cambió entre una tarjeta sola y varias (celular / compu), las tarjetas se arman de nuevo
+    if (focus.show) { if (!!focus.region.merged !== wasMerged) renderCards(); else layoutCards(); }
   }
 }
 new ResizeObserver(resize).observe(stage);
@@ -518,7 +526,8 @@ let down = null;
 const cv = renderer.domElement;
 cv.addEventListener('pointerdown', (e) => { down = { x: e.clientX, y: e.clientY }; });
 cv.addEventListener('pointerup', (e) => {
-  if (!down || Math.hypot(e.clientX - down.x, e.clientY - down.y) > 6) { down = null; return; }
+  // con el dedo se tolera más movimiento antes de tomarlo como arrastre
+  if (!down || Math.hypot(e.clientX - down.x, e.clientY - down.y) > (e.pointerType === 'mouse' ? 6 : 14)) { down = null; return; }
   down = null;
   const pid = pick(e);
   if (focus) {
@@ -759,8 +768,13 @@ function focusRegion() {
   const W = stage.clientWidth, H = stage.clientHeight;
   const cw = cardW(W);
   const narrow = W < 640 || W - 2 * (cw + 40) < 240;
+  const side = !narrow && H < 460; // pantalla baja (celular acostado): una sola tarjeta a la derecha
   if (!focus || !focus.show) return { W, H, narrow, cw, cx: W / 2, cy: H / 2 + 22, rw: W - 60, rh: H - 150 };
-  if (narrow) return { W, H, narrow, cw, cx: W / 2, cy: H * 0.29, rw: W - 40, rh: H * 0.4 };
+  if (narrow) return { W, H, narrow, merged: true, cw, cx: W / 2, cy: H * 0.29, rw: W - 40, rh: H * 0.4 };
+  if (side) {
+    const sw = Math.round(Math.min(360, W * 0.42));
+    return { W, H, narrow, side, merged: true, cw: sw, cx: (W - sw - 28) / 2, cy: H / 2 + 14, rw: W - sw - 80, rh: H - 120 };
+  }
   return { W, H, narrow, cw, cx: W / 2, cy: H / 2 + 6, rw: W - 2 * (cw + 40), rh: H - 170 };
 }
 
@@ -900,7 +914,7 @@ function renderCards() {
   const R = focusRegion();
   const box = $('fx-cards');
   const page = s.pages[s.page];
-  const htmls = R.narrow ? [mergedHtml(page)] : page.cards.map(cardHtml);
+  const htmls = R.merged ? [mergedHtml(page)] : page.cards.map(cardHtml);
   box.innerHTML = '';
   htmls.forEach((h, i) => {
     const el = document.createElement('div');
@@ -921,6 +935,7 @@ function layoutCards() {
   const R = focusRegion();
   const els = [...$('fx-cards').children];
   const top = 82, bottom = s.small && s.pages.length > 1 ? 66 : 18, gap = 14;
+  $('pager').style.left = R.side ? `${R.cx}px` : ''; // acostado: la botonera va debajo de la pieza
   if (R.narrow) {
     const el = els[0];
     if (!el) return;
@@ -929,6 +944,17 @@ function layoutCards() {
     el.style.maxHeight = `${Math.max(120, R.H * 0.5 - bottom)}px`;
     el.style.top = `${R.H - bottom - el.offsetHeight}px`;
     el.dataset.side = 'b';
+    return;
+  }
+  if (R.side) {
+    const el = els[0];
+    if (!el) return;
+    const t = 60;
+    el.style.width = `${R.cw}px`;
+    el.style.left = `${R.W - 14 - R.cw}px`;
+    el.style.maxHeight = `${R.H - t - 14}px`;
+    el.style.top = `${t}px`;
+    el.dataset.side = 'r';
     return;
   }
   const avail = R.H - top - bottom;
