@@ -19,8 +19,10 @@ import re
 import shutil
 import subprocess
 import sys
+import urllib.parse
 
 SITIO = "https://xaguhz.github.io/vaultColegio"
+REPO = "https://github.com/xAguhz/vaultColegio"
 VAULTS = {
     "vaultAutoLID": ("AutoLID y materias", "00 Inicio", "Proyecto grupal AutoLID, materias y entregas."),
     "vaultTorno": ("Torno TM300", "00 Torno TM300", "Manual de mantenimiento y repuestos del torno Femar TM300, con despiece 3D."),
@@ -519,6 +521,14 @@ def main(origen, destino):
             with open(p, encoding="utf-8") as fh:
                 t = fh.read()
             nuevo = re.sub(r"(\[\[[^\]|#]+?)\.canvas", r"\1", t)
+            # Links a archivos de herramientas/ (no se publican en el sitio) → el archivo en GitHub
+            vault = posixpath.relpath(p, destino).split("/")[0]
+            nuevo = re.sub(
+                r"!?\[\[(herramientas/[^\]|#]+)(?:\|([^\]]+))?\]\]",
+                lambda m: f"[{m.group(2) or posixpath.basename(m.group(1))}]({REPO}/blob/main/"
+                + urllib.parse.quote(f"{vault}/{m.group(1)}") + ")",
+                nuevo,
+            )
             for viejo, sitio in ARTIFACTS.items():
                 nuevo = nuevo.replace(viejo, sitio)
             nuevo = nuevo.replace("(privado; se comparte desde el menú *Compartir* de la página)", "")
@@ -548,9 +558,11 @@ def main(origen, destino):
 
     # Portadas
     tarjetas = []
+    indice = Indice(destino)
     for v, (titulo, inicio, desc) in VAULTS.items():
+        inicio = (indice.buscar(inicio, v) or f"{v}/{inicio}.md")[:-3].split("/", 1)[1]
         with open(os.path.join(destino, v, "index.md"), "w", encoding="utf-8") as fh:
-            fh.write(f"---\ntitle: \"{titulo}\"\n---\nVault `{v}`. {desc}\n\nEmpezá por [[{v}/{inicio}|{inicio}]].\n")
+            fh.write(f"---\ntitle: \"{titulo}\"\n---\nVault `{v}`. {desc}\n\nEmpezá por [[{v}/{inicio}|{posixpath.basename(inicio)}]].\n")
         tarjetas.append(f"- **[[{v}/{inicio}|{titulo}]]**: {desc}")
     with open(os.path.join(destino, "index.md"), "w", encoding="utf-8") as fh:
         fh.write(
