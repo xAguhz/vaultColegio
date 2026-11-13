@@ -1,0 +1,505 @@
+{
+ "nodes": [
+  {
+   "id": "gtp",
+   "type": "group",
+   "label": "Trabajos prácticos (orden del año)",
+   "x": -40,
+   "y": -60,
+   "width": 330,
+   "height": 870,
+   "color": "4"
+  },
+  {
+   "id": "tp1",
+   "type": "file",
+   "file": "TPs/TP1 Diagramas de proceso.md",
+   "x": 0,
+   "y": 0,
+   "width": 250,
+   "height": 60
+  },
+  {
+   "id": "tp2",
+   "type": "file",
+   "file": "TPs/TP2 Equipos de un proceso.md",
+   "x": 0,
+   "y": 90,
+   "width": 250,
+   "height": 60
+  },
+  {
+   "id": "tp3",
+   "type": "file",
+   "file": "TPs/TP3 Variables de proceso.md",
+   "x": 0,
+   "y": 180,
+   "width": 250,
+   "height": 60
+  },
+  {
+   "id": "tp4",
+   "type": "file",
+   "file": "TPs/TP4 Cañerías y válvulas.md",
+   "x": 0,
+   "y": 270,
+   "width": 250,
+   "height": 60
+  },
+  {
+   "id": "tp5",
+   "type": "file",
+   "file": "TPs/TP5 Tanques y recipientes a presión.md",
+   "x": 0,
+   "y": 360,
+   "width": 250,
+   "height": 60
+  },
+  {
+   "id": "tp6",
+   "type": "file",
+   "file": "TPs/TP6 Intercambiadores de calor.md",
+   "x": 0,
+   "y": 450,
+   "width": 250,
+   "height": 60
+  },
+  {
+   "id": "tp7",
+   "type": "file",
+   "file": "TPs/TP7 Bombas industriales.md",
+   "x": 0,
+   "y": 540,
+   "width": 250,
+   "height": 60
+  },
+  {
+   "id": "tp8",
+   "type": "file",
+   "file": "TPs/TP8 Compresores de aire.md",
+   "x": 0,
+   "y": 630,
+   "width": 250,
+   "height": 60
+  },
+  {
+   "id": "tp9",
+   "type": "file",
+   "file": "TPs/TP9 Calderas industriales.md",
+   "x": 0,
+   "y": 720,
+   "width": 250,
+   "height": 60
+  },
+  {
+   "id": "geq",
+   "type": "group",
+   "label": "Equipos",
+   "x": 560,
+   "y": -60,
+   "width": 330,
+   "height": 780,
+   "color": "5"
+  },
+  {
+   "id": "eq_Tanque",
+   "type": "file",
+   "file": "Equipos/Tanque.md",
+   "x": 600,
+   "y": 0,
+   "width": 250,
+   "height": 60
+  },
+  {
+   "id": "eq_Recipiente a presión",
+   "type": "file",
+   "file": "Equipos/Recipiente a presión.md",
+   "x": 600,
+   "y": 90,
+   "width": 250,
+   "height": 60
+  },
+  {
+   "id": "eq_Válvulas",
+   "type": "file",
+   "file": "Equipos/Válvulas.md",
+   "x": 600,
+   "y": 180,
+   "width": 250,
+   "height": 60
+  },
+  {
+   "id": "eq_Cañerías y accesorios",
+   "type": "file",
+   "file": "Equipos/Cañerías y accesorios.md",
+   "x": 600,
+   "y": 270,
+   "width": 250,
+   "height": 60
+  },
+  {
+   "id": "eq_Intercambiador de calor",
+   "type": "file",
+   "file": "Equipos/Intercambiador de calor.md",
+   "x": 600,
+   "y": 360,
+   "width": 250,
+   "height": 60
+  },
+  {
+   "id": "eq_Bomba",
+   "type": "file",
+   "file": "Equipos/Bomba.md",
+   "x": 600,
+   "y": 450,
+   "width": 250,
+   "height": 60
+  },
+  {
+   "id": "eq_Compresor",
+   "type": "file",
+   "file": "Equipos/Compresor.md",
+   "x": 600,
+   "y": 540,
+   "width": 250,
+   "height": 60
+  },
+  {
+   "id": "eq_Caldera",
+   "type": "file",
+   "file": "Equipos/Caldera.md",
+   "x": 600,
+   "y": 630,
+   "width": 250,
+   "height": 60
+  },
+  {
+   "id": "gco",
+   "type": "group",
+   "label": "Conceptos",
+   "x": -640,
+   "y": -60,
+   "width": 330,
+   "height": 600,
+   "color": "6"
+  },
+  {
+   "id": "co_Diagrama de proceso",
+   "type": "file",
+   "file": "Conceptos/Diagrama de proceso.md",
+   "x": -600,
+   "y": 0,
+   "width": 250,
+   "height": 60
+  },
+  {
+   "id": "co_Variables de proceso",
+   "type": "file",
+   "file": "Conceptos/Variables de proceso.md",
+   "x": -600,
+   "y": 90,
+   "width": 250,
+   "height": 60
+  },
+  {
+   "id": "co_P&ID",
+   "type": "file",
+   "file": "Conceptos/P&ID.md",
+   "x": -600,
+   "y": 180,
+   "width": 250,
+   "height": 60
+  },
+  {
+   "id": "co_Pérdidas de carga",
+   "type": "file",
+   "file": "Conceptos/Pérdidas de carga.md",
+   "x": -600,
+   "y": 270,
+   "width": 250,
+   "height": 60
+  },
+  {
+   "id": "co_Unidad FRL",
+   "type": "file",
+   "file": "Conceptos/Unidad FRL.md",
+   "x": -600,
+   "y": 360,
+   "width": 250,
+   "height": 60
+  },
+  {
+   "id": "co_Normas y códigos",
+   "type": "file",
+   "file": "Conceptos/Normas y códigos.md",
+   "x": -600,
+   "y": 450,
+   "width": 250,
+   "height": 60
+  },
+  {
+   "id": "gsi",
+   "type": "group",
+   "label": "Sistemas de referencia",
+   "x": 1100,
+   "y": -60,
+   "width": 350,
+   "height": 330,
+   "color": "3"
+  },
+  {
+   "id": "si_Sistema de aire comprimido",
+   "type": "file",
+   "file": "Sistemas/Sistema de aire comprimido.md",
+   "x": 1140,
+   "y": 0,
+   "width": 270,
+   "height": 60
+  },
+  {
+   "id": "si_Sistema de bombeo de agua",
+   "type": "file",
+   "file": "Sistemas/Sistema de bombeo de agua.md",
+   "x": 1140,
+   "y": 90,
+   "width": 270,
+   "height": 60
+  },
+  {
+   "id": "si_Sistema de calentamiento de agua",
+   "type": "file",
+   "file": "Sistemas/Sistema de calentamiento de agua.md",
+   "x": 1140,
+   "y": 180,
+   "width": 270,
+   "height": 60
+  },
+  {
+   "id": "inicio",
+   "type": "file",
+   "file": "00 Inicio.md",
+   "x": 0,
+   "y": -200,
+   "width": 250,
+   "height": 60,
+   "color": "1"
+  },
+  {
+   "id": "idea",
+   "type": "text",
+   "text": "**Idea de la materia:** un equipo nunca se analiza aislado, sino dentro del sistema.",
+   "x": 300,
+   "y": -210,
+   "width": 420,
+   "height": 80
+  }
+ ],
+ "edges": [
+  {
+   "id": "s1",
+   "fromNode": "tp1",
+   "fromSide": "bottom",
+   "toNode": "tp2",
+   "toSide": "top"
+  },
+  {
+   "id": "s2",
+   "fromNode": "tp2",
+   "fromSide": "bottom",
+   "toNode": "tp3",
+   "toSide": "top"
+  },
+  {
+   "id": "s3",
+   "fromNode": "tp3",
+   "fromSide": "bottom",
+   "toNode": "tp4",
+   "toSide": "top"
+  },
+  {
+   "id": "s4",
+   "fromNode": "tp4",
+   "fromSide": "bottom",
+   "toNode": "tp5",
+   "toSide": "top"
+  },
+  {
+   "id": "s5",
+   "fromNode": "tp5",
+   "fromSide": "bottom",
+   "toNode": "tp6",
+   "toSide": "top"
+  },
+  {
+   "id": "s6",
+   "fromNode": "tp6",
+   "fromSide": "bottom",
+   "toNode": "tp7",
+   "toSide": "top"
+  },
+  {
+   "id": "s7",
+   "fromNode": "tp7",
+   "fromSide": "bottom",
+   "toNode": "tp8",
+   "toSide": "top"
+  },
+  {
+   "id": "s8",
+   "fromNode": "tp8",
+   "fromSide": "bottom",
+   "toNode": "tp9",
+   "toSide": "top"
+  },
+  {
+   "id": "e1",
+   "fromNode": "tp1",
+   "fromSide": "left",
+   "toNode": "co_Diagrama de proceso",
+   "toSide": "right"
+  },
+  {
+   "id": "e2",
+   "fromNode": "tp2",
+   "fromSide": "right",
+   "toNode": "eq_Tanque",
+   "toSide": "left"
+  },
+  {
+   "id": "e3",
+   "fromNode": "tp2",
+   "fromSide": "right",
+   "toNode": "eq_Bomba",
+   "toSide": "left"
+  },
+  {
+   "id": "e4",
+   "fromNode": "tp2",
+   "fromSide": "right",
+   "toNode": "eq_Compresor",
+   "toSide": "left"
+  },
+  {
+   "id": "e5",
+   "fromNode": "tp3",
+   "fromSide": "left",
+   "toNode": "co_Variables de proceso",
+   "toSide": "right"
+  },
+  {
+   "id": "e6",
+   "fromNode": "tp4",
+   "fromSide": "right",
+   "toNode": "eq_Cañerías y accesorios",
+   "toSide": "left"
+  },
+  {
+   "id": "e7",
+   "fromNode": "tp4",
+   "fromSide": "right",
+   "toNode": "eq_Válvulas",
+   "toSide": "left"
+  },
+  {
+   "id": "e8",
+   "fromNode": "tp4",
+   "fromSide": "left",
+   "toNode": "co_Pérdidas de carga",
+   "toSide": "right"
+  },
+  {
+   "id": "e9",
+   "fromNode": "tp4",
+   "fromSide": "left",
+   "toNode": "co_P&ID",
+   "toSide": "right"
+  },
+  {
+   "id": "e10",
+   "fromNode": "tp4",
+   "fromSide": "left",
+   "toNode": "co_Unidad FRL",
+   "toSide": "right"
+  },
+  {
+   "id": "e11",
+   "fromNode": "tp5",
+   "fromSide": "right",
+   "toNode": "eq_Tanque",
+   "toSide": "left"
+  },
+  {
+   "id": "e12",
+   "fromNode": "tp5",
+   "fromSide": "right",
+   "toNode": "eq_Recipiente a presión",
+   "toSide": "left"
+  },
+  {
+   "id": "e13",
+   "fromNode": "tp5",
+   "fromSide": "left",
+   "toNode": "co_Normas y códigos",
+   "toSide": "right"
+  },
+  {
+   "id": "e14",
+   "fromNode": "tp6",
+   "fromSide": "right",
+   "toNode": "eq_Intercambiador de calor",
+   "toSide": "left"
+  },
+  {
+   "id": "e15",
+   "fromNode": "tp7",
+   "fromSide": "right",
+   "toNode": "eq_Bomba",
+   "toSide": "left"
+  },
+  {
+   "id": "e16",
+   "fromNode": "tp8",
+   "fromSide": "right",
+   "toNode": "eq_Compresor",
+   "toSide": "left"
+  },
+  {
+   "id": "e17",
+   "fromNode": "tp8",
+   "fromSide": "right",
+   "toNode": "si_Sistema de aire comprimido",
+   "toSide": "left"
+  },
+  {
+   "id": "e18",
+   "fromNode": "tp9",
+   "fromSide": "right",
+   "toNode": "eq_Caldera",
+   "toSide": "left"
+  },
+  {
+   "id": "e19",
+   "fromNode": "si_Sistema de aire comprimido",
+   "fromSide": "left",
+   "toNode": "eq_Compresor",
+   "toSide": "right",
+   "color": "3"
+  },
+  {
+   "id": "e20",
+   "fromNode": "si_Sistema de bombeo de agua",
+   "fromSide": "left",
+   "toNode": "eq_Bomba",
+   "toSide": "right",
+   "color": "3"
+  },
+  {
+   "id": "e21",
+   "fromNode": "si_Sistema de calentamiento de agua",
+   "fromSide": "left",
+   "toNode": "eq_Intercambiador de calor",
+   "toSide": "right",
+   "color": "3"
+  }
+ ]
+}

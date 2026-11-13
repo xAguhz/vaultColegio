@@ -7,6 +7,7 @@ Notas del colegio en Obsidian, publicadas como página web: **https://xaguhz.git
 | `vaultAutoLID/` | Proyecto grupal AutoLID, materias y entregas |
 | `vaultTorno/` | TP del torno Femar TM300: manual de mantenimiento, repuestos y despiece 3D |
 | `vaultDoñetz/` | Automatización industrial estudiada a partir del canal El Profe Juanito |
+| `vaultCharrute/` | Sistemas Mecánicos 2026 (profe Charrute): trabajos prácticos, equipos y guía de estudio |
 
 Cada vault se abre por separado en Obsidian con *Abrir carpeta como vault*.
 
