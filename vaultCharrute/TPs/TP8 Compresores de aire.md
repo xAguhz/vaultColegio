@@ -138,6 +138,13 @@ flowchart LR
 - Teoría y cuestionario: `Compresores de aire_26.docx`
 - Consigna de la investigación: `Trab Inv Grupalcompresores_26.docx`
 - Presentación del grupo: `Presentación Interactiva - Compresores y Sistemas de Aire Comprimido` (Google Sites)
+- **Entrega final (13/11/2026)**, en la carpeta *Charrute*:
+  - `TP N° 8 - Compresores de aire y sistemas de aire comprimido`: Google Docs con la organización del grupo, los dos cuestionarios, la investigación con fichas CAGI reales y la guía de exposición. También está la copia en PDF.
+  - `TP N° 8 - Compresores de aire (presentación)`: Google Slides de 13 diapositivas.
+- **Reparto del grupo:**
+  - Agustín y Thiago: producción.
+  - Lucas y Ayrton: tratamiento.
+  - Elías y Joaquín: distribución y control.
 
 ## Ver también
 [[Compresor]] · [[Sistema de aire comprimido]] · [[Recipiente a presión]] · [[Válvulas]] · [[TP4 Cañerías y válvulas]] (planta Panadería Pilar) · [[00 Inicio]]
