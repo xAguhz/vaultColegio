@@ -24,6 +24,7 @@ SITIO = "https://xaguhz.github.io/vaultColegio"
 VAULTS = {
     "vaultAutoLID": ("AutoLID y materias", "00 Inicio", "Proyecto grupal AutoLID, materias y entregas."),
     "vaultTorno": ("Torno TM300", "00 Torno TM300", "Manual de mantenimiento y repuestos del torno Femar TM300, con despiece 3D."),
+    "vaultDoñetz": ("El Profe Juanito", "00 Inicio", "Automatización industrial (neumática, electroneumática, PLC y electrónica digital) estudiada a partir del canal El Profe Juanito."),
 }
 IGNORAR_CARPETAS = {".obsidian", "herramientas", "Plantillas", "logs", ".trash"}
 IGNORAR_EXT = {".blend", ".blend1"}
@@ -476,6 +477,39 @@ def main(origen, destino):
             with open(p, "w", encoding="utf-8") as fh:
                 fh.write(fm + cuerpo)
 
+    # Links ambiguos: varias notas con el mismo nombre en distintos vaults (por ejemplo "00 Inicio").
+    # Dentro de cada vault, Obsidian resuelve a la nota propia; acá se escribe la ruta completa.
+    por_nombre = {}
+    for d, _, fs in os.walk(destino):
+        for f in fs:
+            if f.endswith(".md"):
+                por_nombre.setdefault(f[:-3], []).append(posixpath.relpath(posixpath.join(d, f), destino))
+    patron = re.compile(r"(!?)\[\[([^\[\]|#\\]+?)(#[^\[\]|\\]*)?((?:\\?\|)[^\[\]]*)?\]\]")
+    for d, _, fs in os.walk(destino):
+        for f in fs:
+            if not f.endswith(".md"):
+                continue
+            p = os.path.join(d, f)
+            vault = posixpath.relpath(p, destino).split("/")[0]
+            with open(p, encoding="utf-8") as fh:
+                lineas = fh.read().split("\n")
+
+            def arreglar(m, en_tabla):
+                destino_link = m.group(2).strip()
+                nombre = destino_link[:-3] if destino_link.endswith(".md") else destino_link
+                if "/" in nombre or len(por_nombre.get(nombre, [])) < 2:
+                    return m.group(0)
+                propios = [c for c in por_nombre[nombre] if c.startswith(vault + "/")]
+                if len(propios) != 1:
+                    return m.group(0)
+                alias = m.group(4) or (("\\|" if en_tabla else "|") + nombre)
+                return f"{m.group(1)}[[{propios[0][:-3]}{m.group(3) or ''}{alias}]]"
+
+            nuevas = [patron.sub(lambda m, tb=l.lstrip().startswith("|"): arreglar(m, tb), l) for l in lineas]
+            if nuevas != lineas:
+                with open(p, "w", encoding="utf-8") as fh:
+                    fh.write("\n".join(nuevas))
+
     # Reescrituras en todas las notas
     for d, _, fs in os.walk(destino):
         for f in fs:
@@ -516,8 +550,8 @@ def main(origen, destino):
     tarjetas = []
     for v, (titulo, inicio, desc) in VAULTS.items():
         with open(os.path.join(destino, v, "index.md"), "w", encoding="utf-8") as fh:
-            fh.write(f"---\ntitle: \"{titulo}\"\n---\nVault `{v}`. {desc}\n\nEmpezá por [[{inicio}]].\n")
-        tarjetas.append(f"- **[[{inicio}|{titulo}]]**: {desc}")
+            fh.write(f"---\ntitle: \"{titulo}\"\n---\nVault `{v}`. {desc}\n\nEmpezá por [[{v}/{inicio}|{inicio}]].\n")
+        tarjetas.append(f"- **[[{v}/{inicio}|{titulo}]]**: {desc}")
     with open(os.path.join(destino, "index.md"), "w", encoding="utf-8") as fh:
         fh.write(
             "---\ntitle: Colegio\n---\n"

@@ -1,0 +1,431 @@
+{
+ "nodes": [
+  {
+   "id": "titulo",
+   "type": "text",
+   "text": "# El Profe Juanito\nMapa de temas del canal (@juanitoprofe)\n\n[[00 Inicio]] · [[02 Ruta de aprendizaje]]",
+   "x": -40,
+   "y": -260,
+   "width": 420,
+   "height": 160,
+   "color": "6"
+  },
+  {
+   "id": "g-neu",
+   "type": "group",
+   "label": "1 · Neumática",
+   "x": -20,
+   "y": -40,
+   "width": 300,
+   "height": 940,
+   "color": "4"
+  },
+  {
+   "id": "neu0",
+   "type": "file",
+   "file": "Conceptos/Neumática/Diagrama espacio-fase.md",
+   "x": 0,
+   "y": 0,
+   "width": 260,
+   "height": 60
+  },
+  {
+   "id": "neu1",
+   "type": "file",
+   "file": "Conceptos/Neumática/Nomenclatura ISO 1219.md",
+   "x": 0,
+   "y": 80,
+   "width": 260,
+   "height": 60
+  },
+  {
+   "id": "neu2",
+   "type": "file",
+   "file": "Conceptos/Neumática/Válvulas distribuidoras.md",
+   "x": 0,
+   "y": 160,
+   "width": 260,
+   "height": 60
+  },
+  {
+   "id": "neu3",
+   "type": "file",
+   "file": "Conceptos/Neumática/Actuadores neumáticos.md",
+   "x": 0,
+   "y": 240,
+   "width": 260,
+   "height": 60
+  },
+  {
+   "id": "neu4",
+   "type": "file",
+   "file": "Conceptos/Neumática/Unidad de mantenimiento FRL.md",
+   "x": 0,
+   "y": 320,
+   "width": 260,
+   "height": 60
+  },
+  {
+   "id": "neu5",
+   "type": "file",
+   "file": "Conceptos/Neumática/Mando directo e indirecto.md",
+   "x": 0,
+   "y": 400,
+   "width": 260,
+   "height": 60
+  },
+  {
+   "id": "neu6",
+   "type": "file",
+   "file": "Conceptos/Neumática/Ciclo único y ciclo continuo.md",
+   "x": 0,
+   "y": 480,
+   "width": 260,
+   "height": 60
+  },
+  {
+   "id": "neu7",
+   "type": "file",
+   "file": "Conceptos/Neumática/Válvula lógica AND.md",
+   "x": 0,
+   "y": 560,
+   "width": 260,
+   "height": 60
+  },
+  {
+   "id": "neu8",
+   "type": "file",
+   "file": "Conceptos/Neumática/Temporizador neumático.md",
+   "x": 0,
+   "y": 640,
+   "width": 260,
+   "height": 60
+  },
+  {
+   "id": "neu9",
+   "type": "file",
+   "file": "Conceptos/Neumática/Válvula estranguladora.md",
+   "x": 0,
+   "y": 720,
+   "width": 260,
+   "height": 60
+  },
+  {
+   "id": "neu10",
+   "type": "file",
+   "file": "Conceptos/Neumática/Estructura del plano neumático.md",
+   "x": 0,
+   "y": 800,
+   "width": 260,
+   "height": 60
+  },
+  {
+   "id": "g-en",
+   "type": "group",
+   "label": "2 · Electroneumática",
+   "x": 360,
+   "y": -40,
+   "width": 300,
+   "height": 780,
+   "color": "5"
+  },
+  {
+   "id": "en0",
+   "type": "file",
+   "file": "Conceptos/Electroneumática/Electroneumática.md",
+   "x": 380,
+   "y": 0,
+   "width": 260,
+   "height": 60
+  },
+  {
+   "id": "en1",
+   "type": "file",
+   "file": "Conceptos/Electroneumática/Electroválvulas monoestables y biestables.md",
+   "x": 380,
+   "y": 80,
+   "width": 260,
+   "height": 60
+  },
+  {
+   "id": "en2",
+   "type": "file",
+   "file": "Conceptos/Electroneumática/Contactos eléctricos.md",
+   "x": 380,
+   "y": 160,
+   "width": 260,
+   "height": 60
+  },
+  {
+   "id": "en3",
+   "type": "file",
+   "file": "Conceptos/Electroneumática/Enclavamiento eléctrico.md",
+   "x": 380,
+   "y": 240,
+   "width": 260,
+   "height": 60
+  },
+  {
+   "id": "en4",
+   "type": "file",
+   "file": "Conceptos/Electroneumática/Autorretención.md",
+   "x": 380,
+   "y": 320,
+   "width": 260,
+   "height": 60
+  },
+  {
+   "id": "en5",
+   "type": "file",
+   "file": "Conceptos/Electroneumática/Circuito de sensado.md",
+   "x": 380,
+   "y": 400,
+   "width": 260,
+   "height": 60
+  },
+  {
+   "id": "en6",
+   "type": "file",
+   "file": "Conceptos/Electroneumática/Relés temporizados.md",
+   "x": 380,
+   "y": 480,
+   "width": 260,
+   "height": 60
+  },
+  {
+   "id": "en7",
+   "type": "file",
+   "file": "Conceptos/Electroneumática/Superposición de señales.md",
+   "x": 380,
+   "y": 560,
+   "width": 260,
+   "height": 60
+  },
+  {
+   "id": "en8",
+   "type": "file",
+   "file": "Conceptos/Electroneumática/Lógica positiva y negativa.md",
+   "x": 380,
+   "y": 640,
+   "width": 260,
+   "height": 60
+  },
+  {
+   "id": "g-met",
+   "type": "group",
+   "label": "3 · Métodos",
+   "x": 740,
+   "y": -40,
+   "width": 300,
+   "height": 460,
+   "color": "1"
+  },
+  {
+   "id": "met0",
+   "type": "file",
+   "file": "Conceptos/Métodos/Método intuitivo.md",
+   "x": 760,
+   "y": 0,
+   "width": 260,
+   "height": 60
+  },
+  {
+   "id": "met1",
+   "type": "file",
+   "file": "Conceptos/Métodos/Técnica Chopp.md",
+   "x": 760,
+   "y": 80,
+   "width": 260,
+   "height": 60
+  },
+  {
+   "id": "met2",
+   "type": "file",
+   "file": "Conceptos/Métodos/Método cascada.md",
+   "x": 760,
+   "y": 160,
+   "width": 260,
+   "height": 60
+  },
+  {
+   "id": "met3",
+   "type": "file",
+   "file": "Conceptos/Métodos/Método paso a paso.md",
+   "x": 760,
+   "y": 240,
+   "width": 260,
+   "height": 60
+  },
+  {
+   "id": "met4",
+   "type": "file",
+   "file": "Conceptos/Métodos/Método de memorias.md",
+   "x": 760,
+   "y": 320,
+   "width": 260,
+   "height": 60
+  },
+  {
+   "id": "g-plc",
+   "type": "group",
+   "label": "4 · PLC y Ladder",
+   "x": 1120,
+   "y": -40,
+   "width": 300,
+   "height": 620,
+   "color": "3"
+  },
+  {
+   "id": "plc0",
+   "type": "file",
+   "file": "Conceptos/PLC/Lógica cableada y programada.md",
+   "x": 1140,
+   "y": 0,
+   "width": 260,
+   "height": 60
+  },
+  {
+   "id": "plc1",
+   "type": "file",
+   "file": "Conceptos/PLC/PLC.md",
+   "x": 1140,
+   "y": 80,
+   "width": 260,
+   "height": 60
+  },
+  {
+   "id": "plc2",
+   "type": "file",
+   "file": "Conceptos/PLC/Lenguaje Ladder.md",
+   "x": 1140,
+   "y": 160,
+   "width": 260,
+   "height": 60
+  },
+  {
+   "id": "plc3",
+   "type": "file",
+   "file": "Conceptos/PLC/Set y Reset.md",
+   "x": 1140,
+   "y": 240,
+   "width": 260,
+   "height": 60
+  },
+  {
+   "id": "plc4",
+   "type": "file",
+   "file": "Conceptos/PLC/Temporizadores en PLC.md",
+   "x": 1140,
+   "y": 320,
+   "width": 260,
+   "height": 60
+  },
+  {
+   "id": "plc5",
+   "type": "file",
+   "file": "Conceptos/PLC/Cascada en Ladder.md",
+   "x": 1140,
+   "y": 400,
+   "width": 260,
+   "height": 60
+  },
+  {
+   "id": "plc6",
+   "type": "file",
+   "file": "Conceptos/PLC/Paso a paso en Ladder.md",
+   "x": 1140,
+   "y": 480,
+   "width": 260,
+   "height": 60
+  },
+  {
+   "id": "g-dig",
+   "type": "group",
+   "label": "5 · Electrónica digital",
+   "x": 1500,
+   "y": -40,
+   "width": 300,
+   "height": 300,
+   "color": "2"
+  },
+  {
+   "id": "dig0",
+   "type": "file",
+   "file": "Conceptos/Electrónica digital/Funciones lógicas.md",
+   "x": 1520,
+   "y": 0,
+   "width": 260,
+   "height": 60
+  },
+  {
+   "id": "dig1",
+   "type": "file",
+   "file": "Conceptos/Electrónica digital/Minitérminos.md",
+   "x": 1520,
+   "y": 80,
+   "width": 260,
+   "height": 60
+  },
+  {
+   "id": "dig2",
+   "type": "file",
+   "file": "Conceptos/Electrónica digital/Maxitérminos.md",
+   "x": 1520,
+   "y": 160,
+   "width": 260,
+   "height": 60
+  },
+  {
+   "id": "comp",
+   "type": "file",
+   "file": "04 Comparativa de métodos.md",
+   "x": 760,
+   "y": 460,
+   "width": 260,
+   "height": 60,
+   "color": "1"
+  }
+ ],
+ "edges": [
+  {
+   "id": "e-neu0-en0",
+   "fromNode": "neu0",
+   "toNode": "en0",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "se suma la electricidad"
+  },
+  {
+   "id": "e-en7-met0",
+   "fromNode": "en7",
+   "toNode": "met0",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "aparece la superposición"
+  },
+  {
+   "id": "e-met2-plc5",
+   "fromNode": "met2",
+   "toNode": "plc5",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "mismo método en PLC"
+  },
+  {
+   "id": "e-met3-plc6",
+   "fromNode": "met3",
+   "toNode": "plc6",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "mismo método en PLC"
+  },
+  {
+   "id": "e-plc2-dig0",
+   "fromNode": "plc2",
+   "toNode": "dig0",
+   "fromSide": "right",
+   "toSide": "left",
+   "label": "contactos = lógica"
+  }
+ ]
+}
