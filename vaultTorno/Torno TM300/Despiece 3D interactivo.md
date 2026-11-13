@@ -1,13 +1,13 @@
 ---
 tags: [torno-tm300, 3d, despiece]
 tipo: nota
-actualizado: 2026-11-12
+actualizado: 2026-11-13
 ---
 # Despiece 3D interactivo
 
 > [!summary] Qué es
 > Modelo 3D del torno **por conjuntos** (59 piezas en 10 conjuntos), con despiece animado. Al tocar una pieza se abre su ficha: qué es, datos y códigos, mantenimiento, la lámina del manual y la nota del vault donde está el detalle.
-> **Abrir el visor:** https://claude.ai/artifact/6k1uizayAvXsBWRHKa3caD (privado; se comparte desde el menú *Compartir* de la página)
+> **Abrir el visor:** https://claude.ai/artifact/6k1uizayAvXsBWRHKa3caD (privado; se comparte desde el menú *Compartir* de la página). También está publicado en la página del vault: https://xaguhz.github.io/vaultColegio/vaultTorno/3D/visor/index.html
 
 Volver a [[00 Torno TM300]] · Ver también [[03 Partes y movimientos]] · [[Mapa Torno TM300.canvas|🗺️ Mapa del torno]]
 
@@ -19,7 +19,12 @@ Volver a [[00 Torno TM300]] · Ver también [[03 Partes y movimientos]] · [[Map
 
 ## Qué se puede hacer en el visor
 - **Despiece:** deslizador de 0 a 100 % o botón *Despiezar / Armar*.
-- **Tocar una pieza:** se resalta y aparece su ficha. Desde la ficha se puede *Centrar*, *Aislar* u *Ocultar*.
+- **Tocar una pieza:** se **aísla** (el resto del torno queda casi transparente), la cámara **se acerca** y aparece su ficha. Arriba a la izquierda aparece el botón grande **← Volver** (o la tecla Esc), que regresa exactamente a la vista anterior. Lo mismo pasa al elegirla desde la lista *Piezas*.
+- **Modo animación** (interruptor arriba a la derecha; el visor recuerda si lo dejaste prendido): al tocar una pieza, gira lentamente con sus datos **flotando alrededor**, unidos a la pieza con líneas.
+  - **Piezas chicas y medianas-chicas** (de las mordazas hasta el plato y el cuerpo del contrapunto): los datos van por **enfoques**: *Identificación* (nombre, qué es, dónde está en el vault) → *Características* → *Mantenimiento*. Cada 7 segundos la pieza da **un giro rápido** y cambia el enfoque; después vuelve al giro lento. También se cambia tocando la pieza o los botones de abajo, y se puede pausar.
+  - **Piezas medianas-grandes y grandes** (base del contrapunto, delantal, carros, motor, cabezal, bancada…): giran lento con **toda la ficha** encima a la vez.
+  - El límite entre los dos grupos es el tamaño de la pieza: diagonal de su caja menor a 0,34 m (constante `SMALL` en `3D/visor/index.html`).
+  - En el celular, los datos van juntos en una sola tarjeta abajo de la pieza.
 - **Color por conjunto:** pinta cada conjunto de un color para distinguirlos.
 - **Corte:** saca la mitad delantera del torno para ver el husillo, los rodamientos y los engranajes.
 - **Piezas:** lista buscable por nombre, código o conjunto (por ejemplo `30212`, `A32`, `media tuerca`).
