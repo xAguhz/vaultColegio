@@ -20,7 +20,7 @@ Volver a [[00 Torno TM300]] · Ver también [[03 Partes y movimientos]] · [[Map
 ## Qué se puede hacer en el visor
 - **Despiece:** deslizador de 0 a 100 % o botón *Despiezar / Armar*.
 - **Tocar una pieza:** se **aísla** (el resto del torno queda casi transparente), la cámara **se acerca** y aparece su ficha. Arriba a la izquierda aparece el botón grande **← Volver** (o la tecla Esc), que regresa exactamente a la vista anterior. Lo mismo pasa al elegirla desde la lista *Piezas*.
-- **Modo animación** (interruptor arriba a la derecha; el visor recuerda si lo dejaste prendido): al tocar una pieza, gira lentamente con sus datos **flotando alrededor**, unidos a la pieza con líneas.
+- **Modo animación** (interruptor arriba a la derecha; viene prendido y el visor recuerda si lo apagaste): al tocar una pieza, gira lentamente con sus datos **flotando alrededor**, unidos a la pieza con líneas.
   - **Piezas chicas y medianas-chicas** (de las mordazas hasta el plato y el cuerpo del contrapunto): los datos van por **enfoques**: *Identificación* (nombre, qué es, dónde está en el vault) → *Características* → *Mantenimiento*. Cada 7 segundos la pieza da **un giro rápido** y cambia el enfoque; después vuelve al giro lento. También se cambia tocando la pieza o los botones de abajo, y se puede pausar.
   - **Piezas medianas-grandes y grandes** (base del contrapunto, delantal, carros, motor, cabezal, bancada…): giran lento con **toda la ficha** encima a la vez.
   - El límite entre los dos grupos es el tamaño de la pieza: diagonal de su caja menor a 0,34 m (constante `SMALL` en `3D/visor/index.html`).

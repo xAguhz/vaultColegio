@@ -223,7 +223,7 @@ ul.mant { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
       </button>
       <span class="focus-name glass" id="focus-name"></span>
     </div>
-    <button class="mode glass" id="btn-mode" type="button" aria-pressed="false" title="Al tocar una pieza, la muestra girando con sus datos flotando"><span class="sw" aria-hidden="true"></span>Modo animación</button>
+    <button class="mode glass" id="btn-mode" type="button" aria-pressed="true" title="Al tocar una pieza, la muestra girando con sus datos flotando"><span class="sw" aria-hidden="true"></span>Modo animación</button>
     <div class="pager glass" id="pager" hidden></div>
     <div class="controls">
       <div class="slider">
@@ -313,8 +313,8 @@ const SMALL = 0.34;
 const PAGE_MS = 7000;   // tiempo de cada enfoque de datos antes del giro rápido
 let focus = null;       // { pid, prev, center, radius, region, show }
 let vo = { x: 0, y: 0 }; // corrimiento de la vista (para dejar lugar a las tarjetas)
-let animMode = false;
-try { animMode = localStorage.getItem('tm300-anim') === '1'; } catch (e) { /* sin almacenamiento */ }
+let animMode = true;
+try { animMode = localStorage.getItem('tm300-anim') !== '0'; } catch (e) { /* sin almacenamiento */ }
 function applyViewOffset() {
   const w = stage.clientWidth, h = stage.clientHeight;
   if (Math.abs(vo.x) < 0.5 && Math.abs(vo.y) < 0.5) camera.clearViewOffset();
