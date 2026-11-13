@@ -32,6 +32,21 @@ tags: [equipo, compresor, aire-comprimido]
 - **Oil-free ≠ aire puro:** el aire atmosférico ya trae partículas y humedad, y además está toda la red aguas abajo.
 - **Potencia específica** (kW por m³/min): es la forma correcta de comparar eficiencia, no la potencia del motor.
 
+## Datos reales: fichas CAGI (TP8)
+| | BOGE S 55-4 LF N | Atlas Copco GA45VSD-175 AP |
+|---|---|---|
+| Tipo | Tornillo lubricado, refrigerado por aire, con variador | Tornillo lubricado, refrigerado por aire, con variador |
+| Presión de la ficha | 100 psig (6,9 bar) | 125 psig (8,6 bar) |
+| Motor | 75 hp | 60 hp |
+| Caudal máximo | 390,5 acfm (11,1 m³/min) | 284 acfm (8,0 m³/min) |
+| Potencia específica a caudal máximo | **16,72** kW por 100 acfm | **20,4** kW por 100 acfm |
+| Potencia específica a caudal mínimo | 22,54 (con 83,7 acfm) | 27,4 (con 55 acfm) |
+| Fecha de la ficha | 25/09/2025 | 15/06/2012 |
+
+- Las fichas están a **distinta presión**, así que no se comparan directo.
+- En los dos equipos, **a bajo caudal el aire sale más caro**, aun con variador.
+- El caudal está medido según ISO 1217, Anexo E, en condiciones de aspiración.
+
 ## Control
 | Método | Cómo funciona | Cuándo conviene |
 |---|---|---|

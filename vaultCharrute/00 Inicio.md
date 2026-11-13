@@ -25,7 +25,7 @@ Vault de estudio de **Sistemas Mecánicos** (profesor Charrute, 7° 1°, ciclo 2
 | 5   | [[TP5 Tanques y recipientes a presión\|Tanques y recipientes a presión]] | 07/08    | 20/08   | ✅ Cuestionario + investigación                                        |
 | 6   | [[TP6 Intercambiadores de calor\|Intercambiadores de calor]]             | 04/09    | 18/09   | ⚠️ Entregas en PDF escaneado (sin texto); guía armada desde la teoría |
 | 7   | [[TP7 Bombas industriales\|Bombas industriales]]                         | 25/09    | 09/10   | ✅ Informe con los 2 cuestionarios                                     |
-| 8   | [[TP8 Compresores de aire\|Compresores de aire]]                         | 09/10    | 10/11   | ⚠️ Solo una presentación en Google Sites; guía armada desde la teoría |
+| 8   | [[TP8 Compresores de aire\|Compresores de aire]]                         | 09/10    | 13/11   | ✅ Google Docs + PDF + Slides (13 diapositivas)                         |
 | 9   | [[TP9 Calderas industriales\|Calderas industriales]]                     | 06/11    | —       | 🕒 Consigna nueva, sin entrega todavía                                |
 
 ## Equipos
@@ -40,6 +40,7 @@ Vault de estudio de **Sistemas Mecánicos** (profesor Charrute, 7° 1°, ciclo 2
 ## Para estudiar
 - [[01 Guía de estudio]]: ideas fuerza, preguntas tipo examen y errores que el profe marca.
 - [[02 Glosario]]: vocabulario técnico de la materia.
+- [[03 Método de trabajo del grupo]]: cómo se reparte un TP, cómo se arma la exposición y qué se entrega.
 - [[Mapa de la materia.canvas|Mapa de la materia]]: cómo se conectan los TP, los equipos y los conceptos.
 - [[Galería Gemini]]: ilustraciones de los equipos (generadas por IA, orientativas).
 

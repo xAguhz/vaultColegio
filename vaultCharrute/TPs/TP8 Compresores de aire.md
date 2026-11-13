@@ -5,7 +5,7 @@ profesor: Charrute
 numero: 8
 tema: Compresores de aire y sistemas de aire comprimido
 consigna: 2026-10-09
-entrega: 2026-11-10
+entrega: 2026-11-13
 modalidad: grupal (cuestionario de 16 preguntas en 2 partes + investigación + presentación)
 tags: [tp, compresores, aire-comprimido, secadores, fugas, eficiencia]
 ---
@@ -106,9 +106,9 @@ flowchart LR
   D -.purga.-> X
 ```
 
-## Resolución (guía de estudio)
-> [!note] Estado de la entrega
-> En Drive no hay un documento de respuestas del grupo para este TP; solo una **presentación interactiva en Google Sites** ("Presentación Interactiva - Compresores y Sistemas de Aire Comprimido", 10/11/2026), que las herramientas no pueden leer. Las respuestas que siguen salen del apunte del profe.
+## Nuestra resolución
+> [!success] Entrega final (13/11/2026)
+> El grupo entregó un Google Docs (con su PDF) y un Google Slides de 13 diapositivas, hechos con el [[03 Método de trabajo del grupo|método de siempre]]. Las respuestas que siguen son el resumen; la versión completa, con la investigación y las fichas CAGI, está en el Docs. Antes de eso solo había una presentación interactiva en Google Sites (10/11/2026).
 
 ### Parte 1
 | # | Idea clave de la respuesta |
