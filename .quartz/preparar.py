@@ -422,14 +422,8 @@ def main(origen, destino):
     for v in VAULTS:
         shutil.copytree(os.path.join(origen, v), os.path.join(destino, v), ignore=ignorar)
 
-    # láminas del torno → visor 3D
-    lam_src = os.path.join(destino, "vaultTorno", "Adjuntos", "Torno TM300")
-    lam_dst = os.path.join(destino, "vaultTorno", "3D", "visor", "laminas")
-    if os.path.isdir(lam_src) and os.path.isdir(os.path.dirname(lam_dst)):
-        os.makedirs(lam_dst, exist_ok=True)
-        for f in os.listdir(lam_src):
-            if f.endswith(".png"):
-                shutil.copy2(os.path.join(lam_src, f), lam_dst)
+    # Las láminas del visor 3D NO se copian acá: el workflow las pone en public/ después del armado.
+    # Si se copiaran al contenido, cada imagen quedaría repetida y Quartz no resolvería ![[x.png]].
 
     indice = Indice(destino)
 
@@ -479,13 +473,13 @@ def main(origen, destino):
             with open(p, "w", encoding="utf-8") as fh:
                 fh.write(fm + cuerpo)
 
-    # Links ambiguos: varias notas con el mismo nombre en distintos vaults (por ejemplo "00 Inicio").
-    # Dentro de cada vault, Obsidian resuelve a la nota propia; acá se escribe la ruta completa.
+    # Links ambiguos: varias notas o adjuntos con el mismo nombre en distintos vaults (por ejemplo "00 Inicio").
+    # Dentro de cada vault, Obsidian resuelve al archivo propio; acá se escribe la ruta completa.
     por_nombre = {}
     for d, _, fs in os.walk(destino):
         for f in fs:
-            if f.endswith(".md"):
-                por_nombre.setdefault(f[:-3], []).append(posixpath.relpath(posixpath.join(d, f), destino))
+            clave = f[:-3] if f.endswith(".md") else f
+            por_nombre.setdefault(clave, []).append(posixpath.relpath(posixpath.join(d, f), destino))
     patron = re.compile(r"(!?)\[\[([^\[\]|#\\]+?)(#[^\[\]|\\]*)?((?:\\?\|)[^\[\]]*)?\]\]")
     for d, _, fs in os.walk(destino):
         for f in fs:
@@ -504,6 +498,8 @@ def main(origen, destino):
                 propios = [c for c in por_nombre[nombre] if c.startswith(vault + "/")]
                 if len(propios) != 1:
                     return m.group(0)
+                if not propios[0].endswith(".md"):  # adjunto: se conserva el tamaño (|420) si lo había
+                    return f"{m.group(1)}[[{propios[0]}{m.group(3) or ''}{m.group(4) or ''}]]"
                 alias = m.group(4) or (("\\|" if en_tabla else "|") + nombre)
                 return f"{m.group(1)}[[{propios[0][:-3]}{m.group(3) or ''}{alias}]]"
 
