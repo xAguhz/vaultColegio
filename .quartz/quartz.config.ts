@@ -67,7 +67,7 @@ const config: QuartzConfig = {
       Plugin.TableOfContents(),
       Plugin.CrawlLinks({ markdownLinkResolution: "shortest" }),
       Plugin.Description(),
-      Plugin.Latex({ renderEngine: "katex" }),
+      // Sin Plugin.Latex: las notas no tienen fórmulas y los "$" de los precios se tomaban como matemática
     ],
     filters: [Plugin.RemoveDrafts()],
     emitters: [

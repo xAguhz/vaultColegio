@@ -50,10 +50,9 @@ def slug(ruta):
 
 
 def url_relativa(desde_nota, hacia):
-    """URL relativa entre dos rutas del contenido (desde una nota .md)."""
-    origen = posixpath.dirname(slug(desde_nota)) or "."
-    rel = posixpath.relpath(slug(hacia), origen)
-    return rel if rel.startswith(".") else "./" + rel
+    """Link para Quartz: con markdownLinkResolution "shortest", toda ruta que no es un
+    nombre suelto se toma desde la raíz del contenido (Quartz la convierte después)."""
+    return slug(hacia)
 
 
 def esc(t):
@@ -468,7 +467,7 @@ def main(origen, destino):
                 cuerpo = (
                     "> [!info] Dibujo de Excalidraw\n> Versión de solo lectura. Para editarlo, abrilo en Obsidian.\n\n"
                     f'<div class="cv-wrap ex-wrap">{svg}</div>\n\n'
-                    f"[Abrir el dibujo en tamaño completo](./{slug(svg_nombre)})\n"
+                    f"[Abrir el dibujo en tamaño completo]({slug(posixpath.relpath(os.path.join(d, svg_nombre), destino))})\n"
                 )
             else:
                 cuerpo = "No se pudo leer el dibujo.\n"
