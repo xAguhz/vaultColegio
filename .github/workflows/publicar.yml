@@ -1,0 +1,67 @@
+name: Publicar página
+
+# Cada push a main vuelve a armar la página con Quartz y la publica en GitHub Pages.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  armar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Bajar el vault
+        uses: actions/checkout@v5
+        with:
+          path: vault
+          fetch-depth: 0 # historial completo, para las fechas de cada nota
+
+      - name: Bajar Quartz 4.5.2
+        uses: actions/checkout@v5
+        with:
+          repository: jackyzha0/quartz
+          ref: v4.5.2
+          path: quartz
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: quartz/package-lock.json
+
+      - name: Instalar Quartz
+        working-directory: quartz
+        run: npm ci
+
+      - name: Preparar el contenido
+        run: |
+          python3 vault/.quartz/preparar.py vault quartz/content
+          cp vault/.quartz/quartz.config.ts vault/.quartz/quartz.layout.ts quartz/
+          cp vault/.quartz/custom.scss quartz/quartz/styles/custom.scss
+
+      - name: Armar la página
+        working-directory: quartz
+        run: npx quartz build
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: quartz/public
+
+  publicar:
+    needs: armar
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

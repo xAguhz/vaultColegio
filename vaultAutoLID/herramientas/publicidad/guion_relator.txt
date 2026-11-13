@@ -1,0 +1,11 @@
+vo1|Para millones de argentinos, algo tan simple como levantar la tapa del inodoro... no es tan simple.
+vo2a|Uno de cada diez argentinos vive con alguna discapacidad.
+vo2b|En uno de cada cuatro hogares, hay alguien que la tiene.
+vo2c|Y más de cinco millones y medio tienen sesenta y cinco años o más.
+vo3|Además, cada vez que tiramos la cadena con la tapa abierta, los gérmenes viajan hasta dos metros.
+vo4a|Por eso creamos AutoLID.
+vo4b|Se instala en tu inodoro, en minutos.
+vo4c|Te acercás, y la tapa se abre sola.
+vo4d|Te sentás, y no se cierra.
+vo4e|Te vas, y se cierra.
+vo5|AutoLID. Higiene y autonomía, sin tocar nada.

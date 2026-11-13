@@ -1,0 +1,449 @@
+{
+  "conjuntos": {
+    "Bancada y gabinete": {
+      "color": "#8a7f6a",
+      "nota": "Despiece › Bancada y transmisión",
+      "resumen": "Base rígida de fundición con guías prismáticas (dos en V y dos planas) de 187 mm de ancho y 290 mm de alto. Se apoya sobre dos gabinetes de chapa y la bandeja de virutas. Capítulo 11 del manual (Bed Assembly).",
+      "laminas": [
+        ["despiece_bancada_1.png", "Lámina 11 (1/2): bancada, motor, correas, tornillo patrón, barra de avances y soporte derecho"],
+        ["despiece_bancada_2.png", "Lámina 11 (2/2): gabinete, bandeja, guardasalpicaduras y freno de pie"]
+      ]
+    },
+    "Motor y transmisión": {
+      "color": "#3f7fb5",
+      "nota": "Despiece › Bancada y transmisión · 10 Cambio de partes › Correas del motor",
+      "resumen": "Motor de 1,5 kW (2 HP) en el gabinete izquierdo que, con dos correas en V A32, mueve el eje de entrada del cabezal. Es el comienzo de la cadena cinemática.",
+      "laminas": [
+        ["despiece_bancada_1.png", "Lámina 11 (1/2): motor (ítem 6), soporte basculante (9), correas (1)"]
+      ]
+    },
+    "Cabezal": {
+      "color": "#c0623b",
+      "nota": "Despiece › Cabezal",
+      "resumen": "Caja de velocidades engranada en baño de aceite: 8 velocidades (alta/baja × 4) de 70 a 2000 rpm. Aloja el husillo principal con nariz Camlock D1-4, cono MT5 y pasaje de Ø38 mm, apoyado en dos rodamientos de rodillos cónicos. Capítulo 12 del manual.",
+      "laminas": [
+        ["despiece_cabezal_1.png", "Lámina 12 (1/3): carcasa, tapa superior, palancas y horquillas"],
+        ["despiece_cabezal_2.png", "Lámina 12 (2/3): eje de entrada con polea y eje intermedio"],
+        ["despiece_cabezal_3.png", "Lámina 12 (3/3): husillo, rodamientos 7212D/7210E y tren de salida a la lira"]
+      ]
+    },
+    "Lira y caja Norton": {
+      "color": "#b8902c",
+      "nota": "Despiece › Caja Norton y lira",
+      "resumen": "La lira (guitarra) lleva los engranajes de cambio módulo 1,25 y la rueda doble 120T/127T. La caja Norton de 4 perillas multiplica esas relaciones para dar 32 avances y hasta 31 roscas en pulgadas o 26 métricas. Capítulo 13 del manual.",
+      "laminas": [
+        ["despiece_caja_norton_1.png", "Lámina 13 (1/3): caja Norton, ejes, engranajes, horquillas y microinterruptor"],
+        ["despiece_caja_norton_2_tapa.png", "Lámina 13 (2/3): tapa frontal con las 4 perillas y el visor A12"],
+        ["despiece_lira_3.png", "Lámina 13 (3/3): lira con la rueda doble 120T/127T y el juego de cambio"]
+      ]
+    },
+    "Delantal y barras": {
+      "color": "#7a5aa8",
+      "nota": "Despiece › Delantal · Despiece › Bancada y transmisión",
+      "resumen": "El delantal cuelga del carro principal y convierte el giro de la barra de avances (sinfín y corona) en avance automático, o engancha el tornillo patrón con la media tuerca para roscar. Capítulo 14 del manual.",
+      "laminas": [
+        ["despiece_delantal.png", "Lámina 14: delantal con sinfín-corona, media tuerca, volante y reloj de roscar"],
+        ["despiece_bancada_1.png", "Lámina 11 (1/2): tornillo patrón (25), barra de avances (42) y soporte derecho (29)"]
+      ]
+    },
+    "Carros": {
+      "color": "#2f8f83",
+      "nota": "Despiece › Carros",
+      "resumen": "Carro principal (longitudinal, eje Z), carro transversal (eje X, recorrido 160 mm) y charriot orientable (recorrido 95 mm) con torre portaherramientas de 4 posiciones para cuchillas de hasta 16 × 16 mm. Capítulo 15 del manual.",
+      "laminas": [
+        ["despiece_carros_1.png", "Lámina 15 (1/2): carro principal, transversal, husillo, tuerca y volante"],
+        ["despiece_carros_2.png", "Lámina 15 (2/2): charriot, base giratoria y torre portaherramientas"]
+      ]
+    },
+    "Contrapunto": {
+      "color": "#4f7a3a",
+      "nota": "Despiece › Contrapunto",
+      "resumen": "Apoya el extremo de las piezas largas y sirve para agujerear. Caña de Ø32 con cono Morse 3, traba de caña, traba a la bancada y desplazamiento lateral para tornear conos. Capítulo 16 del manual.",
+      "laminas": [
+        ["despiece_contrapunto_1.png", "Lámina 16 (1/2): cuerpo, caña, tornillo, volante y base"],
+        ["despiece_contrapunto_2.png", "Lámina 16 (2/2): mecanismo de traba a la bancada"]
+      ]
+    },
+    "Lunetas": {
+      "color": "#a8506e",
+      "nota": "Despiece › Lunetas",
+      "resumen": "Accesorios para apoyar piezas largas y finas que flexionan con el corte. La luneta fija se sujeta a la bancada; la móvil va atornillada al carro principal y acompaña a la herramienta. Capítulo 17 del manual.",
+      "laminas": [
+        ["despiece_lunetas.png", "Lámina 17: luneta fija (izquierda) y luneta móvil (derecha)"]
+      ]
+    },
+    "Refrigeración": {
+      "color": "#3c9bb0",
+      "nota": "Despiece › Refrigeración · 10 Cambio de partes › Electrobomba de refrigerante",
+      "resumen": "Depósito en el gabinete derecho, electrobomba de inmersión AB-12 (40 W, 12 L/min), caño articulado con canilla y retorno por la bandeja de virutas. Capítulo 18 del manual.",
+      "laminas": [
+        ["despiece_refrigeracion.png", "Lámina 18: depósito, bomba, caño articulado y retorno"]
+      ]
+    },
+    "Eléctrico": {
+      "color": "#5d6670",
+      "nota": "08 Circuito eléctrico",
+      "resumen": "Tablero con guardamotor QM1, contactores KM1/KM2 (adelante/atrás), relé de habilitación KA0 y transformador de mando TC. Circuito de mando a 24 V CA con seta de emergencia SB0 e interruptores de seguridad SQ1 a SQ5.",
+      "laminas": [
+        ["tm300_esquema_electrico_trifasico.png", "Esquema eléctrico, versión trifásica 380 V"],
+        ["tm300_esquema_electrico_monofasico.png", "Esquema eléctrico, versión monofásica 220 V"]
+      ]
+    }
+  },
+  "piezas": {
+    "bancada": {
+      "que": "Pieza de fundición que sostiene y alinea todo el torno. Arriba tiene dos guías en V y dos planas, rectificadas: sobre las de afuera corre el carro y sobre las de adentro el contrapunto.",
+      "datos": [["Ancho de guías", "187 mm"], ["Altura de bancada", "290 mm"], ["Entre puntas", "750 o 1000 mm"], ["Escote (puente)", "ítem 15, con pasadores cónicos 8×60"]],
+      "mant": ["Limpiar la viruta y aceitar las guías con ISO VG 68 al empezar y al terminar cada día.", "Nivelación semestral con nivel de precisión de 0,02 mm/m (ver 09 Ajustes y puesta a punto).", "Al reinstalar el escote, colocar primero los pasadores cónicos y recién después apretar los tornillos M10×40."],
+      "ver": "Despiece › Bancada y transmisión"
+    },
+    "gabinete_izq": {
+      "que": "Pie izquierdo de chapa. Aloja el motor sobre su soporte basculante y las correas que suben al cabezal.",
+      "datos": [["Contiene", "motor, soporte basculante, perilla de tensado"]],
+      "mant": ["Para cambiar o tensar las correas se saca la tapa de este gabinete (con LOTO aplicado)."],
+      "ver": "10 Cambio de partes › Correas del motor"
+    },
+    "gabinete_der": {
+      "que": "Pie derecho de chapa. Aloja el depósito de refrigerante y la electrobomba.",
+      "datos": [["Contiene", "depósito y bomba AB-12"]],
+      "mant": ["Limpiar el depósito cada 1 a 3 meses, cuando se cambia la taladrina."],
+      "ver": "Despiece › Refrigeración"
+    },
+    "bandeja": {
+      "que": "Bandeja de chapa entre la bancada y los gabinetes. Junta la viruta y devuelve el refrigerante al depósito.",
+      "datos": [["Lámina", "11 (2/2)"]],
+      "mant": ["Vaciar la viruta seguido: llena, tapa el retorno y el refrigerante se derrama."],
+      "ver": "Despiece › Bancada y transmisión"
+    },
+    "guardasalpicaduras": {
+      "que": "Chapa trasera que frena la viruta y el refrigerante que salen despedidos del corte.",
+      "datos": [["Lámina", "11 (2/2)"]],
+      "mant": ["Hay que sacarlo para ajustar la regleta trasera del carro principal."],
+      "ver": "09 Ajustes y puesta a punto › Regleta del carro principal"
+    },
+    "freno_pie": {
+      "que": "Pedal y barra que frenan el husillo y, mediante un microinterruptor, cortan el motor.",
+      "datos": [["Pedal", "ítems 69 y 76"], ["Resorte", "ítem 68"], ["Barra de freno", "ítem 77"], ["Interruptor", "en serie con la emergencia (SQ1/SQ2)"]],
+      "mant": ["Probarlo cada semana: debe detener la máquina.", "Si frena pero no corta el motor, revisar el microinterruptor (08 Circuito eléctrico)."],
+      "ver": "Despiece › Bancada y transmisión"
+    },
+    "cremallera": {
+      "que": "Cremallera fija al frente de la bancada. El piñón del delantal engrana con ella para mover el carro a mano con el volante.",
+      "datos": [["Piñón que engrana", "33-4010, módulo 1,5 × 11 dientes"]],
+      "mant": ["Cepillar la viruta que se mete entre los dientes."],
+      "ver": "Despiece › Delantal"
+    },
+    "motor": {
+      "que": "Motor eléctrico principal. Montado sobre un soporte basculante que, con su propio peso, tensa las correas.",
+      "datos": [["Potencia", "1,5 kW (2 HP)"], ["Carcasa", "IEC 90S, 4 polos (~1420 rpm)"], ["Tensión", "380 V trifásico o 220 V monofásico"], ["Ítem", "6 (lámina 11)"], ["Reemplazo en ML (12/11/2026)", "Czerweny 2 HP desde $284.294"]],
+      "mant": ["Medir la aislación con megóhmetro y la corriente en vacío una vez por año.", "Si se cambia, respetar la carcasa 90S y la altura de eje para que entren las poleas y el soporte."],
+      "ver": "13 Repuestos y compras"
+    },
+    "polea_motor": {
+      "que": "Polea de dos gargantas en el eje del motor.",
+      "datos": [["Ítem", "8 (lámina 11)"], ["Perfil", "A (correas en V)"]],
+      "mant": ["Verificar que esté alineada con la polea del cabezal: si no, las correas se gastan de un costado."],
+      "ver": "10 Cambio de partes › Correas del motor"
+    },
+    "correas": {
+      "que": "Dos correas en V que transmiten el giro del motor al eje de entrada del cabezal.",
+      "datos": [["Código", "A-813 = A32 (perfil A)"], ["Cantidad", "2, siempre del mismo lote"], ["Tensión", "flecha ≈ 10 mm con el pulgar"], ["Precio ML (12/11/2026)", "$5.500 a $9.800 c/u"]],
+      "mant": ["Revisar cada semana (o 120 h): cambiar si están cuarteadas, brillosas o patinan.", "Cambiar siempre las dos juntas, nunca una nueva con una usada.", "Retensar después de 1 a 2 horas de uso, porque las nuevas se estiran."],
+      "ver": "10 Cambio de partes › Correas del motor"
+    },
+    "polea_cabezal": {
+      "que": "Polea conducida montada en el eje de entrada del cabezal, detrás de la tapa de la lira.",
+      "datos": [["Ítem", "47 (lámina 12)"]],
+      "mant": ["Un goteo de aceite detrás de esta polea es casi siempre el retén del eje de entrada."],
+      "ver": "10 Cambio de partes › Retén del eje de entrada del cabezal"
+    },
+    "cabezal_carcasa": {
+      "que": "Caja de fundición que encierra el tren de engranajes y el husillo, en baño de aceite.",
+      "datos": [["Aceite", "ISO VG 32 (Shell Tellus S2 M 32)"], ["Nivel", "3/4 del visor frontal"], ["Velocidades", "8, de 70 a 2000 rpm"], ["Juntas y O-rings", "ítems 5, 54, 79, 95, 109, 126"]],
+      "mant": ["Revisar el nivel en el visor todos los días.", "Primer cambio de aceite a los 3 meses; después, una vez por año (drenaje por el tapón inferior detrás de la lira).", "Partículas brillantes en el aceite usado indican desgaste de engranajes o rodamientos."],
+      "ver": "06 Lubricación"
+    },
+    "cabezal_tapa": {
+      "que": "Tapa superior del cabezal. Por acá se carga el aceite y se accede al tren de engranajes.",
+      "datos": [["Carga de aceite", "tapón en la tapa"]],
+      "mant": ["Cambiar la junta cada vez que se saca la tapa."],
+      "ver": "Despiece › Cabezal"
+    },
+    "cabezal_palancas": {
+      "que": "Selector alta/baja y palanca de 4 posiciones: combinadas dan las 8 velocidades del husillo.",
+      "datos": [["Horquillas", "ítems 14 y 25"], ["Retención", "bolillas Ø6 con resorte (ítems 28-29)"]],
+      "mant": ["Cambiar de velocidad solo con el husillo detenido (ayudarse con el pulsador JOG).", "Si una velocidad 'salta', revisar el resorte y la bolilla de retención."],
+      "ver": "Despiece › Cabezal"
+    },
+    "husillo": {
+      "que": "Eje principal hueco que hace girar la pieza. Adelante tiene la nariz Camlock donde se monta el plato.",
+      "datos": [["Nariz", "Camlock D1-4"], ["Cono interior", "Morse N.° 5"], ["Pasaje", "Ø38 mm"], ["Ítem", "105 (lámina 12)"]],
+      "mant": ["Medir la excentricidad de la nariz y del cono con reloj comparador cada 6 meses.", "Medir juego axial y radial y temperatura de trabajo cada 6 meses (2500 h)."],
+      "ver": "10 Cambio de partes › Rodamientos del husillo"
+    },
+    "rodamiento_delantero": {
+      "que": "Rodamiento de rodillos cónicos del lado del plato. Soporta la mayor parte de la carga de corte.",
+      "datos": [["Código original", "7212D"], ["Equivalente ISO", "30212"], ["Ítem", "101 (lámina 12)"], ["Precio ML (12/11/2026)", "SKF $114.215 · NTN $72.241"]],
+      "mant": ["La precarga se regula con la tuerca ranurada trasera (ítem 91).", "Cambiar siempre el par delantero y trasero juntos, de marca reconocida."],
+      "ver": "10 Cambio de partes › Rodamientos del husillo"
+    },
+    "rodamiento_trasero": {
+      "que": "Rodamiento de rodillos cónicos del extremo trasero del husillo.",
+      "datos": [["Código original", "7210E"], ["Equivalente ISO", "30210"], ["Ítem", "96 (lámina 12)"], ["Precio ML (12/11/2026)", "SKF $91.773 · FAG $59.588"]],
+      "mant": ["Se cambia junto con el delantero: el par SKF sale ≈ $206.000."],
+      "ver": "10 Cambio de partes › Rodamientos del husillo"
+    },
+    "cabezal_engranajes": {
+      "que": "Eje de entrada con su retén, rodamiento y engranajes. Recibe el giro de la polea y lo pasa al husillo según la velocidad elegida.",
+      "datos": [["Retén", "SD 25×40×10 (ítem 60), $5.429 en ML"], ["Rodamiento", "105E → 6005 (ítem 55)"], ["Módulos", "2 y 2,25 (ej. ítem 68 = M2 × Z29)"]],
+      "mant": ["Para pedir un engranaje a un tallerista: módulo, número de dientes, ancho, diámetro del agujero y chavetero."],
+      "ver": "10 Cambio de partes › Retén del eje de entrada del cabezal"
+    },
+    "plato": {
+      "que": "Plato universal de 3 mordazas autocentrante, montado en la nariz Camlock con su placa adaptadora.",
+      "datos": [["Diámetro", "200 mm (K11-200)"], ["Montaje", "Camlock D1-4 (3 levas)"], ["Precio ML (12/11/2026)", "$450.500"]],
+      "mant": ["Al montarlo, cada leva debe quedar trabada con la marca entre las dos flechas (ver 05 Instalación).", "Limpiar y aceitar la espiral interna periódicamente."],
+      "ver": "05 Instalación y puesta en marcha"
+    },
+    "mordaza_1": {
+      "que": "Mordaza escalonada del plato. Las tres se mueven juntas con la llave y centran la pieza.",
+      "datos": [["Juego", "3 mordazas numeradas"]],
+      "mant": ["Respetar la numeración al montarlas: cada una entra en su ranura en orden."],
+      "ver": "Despiece › Cabezal"
+    },
+    "mordaza_2": {
+      "que": "Mordaza escalonada del plato. Las tres se mueven juntas con la llave y centran la pieza.",
+      "datos": [["Juego", "3 mordazas numeradas"]],
+      "mant": ["Respetar la numeración al montarlas: cada una entra en su ranura en orden."],
+      "ver": "Despiece › Cabezal"
+    },
+    "mordaza_3": {
+      "que": "Mordaza escalonada del plato. Las tres se mueven juntas con la llave y centran la pieza.",
+      "datos": [["Juego", "3 mordazas numeradas"]],
+      "mant": ["Respetar la numeración al montarlas: cada una entra en su ranura en orden."],
+      "ver": "Despiece › Cabezal"
+    },
+    "protector_plato": {
+      "que": "Guarda abatible sobre el plato. Tiene un interruptor que no deja arrancar el motor si está levantada.",
+      "datos": [["Interruptor", "SQ1/SQ2, en serie con la emergencia"]],
+      "mant": ["Probar cada semana que, al levantarla, la máquina no arranque."],
+      "ver": "08 Circuito eléctrico"
+    },
+    "tapa_lira": {
+      "que": "Tapa del lado izquierdo que cubre la lira, las poleas y las correas.",
+      "datos": [["Interruptor", "corta la máquina si se abre (SQ1/SQ2)"]],
+      "mant": ["Nunca trabajar con la tapa abierta ni puentear su interruptor."],
+      "ver": "04 Normas de seguridad"
+    },
+    "lira_engranajes": {
+      "que": "Tren de engranajes de cambio que relaciona el husillo con la caja Norton. Con la rueda doble 120T/127T se pasa de roscas métricas a pulgadas.",
+      "datos": [["Módulo", "1,25"], ["Rueda doble", "120T (32-05230) / 127T (32-05231)"], ["Rodamiento", "80203 → 6203-2Z"], ["Juego de cambio", "30, 40, 44, 46, 52, 54, 56, 57, 60, 63 dientes"]],
+      "mant": ["Limpiar y engrasar los dientes cada mes.", "Al armar un tren nuevo, ajustar el juego con un papel de ~0,1 mm entre dientes."],
+      "ver": "07 Avances y roscado"
+    },
+    "caja_norton": {
+      "que": "Caja de avances de 4 perillas: selecciona el paso de rosca o el avance sin cambiar engranajes de la lira.",
+      "datos": [["Aceite", "ISO VG 32, nivel al centro del visor A12"], ["Rodamientos", "6203-2RS, 6202-2RS, 6004-2RS"], ["Retenes", "25×40×7 y 22×35×7"], ["Microinterruptor", "LXW5-11G2 (ítem 31)"]],
+      "mant": ["Primer cambio de aceite a los 3 meses; después, una vez por año.", "Revisar el visor A12 todos los días."],
+      "ver": "Despiece › Caja Norton y lira"
+    },
+    "perillas_norton": {
+      "que": "Cuatro perillas (A-B, C-D, 1-2-3-4 y R-S-T-V) que mueven las horquillas internas de la caja.",
+      "datos": [["Piñón-cremallera", "6220-2035B a 2038B"], ["Horquillas", "6220-2039B/C, 2040B/C"]],
+      "mant": ["Si la perilla gira pero el avance no cambia, revisar el prisionero que la fija al eje y la bolilla con resorte."],
+      "ver": "07 Avances y roscado"
+    },
+    "tornillo_patron": {
+      "que": "Tornillo de rosca trapecial que mueve el carro al roscar, a través de la media tuerca del delantal.",
+      "datos": [["Diámetro", "22 mm"], ["Paso", "3 mm (métrico) u 8 hilos/pulgada"], ["Ítem", "25 (lámina 11)"], ["Pasador fusible", "6220-2085 (ítem 94)"]],
+      "mant": ["Cepillar los filetes y aceitar con ISO VG 68 dos veces por mes.", "Si deja de girar con la caja en marcha, revisar primero el pasador fusible."],
+      "ver": "10 Cambio de partes › Pasador fusible (tornillo patrón / barra)"
+    },
+    "barra_avances": {
+      "que": "Barra con chavetero que da el avance automático (cilindrado y refrentado) a través del sinfín del delantal.",
+      "datos": [["Diámetro", "19 mm"], ["Ítem", "42 (lámina 11)"], ["Avance longitudinal", "0,052 a 1,392 mm/rev"], ["Avance transversal", "0,014 a 0,380 mm/rev"]],
+      "mant": ["Aceitarla a diario junto con las guías."],
+      "ver": "07 Avances y roscado"
+    },
+    "barra_mando": {
+      "que": "Barra que lleva el mando de marcha adelante, parada y atrás hasta la palanca del delantal.",
+      "datos": [["Interruptores", "SQ3 (neutro), SQ4/SQ5 (adelante/atrás)"]],
+      "mant": ["Si la palanca no arranca el motor en un sentido, revisar SQ4 o SQ5."],
+      "ver": "08 Circuito eléctrico"
+    },
+    "soporte_derecho": {
+      "que": "Soporte del extremo derecho donde apoyan el tornillo patrón, la barra de avances y la barra de mando.",
+      "datos": [["Ítem", "29 (lámina 11)"], ["Axiales", "8102 → 51102 y 8104 → 51104"], ["Precio ML 51102", "$2.500 a $3.641"]],
+      "mant": ["Si el tornillo patrón tiene juego axial, revisar los rodamientos axiales."],
+      "ver": "Despiece › Bancada y transmisión"
+    },
+    "delantal": {
+      "que": "Caja colgada del carro principal con el sinfín y corona, los embragues de avance y la media tuerca, en baño de aceite.",
+      "datos": [["Aceite", "ISO VG 32, nivel en el visor A20"], ["Carga", "tapón lateral derecho"], ["Drenaje", "tapón 1/8\" (ítem 48)"], ["Enclavamiento", "ítem 17"]],
+      "mant": ["Primer cambio de aceite a los 3 meses; después, una vez por año.", "El enclavamiento impide cerrar la media tuerca con el avance automático puesto: nunca forzarlo."],
+      "ver": "Despiece › Delantal"
+    },
+    "volante_longitudinal": {
+      "que": "Volante que mueve el carro a lo largo de la bancada a mano, mediante el piñón y la cremallera.",
+      "datos": [["Piñón", "33-4010 (M1,5 × Z11)"]],
+      "mant": ["Desenganchar la media tuerca antes de moverlo a mano."],
+      "ver": "Despiece › Delantal"
+    },
+    "delantal_palancas": {
+      "que": "Palanca de la media tuerca (para roscar) y selector de avance automático longitudinal o transversal.",
+      "datos": [["Media tuerca", "palanca 25 de la figura de partes"], ["Selector de avance", "palanca 24"]],
+      "mant": ["Nunca cerrar la media tuerca con el avance automático puesto."],
+      "ver": "07 Avances y roscado"
+    },
+    "media_tuerca": {
+      "que": "Tuerca partida de bronce que abraza el tornillo patrón para roscar.",
+      "datos": [["Código", "33-4035"], ["Para", "tornillo Ø22, paso 3 mm u 8 hilos/pulgada"], ["Regulación", "cuña (ítem 21) y prisioneros (ítem 23)"], ["En ML", "sin compatibles (solo de mini torno)"]],
+      "mant": ["Si la rosca sale 'ondulada', ajustar los prisioneros de la cuña.", "Si está gastada: distribuidores del TBL-330, usados o una tornería."],
+      "ver": "10 Cambio de partes › Media tuerca"
+    },
+    "sinfin_corona": {
+      "que": "Sinfín (en la barra de avances) y corona de bronce que reducen el giro para el avance automático.",
+      "datos": [["Sinfín", "32-06228 (ítem 29)"], ["Corona", "32-06429 (ítem 14)"]],
+      "mant": ["El desgaste típico viene de la falta de aceite: controlar el visor A20."],
+      "ver": "Despiece › Delantal"
+    },
+    "reloj_roscar": {
+      "que": "Dial que indica cuándo cerrar la media tuerca para volver a entrar en el mismo filete en cada pasada.",
+      "datos": [["Piñones métricos", "28T / 30T / 32T (ítems 41-44)"], ["Pulgadas", "33-4045A"]],
+      "mant": ["Usar la tabla del reloj de roscar del cap. 7 para saber en qué marcas cerrar."],
+      "ver": "07 Avances y roscado"
+    },
+    "carro_principal": {
+      "que": "Carro que se desliza sobre las guías de la bancada y lleva el carro transversal y el delantal.",
+      "datos": [["Regletas", "ítems 31, 32, 38, 39"], ["Limpiaguías de fieltro", "ítems 33, 41, 50"]],
+      "mant": ["Compensar el desgaste de la regleta trasera con los prisioneros Allen.", "Cambiar los limpiaguías cuando estén duros o llenos de viruta."],
+      "ver": "09 Ajustes y puesta a punto › Regleta del carro principal"
+    },
+    "carro_transversal": {
+      "que": "Carro que se mueve perpendicular a la bancada (eje X) y da la profundidad de pasada.",
+      "datos": [["Recorrido", "160 mm"], ["Cuña cónica", "ítem 8, tornillo 33-3023"]],
+      "mant": ["Ajustar la cuña cada mes (o 500 h): firme pero sin trabarse."],
+      "ver": "09 Ajustes y puesta a punto › Carro transversal (cuña cónica)"
+    },
+    "volante_transversal": {
+      "que": "Volante con tambor graduado que mueve el carro transversal.",
+      "datos": [["Axial", "8102 → 51102 (ítem 20)"]],
+      "mant": ["Si el tambor marca movimiento sin que el carro se mueva, hay juego en la tuerca."],
+      "ver": "Despiece › Carros"
+    },
+    "tuerca_transversal": {
+      "que": "Husillo del carro transversal y su tuerca de bronce con ranura para eliminar el juego muerto.",
+      "datos": [["Tuerca métrica", "32C-07415 (paso 2 mm)"], ["Tuerca pulgadas", "32C-07415a (10 hilos/pulgada)"], ["Ajuste", "45° del tornillo ≈ 0,125 mm de juego"]],
+      "mant": ["Si el juego no baja de ~0,1 mm o el husillo se traba en un tramo, cambiar la tuerca o el husillo."],
+      "ver": "09 Ajustes y puesta a punto › Tuerca del carro transversal"
+    },
+    "base_giratoria": {
+      "que": "Base graduada que permite girar el charriot en grados para tornear conos cortos y chaflanes.",
+      "datos": [["Graduación", "en grados, a ambos lados"]],
+      "mant": ["Volver a 0° y trabar después de tornear un cono."],
+      "ver": "Despiece › Carros"
+    },
+    "charriot": {
+      "que": "Carro superior orientable que lleva la torre portaherramientas.",
+      "datos": [["Recorrido", "95 mm"], ["Husillo", "4 mm o 2,54 mm de paso"], ["Axial", "8103 → 51103 (ítem 57)"], ["Cuña", "ítem 65"]],
+      "mant": ["Ajustar la cuña cada mes, igual que la del transversal."],
+      "ver": "09 Ajustes y puesta a punto › Charriot (cuña cónica)"
+    },
+    "manija_charriot": {
+      "que": "Manija con tambor graduado que mueve el charriot.",
+      "datos": [["Tuerca", "ítem 69"]],
+      "mant": ["Aceitar el husillo del charriot con la aceitera."],
+      "ver": "Despiece › Carros"
+    },
+    "torre": {
+      "que": "Torre portaherramientas de 4 posiciones: se gira con la manija para cambiar de cuchilla.",
+      "datos": [["Sección máx. de cuchilla", "16 × 16 mm"]],
+      "mant": ["La punta de la cuchilla debe quedar a la altura de centros: suplementar si hace falta."],
+      "ver": "Despiece › Carros"
+    },
+    "cuchilla": {
+      "que": "Herramienta de corte sujeta en la torre con dos tornillos.",
+      "datos": [["Sección", "16 × 16 mm máx."], ["Altura de la punta", "166 mm sobre la bancada (eje del husillo)"]],
+      "mant": ["Afilar o cambiar la plaquita cuando el acabado empeora o la viruta sale azul."],
+      "ver": "Despiece › Carros"
+    },
+    "contrapunto_base": {
+      "que": "Base que apoya sobre las guías interiores y se traba a la bancada.",
+      "datos": [["Desplazamiento lateral", "ítems 15, 24 y 25"]],
+      "mant": ["Volver a cero con la marca de la base antes de cilindrar."],
+      "ver": "Despiece › Contrapunto"
+    },
+    "contrapunto_cuerpo": {
+      "que": "Cuerpo de fundición que guía la caña. Se puede desplazar de costado para tornear conos largos.",
+      "datos": [["Altura de centros", "166 mm (C0632A)"], ["Ancho de guías", "187 mm"]],
+      "mant": ["Al comprar uno usado, comparar altura de centros y ancho de guías."],
+      "ver": "Despiece › Contrapunto"
+    },
+    "cana": {
+      "que": "Caña que avanza con el volante y lleva la punta o el mandril de agujerear.",
+      "datos": [["Diámetro", "32 mm"], ["Cono", "Morse N.° 3 (MT3)"], ["Ítem", "21 (lámina 16)"], ["Axial del tornillo", "8102 → 51102"]],
+      "mant": ["Limpiar el cono antes de colocar una punta o mecha: una viruta lo daña."],
+      "ver": "Despiece › Contrapunto"
+    },
+    "volante_contrapunto": {
+      "que": "Volante que hace avanzar o retroceder la caña mediante su tornillo y tuerca.",
+      "datos": [["Tornillo y tuerca", "ítems 3 y 2"]],
+      "mant": ["Aceitar el tornillo de la caña periódicamente."],
+      "ver": "Despiece › Contrapunto"
+    },
+    "contrapunto_trabas": {
+      "que": "Palanca de traba de la caña y palanca excéntrica que fija el contrapunto a la bancada.",
+      "datos": [["Traba a la bancada", "palanca 29, eje excéntrico 30, placa 37"]],
+      "mant": ["El ángulo de trabado se regula con el bulón autofrenante de abajo, entre las guías."],
+      "ver": "09 Ajustes y puesta a punto › Traba del contrapunto a la bancada"
+    },
+    "luneta_fija": {
+      "que": "Luneta que se fija a la bancada y apoya la pieza con tres patines.",
+      "datos": [["Patines", "ítem 6"], ["Base", "cambia entre C0632A y C0636A (ítems 14 y 20)"], ["En ML", "sin compatibles"]],
+      "mant": ["Lubricar los patines con aceite mientras se trabaja.", "Los patines gastados se pueden rehacer en bronce o con rodamientos."],
+      "ver": "Despiece › Lunetas"
+    },
+    "luneta_movil": {
+      "que": "Luneta de dos patines atornillada al carro principal: acompaña a la cuchilla y evita que la pieza flexione.",
+      "datos": [["Patines", "2, de bronce"]],
+      "mant": ["Los patines deben apoyar, no frenar la pieza."],
+      "ver": "Despiece › Lunetas"
+    },
+    "deposito": {
+      "que": "Depósito de taladrina en el gabinete derecho. El refrigerante vuelve por la bandeja.",
+      "datos": [["Ítem", "1 (lámina 18)"]],
+      "mant": ["Limpiar y cambiar la taladrina cada 1 a 3 meses o cuando huela mal (bacterias)."],
+      "ver": "Despiece › Refrigeración"
+    },
+    "bomba": {
+      "que": "Electrobomba de inmersión que impulsa el refrigerante hacia el corte.",
+      "datos": [["Modelo", "AB-12"], ["Potencia", "40 W, 12 L/min"], ["Tensión", "380 V trifásica o 220 V monofásica"], ["Precio ML (12/11/2026)", "$124.656 (220 V, 40 W)"]],
+      "mant": ["Si gira pero no levanta: sentido de giro invertido (trifásica), impulsor tapado o nivel bajo.", "Comprar la misma tensión que el torno."],
+      "ver": "10 Cambio de partes › Electrobomba de refrigerante"
+    },
+    "manguera": {
+      "que": "Caño articulado con canilla que lleva el refrigerante hasta la cuchilla.",
+      "datos": [["Código", "JL15K-400 (ítem 6)"], ["Se vende como", "manguera articulada de refrigeración 1/4\""]],
+      "mant": ["Apuntar el chorro al filo de la herramienta, no a la pieza."],
+      "ver": "Despiece › Refrigeración"
+    },
+    "tablero": {
+      "que": "Tablero eléctrico con el guardamotor, los contactores, los relés y el transformador de mando.",
+      "datos": [["QM1", "guardamotor general"], ["KM1 / KM2", "contactores adelante / atrás"], ["KA0", "relé de habilitación (no rearranca solo)"], ["TC", "transformador de mando 24 V CA"]],
+      "mant": ["Reapretar bornes y limpiar contactos cada mes (500 h).", "Termografía de bornes cada 6 meses."],
+      "ver": "08 Circuito eléctrico"
+    },
+    "botonera": {
+      "que": "Seta de emergencia, pulsador de marcha y piloto de máquina energizada.",
+      "datos": [["SB0", "seta de emergencia, contacto NC"], ["SB3", "marcha / habilitación"], ["SB2", "JOG para cambiar velocidades"], ["HL", "piloto"]],
+      "mant": ["Probar todos los días que la seta corte KM1."],
+      "ver": "08 Circuito eléctrico"
+    },
+    "lampara": {
+      "que": "Lámpara de trabajo con brazo flexible para iluminar la zona de corte.",
+      "datos": [["Símbolo", "EL"]],
+      "mant": ["Usar lámpara de baja tensión según el circuito de mando."],
+      "ver": "08 Circuito eléctrico"
+    }
+  }
+}

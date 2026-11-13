@@ -1,0 +1,17 @@
+# Syncthing
+.stfolder/
+.stignore
+.stversions/
+*.sync-conflict-*
+
+# Estado de la ventana de Obsidian (cambia todo el tiempo y es distinto en cada dispositivo)
+**/.obsidian/workspace*.json
+**/.obsidian/cache
+.trash/
+**/.trash/
+
+# Python y sistema
+__pycache__/
+*.pyc
+.DS_Store
+*.blend1
