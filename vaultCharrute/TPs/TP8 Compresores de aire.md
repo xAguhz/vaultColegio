@@ -141,10 +141,7 @@ flowchart LR
 - **Entrega final (13/11/2026)**, en la carpeta *Charrute*:
   - `TP N° 8 - Compresores de aire y sistemas de aire comprimido`: Google Docs con la organización del grupo, los dos cuestionarios, la investigación con fichas CAGI reales y la guía de exposición. También está la copia en PDF.
   - `TP N° 8 - Compresores de aire (presentación)`: Google Slides de 13 diapositivas.
-- **Reparto del grupo:**
-  - Agustín y Thiago: producción.
-  - Lucas y Ayrton: tratamiento.
-  - Elías y Joaquín: distribución y control.
+- **Reparto del grupo:** tres parejas, una por tramo del sistema (producción, tratamiento, y distribución y control).
 
 ## Ver también
 [[Compresor]] · [[Sistema de aire comprimido]] · [[Recipiente a presión]] · [[Válvulas]] · [[TP4 Cañerías y válvulas]] (planta Panadería Pilar) · [[00 Inicio]]
