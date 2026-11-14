@@ -71,6 +71,9 @@ jobs:
           mkdir -p quartz/public/vaultClaseProfes/diapositivas
           cp "vault/vaultClaseProfes/Exposición/Diapositivas.html" quartz/public/vaultClaseProfes/diapositivas/index.html
 
+      - name: Armar la página de la red (todos los vaults en un grafo)
+        run: python3 vault/.quartz/red/red.py vault quartz/public/red
+
       - uses: actions/upload-pages-artifact@v4
         with:
           path: quartz/public

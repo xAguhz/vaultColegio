@@ -1,0 +1,932 @@
+{
+ "nodes": [
+  {
+   "id": "g-Inicio y guías",
+   "type": "group",
+   "label": "Inicio y guías",
+   "x": 0,
+   "y": 0,
+   "width": 690,
+   "height": 470,
+   "color": "6"
+  },
+  {
+   "id": "n0",
+   "type": "file",
+   "file": "00 Inicio.md",
+   "x": 30,
+   "y": 70,
+   "width": 300,
+   "height": 70,
+   "color": "6"
+  },
+  {
+   "id": "n1",
+   "type": "file",
+   "file": "01 Resumen del video.md",
+   "x": 360,
+   "y": 70,
+   "width": 300,
+   "height": 70,
+   "color": "6"
+  },
+  {
+   "id": "n2",
+   "type": "file",
+   "file": "02 Guía de estudio.md",
+   "x": 30,
+   "y": 170,
+   "width": 300,
+   "height": 70,
+   "color": "6"
+  },
+  {
+   "id": "n3",
+   "type": "file",
+   "file": "03 Preguntas abiertas.md",
+   "x": 360,
+   "y": 170,
+   "width": 300,
+   "height": 70,
+   "color": "6"
+  },
+  {
+   "id": "n4",
+   "type": "file",
+   "file": "Analogías.md",
+   "x": 30,
+   "y": 270,
+   "width": 300,
+   "height": 70,
+   "color": "6"
+  },
+  {
+   "id": "n5",
+   "type": "file",
+   "file": "Línea de tiempo.md",
+   "x": 360,
+   "y": 270,
+   "width": 300,
+   "height": 70,
+   "color": "6"
+  },
+  {
+   "id": "n6",
+   "type": "file",
+   "file": "Fuente/Transcripción - MHS explicado (IoT Lab).md",
+   "x": 30,
+   "y": 370,
+   "width": 300,
+   "height": 70,
+   "color": "6"
+  },
+  {
+   "id": "g-Conceptos",
+   "type": "group",
+   "label": "Conceptos",
+   "x": 810,
+   "y": 0,
+   "width": 690,
+   "height": 870,
+   "color": "4"
+  },
+  {
+   "id": "n7",
+   "type": "file",
+   "file": "Conceptos/API, SDK y protocolo.md",
+   "x": 840,
+   "y": 70,
+   "width": 300,
+   "height": 70,
+   "color": "4"
+  },
+  {
+   "id": "n8",
+   "type": "file",
+   "file": "Conceptos/Adopción del estándar.md",
+   "x": 1170,
+   "y": 70,
+   "width": 300,
+   "height": 70,
+   "color": "4"
+  },
+  {
+   "id": "n9",
+   "type": "file",
+   "file": "Conceptos/Capas de control.md",
+   "x": 840,
+   "y": 170,
+   "width": 300,
+   "height": 70,
+   "color": "4"
+  },
+  {
+   "id": "n10",
+   "type": "file",
+   "file": "Conceptos/Código determinista.md",
+   "x": 1170,
+   "y": 170,
+   "width": 300,
+   "height": 70,
+   "color": "4"
+  },
+  {
+   "id": "n11",
+   "type": "file",
+   "file": "Conceptos/Código pegamento.md",
+   "x": 840,
+   "y": 270,
+   "width": 300,
+   "height": 70,
+   "color": "4"
+  },
+  {
+   "id": "n12",
+   "type": "file",
+   "file": "Conceptos/Driver MHS.md",
+   "x": 1170,
+   "y": 270,
+   "width": 300,
+   "height": 70,
+   "color": "4"
+  },
+  {
+   "id": "n13",
+   "type": "file",
+   "file": "Conceptos/Ficha del dispositivo.md",
+   "x": 840,
+   "y": 370,
+   "width": 300,
+   "height": 70,
+   "color": "4"
+  },
+  {
+   "id": "n14",
+   "type": "file",
+   "file": "Conceptos/Interfaz digital.md",
+   "x": 1170,
+   "y": 370,
+   "width": 300,
+   "height": 70,
+   "color": "4"
+  },
+  {
+   "id": "n15",
+   "type": "file",
+   "file": "Conceptos/Interlock.md",
+   "x": 840,
+   "y": 470,
+   "width": 300,
+   "height": 70,
+   "color": "4"
+  },
+  {
+   "id": "n16",
+   "type": "file",
+   "file": "Conceptos/Interoperabilidad.md",
+   "x": 1170,
+   "y": 470,
+   "width": 300,
+   "height": 70,
+   "color": "4"
+  },
+  {
+   "id": "n17",
+   "type": "file",
+   "file": "Conceptos/Model Hardware Standard (MHS).md",
+   "x": 840,
+   "y": 570,
+   "width": 300,
+   "height": 70,
+   "color": "4"
+  },
+  {
+   "id": "n18",
+   "type": "file",
+   "file": "Conceptos/Model agnostic.md",
+   "x": 1170,
+   "y": 570,
+   "width": 300,
+   "height": 70,
+   "color": "4"
+  },
+  {
+   "id": "n19",
+   "type": "file",
+   "file": "Conceptos/Operaciones read y write.md",
+   "x": 840,
+   "y": 670,
+   "width": 300,
+   "height": 70,
+   "color": "4"
+  },
+  {
+   "id": "n20",
+   "type": "file",
+   "file": "Conceptos/Orquestación.md",
+   "x": 1170,
+   "y": 670,
+   "width": 300,
+   "height": 70,
+   "color": "4"
+  },
+  {
+   "id": "n21",
+   "type": "file",
+   "file": "Conceptos/Razonamiento físico.md",
+   "x": 840,
+   "y": 770,
+   "width": 300,
+   "height": 70,
+   "color": "4"
+  },
+  {
+   "id": "g-Tecnologías",
+   "type": "group",
+   "label": "Tecnologías",
+   "x": 1620,
+   "y": 0,
+   "width": 690,
+   "height": 370,
+   "color": "2"
+  },
+  {
+   "id": "n22",
+   "type": "file",
+   "file": "Tecnologías/ActiveX y COM.md",
+   "x": 1650,
+   "y": 70,
+   "width": 300,
+   "height": 70,
+   "color": "2"
+  },
+  {
+   "id": "n23",
+   "type": "file",
+   "file": "Tecnologías/Modbus.md",
+   "x": 1980,
+   "y": 70,
+   "width": 300,
+   "height": 70,
+   "color": "2"
+  },
+  {
+   "id": "n24",
+   "type": "file",
+   "file": "Tecnologías/Model Context Protocol (MCP).md",
+   "x": 1650,
+   "y": 170,
+   "width": 300,
+   "height": 70,
+   "color": "2"
+  },
+  {
+   "id": "n25",
+   "type": "file",
+   "file": "Tecnologías/OPC UA.md",
+   "x": 1980,
+   "y": 170,
+   "width": 300,
+   "height": 70,
+   "color": "2"
+  },
+  {
+   "id": "n26",
+   "type": "file",
+   "file": "Tecnologías/PLC.md",
+   "x": 1650,
+   "y": 270,
+   "width": 300,
+   "height": 70,
+   "color": "2"
+  },
+  {
+   "id": "n27",
+   "type": "file",
+   "file": "Tecnologías/USB.md",
+   "x": 1980,
+   "y": 270,
+   "width": 300,
+   "height": 70,
+   "color": "2"
+  },
+  {
+   "id": "g-Experimentos",
+   "type": "group",
+   "label": "Experimentos",
+   "x": 2430,
+   "y": 0,
+   "width": 690,
+   "height": 270,
+   "color": "5"
+  },
+  {
+   "id": "n28",
+   "type": "file",
+   "file": "Experimentos/Alineación de un láser con cámara.md",
+   "x": 2460,
+   "y": 70,
+   "width": 300,
+   "height": 70,
+   "color": "5"
+  },
+  {
+   "id": "n29",
+   "type": "file",
+   "file": "Experimentos/Automatización de laboratorio - curva de dilución.md",
+   "x": 2790,
+   "y": 70,
+   "width": 300,
+   "height": 70,
+   "color": "5"
+  },
+  {
+   "id": "n30",
+   "type": "file",
+   "file": "Experimentos/Líquidos viscosos y burbujas.md",
+   "x": 2460,
+   "y": 170,
+   "width": 300,
+   "height": 70,
+   "color": "5"
+  },
+  {
+   "id": "n31",
+   "type": "file",
+   "file": "Experimentos/QuEra - recuperación del clock del láser.md",
+   "x": 2790,
+   "y": 170,
+   "width": 300,
+   "height": 70,
+   "color": "5"
+  },
+  {
+   "id": "g-Actores",
+   "type": "group",
+   "label": "Actores",
+   "x": 3240,
+   "y": 0,
+   "width": 690,
+   "height": 470,
+   "color": "3"
+  },
+  {
+   "id": "n32",
+   "type": "file",
+   "file": "Actores/Anthropic.md",
+   "x": 3270,
+   "y": 70,
+   "width": 300,
+   "height": 70,
+   "color": "3"
+  },
+  {
+   "id": "n33",
+   "type": "file",
+   "file": "Actores/Claude.md",
+   "x": 3600,
+   "y": 70,
+   "width": 300,
+   "height": 70,
+   "color": "3"
+  },
+  {
+   "id": "n34",
+   "type": "file",
+   "file": "Actores/HHMI Janelia.md",
+   "x": 3270,
+   "y": 170,
+   "width": 300,
+   "height": 70,
+   "color": "3"
+  },
+  {
+   "id": "n35",
+   "type": "file",
+   "file": "Actores/Hugging Face.md",
+   "x": 3600,
+   "y": 170,
+   "width": 300,
+   "height": 70,
+   "color": "3"
+  },
+  {
+   "id": "n36",
+   "type": "file",
+   "file": "Actores/IoT Lab.md",
+   "x": 3270,
+   "y": 270,
+   "width": 300,
+   "height": 70,
+   "color": "3"
+  },
+  {
+   "id": "n37",
+   "type": "file",
+   "file": "Actores/QuEra Computing.md",
+   "x": 3600,
+   "y": 270,
+   "width": 300,
+   "height": 70,
+   "color": "3"
+  },
+  {
+   "id": "n38",
+   "type": "file",
+   "file": "Actores/Raspberry Pi.md",
+   "x": 3270,
+   "y": 370,
+   "width": 300,
+   "height": 70,
+   "color": "3"
+  },
+  {
+   "id": "n39",
+   "type": "file",
+   "file": "Actores/Universal Robots.md",
+   "x": 3600,
+   "y": 370,
+   "width": 300,
+   "height": 70,
+   "color": "3"
+  }
+ ],
+ "edges": [
+  {
+   "id": "e0",
+   "fromNode": "n1",
+   "toNode": "n17",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e1",
+   "fromNode": "n1",
+   "toNode": "n9",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e2",
+   "fromNode": "n32",
+   "toNode": "n17",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e3",
+   "fromNode": "n32",
+   "toNode": "n24",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e4",
+   "fromNode": "n32",
+   "toNode": "n33",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e5",
+   "fromNode": "n32",
+   "toNode": "n34",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e6",
+   "fromNode": "n33",
+   "toNode": "n18",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e7",
+   "fromNode": "n33",
+   "toNode": "n28",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e8",
+   "fromNode": "n33",
+   "toNode": "n31",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e9",
+   "fromNode": "n33",
+   "toNode": "n30",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e10",
+   "fromNode": "n34",
+   "toNode": "n17",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e11",
+   "fromNode": "n35",
+   "toNode": "n8",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e12",
+   "fromNode": "n35",
+   "toNode": "n18",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e13",
+   "fromNode": "n36",
+   "toNode": "n6",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e14",
+   "fromNode": "n36",
+   "toNode": "n16",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e15",
+   "fromNode": "n37",
+   "toNode": "n31",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e16",
+   "fromNode": "n38",
+   "toNode": "n8",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e17",
+   "fromNode": "n38",
+   "toNode": "n12",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e18",
+   "fromNode": "n39",
+   "toNode": "n8",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e19",
+   "fromNode": "n7",
+   "toNode": "n12",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e20",
+   "fromNode": "n7",
+   "toNode": "n16",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e21",
+   "fromNode": "n7",
+   "toNode": "n23",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e22",
+   "fromNode": "n7",
+   "toNode": "n22",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e23",
+   "fromNode": "n8",
+   "toNode": "n27",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e24",
+   "fromNode": "n8",
+   "toNode": "n17",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e25",
+   "fromNode": "n8",
+   "toNode": "n16",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e26",
+   "fromNode": "n9",
+   "toNode": "n10",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e27",
+   "fromNode": "n9",
+   "toNode": "n26",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e28",
+   "fromNode": "n9",
+   "toNode": "n20",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e29",
+   "fromNode": "n9",
+   "toNode": "n31",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e30",
+   "fromNode": "n10",
+   "toNode": "n28",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e31",
+   "fromNode": "n10",
+   "toNode": "n31",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e32",
+   "fromNode": "n11",
+   "toNode": "n16",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e33",
+   "fromNode": "n11",
+   "toNode": "n12",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e34",
+   "fromNode": "n11",
+   "toNode": "n29",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e35",
+   "fromNode": "n12",
+   "toNode": "n17",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e36",
+   "fromNode": "n12",
+   "toNode": "n19",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e37",
+   "fromNode": "n13",
+   "toNode": "n17",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e38",
+   "fromNode": "n13",
+   "toNode": "n15",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e39",
+   "fromNode": "n13",
+   "toNode": "n21",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e40",
+   "fromNode": "n14",
+   "toNode": "n7",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e41",
+   "fromNode": "n14",
+   "toNode": "n8",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e42",
+   "fromNode": "n14",
+   "toNode": "n22",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e43",
+   "fromNode": "n15",
+   "toNode": "n21",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e44",
+   "fromNode": "n15",
+   "toNode": "n9",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e45",
+   "fromNode": "n16",
+   "toNode": "n17",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e46",
+   "fromNode": "n17",
+   "toNode": "n24",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e47",
+   "fromNode": "n17",
+   "toNode": "n9",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e48",
+   "fromNode": "n17",
+   "toNode": "n15",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e49",
+   "fromNode": "n18",
+   "toNode": "n17",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e50",
+   "fromNode": "n18",
+   "toNode": "n24",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e51",
+   "fromNode": "n19",
+   "toNode": "n23",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e52",
+   "fromNode": "n20",
+   "toNode": "n29",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e53",
+   "fromNode": "n20",
+   "toNode": "n13",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e54",
+   "fromNode": "n21",
+   "toNode": "n30",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e55",
+   "fromNode": "n28",
+   "toNode": "n9",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e56",
+   "fromNode": "n28",
+   "toNode": "n31",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e57",
+   "fromNode": "n29",
+   "toNode": "n12",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e58",
+   "fromNode": "n29",
+   "toNode": "n22",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e59",
+   "fromNode": "n30",
+   "toNode": "n29",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e60",
+   "fromNode": "n23",
+   "toNode": "n12",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e61",
+   "fromNode": "n23",
+   "toNode": "n25",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e62",
+   "fromNode": "n25",
+   "toNode": "n26",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e63",
+   "fromNode": "n25",
+   "toNode": "n13",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e64",
+   "fromNode": "n26",
+   "toNode": "n10",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e65",
+   "fromNode": "n26",
+   "toNode": "n23",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e66",
+   "fromNode": "n27",
+   "toNode": "n17",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "id": "e67",
+   "fromNode": "n27",
+   "toNode": "n4",
+   "fromSide": "right",
+   "toSide": "left"
+  }
+ ]
+}

@@ -30,6 +30,8 @@ VAULTS = {
     "vaultCharrute": ("Sistemas Mecánicos", "00 Inicio", "Sistemas Mecánicos 2026 (profe Charrute): TP1 a TP9, equipos, conceptos y guía de estudio."),
     "vaultSuzuki": ("Suzuki Swift ZC21S", "Suzuki Swift ZC21S/00 Suzuki Swift ZC21S", "Manual del Suzuki Swift 1.5XS japonés (ZC21S, 2008): uso, mantenimiento y despiece 3D."),
     "vaultClaseProfes": ("Clase para profes: IA", "00 Inicio", "Guía desde cero para que los profes usen la IA y armen un entorno de trabajo como este."),
+    "vaultMHS": ("MHS: IA y hardware", "00 Inicio", "Model Hardware Standard de Anthropic, investigado a partir de un video de IoT Lab: cada dato enlazado al segundo del video."),
+    "vaultRed": ("Cómo se armó la red", "00 Inicio", "El método detrás de todos los vaults: notas, enlaces, herramientas, conectores y trabajo con IA."),
 }
 IGNORAR_CARPETAS = {".obsidian", "herramientas", "Plantillas", "logs", ".trash"}
 IGNORAR_EXT = {".blend", ".blend1"}
@@ -572,6 +574,8 @@ def main(origen, destino):
         fh.write(
             "---\ntitle: Colegio\n---\n"
             "Las notas del colegio, publicadas desde Obsidian. Se actualizan solas cada vez que se suben cambios al repositorio.\n\n"
+            "> [!example] Toda la red en una página\n"
+            f"> **[Ver la red completa]({SITIO}/red/)**: todos los vaults en un grafo interactivo, con el método y las herramientas.\n\n"
             "## Vaults\n" + "\n".join(tarjetas) + "\n\n"
             "> [!tip] Cómo moverse\n"
             "> A la izquierda está el **explorador** de carpetas, como en Obsidian. A la derecha, el **grafo** de enlaces y los **backlinks** de cada nota. "

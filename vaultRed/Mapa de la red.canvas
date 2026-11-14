@@ -1,0 +1,566 @@
+{
+ "nodes": [
+  {
+   "id": "titulo",
+   "type": "text",
+   "x": 0,
+   "y": -260,
+   "width": 620,
+   "height": 150,
+   "color": "6",
+   "text": "# La red del colegio\nCómo se armó: **fuentes → notas → enlaces → mapas → entregas → web**.\n[Ver la página de la red](https://xaguhz.github.io/vaultColegio/red/)"
+  },
+  {
+   "id": "r0",
+   "type": "file",
+   "file": "vaultRed/00 Inicio.md",
+   "x": 680,
+   "y": -260,
+   "width": 280,
+   "height": 60,
+   "color": "6"
+  },
+  {
+   "id": "r1",
+   "type": "file",
+   "file": "vaultRed/01 Qué es la red.md",
+   "x": 984,
+   "y": -260,
+   "width": 280,
+   "height": 60,
+   "color": "6"
+  },
+  {
+   "id": "r2",
+   "type": "file",
+   "file": "vaultRed/02 El método paso a paso.md",
+   "x": 1288,
+   "y": -260,
+   "width": 280,
+   "height": 60,
+   "color": "6"
+  },
+  {
+   "id": "r3",
+   "type": "file",
+   "file": "vaultRed/03 Guion para la presentación.md",
+   "x": 680,
+   "y": -170,
+   "width": 280,
+   "height": 60,
+   "color": "6"
+  },
+  {
+   "id": "r4",
+   "type": "file",
+   "file": "vaultRed/04 Cómo empezar una red propia.md",
+   "x": 984,
+   "y": -170,
+   "width": 280,
+   "height": 60,
+   "color": "6"
+  },
+  {
+   "id": "r5",
+   "type": "file",
+   "file": "vaultRed/05 Preguntas frecuentes.md",
+   "x": 1288,
+   "y": -170,
+   "width": 280,
+   "height": 60,
+   "color": "6"
+  },
+  {
+   "id": "g0",
+   "type": "group",
+   "label": "Vaults",
+   "x": 0,
+   "y": 0,
+   "width": 328,
+   "height": 444,
+   "color": "1"
+  },
+  {
+   "id": "Vaults0",
+   "type": "file",
+   "file": "vaultRed/Vaults/Vault - AutoLID.md",
+   "x": 24,
+   "y": 24,
+   "width": 280,
+   "height": 60,
+   "color": "1"
+  },
+  {
+   "id": "Vaults1",
+   "type": "file",
+   "file": "vaultRed/Vaults/Vault - El Profe Juanito.md",
+   "x": 24,
+   "y": 108,
+   "width": 280,
+   "height": 60,
+   "color": "1"
+  },
+  {
+   "id": "Vaults2",
+   "type": "file",
+   "file": "vaultRed/Vaults/Vault - MHS.md",
+   "x": 24,
+   "y": 192,
+   "width": 280,
+   "height": 60,
+   "color": "1"
+  },
+  {
+   "id": "Vaults3",
+   "type": "file",
+   "file": "vaultRed/Vaults/Vault - Sistemas Mecánicos.md",
+   "x": 24,
+   "y": 276,
+   "width": 280,
+   "height": 60,
+   "color": "1"
+  },
+  {
+   "id": "Vaults4",
+   "type": "file",
+   "file": "vaultRed/Vaults/Vault - Torno TM300.md",
+   "x": 24,
+   "y": 360,
+   "width": 280,
+   "height": 60,
+   "color": "1"
+  },
+  {
+   "id": "g1",
+   "type": "group",
+   "label": "Método",
+   "x": 408,
+   "y": 0,
+   "width": 632,
+   "height": 528,
+   "color": "4"
+  },
+  {
+   "id": "Método0",
+   "type": "file",
+   "file": "vaultRed/Método/Canvas y diagramas.md",
+   "x": 432,
+   "y": 24,
+   "width": 280,
+   "height": 60,
+   "color": "4"
+  },
+  {
+   "id": "Método1",
+   "type": "file",
+   "file": "vaultRed/Método/Enlaces y backlinks.md",
+   "x": 736,
+   "y": 24,
+   "width": 280,
+   "height": 60,
+   "color": "4"
+  },
+  {
+   "id": "Método2",
+   "type": "file",
+   "file": "vaultRed/Método/Frontmatter y propiedades.md",
+   "x": 432,
+   "y": 108,
+   "width": 280,
+   "height": 60,
+   "color": "4"
+  },
+  {
+   "id": "Método3",
+   "type": "file",
+   "file": "vaultRed/Método/Fuentes y verificación.md",
+   "x": 736,
+   "y": 108,
+   "width": 280,
+   "height": 60,
+   "color": "4"
+  },
+  {
+   "id": "Método4",
+   "type": "file",
+   "file": "vaultRed/Método/Guías de estudio.md",
+   "x": 432,
+   "y": 192,
+   "width": 280,
+   "height": 60,
+   "color": "4"
+  },
+  {
+   "id": "Método5",
+   "type": "file",
+   "file": "vaultRed/Método/Notas atómicas.md",
+   "x": 736,
+   "y": 192,
+   "width": 280,
+   "height": 60,
+   "color": "4"
+  },
+  {
+   "id": "Método6",
+   "type": "file",
+   "file": "vaultRed/Método/Notas índice (MOC).md",
+   "x": 432,
+   "y": 276,
+   "width": 280,
+   "height": 60,
+   "color": "4"
+  },
+  {
+   "id": "Método7",
+   "type": "file",
+   "file": "vaultRed/Método/Privacidad.md",
+   "x": 736,
+   "y": 276,
+   "width": 280,
+   "height": 60,
+   "color": "4"
+  },
+  {
+   "id": "Método8",
+   "type": "file",
+   "file": "vaultRed/Método/Publicación automática.md",
+   "x": 432,
+   "y": 360,
+   "width": 280,
+   "height": 60,
+   "color": "4"
+  },
+  {
+   "id": "Método9",
+   "type": "file",
+   "file": "vaultRed/Método/Sincronización.md",
+   "x": 736,
+   "y": 360,
+   "width": 280,
+   "height": 60,
+   "color": "4"
+  },
+  {
+   "id": "Método10",
+   "type": "file",
+   "file": "vaultRed/Método/Trabajo con IA.md",
+   "x": 432,
+   "y": 444,
+   "width": 280,
+   "height": 60,
+   "color": "4"
+  },
+  {
+   "id": "Método11",
+   "type": "file",
+   "file": "vaultRed/Método/Trabajo en grupo.md",
+   "x": 736,
+   "y": 444,
+   "width": 280,
+   "height": 60,
+   "color": "4"
+  },
+  {
+   "id": "g2",
+   "type": "group",
+   "label": "Programas",
+   "x": 1120,
+   "y": 0,
+   "width": 328,
+   "height": 696,
+   "color": "5"
+  },
+  {
+   "id": "Programas0",
+   "type": "file",
+   "file": "vaultRed/Programas/Blender.md",
+   "x": 1144,
+   "y": 24,
+   "width": 280,
+   "height": 60,
+   "color": "5"
+  },
+  {
+   "id": "Programas1",
+   "type": "file",
+   "file": "vaultRed/Programas/Claude Code.md",
+   "x": 1144,
+   "y": 108,
+   "width": 280,
+   "height": 60,
+   "color": "5"
+  },
+  {
+   "id": "Programas2",
+   "type": "file",
+   "file": "vaultRed/Programas/Gemini.md",
+   "x": 1144,
+   "y": 192,
+   "width": 280,
+   "height": 60,
+   "color": "5"
+  },
+  {
+   "id": "Programas3",
+   "type": "file",
+   "file": "vaultRed/Programas/Git y GitHub.md",
+   "x": 1144,
+   "y": 276,
+   "width": 280,
+   "height": 60,
+   "color": "5"
+  },
+  {
+   "id": "Programas4",
+   "type": "file",
+   "file": "vaultRed/Programas/Obsidian.md",
+   "x": 1144,
+   "y": 360,
+   "width": 280,
+   "height": 60,
+   "color": "5"
+  },
+  {
+   "id": "Programas5",
+   "type": "file",
+   "file": "vaultRed/Programas/Plugins de Obsidian.md",
+   "x": 1144,
+   "y": 444,
+   "width": 280,
+   "height": 60,
+   "color": "5"
+  },
+  {
+   "id": "Programas6",
+   "type": "file",
+   "file": "vaultRed/Programas/Quartz y GitHub Pages.md",
+   "x": 1144,
+   "y": 528,
+   "width": 280,
+   "height": 60,
+   "color": "5"
+  },
+  {
+   "id": "Programas7",
+   "type": "file",
+   "file": "vaultRed/Programas/yt-dlp.md",
+   "x": 1144,
+   "y": 612,
+   "width": 280,
+   "height": 60,
+   "color": "5"
+  },
+  {
+   "id": "g3",
+   "type": "group",
+   "label": "Conectores",
+   "x": 1528,
+   "y": 0,
+   "width": 328,
+   "height": 444,
+   "color": "3"
+  },
+  {
+   "id": "Conectores0",
+   "type": "file",
+   "file": "vaultRed/Conectores/Artifacts de Claude.md",
+   "x": 1552,
+   "y": 24,
+   "width": 280,
+   "height": 60,
+   "color": "3"
+  },
+  {
+   "id": "Conectores1",
+   "type": "file",
+   "file": "vaultRed/Conectores/Gemini API.md",
+   "x": 1552,
+   "y": 108,
+   "width": 280,
+   "height": 60,
+   "color": "3"
+  },
+  {
+   "id": "Conectores2",
+   "type": "file",
+   "file": "vaultRed/Conectores/Google Drive.md",
+   "x": 1552,
+   "y": 192,
+   "width": 280,
+   "height": 60,
+   "color": "3"
+  },
+  {
+   "id": "Conectores3",
+   "type": "file",
+   "file": "vaultRed/Conectores/Google Slides.md",
+   "x": 1552,
+   "y": 276,
+   "width": 280,
+   "height": 60,
+   "color": "3"
+  },
+  {
+   "id": "Conectores4",
+   "type": "file",
+   "file": "vaultRed/Conectores/YouTube.md",
+   "x": 1552,
+   "y": 360,
+   "width": 280,
+   "height": 60,
+   "color": "3"
+  },
+  {
+   "id": "g4",
+   "type": "group",
+   "label": "Scripts",
+   "x": 1936,
+   "y": 0,
+   "width": 632,
+   "height": 444,
+   "color": "2"
+  },
+  {
+   "id": "Scripts0",
+   "type": "file",
+   "file": "vaultRed/Scripts/Publicidad AutoLID.md",
+   "x": 1960,
+   "y": 24,
+   "width": 280,
+   "height": 60,
+   "color": "2"
+  },
+  {
+   "id": "Scripts1",
+   "type": "file",
+   "file": "vaultRed/Scripts/descargar_transcripciones (script).md",
+   "x": 2264,
+   "y": 24,
+   "width": 280,
+   "height": 60,
+   "color": "2"
+  },
+  {
+   "id": "Scripts2",
+   "type": "file",
+   "file": "vaultRed/Scripts/gemini_img (script).md",
+   "x": 1960,
+   "y": 108,
+   "width": 280,
+   "height": 60,
+   "color": "2"
+  },
+  {
+   "id": "Scripts3",
+   "type": "file",
+   "file": "vaultRed/Scripts/generar_indice (script).md",
+   "x": 2264,
+   "y": 108,
+   "width": 280,
+   "height": 60,
+   "color": "2"
+  },
+  {
+   "id": "Scripts4",
+   "type": "file",
+   "file": "vaultRed/Scripts/html2docx (script).md",
+   "x": 1960,
+   "y": 192,
+   "width": 280,
+   "height": 60,
+   "color": "2"
+  },
+  {
+   "id": "Scripts5",
+   "type": "file",
+   "file": "vaultRed/Scripts/preparar (script).md",
+   "x": 2264,
+   "y": 192,
+   "width": 280,
+   "height": 60,
+   "color": "2"
+  },
+  {
+   "id": "Scripts6",
+   "type": "file",
+   "file": "vaultRed/Scripts/red (script).md",
+   "x": 1960,
+   "y": 276,
+   "width": 280,
+   "height": 60,
+   "color": "2"
+  },
+  {
+   "id": "Scripts7",
+   "type": "file",
+   "file": "vaultRed/Scripts/slides_gen (script).md",
+   "x": 2264,
+   "y": 276,
+   "width": 280,
+   "height": 60,
+   "color": "2"
+  },
+  {
+   "id": "Scripts8",
+   "type": "file",
+   "file": "vaultRed/Scripts/torno_tm300_3d (script).md",
+   "x": 1960,
+   "y": 360,
+   "width": 280,
+   "height": 60,
+   "color": "2"
+  },
+  {
+   "id": "Scripts9",
+   "type": "file",
+   "file": "vaultRed/Scripts/torno_tm300_docx (script).md",
+   "x": 2264,
+   "y": 360,
+   "width": 280,
+   "height": 60,
+   "color": "2"
+  }
+ ],
+ "edges": [
+  {
+   "id": "e0",
+   "fromNode": "r1",
+   "toNode": "g0",
+   "fromSide": "bottom",
+   "toSide": "top",
+   "label": "los vaults"
+  },
+  {
+   "id": "e1",
+   "fromNode": "r2",
+   "toNode": "g1",
+   "fromSide": "bottom",
+   "toSide": "top",
+   "label": "los 7 pasos"
+  },
+  {
+   "id": "e2",
+   "fromNode": "r0",
+   "toNode": "g2",
+   "fromSide": "bottom",
+   "toSide": "top",
+   "label": "con qué"
+  },
+  {
+   "id": "e3",
+   "fromNode": "r0",
+   "toNode": "g3",
+   "fromSide": "bottom",
+   "toSide": "top",
+   "label": "cómo llega la IA"
+  },
+  {
+   "id": "e4",
+   "fromNode": "r2",
+   "toNode": "g4",
+   "fromSide": "bottom",
+   "toSide": "top",
+   "label": "automatiza"
+  }
+ ]
+}

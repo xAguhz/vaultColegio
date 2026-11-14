@@ -1,0 +1,1634 @@
+{
+ "vault": "vaultMHS",
+ "tema": "Model Hardware Standard (MHS) de Anthropic",
+ "fuente": {
+  "titulo": "¿Por qué Anthropic se está metiendo en el hardware? (MHS explicado)",
+  "canal": "IoT Lab",
+  "url": "https://www.youtube.com/watch?v=3hxdHem70gw",
+  "publicado": "2026-11-01",
+  "duracion": "29:21"
+ },
+ "advertencia": "Una sola fuente (el video). Datos sin verificar contra documentación oficial.",
+ "tipos": [
+  "actor",
+  "concepto",
+  "experimento",
+  "fuente",
+  "guia",
+  "indice",
+  "investigacion",
+  "recurso",
+  "resumen",
+  "tecnologia"
+ ],
+ "notas": {
+  "00 Inicio": {
+   "archivo": "00 Inicio.md",
+   "titulo": "Model Hardware Standard (MHS): mapa del vault",
+   "tipo": "indice",
+   "aliases": [
+    "Inicio",
+    "MOC MHS"
+   ],
+   "relacionado": [],
+   "minutos": [],
+   "tags": [
+    "indice"
+   ],
+   "resumen": "Vault armado a partir de un solo video: **\"¿Por qué Anthropic se está metiendo en el hardware? (MHS explicado)\"**, del canal [[IoT Lab]] (29 min, publicado el 1/11/2026). → [Ver en YouTube](https://www.youtube.com/watch?v=3hxdHem70gw)",
+   "enlaces": [
+    "01 Resumen del video",
+    "02 Guía de estudio",
+    "03 Preguntas abiertas",
+    "API, SDK y protocolo",
+    "ActiveX y COM",
+    "Alineación de un láser con cámara",
+    "Analogías",
+    "Anthropic",
+    "Automatización de laboratorio - curva de dilución",
+    "Capas de control",
+    "Claude",
+    "Código determinista",
+    "Código pegamento",
+    "Driver MHS",
+    "Ficha del dispositivo",
+    "HHMI Janelia",
+    "Hugging Face",
+    "Interfaz digital",
+    "Interlock",
+    "Interoperabilidad",
+    "IoT Lab",
+    "Línea de tiempo",
+    "Líquidos viscosos y burbujas",
+    "Mapa MHS.canvas",
+    "Modbus",
+    "Model Context Protocol (MCP)",
+    "Model Hardware Standard (MHS)",
+    "Model agnostic",
+    "OPC UA",
+    "Operaciones read y write",
+    "Orquestación",
+    "PLC",
+    "QuEra - recuperación del clock del láser",
+    "QuEra Computing",
+    "Raspberry Pi",
+    "Razonamiento físico",
+    "Transcripción - MHS explicado (IoT Lab)",
+    "USB",
+    "Universal Robots"
+   ],
+   "enlazado_desde": [
+    "Transcripción - MHS explicado (IoT Lab)"
+   ]
+  },
+  "01 Resumen del video": {
+   "archivo": "01 Resumen del video.md",
+   "titulo": "Resumen del video",
+   "tipo": "resumen",
+   "aliases": [],
+   "relacionado": [
+    "Model Hardware Standard (MHS)",
+    "Capas de control"
+   ],
+   "minutos": [],
+   "tags": [
+    "resumen"
+   ],
+   "resumen": "**Tesis:** antes de pensar en robots autónomos, hay que resolver algo menos llamativo: *¿cómo le explicamos a una IA qué es una máquina, qué puede hacer y qué límites tiene?* Eso es lo que busca [[Model Hardware Standard (MHS)]].",
+   "enlaces": [
+    "API, SDK y protocolo",
+    "Adopción del estándar",
+    "Alineación de un láser con cámara",
+    "Anthropic",
+    "Automatización de laboratorio - curva de dilución",
+    "Capas de control",
+    "Código determinista",
+    "Código pegamento",
+    "Driver MHS",
+    "Ficha del dispositivo",
+    "HHMI Janelia",
+    "Hugging Face",
+    "Interfaz digital",
+    "Interlock",
+    "Interoperabilidad",
+    "Líquidos viscosos y burbujas",
+    "Modbus",
+    "Model Context Protocol (MCP)",
+    "Model Hardware Standard (MHS)",
+    "Model agnostic",
+    "Operaciones read y write",
+    "Orquestación",
+    "PLC",
+    "QuEra - recuperación del clock del láser",
+    "Raspberry Pi",
+    "Razonamiento físico",
+    "Transcripción - MHS explicado (IoT Lab)",
+    "USB",
+    "Universal Robots"
+   ],
+   "enlazado_desde": [
+    "00 Inicio",
+    "Transcripción - MHS explicado (IoT Lab)"
+   ]
+  },
+  "02 Guía de estudio": {
+   "archivo": "02 Guía de estudio.md",
+   "titulo": "Guía de estudio",
+   "tipo": "guia",
+   "aliases": [],
+   "relacionado": [],
+   "minutos": [],
+   "tags": [
+    "guia",
+    "repaso"
+   ],
+   "resumen": "Preguntas para repasar. La respuesta está en la nota enlazada.",
+   "enlaces": [
+    "API, SDK y protocolo",
+    "Adopción del estándar",
+    "Automatización de laboratorio - curva de dilución",
+    "Capas de control",
+    "Código pegamento",
+    "Driver MHS",
+    "Ficha del dispositivo",
+    "Interfaz digital",
+    "Interlock",
+    "Líquidos viscosos y burbujas",
+    "Model Context Protocol (MCP)",
+    "Model Hardware Standard (MHS)",
+    "QuEra - recuperación del clock del láser",
+    "Transcripción - MHS explicado (IoT Lab)"
+   ],
+   "enlazado_desde": [
+    "00 Inicio"
+   ]
+  },
+  "03 Preguntas abiertas": {
+   "archivo": "03 Preguntas abiertas.md",
+   "titulo": "Preguntas abiertas",
+   "tipo": "investigacion",
+   "aliases": [],
+   "relacionado": [],
+   "minutos": [],
+   "tags": [
+    "investigacion",
+    "pendiente"
+   ],
+   "resumen": "Lo que el video **no** responde o no se pudo verificar. Para seguir investigando por tu cuenta.",
+   "enlaces": [
+    "Anthropic",
+    "Automatización de laboratorio - curva de dilución",
+    "Driver MHS",
+    "Ficha del dispositivo",
+    "Hugging Face",
+    "Interlock",
+    "OPC UA",
+    "Operaciones read y write",
+    "PLC",
+    "QuEra - recuperación del clock del láser",
+    "Raspberry Pi",
+    "Razonamiento físico",
+    "Universal Robots"
+   ],
+   "enlazado_desde": [
+    "00 Inicio",
+    "Ficha del dispositivo",
+    "Hugging Face",
+    "Interlock",
+    "OPC UA",
+    "Operaciones read y write",
+    "Razonamiento físico"
+   ]
+  },
+  "Anthropic": {
+   "archivo": "Actores/Anthropic.md",
+   "titulo": "Anthropic",
+   "tipo": "actor",
+   "aliases": [],
+   "relacionado": [
+    "Model Hardware Standard (MHS)",
+    "Model Context Protocol (MCP)",
+    "Claude",
+    "HHMI Janelia"
+   ],
+   "minutos": [
+    "00:00",
+    "01:21",
+    "09:23"
+   ],
+   "tags": [
+    "actor",
+    "empresa"
+   ],
+   "resumen": "Empresa de IA, creadora de [[Claude]]. En este vault:",
+   "enlaces": [
+    "Claude",
+    "HHMI Janelia",
+    "Model Context Protocol (MCP)",
+    "Model Hardware Standard (MHS)",
+    "Model agnostic",
+    "Razonamiento físico",
+    "Transcripción - MHS explicado (IoT Lab)"
+   ],
+   "enlazado_desde": [
+    "00 Inicio",
+    "01 Resumen del video",
+    "03 Preguntas abiertas",
+    "Claude",
+    "HHMI Janelia",
+    "Interfaz digital",
+    "Línea de tiempo",
+    "Líquidos viscosos y burbujas",
+    "Model Context Protocol (MCP)",
+    "Model Hardware Standard (MHS)",
+    "Model agnostic",
+    "Razonamiento físico"
+   ]
+  },
+  "Claude": {
+   "archivo": "Actores/Claude.md",
+   "titulo": "Claude",
+   "tipo": "actor",
+   "aliases": [],
+   "relacionado": [
+    "Anthropic",
+    "Model agnostic",
+    "Alineación de un láser con cámara",
+    "QuEra - recuperación del clock del láser",
+    "Líquidos viscosos y burbujas"
+   ],
+   "minutos": [],
+   "tags": [
+    "actor",
+    "ia"
+   ],
+   "resumen": "Modelo de IA de [[Anthropic]]. Es el agente de los experimentos que cuenta el video:",
+   "enlaces": [
+    "Alineación de un láser con cámara",
+    "Anthropic",
+    "Líquidos viscosos y burbujas",
+    "Model agnostic",
+    "QuEra - recuperación del clock del láser",
+    "Transcripción - MHS explicado (IoT Lab)"
+   ],
+   "enlazado_desde": [
+    "00 Inicio",
+    "Alineación de un láser con cámara",
+    "Anthropic",
+    "Líquidos viscosos y burbujas",
+    "Model Hardware Standard (MHS)",
+    "Model agnostic",
+    "QuEra - recuperación del clock del láser"
+   ]
+  },
+  "HHMI Janelia": {
+   "archivo": "Actores/HHMI Janelia.md",
+   "titulo": "HHMI Janelia",
+   "tipo": "actor",
+   "aliases": [
+    "Janelia",
+    "HHMI Janelia Research Campus"
+   ],
+   "relacionado": [
+    "Anthropic",
+    "Model Hardware Standard (MHS)"
+   ],
+   "minutos": [
+    "01:21"
+   ],
+   "tags": [
+    "actor",
+    "investigacion"
+   ],
+   "resumen": "Campus de investigación con el que [[Anthropic]] desarrolló MHS: \"el proyecto nació como una colaboración\" entre los dos.",
+   "enlaces": [
+    "Anthropic",
+    "Model Hardware Standard (MHS)",
+    "Transcripción - MHS explicado (IoT Lab)"
+   ],
+   "enlazado_desde": [
+    "00 Inicio",
+    "01 Resumen del video",
+    "Anthropic",
+    "Línea de tiempo",
+    "Model Hardware Standard (MHS)"
+   ]
+  },
+  "Hugging Face": {
+   "archivo": "Actores/Hugging Face.md",
+   "titulo": "Hugging Face",
+   "tipo": "actor",
+   "aliases": [],
+   "relacionado": [
+    "Adopción del estándar",
+    "Model agnostic"
+   ],
+   "minutos": [
+    "22:43"
+   ],
+   "tags": [
+    "actor",
+    "empresa",
+    "robotica"
+   ],
+   "resumen": "Está trabajando para **agregar soporte de MHS** en su ecosistema de robótica.",
+   "enlaces": [
+    "03 Preguntas abiertas",
+    "Adopción del estándar",
+    "Model agnostic",
+    "Transcripción - MHS explicado (IoT Lab)"
+   ],
+   "enlazado_desde": [
+    "00 Inicio",
+    "01 Resumen del video",
+    "03 Preguntas abiertas",
+    "Adopción del estándar",
+    "Línea de tiempo"
+   ]
+  },
+  "IoT Lab": {
+   "archivo": "Actores/IoT Lab.md",
+   "titulo": "IoT Lab",
+   "tipo": "actor",
+   "aliases": [],
+   "relacionado": [
+    "Transcripción - MHS explicado (IoT Lab)",
+    "Interoperabilidad"
+   ],
+   "minutos": [],
+   "tags": [
+    "actor",
+    "fuente"
+   ],
+   "resumen": "Canal de YouTube en español (de España, por el \"vosotros\") sobre **IoT**. Autor del video fuente de este vault.",
+   "enlaces": [
+    "Interoperabilidad",
+    "Transcripción - MHS explicado (IoT Lab)"
+   ],
+   "enlazado_desde": [
+    "00 Inicio",
+    "Línea de tiempo"
+   ]
+  },
+  "QuEra Computing": {
+   "archivo": "Actores/QuEra Computing.md",
+   "titulo": "QuEra Computing",
+   "tipo": "actor",
+   "aliases": [
+    "QuEra"
+   ],
+   "relacionado": [
+    "QuEra - recuperación del clock del láser"
+   ],
+   "minutos": [
+    "14:48"
+   ],
+   "tags": [
+    "actor",
+    "empresa",
+    "cuantica"
+   ],
+   "resumen": "Empresa que hace **computadoras cuánticas con átomos neutros**. Hizo el experimento de recuperación del clock del láser con Claude y MHS. → [[QuEra - recuperación del clock del láser]]",
+   "enlaces": [
+    "QuEra - recuperación del clock del láser",
+    "Transcripción - MHS explicado (IoT Lab)"
+   ],
+   "enlazado_desde": [
+    "00 Inicio",
+    "Línea de tiempo",
+    "QuEra - recuperación del clock del láser"
+   ]
+  },
+  "Raspberry Pi": {
+   "archivo": "Actores/Raspberry Pi.md",
+   "titulo": "Raspberry Pi",
+   "tipo": "actor",
+   "aliases": [],
+   "relacionado": [
+    "Adopción del estándar",
+    "Driver MHS"
+   ],
+   "minutos": [
+    "02:08",
+    "23:31"
+   ],
+   "tags": [
+    "actor",
+    "empresa",
+    "iot"
+   ],
+   "resumen": "",
+   "enlaces": [
+    "Adopción del estándar",
+    "Driver MHS",
+    "Orquestación",
+    "Transcripción - MHS explicado (IoT Lab)"
+   ],
+   "enlazado_desde": [
+    "00 Inicio",
+    "01 Resumen del video",
+    "03 Preguntas abiertas",
+    "Adopción del estándar",
+    "Línea de tiempo",
+    "Model Hardware Standard (MHS)"
+   ]
+  },
+  "Universal Robots": {
+   "archivo": "Actores/Universal Robots.md",
+   "titulo": "Universal Robots",
+   "tipo": "actor",
+   "aliases": [],
+   "relacionado": [
+    "Adopción del estándar"
+   ],
+   "minutos": [
+    "02:08"
+   ],
+   "tags": [
+    "actor",
+    "empresa",
+    "robotica"
+   ],
+   "resumen": "Mencionada entre las compañías que **ya empiezan a trabajar** con MHS.",
+   "enlaces": [
+    "Adopción del estándar",
+    "Transcripción - MHS explicado (IoT Lab)"
+   ],
+   "enlazado_desde": [
+    "00 Inicio",
+    "01 Resumen del video",
+    "03 Preguntas abiertas",
+    "Adopción del estándar",
+    "Model Hardware Standard (MHS)"
+   ]
+  },
+  "Analogías": {
+   "archivo": "Analogías.md",
+   "titulo": "Analogías del video",
+   "tipo": "recurso",
+   "aliases": [],
+   "relacionado": [],
+   "minutos": [],
+   "tags": [
+    "analogias",
+    "recurso"
+   ],
+   "resumen": "Todas las comparaciones que usa el autor, en orden. Sirven para explicarle MHS a alguien más.",
+   "enlaces": [
+    "Adopción del estándar",
+    "Alineación de un láser con cámara",
+    "Automatización de laboratorio - curva de dilución",
+    "Capas de control",
+    "Driver MHS",
+    "Ficha del dispositivo",
+    "Interlock",
+    "Interoperabilidad",
+    "Líquidos viscosos y burbujas",
+    "Model Hardware Standard (MHS)",
+    "QuEra - recuperación del clock del láser",
+    "Razonamiento físico",
+    "Transcripción - MHS explicado (IoT Lab)",
+    "USB"
+   ],
+   "enlazado_desde": [
+    "00 Inicio",
+    "Capas de control",
+    "Driver MHS",
+    "Model Hardware Standard (MHS)",
+    "USB"
+   ]
+  },
+  "API, SDK y protocolo": {
+   "archivo": "Conceptos/API, SDK y protocolo.md",
+   "titulo": "API, SDK y protocolo",
+   "tipo": "concepto",
+   "aliases": [
+    "API",
+    "SDK",
+    "protocolo",
+    "APIs"
+   ],
+   "relacionado": [
+    "Driver MHS",
+    "Interoperabilidad",
+    "Modbus",
+    "ActiveX y COM"
+   ],
+   "minutos": [
+    "02:55",
+    "03:43"
+   ],
+   "tags": [
+    "concepto",
+    "basico"
+   ],
+   "resumen": "Las formas que existen hoy para controlar un equipo desde otro programa. Las definiciones son las del video:",
+   "enlaces": [
+    "ActiveX y COM",
+    "Código pegamento",
+    "Driver MHS",
+    "Interfaz digital",
+    "Interoperabilidad",
+    "Modbus",
+    "OPC UA",
+    "Transcripción - MHS explicado (IoT Lab)"
+   ],
+   "enlazado_desde": [
+    "00 Inicio",
+    "01 Resumen del video",
+    "02 Guía de estudio",
+    "ActiveX y COM",
+    "Driver MHS",
+    "Interfaz digital",
+    "Interoperabilidad",
+    "Modbus"
+   ]
+  },
+  "Adopción del estándar": {
+   "archivo": "Conceptos/Adopción del estándar.md",
+   "titulo": "Adopción del estándar",
+   "tipo": "concepto",
+   "aliases": [
+    "¿será estándar?"
+   ],
+   "relacionado": [
+    "USB",
+    "Model Hardware Standard (MHS)",
+    "Interoperabilidad"
+   ],
+   "minutos": [
+    "25:46",
+    "26:34",
+    "27:21",
+    "28:40"
+   ],
+   "tags": [
+    "concepto",
+    "incognita"
+   ],
+   "resumen": "**La gran incógnita:** ¿MHS va a llegar a ser realmente un estándar? \"Esto realmente no lo sabemos.\"",
+   "enlaces": [
+    "Hugging Face",
+    "Interoperabilidad",
+    "Model Context Protocol (MCP)",
+    "Model Hardware Standard (MHS)",
+    "Raspberry Pi",
+    "Transcripción - MHS explicado (IoT Lab)",
+    "USB",
+    "Universal Robots"
+   ],
+   "enlazado_desde": [
+    "01 Resumen del video",
+    "02 Guía de estudio",
+    "Analogías",
+    "Hugging Face",
+    "Interfaz digital",
+    "Interoperabilidad",
+    "Línea de tiempo",
+    "Raspberry Pi",
+    "USB",
+    "Universal Robots"
+   ]
+  },
+  "Capas de control": {
+   "archivo": "Conceptos/Capas de control.md",
+   "titulo": "Capas de control",
+   "tipo": "concepto",
+   "aliases": [
+    "capa superior",
+    "arquitectura en capas",
+    "dónde va la IA"
+   ],
+   "relacionado": [
+    "Código determinista",
+    "PLC",
+    "Orquestación",
+    "QuEra - recuperación del clock del láser"
+   ],
+   "minutos": [
+    "14:14",
+    "16:52",
+    "17:40",
+    "24:58"
+   ],
+   "tags": [
+    "concepto",
+    "central"
+   ],
+   "resumen": "La idea más importante del video para entender **dónde se ubica la IA**.",
+   "enlaces": [
+    "Analogías",
+    "Código determinista",
+    "Orquestación",
+    "PLC",
+    "QuEra - recuperación del clock del láser",
+    "Transcripción - MHS explicado (IoT Lab)"
+   ],
+   "enlazado_desde": [
+    "00 Inicio",
+    "01 Resumen del video",
+    "02 Guía de estudio",
+    "Alineación de un láser con cámara",
+    "Analogías",
+    "Código determinista",
+    "Interlock",
+    "Model Hardware Standard (MHS)",
+    "Orquestación",
+    "PLC",
+    "QuEra - recuperación del clock del láser"
+   ]
+  },
+  "Código determinista": {
+   "archivo": "Conceptos/Código determinista.md",
+   "titulo": "Código determinista",
+   "tipo": "concepto",
+   "aliases": [
+    "script determinista",
+    "código tradicional"
+   ],
+   "relacionado": [
+    "Capas de control",
+    "Alineación de un láser con cámara",
+    "QuEra - recuperación del clock del láser"
+   ],
+   "minutos": [
+    "13:25",
+    "14:14",
+    "14:48",
+    "16:11"
+   ],
+   "tags": [
+    "concepto"
+   ],
+   "resumen": "Código que **siempre sigue las mismas reglas**:",
+   "enlaces": [
+    "Alineación de un láser con cámara",
+    "Capas de control",
+    "QuEra - recuperación del clock del láser",
+    "Transcripción - MHS explicado (IoT Lab)"
+   ],
+   "enlazado_desde": [
+    "00 Inicio",
+    "01 Resumen del video",
+    "Alineación de un láser con cámara",
+    "Capas de control",
+    "PLC",
+    "QuEra - recuperación del clock del láser"
+   ]
+  },
+  "Código pegamento": {
+   "archivo": "Conceptos/Código pegamento.md",
+   "titulo": "Código pegamento",
+   "tipo": "concepto",
+   "aliases": [
+    "glue code"
+   ],
+   "relacionado": [
+    "Interoperabilidad",
+    "Driver MHS",
+    "Automatización de laboratorio - curva de dilución"
+   ],
+   "minutos": [
+    "12:06",
+    "12:53"
+   ],
+   "tags": [
+    "concepto"
+   ],
+   "resumen": "*Glue code*: pequeñas piezas de software que sirven para **pegar unos sistemas con otros**.",
+   "enlaces": [
+    "Automatización de laboratorio - curva de dilución",
+    "Driver MHS",
+    "Interoperabilidad",
+    "Transcripción - MHS explicado (IoT Lab)"
+   ],
+   "enlazado_desde": [
+    "00 Inicio",
+    "01 Resumen del video",
+    "02 Guía de estudio",
+    "API, SDK y protocolo",
+    "Automatización de laboratorio - curva de dilución",
+    "Driver MHS",
+    "Interoperabilidad"
+   ]
+  },
+  "Driver MHS": {
+   "archivo": "Conceptos/Driver MHS.md",
+   "titulo": "Driver MHS",
+   "tipo": "concepto",
+   "aliases": [
+    "driver",
+    "drivers MHS"
+   ],
+   "relacionado": [
+    "Model Hardware Standard (MHS)",
+    "API, SDK y protocolo",
+    "Operaciones read y write",
+    "Código pegamento"
+   ],
+   "minutos": [
+    "05:02",
+    "05:50",
+    "06:37",
+    "11:31"
+   ],
+   "tags": [
+    "concepto"
+   ],
+   "resumen": "Pieza de software que se pone **entre la máquina y la IA** y hace de **traductor**.",
+   "enlaces": [
+    "API, SDK y protocolo",
+    "Analogías",
+    "Automatización de laboratorio - curva de dilución",
+    "Código pegamento",
+    "Modbus",
+    "Model Hardware Standard (MHS)",
+    "Operaciones read y write",
+    "Orquestación",
+    "Transcripción - MHS explicado (IoT Lab)"
+   ],
+   "enlazado_desde": [
+    "00 Inicio",
+    "01 Resumen del video",
+    "02 Guía de estudio",
+    "03 Preguntas abiertas",
+    "API, SDK y protocolo",
+    "Analogías",
+    "Automatización de laboratorio - curva de dilución",
+    "Código pegamento",
+    "Modbus",
+    "Model Context Protocol (MCP)",
+    "Model Hardware Standard (MHS)",
+    "Operaciones read y write",
+    "Orquestación",
+    "Raspberry Pi"
+   ]
+  },
+  "Ficha del dispositivo": {
+   "archivo": "Conceptos/Ficha del dispositivo.md",
+   "titulo": "Ficha del dispositivo",
+   "tipo": "concepto",
+   "aliases": [
+    "ficha de la máquina",
+    "descripción del dispositivo",
+    "mapa de capacidades"
+   ],
+   "relacionado": [
+    "Model Hardware Standard (MHS)",
+    "Interlock",
+    "Razonamiento físico"
+   ],
+   "minutos": [
+    "07:24",
+    "08:02",
+    "08:49",
+    "24:11"
+   ],
+   "tags": [
+    "concepto"
+   ],
+   "resumen": "Descripción que genera MHS de cada máquina, pensada para que un sistema entienda:",
+   "enlaces": [
+    "03 Preguntas abiertas",
+    "Interlock",
+    "Model Hardware Standard (MHS)",
+    "Razonamiento físico",
+    "Transcripción - MHS explicado (IoT Lab)"
+   ],
+   "enlazado_desde": [
+    "00 Inicio",
+    "01 Resumen del video",
+    "02 Guía de estudio",
+    "03 Preguntas abiertas",
+    "Analogías",
+    "Interlock",
+    "Modbus",
+    "Model Hardware Standard (MHS)",
+    "OPC UA",
+    "Orquestación",
+    "Razonamiento físico"
+   ]
+  },
+  "Interfaz digital": {
+   "archivo": "Conceptos/Interfaz digital.md",
+   "titulo": "Interfaz digital",
+   "tipo": "concepto",
+   "aliases": [
+    "puerta digital",
+    "máquinas sin interfaz",
+    "equipos legacy"
+   ],
+   "relacionado": [
+    "API, SDK y protocolo",
+    "Adopción del estándar",
+    "ActiveX y COM"
+   ],
+   "minutos": [
+    "21:23",
+    "21:55"
+   ],
+   "tags": [
+    "concepto",
+    "limitacion"
+   ],
+   "resumen": "Tiene botones, palancas, motores y relés, pero no tiene computadora, ni red, ni software, ni ninguna interfaz digital. **MHS no puede aparecer mágicamente y controlarla.**",
+   "enlaces": [
+    "API, SDK y protocolo",
+    "ActiveX y COM",
+    "Adopción del estándar",
+    "Anthropic",
+    "Modbus",
+    "OPC UA",
+    "PLC",
+    "Transcripción - MHS explicado (IoT Lab)"
+   ],
+   "enlazado_desde": [
+    "00 Inicio",
+    "01 Resumen del video",
+    "02 Guía de estudio",
+    "API, SDK y protocolo",
+    "ActiveX y COM"
+   ]
+  },
+  "Interlock": {
+   "archivo": "Conceptos/Interlock.md",
+   "titulo": "Interlock",
+   "tipo": "concepto",
+   "aliases": [
+    "interlocks",
+    "enclavamiento",
+    "límites de seguridad"
+   ],
+   "relacionado": [
+    "Ficha del dispositivo",
+    "Razonamiento físico",
+    "Capas de control"
+   ],
+   "minutos": [
+    "17:40",
+    "18:27"
+   ],
+   "tags": [
+    "concepto",
+    "seguridad"
+   ],
+   "resumen": "**Definición del video:** básicamente una protección: una regla que, físicamente o desde el sistema, **impide ciertas operaciones**.",
+   "enlaces": [
+    "03 Preguntas abiertas",
+    "Capas de control",
+    "Ficha del dispositivo",
+    "Razonamiento físico",
+    "Transcripción - MHS explicado (IoT Lab)"
+   ],
+   "enlazado_desde": [
+    "00 Inicio",
+    "01 Resumen del video",
+    "02 Guía de estudio",
+    "03 Preguntas abiertas",
+    "Analogías",
+    "Ficha del dispositivo",
+    "Model Hardware Standard (MHS)",
+    "Razonamiento físico"
+   ]
+  },
+  "Interoperabilidad": {
+   "archivo": "Conceptos/Interoperabilidad.md",
+   "titulo": "Interoperabilidad",
+   "tipo": "concepto",
+   "aliases": [
+    "las máquinas no hablan el mismo idioma",
+    "problema de integración"
+   ],
+   "relacionado": [
+    "API, SDK y protocolo",
+    "Código pegamento",
+    "Model Hardware Standard (MHS)",
+    "Adopción del estándar"
+   ],
+   "minutos": [
+    "02:08",
+    "02:55",
+    "04:17",
+    "21:55",
+    "22:43"
+   ],
+   "tags": [
+    "concepto",
+    "problema"
+   ],
+   "resumen": "**El problema de fondo:** \"las máquinas no hablan todas el mismo idioma\", y eso existe desde mucho antes de la IA.",
+   "enlaces": [
+    "API, SDK y protocolo",
+    "Adopción del estándar",
+    "Código pegamento",
+    "Model Hardware Standard (MHS)",
+    "PLC",
+    "Transcripción - MHS explicado (IoT Lab)"
+   ],
+   "enlazado_desde": [
+    "00 Inicio",
+    "01 Resumen del video",
+    "API, SDK y protocolo",
+    "Adopción del estándar",
+    "Analogías",
+    "Código pegamento",
+    "IoT Lab"
+   ]
+  },
+  "Model Hardware Standard (MHS)": {
+   "archivo": "Conceptos/Model Hardware Standard (MHS).md",
+   "titulo": "Model Hardware Standard (MHS)",
+   "tipo": "concepto",
+   "aliases": [
+    "MHS",
+    "Model Hardware Standard"
+   ],
+   "relacionado": [
+    "Driver MHS",
+    "Ficha del dispositivo",
+    "Model Context Protocol (MCP)",
+    "Capas de control",
+    "Interlock"
+   ],
+   "minutos": [
+    "00:00",
+    "01:21",
+    "05:02",
+    "27:52"
+   ],
+   "tags": [
+    "concepto",
+    "central"
+   ],
+   "resumen": "**Definición:** estándar de [[Anthropic]] para que una IA pueda **descubrir qué es una máquina, qué puede hacer con ella y cómo interactuar**, sin aprender un sistema distinto con cada equipo.",
+   "enlaces": [
+    "Analogías",
+    "Anthropic",
+    "Capas de control",
+    "Claude",
+    "Driver MHS",
+    "Ficha del dispositivo",
+    "HHMI Janelia",
+    "Interlock",
+    "Modbus",
+    "Model Context Protocol (MCP)",
+    "Model agnostic",
+    "OPC UA",
+    "Operaciones read y write",
+    "PLC",
+    "Raspberry Pi",
+    "Transcripción - MHS explicado (IoT Lab)",
+    "Universal Robots"
+   ],
+   "enlazado_desde": [
+    "00 Inicio",
+    "01 Resumen del video",
+    "02 Guía de estudio",
+    "Adopción del estándar",
+    "Analogías",
+    "Anthropic",
+    "Driver MHS",
+    "Ficha del dispositivo",
+    "HHMI Janelia",
+    "Interoperabilidad",
+    "Model Context Protocol (MCP)",
+    "Model agnostic",
+    "USB"
+   ]
+  },
+  "Model agnostic": {
+   "archivo": "Conceptos/Model agnostic.md",
+   "titulo": "Model agnostic",
+   "tipo": "concepto",
+   "aliases": [
+    "agnóstico al modelo",
+    "model-agnostic"
+   ],
+   "relacionado": [
+    "Model Hardware Standard (MHS)",
+    "Model Context Protocol (MCP)",
+    "Claude"
+   ],
+   "minutos": [
+    "09:23"
+   ],
+   "tags": [
+    "concepto"
+   ],
+   "resumen": "Aunque [[Anthropic]] está detrás, MHS se plantea como **independiente del modelo**: la idea no es que solo [[Claude]] pueda trabajar con estas máquinas, y otros modelos podrían hacerlo también.",
+   "enlaces": [
+    "Anthropic",
+    "Claude",
+    "Model Context Protocol (MCP)",
+    "Model Hardware Standard (MHS)",
+    "Transcripción - MHS explicado (IoT Lab)"
+   ],
+   "enlazado_desde": [
+    "00 Inicio",
+    "01 Resumen del video",
+    "Anthropic",
+    "Claude",
+    "Hugging Face",
+    "Model Context Protocol (MCP)",
+    "Model Hardware Standard (MHS)"
+   ]
+  },
+  "Operaciones read y write": {
+   "archivo": "Conceptos/Operaciones read y write.md",
+   "titulo": "Operaciones read y write",
+   "tipo": "concepto",
+   "aliases": [
+    "read",
+    "write",
+    "leer y escribir"
+   ],
+   "relacionado": [
+    "Driver MHS",
+    "Modbus"
+   ],
+   "minutos": [
+    "05:50"
+   ],
+   "tags": [
+    "concepto"
+   ],
+   "resumen": "Según el video, Anthropic habla de operaciones muy básicas:",
+   "enlaces": [
+    "03 Preguntas abiertas",
+    "Driver MHS",
+    "Modbus",
+    "PLC",
+    "Transcripción - MHS explicado (IoT Lab)"
+   ],
+   "enlazado_desde": [
+    "00 Inicio",
+    "01 Resumen del video",
+    "03 Preguntas abiertas",
+    "Driver MHS",
+    "Modbus",
+    "Model Hardware Standard (MHS)"
+   ]
+  },
+  "Orquestación": {
+   "archivo": "Conceptos/Orquestación.md",
+   "titulo": "Orquestación",
+   "tipo": "concepto",
+   "aliases": [
+    "orquestar",
+    "capa de orquestación",
+    "coordinación"
+   ],
+   "relacionado": [
+    "Capas de control",
+    "Automatización de laboratorio - curva de dilución",
+    "Ficha del dispositivo"
+   ],
+   "minutos": [
+    "11:31",
+    "24:11"
+   ],
+   "tags": [
+    "concepto"
+   ],
+   "resumen": "**Orquestar = coordinar las acciones.**",
+   "enlaces": [
+    "Automatización de laboratorio - curva de dilución",
+    "Capas de control",
+    "Driver MHS",
+    "Ficha del dispositivo",
+    "Transcripción - MHS explicado (IoT Lab)"
+   ],
+   "enlazado_desde": [
+    "00 Inicio",
+    "01 Resumen del video",
+    "Automatización de laboratorio - curva de dilución",
+    "Capas de control",
+    "Driver MHS",
+    "Raspberry Pi"
+   ]
+  },
+  "Razonamiento físico": {
+   "archivo": "Conceptos/Razonamiento físico.md",
+   "titulo": "Razonamiento físico",
+   "tipo": "concepto",
+   "aliases": [
+    "conocimiento físico",
+    "intuición física",
+    "limitación física"
+   ],
+   "relacionado": [
+    "Líquidos viscosos y burbujas",
+    "Interlock",
+    "Ficha del dispositivo"
+   ],
+   "minutos": [
+    "19:02",
+    "19:48",
+    "20:36"
+   ],
+   "tags": [
+    "concepto",
+    "limitacion"
+   ],
+   "resumen": "Una cosa es **saber en teoría** que un líquido puede hacer burbujas, y otra es **haber pipeteado miles de muestras** y tener intuición de cómo se comporta.",
+   "enlaces": [
+    "03 Preguntas abiertas",
+    "Anthropic",
+    "Ficha del dispositivo",
+    "Interlock",
+    "Líquidos viscosos y burbujas",
+    "Transcripción - MHS explicado (IoT Lab)"
+   ],
+   "enlazado_desde": [
+    "00 Inicio",
+    "01 Resumen del video",
+    "03 Preguntas abiertas",
+    "Analogías",
+    "Anthropic",
+    "Ficha del dispositivo",
+    "Interlock",
+    "Líquidos viscosos y burbujas"
+   ]
+  },
+  "Alineación de un láser con cámara": {
+   "archivo": "Experimentos/Alineación de un láser con cámara.md",
+   "titulo": "Alineación de un láser con cámara",
+   "tipo": "experimento",
+   "aliases": [
+    "sistema óptico",
+    "alineación óptica"
+   ],
+   "relacionado": [
+    "Código determinista",
+    "Capas de control",
+    "QuEra - recuperación del clock del láser"
+   ],
+   "minutos": [
+    "12:53",
+    "13:25"
+   ],
+   "tags": [
+    "experimento"
+   ],
+   "resumen": "Pusieron a [[Claude]] a trabajar con un **sistema óptico**:",
+   "enlaces": [
+    "Capas de control",
+    "Claude",
+    "Código determinista",
+    "QuEra - recuperación del clock del láser",
+    "Transcripción - MHS explicado (IoT Lab)"
+   ],
+   "enlazado_desde": [
+    "00 Inicio",
+    "01 Resumen del video",
+    "Analogías",
+    "Claude",
+    "Código determinista"
+   ]
+  },
+  "Automatización de laboratorio - curva de dilución": {
+   "archivo": "Experimentos/Automatización de laboratorio - curva de dilución.md",
+   "titulo": "Automatización de laboratorio: curva de dilución",
+   "tipo": "experimento",
+   "aliases": [
+    "curva de dilución",
+    "experimento del laboratorio",
+    "8 horas"
+   ],
+   "relacionado": [
+    "Driver MHS",
+    "Orquestación",
+    "ActiveX y COM",
+    "Código pegamento"
+   ],
+   "minutos": [
+    "10:10",
+    "10:43",
+    "11:31",
+    "12:06"
+   ],
+   "tags": [
+    "experimento"
+   ],
+   "resumen": "Automatizar un experimento de laboratorio coordinando:",
+   "enlaces": [
+    "ActiveX y COM",
+    "Código pegamento",
+    "Driver MHS",
+    "Orquestación",
+    "Transcripción - MHS explicado (IoT Lab)"
+   ],
+   "enlazado_desde": [
+    "00 Inicio",
+    "01 Resumen del video",
+    "02 Guía de estudio",
+    "03 Preguntas abiertas",
+    "ActiveX y COM",
+    "Analogías",
+    "Código pegamento",
+    "Driver MHS",
+    "Líquidos viscosos y burbujas",
+    "Orquestación"
+   ]
+  },
+  "Líquidos viscosos y burbujas": {
+   "archivo": "Experimentos/Líquidos viscosos y burbujas.md",
+   "titulo": "Líquidos viscosos y burbujas",
+   "tipo": "experimento",
+   "aliases": [
+    "burbujas",
+    "muestras viscosas",
+    "pipeteo"
+   ],
+   "relacionado": [
+    "Razonamiento físico",
+    "Automatización de laboratorio - curva de dilución"
+   ],
+   "minutos": [
+    "19:02",
+    "19:48"
+   ],
+   "tags": [
+    "experimento",
+    "limitacion"
+   ],
+   "resumen": "El experimento que muestra el **límite**.",
+   "enlaces": [
+    "Anthropic",
+    "Automatización de laboratorio - curva de dilución",
+    "Claude",
+    "Razonamiento físico",
+    "Transcripción - MHS explicado (IoT Lab)"
+   ],
+   "enlazado_desde": [
+    "00 Inicio",
+    "01 Resumen del video",
+    "02 Guía de estudio",
+    "Analogías",
+    "Claude",
+    "Razonamiento físico"
+   ]
+  },
+  "QuEra - recuperación del clock del láser": {
+   "archivo": "Experimentos/QuEra - recuperación del clock del láser.md",
+   "titulo": "QuEra: recuperación del clock del láser",
+   "tipo": "experimento",
+   "aliases": [
+    "99,3 %"
+   ],
+   "relacionado": [
+    "QuEra Computing",
+    "Código determinista",
+    "Capas de control"
+   ],
+   "minutos": [
+    "14:48",
+    "15:24",
+    "16:11",
+    "16:52"
+   ],
+   "tags": [
+    "experimento",
+    "central"
+   ],
+   "resumen": "[[QuEra Computing]] hace computadoras cuánticas con **átomos neutros**. Usa láseres cuya **frecuencia tiene que mantenerse extremadamente estable**.",
+   "enlaces": [
+    "Capas de control",
+    "Claude",
+    "Código determinista",
+    "QuEra Computing",
+    "Transcripción - MHS explicado (IoT Lab)"
+   ],
+   "enlazado_desde": [
+    "00 Inicio",
+    "01 Resumen del video",
+    "02 Guía de estudio",
+    "03 Preguntas abiertas",
+    "Alineación de un láser con cámara",
+    "Analogías",
+    "Capas de control",
+    "Claude",
+    "Código determinista",
+    "QuEra Computing"
+   ]
+  },
+  "Transcripción - MHS explicado (IoT Lab)": {
+   "archivo": "Fuente/Transcripción - MHS explicado (IoT Lab).md",
+   "titulo": "Transcripción — MHS explicado (IoT Lab)",
+   "tipo": "fuente",
+   "aliases": [],
+   "relacionado": [],
+   "minutos": [],
+   "tags": [
+    "fuente",
+    "transcripcion"
+   ],
+   "resumen": "Volver a [[00 Inicio]] · Resumen: [[01 Resumen del video]]",
+   "enlaces": [
+    "00 Inicio",
+    "01 Resumen del video"
+   ],
+   "enlazado_desde": [
+    "00 Inicio",
+    "01 Resumen del video",
+    "02 Guía de estudio",
+    "API, SDK y protocolo",
+    "ActiveX y COM",
+    "Adopción del estándar",
+    "Alineación de un láser con cámara",
+    "Analogías",
+    "Anthropic",
+    "Automatización de laboratorio - curva de dilución",
+    "Capas de control",
+    "Claude",
+    "Código determinista",
+    "Código pegamento",
+    "Driver MHS",
+    "Ficha del dispositivo",
+    "HHMI Janelia",
+    "Hugging Face",
+    "Interfaz digital",
+    "Interlock",
+    "Interoperabilidad",
+    "IoT Lab",
+    "Línea de tiempo",
+    "Líquidos viscosos y burbujas",
+    "Modbus",
+    "Model Context Protocol (MCP)",
+    "Model Hardware Standard (MHS)",
+    "Model agnostic",
+    "OPC UA",
+    "Operaciones read y write",
+    "Orquestación",
+    "PLC",
+    "QuEra - recuperación del clock del láser",
+    "QuEra Computing",
+    "Raspberry Pi",
+    "Razonamiento físico",
+    "USB",
+    "Universal Robots"
+   ]
+  },
+  "Línea de tiempo": {
+   "archivo": "Línea de tiempo.md",
+   "titulo": "Línea de tiempo",
+   "tipo": "recurso",
+   "aliases": [],
+   "relacionado": [],
+   "minutos": [],
+   "tags": [
+    "cronologia"
+   ],
+   "resumen": "1. Modelos que **solo hablan**: les preguntás y responden.",
+   "enlaces": [
+    "Adopción del estándar",
+    "Anthropic",
+    "HHMI Janelia",
+    "Hugging Face",
+    "IoT Lab",
+    "Model Context Protocol (MCP)",
+    "QuEra Computing",
+    "Raspberry Pi",
+    "Transcripción - MHS explicado (IoT Lab)"
+   ],
+   "enlazado_desde": [
+    "00 Inicio"
+   ]
+  },
+  "ActiveX y COM": {
+   "archivo": "Tecnologías/ActiveX y COM.md",
+   "titulo": "ActiveX y COM",
+   "tipo": "tecnologia",
+   "aliases": [
+    "ActiveX",
+    "COM"
+   ],
+   "relacionado": [
+    "Automatización de laboratorio - curva de dilución",
+    "Interfaz digital",
+    "API, SDK y protocolo"
+   ],
+   "minutos": [
+    "10:43"
+   ],
+   "tags": [
+    "tecnologia",
+    "legacy"
+   ],
+   "resumen": "En el experimento del laboratorio, el **manipulador de líquidos** tenía \"una interfaz antigua basada en ActiveX y COM\".  → [[Automatización de laboratorio - curva de dilución]]",
+   "enlaces": [
+    "API, SDK y protocolo",
+    "Automatización de laboratorio - curva de dilución",
+    "Interfaz digital",
+    "Transcripción - MHS explicado (IoT Lab)"
+   ],
+   "enlazado_desde": [
+    "00 Inicio",
+    "API, SDK y protocolo",
+    "Automatización de laboratorio - curva de dilución",
+    "Interfaz digital"
+   ]
+  },
+  "Modbus": {
+   "archivo": "Tecnologías/Modbus.md",
+   "titulo": "Modbus",
+   "tipo": "tecnologia",
+   "aliases": [
+    "Modbus RTU",
+    "Modbus TCP"
+   ],
+   "relacionado": [
+    "Driver MHS",
+    "Operaciones read y write",
+    "API, SDK y protocolo",
+    "OPC UA"
+   ],
+   "minutos": [
+    "05:50",
+    "06:37",
+    "24:58"
+   ],
+   "tags": [
+    "tecnologia",
+    "protocolo",
+    "industrial"
+   ],
+   "resumen": "Protocolo industrial abierto y muy viejo (de fines de los 70), basado en leer y escribir **registros** numerados. Corre por serie (RTU) o por red (TCP). Un registro no dice qué significa: por eso alguien tiene que saber que el 40001 es \"temperatura × 10\". Eso es justo lo que MHS quiere hacer explíci",
+   "enlaces": [
+    "API, SDK y protocolo",
+    "Driver MHS",
+    "Ficha del dispositivo",
+    "OPC UA",
+    "Operaciones read y write",
+    "Transcripción - MHS explicado (IoT Lab)"
+   ],
+   "enlazado_desde": [
+    "00 Inicio",
+    "01 Resumen del video",
+    "API, SDK y protocolo",
+    "Driver MHS",
+    "Interfaz digital",
+    "Model Hardware Standard (MHS)",
+    "OPC UA",
+    "Operaciones read y write",
+    "PLC"
+   ]
+  },
+  "Model Context Protocol (MCP)": {
+   "archivo": "Tecnologías/Model Context Protocol (MCP).md",
+   "titulo": "Model Context Protocol (MCP)",
+   "tipo": "tecnologia",
+   "aliases": [
+    "MCP",
+    "Model Context Protocol"
+   ],
+   "relacionado": [
+    "Model Hardware Standard (MHS)",
+    "Model agnostic",
+    "Anthropic"
+   ],
+   "minutos": [
+    "08:49",
+    "09:23"
+   ],
+   "tags": [
+    "tecnologia",
+    "software"
+   ],
+   "resumen": "MCP es un protocolo abierto: un *servidor MCP* expone herramientas y recursos, y un cliente (la app de la IA) los descubre y los usa. Mirar cómo está definido ayuda a imaginar cómo podría verse un [[Driver MHS]].",
+   "enlaces": [
+    "Anthropic",
+    "Driver MHS",
+    "Model Hardware Standard (MHS)",
+    "Model agnostic",
+    "Transcripción - MHS explicado (IoT Lab)"
+   ],
+   "enlazado_desde": [
+    "00 Inicio",
+    "01 Resumen del video",
+    "02 Guía de estudio",
+    "Adopción del estándar",
+    "Anthropic",
+    "Línea de tiempo",
+    "Model Hardware Standard (MHS)",
+    "Model agnostic"
+   ]
+  },
+  "OPC UA": {
+   "archivo": "Tecnologías/OPC UA.md",
+   "titulo": "OPC UA",
+   "tipo": "tecnologia",
+   "aliases": [
+    "OPC-UA",
+    "OPC Unified Architecture"
+   ],
+   "relacionado": [
+    "Modbus",
+    "PLC",
+    "Ficha del dispositivo"
+   ],
+   "minutos": [
+    "24:58"
+   ],
+   "tags": [
+    "tecnologia",
+    "protocolo",
+    "industrial"
+   ],
+   "resumen": "Solo aparece en la lista de cosas que **no desaparecen** con MHS.",
+   "enlaces": [
+    "03 Preguntas abiertas",
+    "Ficha del dispositivo",
+    "Modbus",
+    "PLC",
+    "Transcripción - MHS explicado (IoT Lab)"
+   ],
+   "enlazado_desde": [
+    "00 Inicio",
+    "03 Preguntas abiertas",
+    "API, SDK y protocolo",
+    "Interfaz digital",
+    "Modbus",
+    "Model Hardware Standard (MHS)",
+    "PLC"
+   ]
+  },
+  "PLC": {
+   "archivo": "Tecnologías/PLC.md",
+   "titulo": "PLC",
+   "tipo": "tecnologia",
+   "aliases": [
+    "PLCs",
+    "autómata programable",
+    "controlador lógico programable"
+   ],
+   "relacionado": [
+    "Capas de control",
+    "Código determinista",
+    "Modbus",
+    "OPC UA"
+   ],
+   "minutos": [
+    "17:40",
+    "24:58"
+   ],
+   "tags": [
+    "tecnologia",
+    "industrial"
+   ],
+   "resumen": "El PLC es la **capa de abajo**, la rápida y determinista, en el esquema de [[Capas de control]].",
+   "enlaces": [
+    "Capas de control",
+    "Código determinista",
+    "Modbus",
+    "OPC UA",
+    "Transcripción - MHS explicado (IoT Lab)"
+   ],
+   "enlazado_desde": [
+    "00 Inicio",
+    "01 Resumen del video",
+    "03 Preguntas abiertas",
+    "Capas de control",
+    "Interfaz digital",
+    "Interoperabilidad",
+    "Model Hardware Standard (MHS)",
+    "OPC UA",
+    "Operaciones read y write"
+   ]
+  },
+  "USB": {
+   "archivo": "Tecnologías/USB.md",
+   "titulo": "USB",
+   "tipo": "tecnologia",
+   "aliases": [
+    "ratón USB"
+   ],
+   "relacionado": [
+    "Adopción del estándar",
+    "Model Hardware Standard (MHS)",
+    "Analogías"
+   ],
+   "minutos": [
+    "06:37",
+    "25:46"
+   ],
+   "tags": [
+    "tecnologia",
+    "analogia"
+   ],
+   "resumen": "Aparece dos veces como analogía:",
+   "enlaces": [
+    "Adopción del estándar",
+    "Analogías",
+    "Model Hardware Standard (MHS)",
+    "Transcripción - MHS explicado (IoT Lab)"
+   ],
+   "enlazado_desde": [
+    "00 Inicio",
+    "01 Resumen del video",
+    "Adopción del estándar",
+    "Analogías"
+   ]
+  }
+ }
+}
