@@ -22,6 +22,6 @@ flowchart LR
 
 **Fusibles:** `J/B 10A`, `WIPER 15A`
 
-**Conectores:** `E07` (Luz de posición delantera (derecha)), `E22` (Luz de posición delantera (izquierda)), `E38` (E45/N), `E41` (J/B), `E42` (J/C), `G25` (Interruptor COMB), `G34` (J/B), `G36` (Mazo de cables principal (a E38)), `G39`, `L05` (J/B), `L08` (J/C), `L09` (J/C), `L20` (Conjunto de luces traseras (R)), `L21` (Cable de la placa de la matrícula (a L22)), `L22` (Mazo de cables del suelo (a L21)), `L43` (Conjunto de luces traseras (L)), `L47` (Luz de la matrícula #1), `L48` (Luz de la matrícula #2)
+**Conectores:** `E07` (Luz de posición delantera (derecha)), `E22` (Luz de posición delantera (izquierda)), `E38` ((ver la página del PDF)), `E41` (J/B), `E42` (J/C), `G25` (Interruptor COMB), `G34` (J/B), `G36` (Mazo de cables principal (a E38)), `G39`, `L05` (J/B), `L08` (J/C), `L09` (J/C), `L20` (Conjunto de luces traseras (R)), `L21` (Cable de la placa de la matrícula (a L22)), `L22` (Mazo de cables del suelo (a L21)), `L43` (Conjunto de luces traseras (L)), `L47` (Luz de la matrícula #1), `L48` (Luz de la matrícula #2)
 
 **Colores de cable:** `BLK`, `BLK/ORN`, `BLU`, `BLU/WHT`, `RED/BLK`, `RED/WHT`, `RED/YEL`, `WHT/RED`, `YEL`

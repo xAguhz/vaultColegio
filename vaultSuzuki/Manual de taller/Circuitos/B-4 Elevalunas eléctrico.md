@@ -23,6 +23,6 @@ flowchart LR
 
 **Fusibles:** `P/W 30A`
 
-**Conectores:** `J01` (Mazo de cables del suelo (a L07)), `J05` (Interruptor de solicitud (lado del conductor)), `J08` (Interruptor principal del elevalunas eléctrico), `J09` (Mazo de cables del suelo (a L03)), `J14`, `J15`, `J16` (Mazo de cables del suelo (a L13)), `J18` (Motor del elevalunas eléctrico trasero (R)), `J19` (J24/N), `J21` (Mazo de cables del suelo (a L37)), `J23` (Motor del elevalunas eléctrico trasero (L)), `J24`, `L05` (J/B), `L07` (L31/N), `L08` (J/C), `L09` (J/C), `L13` (Cable de la puerta trasera (R) (a J16)), `L31`, `L37` (Cable de la puerta trasera (L) (a J21))
+**Conectores:** `J01` (Mazo de cables del suelo (a L07)), `J05` (Interruptor de solicitud (lado del conductor)), `J08` (Interruptor principal del elevalunas eléctrico), `J09` (Mazo de cables del suelo (a L03)), `J14`, `J15`, `J16` (Mazo de cables del suelo (a L13)), `J18` (Motor del elevalunas eléctrico trasero (R)), `J19` ((ver la página del PDF)), `J21` (Mazo de cables del suelo (a L37)), `J23` (Motor del elevalunas eléctrico trasero (L)), `J24`, `L05` (J/B), `L07` ((ver la página del PDF)), `L08` (J/C), `L09` (J/C), `L13` (Cable de la puerta trasera (R) (a J16)), `L31`, `L37` (Cable de la puerta trasera (L) (a J21))
 
 **Colores de cable:** `BLK`, `BLU/YEL`, `GRN`, `GRN/WHT`, `GRN/YEL`, `RED`, `RED/BLK`, `RED/WHT`, `WHT/BLU`, `WHT/GRN`

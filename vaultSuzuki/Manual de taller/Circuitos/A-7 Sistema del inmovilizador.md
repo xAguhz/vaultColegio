@@ -24,6 +24,6 @@ flowchart LR
 
 **Fusibles:** `RADIO 15A`
 
-**Conectores:** `C36` (Mazo de cables principal (a E24)), `E23` (ECM), `E24` (Mazo de cables del motor (a C36)), `E38` (E45/N), `E41` (J/B), `E42` (J/C), `E43` (J/C), `E46` (BCM), `G15` (J/C), `G16` (J/C), `G17` (J/C), `G20` (DLC), `G24` (ICM), `G33` (J/B), `G34` (J/B), `G36` (Mazo de cables principal (a E38)), `G37` (BCM)
+**Conectores:** `C36` (Mazo de cables principal (a E24)), `E23` (ECM), `E24` (Mazo de cables del motor (a C36)), `E38` ((ver la página del PDF)), `E41` (J/B), `E42` (J/C), `E43` (J/C), `E46` (BCM), `G15` (J/C), `G16` (J/C), `G17` (J/C), `G20` (DLC), `G24` (ICM), `G33` (J/B), `G34` (J/B), `G36` (Mazo de cables principal (a E38)), `G37` (BCM)
 
 **Colores de cable:** `BLK`, `BLK/ORN`, `BLK/WHT`, `PPL/WHT`, `RED/BLK`, `WHT/BLK`, `WHT/RED`, `YEL/BLK`, `YEL/RED`

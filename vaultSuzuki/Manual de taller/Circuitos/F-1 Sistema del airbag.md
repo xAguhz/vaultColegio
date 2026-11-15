@@ -24,6 +24,6 @@ flowchart LR
 
 **Fusibles:** `A/BAG 15A`
 
-**Conectores:** `E13` (Sensor delantero), `E44` (Mazo de cables del suelo (a L03)), `G04` (Mazo de cables del suelo (a L32)), `G10` (Inflador del pasajero), `G26` (Inflador del conductor), `G34` (J/B), `L03` (Mazo de cables principal (a E45)), `L04` (J/B), `L10` (Pretensor (lado del conductor)), `L11` (L35/N), `L18` (Airbag de cortina lateral (R)), `L25` (vehículo), `L29` (A/B SDM), `L30`, `L32`, `L35`, `L36` (Pretensor (lado del pasajero)), `L41` (Airbag de cortina lateral (L)), `L53` (Conector de diagnóstico #3)
+**Conectores:** `E13` (Sensor delantero), `E44` (Mazo de cables del suelo (a L03)), `G04` (Mazo de cables del suelo (a L32)), `G10` (Inflador del pasajero), `G26` (Inflador del conductor), `G34` (J/B), `L03` (Mazo de cables principal (a E45)), `L04` (J/B), `L10` (Pretensor (lado del conductor)), `L11` ((ver la página del PDF)), `L18` (Airbag de cortina lateral (R)), `L25` ((ver la página del PDF)), `L29` (A/B SDM), `L30`, `L32`, `L35`, `L36` (Pretensor (lado del pasajero)), `L41` (Airbag de cortina lateral (L)), `L53` (Conector de diagnóstico #3)
 
 **Colores de cable:** `BLK`, `BLU/ORN`, `BLU/RED`, `BLU/YEL`, `BRN`, `BRN/WHT`, `GRN`, `GRN/RED`, `GRY`, `GRY/RED`, `LT GRN/BLK`, `ORN`, `PNK/BLK`, `PPL`, `PPL/WHT`, `RED`, `WHT/GRN`, `WHT/RED`, `YEL`, `YEL/BLK`, `YEL/RED`

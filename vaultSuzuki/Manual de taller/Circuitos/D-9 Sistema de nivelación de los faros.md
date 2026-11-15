@@ -21,6 +21,6 @@ flowchart LR
 
 **Fusibles:** `BACK 10A`
 
-**Conectores:** `E38` (E45/N), `E41` (J/B), `E58`, `E59`, `G34` (J/B), `G36` (Mazo de cables principal (a E38)), `G40`
+**Conectores:** `E38` ((ver la página del PDF)), `E41` (J/B), `E58`, `E59`, `G34` (J/B), `G36` (Mazo de cables principal (a E38)), `G40`
 
 **Colores de cable:** `BLK`, `GRN`, `RED/BLK`

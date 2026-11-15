@@ -26,6 +26,6 @@ flowchart LR
 
 **Fusibles:** `ACC 1 15A`, `ACC 50A`, `D/L 20A`, `J/B 15A`, `METER 10A`, `RADIO 15A`
 
-**Conectores:** `C36` (Mazo de cables principal (a E24)), `E24` (Mazo de cables del motor (a C36)), `E26` (Caja de fusibles principales), `E38` (E45/N), `E40` (J/B), `E41` (J/B), `E42` (J/C), `E43` (J/C), `E46` (BCM), `G15` (J/C), `G16` (J/C), `G17` (J/C), `G20` (DLC), `G21` (Interruptor IG), `G32` (J/B), `G33` (J/B), `G34` (J/B), `G36` (Mazo de cables principal (a E38)), `G37` (BCM), `K01` (J/B), `L01` (BCM), `L04` (J/B), `L06` (J/B), `L08` (J/C), `L09` (J/C)
+**Conectores:** `C36` (Mazo de cables principal (a E24)), `E24` (Mazo de cables del motor (a C36)), `E26` (Caja de fusibles principales), `E38` ((ver la página del PDF)), `E40` (J/B), `E41` (J/B), `E42` (J/C), `E43` (J/C), `E46` (BCM), `G15` (J/C), `G16` (J/C), `G17` (J/C), `G20` (DLC), `G21` (Interruptor IG), `G32` (J/B), `G33` (J/B), `G34` (J/B), `G36` (Mazo de cables principal (a E38)), `G37` (BCM), `K01` (J/B), `L01` (BCM), `L04` (J/B), `L06` (J/B), `L08` (J/C), `L09` (J/C)
 
 **Colores de cable:** `BLK`, `BLK/ORN`, `BLK/RED`, `BLK/YEL`, `BLU`, `BLU/BLK`, `BLU/YEL`, `BRN`, `BRN/WHT`, `GRN`, `GRN/WHT`, `GRY`, `GRY/RED`, `GRY/WHT`, `LT GRN`, `LT GRN/BLK`, `PNK`, `PPL/WHT`, `RED`, `RED/BLK`, `RED/BLU`, `RED/YEL`, `WHT`, `WHT/BLU`, `WHT/RED`, `YEL`, `YEL/BLK`, `YEL/RED`

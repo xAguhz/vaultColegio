@@ -20,6 +20,13 @@ OUT = os.path.join(VAULT, 'Manual de taller')
 PDF = 'Manual de taller Swift 2005-2010.pdf'
 D = json.load(open(os.path.join(VAULT, 'herramientas', 'manual_datos.json'), encoding='utf-8'))
 CAP, MAPA, CIRC, CON = D['capitulos'], D['mapa_paginas'], D['circuitos'], D['conectores']
+# correcciones de conectores mal leídos de las tablas (verificados en el PDF o marcados para revisar)
+for _k, _v in {'C08': 'Sensor de CMP', 'C14': 'Válvula de purga del recipiente de EVAP'}.items():
+    if _k in CON:
+        CON[_k][1] = _v
+for _k, _v in CON.items():
+    if re.match(r'^([A-Z]\d{2}/|o$|vehículo$)', _v[1]):
+        _v[1] = '(ver la página del PDF)'
 
 # ------------------------------------------------------------------ resúmenes propios por capítulo
 R = {

@@ -26,6 +26,6 @@ flowchart LR
 
 **Fusibles:** `BACK 10A`, `IG1 SIG 15A`, `LAMP 15A`, `RADIO 15A`
 
-**Conectores:** `C27`, `C28`, `C29`, `C34` (TCM), `C35`, `C36` (Mazo de cables principal (a E24)), `C37` (ECM), `E23` (ECM), `E24` (Mazo de cables del motor (a C36)), `E33` (Relé A/T), `E38` (E45/N), `E39` (J/B), `E41` (J/B), `E42` (J/C), `E43` (J/C), `E45`, `E46` (BCM), `E47` (Interruptor de luces de freno), `E62`, `G15` (J/C), `G16` (J/C), `G17` (J/C), `G20` (DLC), `G33` (J/B), `G36` (Mazo de cables principal (a E38)), `G37` (BCM), `L01` (BCM), `L02` (Mazo de cables principal (a E44)), `L23` (Palanca de cambios A/T), `L24` (J/C)
+**Conectores:** `C27`, `C28`, `C29`, `C34` (TCM), `C35`, `C36` (Mazo de cables principal (a E24)), `C37` (ECM), `E23` (ECM), `E24` (Mazo de cables del motor (a C36)), `E33` (Relé A/T), `E38` ((ver la página del PDF)), `E39` (J/B), `E41` (J/B), `E42` (J/C), `E43` (J/C), `E45`, `E46` (BCM), `E47` (Interruptor de luces de freno), `E62`, `G15` (J/C), `G16` (J/C), `G17` (J/C), `G20` (DLC), `G33` (J/B), `G36` (Mazo de cables principal (a E38)), `G37` (BCM), `L01` (BCM), `L02` (Mazo de cables principal (a E44)), `L23` (Palanca de cambios A/T), `L24` (J/C)
 
 **Colores de cable:** `BLK`, `BLK/ORN`, `BLK/YEL`, `BLU/BLK`, `BRN`, `GRN`, `GRN/ORN`, `GRN/WHT`, `GRN/YEL`, `GRY`, `LT GRN`, `LT GRN/BLK`, `ORN`, `PNK`, `PNK/BLK`, `PPL`, `PPL/WHT`, `PPL/YEL`, `RED`, `RED/BLK`, `WHT`, `WHT/BLK`, `WHT/BLU`, `WHT/RED`, `YEL/BLK`, `YEL/BLU`

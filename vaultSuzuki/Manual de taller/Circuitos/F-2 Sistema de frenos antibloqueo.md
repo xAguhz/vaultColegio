@@ -25,6 +25,6 @@ flowchart LR
 
 **Fusibles:** `ABS 10A`, `RADIO 15A`
 
-**Conectores:** `C36` (Mazo de cables principal (a E24)), `E03` (Módulo de control del ABS), `E05` (E25/BLK), `E24` (Mazo de cables del motor (a C36)), `E25`, `E37`, `E38` (E45/N), `E41` (J/B), `E42` (J/C), `E43` (J/C), `E45`, `E46` (BCM), `E62`, `G15` (J/C), `G16` (J/C), `G17` (J/C), `G20` (DLC), `G33` (J/B), `G35` (Mazo de cables principal (a E37)), `G36` (Mazo de cables principal (a E38)), `G37` (BCM), `L02` (Mazo de cables principal (a E44)), `L14` (Sensor de velocidad de la rueda (RR)), `L38` (Sensor de velocidad de la rueda (RL))
+**Conectores:** `C36` (Mazo de cables principal (a E24)), `E03` (Módulo de control del ABS), `E05` ((ver la página del PDF)), `E24` (Mazo de cables del motor (a C36)), `E25`, `E37`, `E38` ((ver la página del PDF)), `E41` (J/B), `E42` (J/C), `E43` (J/C), `E45`, `E46` (BCM), `E62`, `G15` (J/C), `G16` (J/C), `G17` (J/C), `G20` (DLC), `G33` (J/B), `G35` (Mazo de cables principal (a E37)), `G36` (Mazo de cables principal (a E38)), `G37` (BCM), `L02` (Mazo de cables principal (a E44)), `L14` (Sensor de velocidad de la rueda (RR)), `L38` (Sensor de velocidad de la rueda (RL))
 
 **Colores de cable:** `BLK`, `BLK/ORN`, `BRN`, `GRN/ORN`, `GRN/WHT`, `LT GRN`, `LT GRN/BLK`, `PNK`, `PNK/BLK`, `PPL/WHT`, `RED`, `RED/BLK`, `RED/BLU`, `WHT`, `WHT/BLK`, `WHT/BLU`, `WHT/RED`, `YEL`

@@ -21,6 +21,6 @@ flowchart LR
 
 **Fusibles:** `ACC 1 15A`
 
-**Conectores:** `G37` (BCM), `J01` (Mazo de cables del suelo (a L07)), `J03` (Motor del retrovisor eléctrico (R)), `J07` (Antena de la puerta (lado del conductor)), `J09` (Mazo de cables del suelo (a L03)), `J11` (Motor del retrovisor eléctrico (L)), `L05` (J/B), `L06` (J/B), `L07` (L31/N), `L31`
+**Conectores:** `G37` (BCM), `J01` (Mazo de cables del suelo (a L07)), `J03` (Motor del retrovisor eléctrico (R)), `J07` (Antena de la puerta (lado del conductor)), `J09` (Mazo de cables del suelo (a L03)), `J11` (Motor del retrovisor eléctrico (L)), `L05` (J/B), `L06` (J/B), `L07` ((ver la página del PDF)), `L31`
 
 **Colores de cable:** `BLK`, `BLK/RED`, `BLU`, `BLU/WHT`, `BRN`, `LT GRN`, `RED`
