@@ -42,7 +42,7 @@ R = {
     '1F': 'Refrigeración: radiador, termostato (atrás del motor), bomba de agua, ventilador eléctrico con sus relés, mangueras, calefacción y cómo vaciar, lavar y llenar el circuito.',
     '1G': 'Combustible: tanque con bomba y aforador, regulación de presión, filtro, riel e inyectores, cañerías y cómo aliviar la presión antes de desarmar.',
     '1H': 'Encendido: dos bobinas (cilindros 1-4 y 2-3) comandadas por el ECM, cables de alta, bujías y la verificación de la chispa y del avance.',
-    '1I': 'Arranque: motor de arranque con su relé y el circuito que solo permite arrancar en P o N; pruebas de funcionamiento y desarme del motor de arranque.',
+    '1I': 'Arranque: motor de arranque con su relé y el circuito que solo permite arrancar con el embrague apretado (en las automáticas, en P o N); pruebas y desarme del motor de arranque.',
     '1J': 'Carga: batería 46B24R, alternador de 70 A con regulador comandado por el ECM, pruebas de tensión y desarme del alternador.',
     '1K': 'Escape: múltiple con catalizador incorporado, caño delantero, caño central con resonador, silenciador trasero, gomas de soporte y protector de calor.',
     '2': 'Precauciones propias de suspensión.',
@@ -59,9 +59,9 @@ R = {
     '4D': 'Freno de estacionamiento: palanca, cables y regulación.',
     '4E': 'ABS con distribución electrónica de frenado (EBD): unidad hidráulica con módulo de control, sensores de rueda y anillos, testigos y diagnóstico de los códigos C.',
     '5': 'Precauciones propias de la transmisión.',
-    '5A': 'Caja automática de 4 marchas: cómo trabajan los embragues, frenos y el tren planetario, el TCM y sus solenoides, pruebas en el auto (presión, calado, tiempos), diagnóstico de códigos y el desarme completo de la caja.',
-    '5B': 'Caja manual de 5 marchas (no la lleva el 1.5XS japonés): varillaje, aceite y desarme.',
-    '5C': 'Embrague de las versiones manuales: pedal, bomba hidráulica, disco y placa.',
+    '5A': 'Caja automática de 4 marchas (no la lleva este auto, que es manual): embragues, frenos, tren planetario, TCM, pruebas y desarme.',
+    '5B': 'Caja manual de 5 marchas, la de este auto (hay una parte para el M13 y otra para el M15): cables y palanca de cambio, aceite, retenes, desmontaje de la unidad y desarme de eje de entrada, contraeje, sincronizadores, marcha atrás y diferencial.',
+    '5C': 'Embrague de este auto: pedal e interruptor, bomba (cilindro maestro) y cañería hidráulica, cilindro receptor, horquilla, rodamiento, disco, placa de presión y volante.',
     '6': 'Precauciones propias de la dirección.',
     '6A': 'Diagnóstico general de la dirección (dura, con juego, con ruido).',
     '6B': 'Volante y columna de dirección, con las precauciones del airbag.',
@@ -101,14 +101,14 @@ NOTAS = {
     '2C': ['09 Frenos, suspensión, dirección y ruedas'], '2D': ['09 Frenos, suspensión, dirección y ruedas'],
     '4A': ['09 Frenos, suspensión, dirección y ruedas'], '4B': ['09 Frenos, suspensión, dirección y ruedas'],
     '4C': ['09 Frenos, suspensión, dirección y ruedas'], '4E': ['09 Frenos, suspensión, dirección y ruedas'],
-    '5A': ['05 Conducción y caja automática'], '6C': ['09 Frenos, suspensión, dirección y ruedas'],
+    '5B': ['05 Conducción y caja manual'], '5C': ['05 Conducción y caja manual'], '6C': ['09 Frenos, suspensión, dirección y ruedas'],
     '8B': ['12 Seguridad, airbags y carrocería'], '9A': ['10 Sistema eléctrico'], '9B': ['10 Sistema eléctrico'],
     '9C': ['04 Mandos e instrumentos'], '9K': ['12 Seguridad, airbags y carrocería'],
 }
 
 # piezas del modelo 3D relacionadas (pid del visor)
 PIDS = {
-    '0A': ['casco'], '0B': ['filtro_aire', 'bloque', 'bobinas', 'canerias_freno', 'caja_4at'],
+    '0A': ['casco'], '0B': ['filtro_aire', 'bloque', 'bobinas', 'canerias_freno', 'caja_5mt'],
     '1A': ['ecu', 'sensor_maf', 'sensor_tp', 'sensor_map', 'sensor_ect', 'sensor_cmp', 'sensor_ckp', 'sensor_detonacion',
            'sonda_o2_1', 'sonda_o2_2', 'sensor_vss', 'solenoide_vvt', 'inyectores', 'bobinas', 'valvula_iac', 'valvula_purga'],
     '1B': ['canister', 'valvula_purga', 'valvula_egr', 'tapa_valvulas'],
@@ -124,8 +124,8 @@ PIDS = {
     '4A': ['servofreno', 'canerias_freno', 'interruptor_freno', 'interruptor_nivel_freno', 'pedalera'],
     '4B': ['disco_izq', 'disco_der', 'mordaza_izq', 'mordaza_der'], '4C': ['tambor_izq', 'tambor_der'], '4D': ['freno_mano'],
     '4E': ['abs', 'sensores_abs'],
-    '5A': ['caja_4at', 'convertidor', 'palanca', 'tcm', 'sensor_rango_caja', 'caja_bomba_aceite', 'caja_embragues',
-           'caja_planetario', 'caja_cuerpo_valvulas', 'caja_diferencial', 'caja_engranajes'],
+    '5B': ['caja_5mt', 'palanca', 'eje_entrada', 'contraeje', 'eje_marcha_atras', 'horquillas', 'caja_diferencial', 'interruptor_marcha_atras', 'sensor_vss'],
+    '5C': ['embrague', 'bomba_embrague', 'pedalera', 'interruptor_embrague'],
     '6B': ['volante', 'columna_eps'], '6C': ['columna_eps', 'cremallera', 'modulo_eps', 'cable_eps'],
     '7A': ['unidad_hvac'], '7B': ['condensador', 'canerias_ac', 'accesorios', 'sensor_presion_ac'],
     '8A': ['asiento_izq', 'asiento_der', 'asiento_trasero', 'pretensores'], '8B': ['volante', 'airbag_acompanante', 'sdm', 'pretensores'],
@@ -208,7 +208,7 @@ I = ['---', 'tags: [suzuki-swift, manual-de-taller, indice]', 'tipo: indice', '-
      f'> 1584 páginas para los Swift ZC11S y ZC21S, con versiones de volante a la izquierda y a la derecha. Cada capítulo tiene una nota con un resumen propio, los temas (con enlace a la página del PDF), los despieces, los valores de servicio, los pares de apriete, los códigos de falla y las herramientas especiales.',
      f'> El PDF original está en `Manual de taller/PDF/` y **no se sube a GitHub** (es material de Suzuki): los enlaces a páginas funcionan en el Obsidian de la compu, no en la página web.',
      '', '**Notas de conjunto:** [[Códigos de falla (DTC)]] · [[Pares de apriete]] · [[Herramientas especiales]] · '
-     '[[Conectores del cableado]] · [[Circuitos eléctricos]]', '',
+     '[[Conectores del cableado]] · [[Circuitos eléctricos]] · [[Diagnóstico por síntoma]] · [[Guía técnica por pieza]]', '',
      '| Cap. | Capítulo | Páginas PDF | Temas | Despieces | Valores | Pares | DTC |', '| --- | --- | --- | --- | --- | --- | --- | --- |']
 for code, nombre, fn, p0, p1, c in indice:
     I.append(f'| {code} | [[{fn}|{nombre}]] | {p0}–{p1} | {len(c["temas"])} | {len(c["despieces"])} | {len(c["valores"])} | '
@@ -255,9 +255,9 @@ open(os.path.join(OUT, 'Conectores del cableado.md'), 'w', encoding='utf-8').wri
 # ------------------------------------------------------------------ circuitos eléctricos (esquemas propios)
 # (explicación, esquema Mermaid con el camino de la corriente, piezas del 3D que se resaltan)
 CX = {
-    'A-1': ('La llave en START (o el botón, con arranque sin llave) alimenta el relé de arranque a través del fusible ST SIG; el ECM solo lo deja cerrar con la caja en P o N (sensor de rango). El relé conecta el solenoide del motor de arranque, que toma corriente directa de la batería por el cable grueso.',
-            'B[Batería] -->|fusible ST MOT 30A| RE[Relé de arranque]\n  LL[Llave en START] -->|ST SIG 10A| RE\n  RG[Sensor de rango P/N] --> ECM[ECM]\n  ECM --> RE\n  RE --> SO[Solenoide del arranque]\n  B ==>|cable de batería| MA[Motor de arranque]\n  SO --> MA',
-            ['bateria', 'cable_bateria', 'fusibles', 'arranque', 'sensor_rango_caja', 'ecu', 'mazo_motor']),
+    'A-1': ('La llave en START alimenta el relé de arranque a través del fusible ST SIG; en este auto manual, el interruptor del pedal de embrague (E74) solo cierra el circuito con el pedal a fondo (en las automáticas lo hace el sensor de rango en P o N). El relé conecta el solenoide del motor de arranque, que toma corriente directa de la batería por el cable grueso.',
+            'B[Batería] -->|fusible ST MOT 30A| RE[Relé de arranque]\n  LL[Llave en START] -->|ST SIG 10A| IE[Interruptor del embrague]\n  IE --> RE\n  ECM[ECM] --> RE\n  RE --> SO[Solenoide del arranque]\n  B ==>|cable de batería| MA[Motor de arranque]\n  SO --> MA',
+            ['bateria', 'cable_bateria', 'fusibles', 'arranque', 'interruptor_embrague', 'pedalera', 'ecu', 'mazo_motor']),
     'A-2': ('El alternador carga la batería; el ECM decide la tensión de regulación (alta o baja) según el consumo y avisa con el testigo de carga en el cuadro.',
             'AL[Alternador 70 A] ==>|cable B| B[Batería]\n  ECM[ECM] -->|señal de regulación| AL\n  AL -->|señal L| CU[Cuadro: testigo de carga]\n  B --> FU[Fusibles] --> CARGAS[Consumos del auto]',
             ['accesorios', 'bateria', 'cable_bateria', 'ecu', 'cuadro_instrumentos', 'mazo_motor']),
@@ -272,9 +272,9 @@ CX = {
             ['ecu', 'sensor_maf', 'sensor_tp', 'sensor_map', 'sensor_ect', 'sensor_ckp', 'sensor_cmp', 'sensor_detonacion', 'sonda_o2_1',
              'sonda_o2_2', 'sensor_vss', 'inyectores', 'bobinas', 'valvula_iac', 'solenoide_vvt', 'valvula_purga', 'tanque',
              'accesorios', 'mazo_motor', 'mazo_principal', 'fusibles']),
-    'A-6': ('Caja automática: el TCM lee el sensor de rango, las velocidades de entrada y salida, la temperatura del fluido y la mariposa (vía ECM) y maneja los solenoides de cambio y de presión.',
+    'A-6': ('No aplica a este auto (caja manual). En las versiones automáticas, el TCM lee el sensor de rango, las velocidades de entrada y salida, la temperatura del fluido y la mariposa (vía ECM) y maneja los solenoides de cambio y de presión.',
             'RG[Sensor de rango] --> TCM[TCM]\n  VE[Sensores de velocidad] --> TCM\n  TF[Temp. del fluido] --> TCM\n  ECM[ECM] <-->|CAN| TCM\n  F[Fusible AT ETM 15A] --> TCM\n  TCM --> SOL[Solenoides de cambio y presión]',
-            ['tcm', 'sensor_rango_caja', 'caja_4at', 'caja_cuerpo_valvulas', 'ecu', 'mazo_motor', 'palanca']),
+            []),
     'A-7': ('Inmovilizador: la antena del tambor de la llave lee el código del transpondedor; si coincide con el registrado, el ECM habilita la inyección y el encendido.',
             'LL[Llave con transpondedor] -.-> AN[Antena del tambor]\n  AN --> ECM[ECM]\n  ECM -->|habilita| INY[Inyección y encendido]\n  ECM --> CU[Testigo del inmovilizador]',
             ['antena_inmovilizador', 'ecu', 'cuadro_instrumentos', 'mazo_tablero']),
@@ -301,7 +301,7 @@ CX = {
             'LL[Llave electrónica] -.-> AN[Antenas]\n  AN --> MK[Módulo keyless]\n  MK <--> ECM[ECM]\n  MK <--> BCM[BCM]', ['modulo_keyless', 'ecu', 'bloque_empalmes']),
     'C-1': ('Relojes del cuadro: velocidad (por CAN desde el ECM), vueltas, nafta (aforador del tanque) y temperatura.',
             'ECM[ECM] -->|CAN| CU[Cuadro]\n  AF[Aforador del tanque] --> CU', ['cuadro_instrumentos', 'ecu', 'tanque', 'mazo_tablero']),
-    'C-2': ('Indicadores del cuadro: giros, luz alta, marcha seleccionada.', 'BCM[BCM] --> CU[Cuadro]\n  TCM[TCM] --> CU', ['cuadro_instrumentos', 'tcm']),
+    'C-2': ('Indicadores del cuadro: giros, luz alta y, en las automáticas, la marcha seleccionada.', 'BCM[BCM] --> CU[Cuadro]', ['cuadro_instrumentos', 'bloque_empalmes']),
     'C-3': ('Testigos de advertencia: aceite, carga, frenos, ABS, airbag, EPS, motor, cinturón, puertas.',
             'SEN[Interruptores y módulos] --> CU[Cuadro: testigos]', ['cuadro_instrumentos', 'sensor_presion_aceite', 'interruptor_nivel_freno', 'abs', 'sdm', 'modulo_eps']),
     'D-1': ('Faros: la palanca de luces activa los relés de luz alta y baja; cada faro tiene su fusible.',
@@ -313,8 +313,8 @@ CX = {
     'D-6': ('Giros y balizas: el destellador (relé de giros) alimenta los faros de giro, los repetidores y las calaveras.',
             'PA[Palanca de giro] --> DE[Destellador]\n  BA[Botón de balizas] --> DE\n  DE --> G[Giros delanteros, laterales y traseros]', ['faro_izq', 'faro_der', 'calavera_izq', 'calavera_der', 'casco']),
     'D-7': ('Luces de freno: el interruptor del pedal alimenta las calaveras y la tercera luz; la señal también va al ECM, al TCM y al ABS.',
-            'F[Fusible STOP LAMP 15A] --> IF[Interruptor del pedal]\n  IF --> LF[Luces de freno y tercera luz]\n  IF --> ECM[ECM / TCM / ABS]', ['interruptor_freno', 'calavera_izq', 'calavera_der', 'porton', 'abs']),
-    'D-8': ('Marcha atrás: el sensor de rango de la caja enciende las luces al pasar a R.', 'RG[Sensor de rango en R] --> LR[Luces de marcha atrás]', ['sensor_rango_caja', 'calavera_izq', 'calavera_der']),
+            'F[Fusible STOP LAMP 15A] --> IF[Interruptor del pedal]\n  IF --> LF[Luces de freno y tercera luz]\n  IF --> ECM[ECM / ABS]', ['interruptor_freno', 'calavera_izq', 'calavera_der', 'porton', 'abs']),
+    'D-8': ('Marcha atrás: en la caja manual, el interruptor de luz de marcha atrás cierra al poner reversa y enciende las luces.', 'IR[Interruptor de marcha atrás] --> LR[Luces de marcha atrás]', ['interruptor_marcha_atras', 'caja_5mt', 'calavera_izq', 'calavera_der']),
     'D-9': ('Nivelación de faros (si la trae): ruedita en el tablero y motores en los faros.', 'SW[Ruedita] --> MN[Motores de nivelación]', ['faro_izq', 'faro_der']),
     'D-10': ('Antiniebla trasero (según mercado).', 'SW[Interruptor] --> RE[Relé] --> AT[Antiniebla trasero]', ['paragolpes_tra']),
     'E-1': ('Calefacción y ventilación: el soplador tiene un resistor de velocidades; las compuertas se mueven con cables o motores.',

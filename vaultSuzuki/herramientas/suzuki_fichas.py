@@ -27,7 +27,7 @@ CONJ = {
         'resumen': 'Naftero de 4 cilindros en línea, 1490 cm³, DOHC de 16 válvulas con distribución por cadena y variador de fase de admisión (VVT). 110 PS a 6000 rpm y 143 N·m a 4000 rpm en la versión japonesa.',
         'laminas': [['lamina_motor.jpg', 'Vano motor: motor transversal, caja, radiador y batería'], ['lamina_motor_despiece.jpg', 'Motor M15A en despiece']]},
     'Transmisión': {
-        'color': '#7852ee', 'nota': '05 Conducción y caja automática',
+        'color': '#7852ee', 'nota': '05 Conducción y caja manual',
         'resumen': 'Caja automática de 4 marchas con convertidor de par y diferencial integrado (transeje), tracción delantera. Relación final 4,052.',
         'laminas': [['lamina_motor.jpg', 'La caja va a la izquierda del motor']]},
     'Refrigeración': {
@@ -200,7 +200,7 @@ PIEZAS = {
         'que': 'Transeje automático de 4 marchas con convertidor de par, engranajes planetarios y diferencial. Los cambios los decide la computadora de la caja (TCM).',
         'datos': [['Relaciones', '1ª 2,875 · 2ª 1,568 · 3ª 1,000 · 4ª 0,697 · R 2,300'], ['Final', '4,052'], ['Fluido', 'SUZUKI ATF 3317 o Mobil ATF 3309'], ['Capacidad', '3,3 L en un cambio · 5,6 L total']],
         'mant': ['Controlar el nivel cada 30 000 km; cambiar el fluido cada 165 000 km (30 000 km en uso severo).', 'El nivel se mide en caliente, en P y con el motor en marcha.'],
-        'ver': '05 Conducción y caja automática'},
+        'ver': '05 Conducción y caja manual'},
     'semieje_izq': {
         'que': 'Palier que lleva el giro del diferencial a la rueda izquierda, con juntas homocinéticas en cada punta.',
         'datos': [['Juntas', 'homocinéticas con fuelles de goma']],
@@ -215,7 +215,7 @@ PIEZAS = {
         'que': 'Palanca selectora de la caja automática en la consola central.',
         'datos': [['Posiciones', 'P · R · N · D · 3 · 2 · L'], ['Arranque', 'solo en P o N']],
         'mant': ['Para salir de P hay que pisar el freno.', 'No pasar a P o R con el auto en movimiento.'],
-        'ver': '05 Conducción y caja automática'},
+        'ver': '05 Conducción y caja manual'},
     # ------------------------------------------------------------ Refrigeración
     'radiador': {
         'que': 'Intercambiador de aluminio con tanques plásticos que enfría el líquido del motor con el aire de la marcha.',
@@ -397,7 +397,7 @@ PIEZAS = {
         'que': 'Con caja automática hay solo dos pedales: freno (ancho) y acelerador.',
         'datos': [['Pedales', 'freno y acelerador'], ['Altura del freno', '130–150 mm']],
         'mant': ['Manejar con el pie derecho solo; el izquierdo descansa.'],
-        'ver': '05 Conducción y caja automática'},
+        'ver': '05 Conducción y caja manual'},
 }
 
 # ------------------------------------------------------------ piezas agregadas en la versión detallada (15/11/2026)
@@ -429,7 +429,7 @@ PIEZAS.update({
         'que': 'Palanca del freno de estacionamiento entre los asientos. Tira de dos cables que abren las zapatas de los tambores traseros.',
         'datos': [['Actúa sobre', 'tambores traseros']],
         'mant': ['Revisar el recorrido a los primeros 15 000 km.', 'En pendiente, poner el freno de mano antes de pasar a P.'],
-        'ver': '05 Conducción y caja automática'},
+        'ver': '05 Conducción y caja manual'},
     'bastidor': {
         'que': 'Cuna de acero abulonada abajo del vano motor. Sostiene los brazos de la suspensión y un soporte del motor.',
         'datos': [['Fijación', '4 bulones a la carrocería']],
@@ -543,7 +543,7 @@ PIEZAS.update({
         'que': 'Convertidor de par: acople hidráulico entre el motor y la caja automática, abulonado a la placa de arrastre del cigüeñal. Permite que el auto quede parado en D con el motor en marcha.',
         'datos': [['Fijación', '3 pernos a la placa de arrastre']],
         'mant': ['Al montar la caja, verificar que el convertidor entró hasta el fondo antes de apretar.'],
-        'ver': '05 Conducción y caja automática'},
+        'ver': '05 Conducción y caja manual'},
     'canister': {
         'que': 'Recipiente con carbón activado que junta los vapores de nafta del tanque. La computadora abre la válvula de purga para quemarlos en el motor.',
         'datos': [['Sistema', 'EVAP'], ['Control', 'válvula de purga comandada por el ECM']],
@@ -711,6 +711,81 @@ PIEZAS.update({
     'caja_engranajes': F('Engranaje de salida del planetario, intermedio y piñón de ataque al diferencial.', [['Reducción', '1,023']], ['—'], 'Manual › 5A Transmisión automática - Transeje automático'),
     'caja_diferencial': F('Diferencial: la corona recibe el giro y los satélites y planetarios reparten entre las dos ruedas permitiendo que giren distinto en las curvas.',
                           [['Reducción final', '4,052']], ['Ruido al doblar: revisar satélites y rodamientos.'], 'Manual › 5A Transmisión automática - Transeje automático'),
+})
+
+
+# ------------------------------------------------------------ el auto es de CAJA MANUAL de 5 marchas (corrección del 15/11/2026)
+for _k in ('caja_4at', 'convertidor', 'tcm', 'sensor_rango_caja', 'caja_bomba_aceite', 'caja_embragues', 'caja_planetario',
+           'caja_cuerpo_valvulas', 'caja_engranajes'):
+    PIEZAS.pop(_k, None)
+V5B, V5C = 'Manual › 5B Transmisión - Transeje manual', 'Manual › 5C Embrague'
+CONJ['Transmisión']['resumen'] = ('Caja manual de 5 marchas y marcha atrás con diferencial incorporado (transeje), tracción delantera, '
+                                  'embrague de disco en seco con mando hidráulico y palanca con dos cables (cambio y selección).')
+CONJ['Transmisión']['nota'] = '05 Conducción y caja manual'
+CONJ['Caja por dentro']['resumen'] = ('Por dentro del transeje manual: eje de entrada, contraeje con el piñón de ataque, eje de marcha atrás con piñón loco '
+                                      'deslizante, tres sincronizadores (baja en el contraeje con doble cono en 2ª, alta y 5ª en el eje de entrada), '
+                                      'horquillas y diferencial.')
+CONJ['Caja por dentro']['nota'] = 'Manual de taller › 5B'
+CONJ['Módulos de control']['resumen'] = CONJ['Módulos de control']['resumen'].replace('TCM (caja), ', '')
+CONJ['Refrigeración']['resumen'] = CONJ['Refrigeración']['resumen'].replace('Lleva 6,1 L de refrigerante al 50 % (versión automática).',
+                                                                          'Lleva 6,2 L de refrigerante al 50 % (versión manual).')
+PIEZAS['arranque']['que'] = PIEZAS['arranque']['que'].replace('Con caja automática solo arranca en P o N.', 'Con caja manual solo arranca con el pedal de embrague apretado.')
+PIEZAS['sensor_vss']['que'] = 'Sensor de velocidad del vehículo en la caja: lo usan el velocímetro, el ECM y la dirección eléctrica.'
+PIEZAS['interruptor_freno']['que'] = 'Interruptor sobre el pedal de freno: enciende las luces de freno y avisa al ECM y al ABS que se está frenando.'
+PIEZAS['mazo_tablero']['que'] = PIEZAS['mazo_tablero']['que'].replace('TCM y bloque', 'interruptor del embrague y bloque')
+PIEZAS['freno_mano']['ver'] = '05 Conducción y caja manual'
+PIEZAS['radiador']['datos'] = [['Refrigerante', 'etilenglicol al 50 %'], ['Capacidad (M/T)', '5,5 L motor + radiador + 0,7 L depósito = 6,2 L']]
+PIEZAS['semieje_der']['que'] = 'Palier derecho, igual al izquierdo pero de otro largo (el diferencial no está en el centro).'
+PIEZAS['caja_diferencial']['ver'] = V5B
+PIEZAS['caja_diferencial']['datos'] = [['Juego de empuje de los engranajes', '0,03–0,31 mm'], ['Perno de la corona', '90 N·m']]
+PIEZAS.update({
+    'caja_5mt': {
+        'que': 'Transeje manual: caja de 5 marchas y marcha atrás con el diferencial adentro, de aluminio, a la izquierda del motor. Arriba tiene el mecanismo de cambio, al que llegan los cables de la palanca.',
+        'datos': [['Aceite', 'API GL-4 75W-90'], ['Capacidad', '2,2 L (referencia)'], ['Tapones de llenado y vaciado', '21 N·m'], ['Interruptor de marcha atrás', '23 N·m']],
+        'mant': ['Revisar pérdidas y nivel a los primeros 15 000 km; cambiar el aceite a los 45 000 y 90 000 km (cada 30 000 en uso severo).',
+                 'El nivel llega al borde del agujero del tapón de llenado; sellador en la rosca al cerrarlo.'],
+        'ver': '05 Conducción y caja manual'},
+    'embrague': {
+        'que': 'Embrague de disco en seco: la placa de presión aprieta el disco contra el volante motor. Al pisar el pedal, el cilindro receptor mueve la horquilla y el rodamiento empuja el diafragma y libera el disco.',
+        'datos': [['Profundidad de los remaches del disco', '1,65–2,25 mm (límite 0,5)'], ['Pernos de la placa', '23 N·m'], ['Pernos del volante', '70 N·m'],
+                  ['Juego libre del pedal', '2–8 mm']],
+        'mant': ['Patina (sube vueltas y no acelera): disco gastado o con aceite.', 'Al cambiarlo, centrar el disco con la herramienta y revisar el volante y el rodamiento.'],
+        'ver': V5C},
+    'bomba_embrague': {
+        'que': 'Cilindro maestro del embrague en el torpedo, empujado por el pedal. Toma líquido del depósito de frenos y manda presión por el tubo y la manguera al cilindro receptor de la caja.',
+        'datos': [['Líquido', 'DOT 3 (compartido con los frenos)'], ['Juego de la varilla', 'hasta 3 mm']],
+        'mant': ['Pedal que se va al piso o no vuelve: pérdida o aire en el circuito; purgar por el receptor.', 'Revisar nivel y pérdidas cada 30 000 km.'],
+        'ver': V5C},
+    'palanca': {
+        'que': 'Palanca de cambios en la consola: dos cables la unen con la caja, uno para el movimiento de cambio (adelante-atrás) y otro para el de selección (izquierda-derecha).',
+        'datos': [['Esquema', '5 marchas y reversa'], ['Fijación de la palanca', '10 N·m'], ['Soporte de los cables', '55 N·m']],
+        'mant': ['Cambios duros o imprecisos: revisar el ajuste y el desgaste de los cables antes que la caja.', 'Grasa en los extremos de los cables al montarlos.'],
+        'ver': '05 Conducción y caja manual'},
+    'pedalera': {
+        'que': 'Tres pedales (de izquierda a derecha): embrague, freno y acelerador. El interruptor del embrague solo deja arrancar con el pedal a fondo.',
+        'datos': [['Juego libre del embrague', '2–8 mm'], ['Altura del freno', '130–150 mm']],
+        'mant': ['Pedal de embrague duro o con ruido: lubricar el pivote y revisar la bomba.'],
+        'ver': '05 Conducción y caja manual'},
+    'eje_entrada': {
+        'que': 'Eje de entrada: recibe el giro del disco de embrague. Lleva los engranajes de 1ª a 5ª y los sincronizadores de alta (3ª-4ª) y de 5ª.',
+        'datos': [['Sincronizadores', 'alta (3ª-4ª) y 5ª'], ['Holgura anillo-engranaje', '1,0–1,3 mm (límite 0,5)']],
+        'mant': ['Los anillos sincronizadores no se pulen: si están bajo el límite, se cambian.'], 'ver': V5B},
+    'contraeje': {
+        'que': 'Contraeje: los engranajes que engranan con los del eje de entrada, el sincronizador de baja (1ª-2ª, con doble cono en 2ª) y el piñón de ataque que mueve la corona del diferencial.',
+        'datos': [['Rodamientos', 'de rodillos cónicos con precarga'], ['Tuerca del contraeje', '70–100 N·m según el lado']],
+        'mant': ['Al armar, ajustar la precarga de los rodamientos cónicos como indica el manual.'], 'ver': V5B},
+    'eje_marcha_atras': {
+        'que': 'Eje de marcha atrás con el piñón loco deslizante: se mete entre el eje de entrada y el contraeje e invierte el giro. Un freno de marcha atrás (sincronización de 5ª) frena el eje de entrada para que no cruja.',
+        'datos': [['Perno del eje', '23 N·m']], 'mant': ['Poner reversa con el auto detenido y el embrague a fondo.'], 'ver': V5B},
+    'horquillas': {
+        'que': 'Eje de cambio y horquillas: mueven los manguitos de los sincronizadores según la palanca.',
+        'datos': [['Perno de la horquilla', '10 N·m']], 'mant': ['Marchas que se salen solas: horquillas, manguitos o resortes de retención gastados.'], 'ver': V5B},
+    'interruptor_marcha_atras': {
+        'que': 'Interruptor en la caja que cierra cuando se pone reversa y enciende las luces de marcha atrás.',
+        'datos': [['Par de apriete', '23 N·m'], ['Circuito', 'D-8']], 'mant': ['Si no prenden las luces de marcha atrás, revisar el interruptor y su conector.'], 'ver': V5B},
+    'interruptor_embrague': {
+        'que': 'Interruptor sobre el pedal de embrague: el motor de arranque solo funciona con el pedal apretado a fondo.',
+        'datos': [['Conector', 'E74'], ['Circuito', 'A-1']], 'mant': ['Si no arranca, probar el interruptor y su regulación con el pedal.'], 'ver': V5C},
 })
 
 

@@ -32,7 +32,7 @@ Es el mismo visor que el del torno TM300, adaptado al auto:
 - **Tocar una pieza:** se aísla, la cámara se acerca y aparece su ficha. **← Volver** (o Esc) regresa a la vista anterior.
 - **Modo animación:** la pieza gira con sus datos flotando. Las piezas chicas (bobinas, batería, discos, mordazas…) muestran los datos por enfoques cada 7 segundos; las grandes (motor, caja, puertas, casco) muestran toda la ficha junta. El límite es una diagonal de 0,45 m (`SMALL` en `3D/visor/index.html`).
 - **Color por conjunto** y **Corte** (corta el auto por la mitad a lo largo, para ver el interior y el vano motor).
-- **Piezas:** lista buscable por nombre o conjunto (por ejemplo `McPherson`, `46B24R`, `ATF`).
+- **Piezas:** lista buscable por nombre o conjunto (por ejemplo `McPherson`, `46B24R`, `embrague`).
 
 ## Capas y conjuntos
 El modelo está partido en **6 capas**, cada una en su archivo: el visor carga primero lo de afuera y después el resto en segundo plano. "Por dentro" (motor y caja por dentro) se carga recién al prenderla en **Capas**.
@@ -51,8 +51,17 @@ El modelo está partido en **6 capas**, cada una en su archivo: el visor carga p
 - **Rayos X:** carrocería e interior casi transparentes para ver la mecánica, los sensores y los mazos de cables en su lugar.
 - **Circuitos:** pestaña con los 37 circuitos del capítulo 9A. Al elegir uno se resaltan sus piezas (batería, fusibles, sensores, módulos, mazos), se explica cómo circula la corriente y hay un enlace a la nota con el esquema ([[Circuitos eléctricos]]). Cada ficha de pieza dice en qué circuitos aparece.
 - **Electricidad completa:** 21 sensores y actuadores con su conector del manual (C09, C20…) y sus códigos de falla, 8 módulos de control, 8 mazos de cables encintados con sus conectores y 7 accesorios eléctricos.
-- **Por dentro:** motor (cigüeñal, pistones, levas, válvulas, cadena, bombas) y caja automática (bomba, embragues, planetario, cuerpo de válvulas, engranajes, diferencial).
+- **Por dentro:** motor (cigüeñal, pistones, levas, válvulas, cadena, bombas) y caja manual (eje de entrada, contraeje, marcha atrás, horquillas, diferencial).
 - **Piezas:** la lista se agrupa por conjunto y los grupos se pliegan; al buscar, se abren solos.
+
+## Indicaciones técnicas en el visor
+Cada ficha de pieza suma, cuando el manual lo tiene:
+- **Fallas típicas:** síntoma, causa probable y qué hacer (también en las tarjetas del modo animación).
+- **Cómo se desmonta:** pasos resumidos y qué piezas hay que sacar antes. El botón **Desmontaje animado** las va sacando una por una, con el paso escrito arriba (Esc o *Salir* vuelve todo a su lugar).
+- **En el manual de taller:** los procedimientos de esa pieza con su página. En la app de la compu cada uno abre el PDF justo en esa página.
+- **Pares de apriete** y **herramientas especiales**.
+
+Lo mismo está en el vault: [[Guía técnica por pieza]] y [[Diagnóstico por síntoma]].
 
 ## Rendimiento (pensado para la compu: Ryzen 5 3400G, GTX 1660 Ti, 1080p, Firefox)
 - **Solo dibuja cuando algo cambia** (girar, despiezar, elegir). Con el auto quieto no gasta placa de video ni procesador.
@@ -69,7 +78,7 @@ El modelo está partido en **6 capas**, cada una en su archivo: el visor carga p
 ## Mecánica según el manual de taller (15/11/2026)
 La mecánica se revisó contra la **edición en castellano del manual de taller** (ver [[13 Repuestos y fuentes]]):
 - **Corregido:** el escape y el catalizador pasaron adelante y la admisión atrás (estaban al revés); el alternador y el termostato, atrás; el compresor del aire, adelante con su correa; el filtro de aceite, adelante; el recorrido del escape (caño delantero bajo el motor, caño central con resonador, silenciador y protector de calor) y los soportes del motor.
-- **Agregado:** el motor por dentro con sus medidas, el convertidor de par, el aire acondicionado y la calefacción, el canister EVAP y los sensores de rueda del ABS.
+- **Agregado:** el motor por dentro con sus medidas, el embrague con su bomba y la palanca con cables, el aire acondicionado y la calefacción, el canister EVAP y los sensores de rueda del ABS.
 
 ![[lamina_vano_motor.jpg]]
 *Vano motor sin carrocería: condensador y radiador adelante, múltiple de escape con catalizador detrás, admisión y servofreno contra el torpedo.*
@@ -91,7 +100,7 @@ La mecánica se revisó contra la **edición en castellano del manual de taller*
 
 ## Láminas
 ![[lamina_motor.jpg]]
-*Vano motor: motor transversal, caja automática a la izquierda, radiador adelante, batería y fusibles.*
+*Vano motor: motor transversal, caja manual a la izquierda, radiador adelante, batería y fusibles.*
 
 ![[lamina_frenos.jpg]]
 *Frenos: discos ventilados y mordazas adelante, tambores atrás y servofreno del lado del conductor.*

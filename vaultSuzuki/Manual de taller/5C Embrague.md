@@ -9,7 +9,11 @@ paginas_pdf: "913-928"
 Volver a [[00 Índice del manual de taller|Índice del manual]] · PDF: [[Manual de taller Swift 2005-2010.pdf#page=913|abrir en la página 913]] (páginas 913 a 928, solo en la copia local)
 
 > [!summary] De qué trata
-> Embrague de las versiones manuales: pedal, bomba hidráulica, disco y placa.
+> Embrague de este auto: pedal e interruptor, bomba (cilindro maestro) y cañería hidráulica, cilindro receptor, horquilla, rodamiento, disco, placa de presión y volante.
+
+**Notas del vault:** [[05 Conducción y caja manual]]
+
+**Piezas en el modelo 3D:** [embrague](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#embrague) · [bomba_embrague](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#bomba_embrague) · [pedalera](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#pedalera) · [interruptor_embrague](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#interruptor_embrague)
 
 ## Temas del capítulo
 | Tema | Página |

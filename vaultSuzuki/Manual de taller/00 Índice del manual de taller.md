@@ -10,7 +10,7 @@ Volver a [[00 Suzuki Swift ZC21S]]
 > 1584 páginas para los Swift ZC11S y ZC21S, con versiones de volante a la izquierda y a la derecha. Cada capítulo tiene una nota con un resumen propio, los temas (con enlace a la página del PDF), los despieces, los valores de servicio, los pares de apriete, los códigos de falla y las herramientas especiales.
 > El PDF original está en `Manual de taller/PDF/` y **no se sube a GitHub** (es material de Suzuki): los enlaces a páginas funcionan en el Obsidian de la compu, no en la página web.
 
-**Notas de conjunto:** [[Códigos de falla (DTC)]] · [[Pares de apriete]] · [[Herramientas especiales]] · [[Conectores del cableado]] · [[Circuitos eléctricos]]
+**Notas de conjunto:** [[Códigos de falla (DTC)]] · [[Pares de apriete]] · [[Herramientas especiales]] · [[Conectores del cableado]] · [[Circuitos eléctricos]] · [[Diagnóstico por síntoma]] · [[Guía técnica por pieza]]
 
 | Cap. | Capítulo | Páginas PDF | Temas | Despieces | Valores | Pares | DTC |
 | --- | --- | --- | --- | --- | --- | --- | --- |

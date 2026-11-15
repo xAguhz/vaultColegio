@@ -57,6 +57,12 @@
 .group-h::after { content: '▾'; color: var(--muted); }
 .group.cerrado .group-h::after { content: '▸'; }
 .group.cerrado .list { display: none; }
+.desmbar { position: absolute; left: 50%; transform: translateX(-50%); top: 52px; z-index: 6; display: flex; gap: 8px; align-items: center; padding: 6px 8px 6px 14px; border-radius: 12px; max-width: calc(100% - 20px); font-size: 13px; }
+.desmbar span { flex: 1; }
+.tec-tabla td, .tec-tabla th { vertical-align: top; font-size: 12.5px; }
+.tec-proc { margin: 0; padding-left: 18px; font-size: 13px; }
+.tec-proc li { margin: 2px 0; }
+.tec-proc small { color: var(--muted); font-family: var(--font-data); }
 .circ-actions { display: flex; gap: 6px; flex-wrap: wrap; margin: 8px 0 12px; }
 html, body { height: 100%; margin: 0; }
 body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 14px; line-height: 1.5; }
@@ -266,6 +272,7 @@ ul.mant { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
     </div>
     <div class="hud" id="hud" hidden></div>
     <div class="layerbar glass" id="layerbar" hidden></div>
+    <div class="desmbar glass" id="desmbar" hidden><span id="desm-txt"></span><button class="btn" id="desm-rep" type="button">Repetir</button><button class="btn" id="desm-fin" type="button">Salir</button></div>
     <div class="controls">
       <div class="slider">
         <label for="explode">Despiece</label>
@@ -325,6 +332,11 @@ const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const FICHAS = await fetch('fichas.json').then((r) => r.json());
 const MANIF = await fetch('capas.json').then((r) => r.json());
 const CIRCS = await fetch('circuitos.json').then((r) => r.json()).catch(() => ({}));
+const TEC = await fetch('tecnica.json').then((r) => r.json()).catch(() => ({}));
+// En la copia local (app de la compu) el PDF del manual está al lado: los procedimientos abren su página.
+const PDF_URL = '../../Manual de taller/PDF/Manual de taller Swift 2005-2010.pdf';
+let pdfOk = false;
+fetch('../../Manual de taller/PDF/disponible.txt', { cache: 'no-store' }).then((r) => { pdfOk = r.ok; if (pdfOk && selected && !focus) renderPart(selected); }).catch(() => {});
 const SITIO = 'https://xaguhz.github.io/vaultColegio/vaultSuzuki/';
 // Búsqueda acelerada de la pieza bajo el puntero (BVH): si la librería no carga, se usa la búsqueda común.
 let BVH = null;
@@ -710,6 +722,7 @@ cv.addEventListener('pointerleave', () => { $('tip').hidden = true; setHover(nul
 addEventListener('keydown', (e) => {
   if (e.key !== 'Escape') return;
   if (!$('lightbox').hidden) { closeLightbox(); return; }
+  if (desm) { salirDesm(); return; }
   if (focus) { exitFocus(); return; }
   if (selected) { selected = null; paint(); renderOverview(); setHash(''); refreshList(); }
 });
@@ -807,6 +820,7 @@ function renderPart(pid) {
     ${mant ? `<h3>Mantenimiento</h3><ul class="mant">${mant}</ul>` : ''}
     ${laminas(p.conjunto)}
     ${f.ver ? `<p class="ver">Más en el vault: <b>${esc(f.ver)}</b></p>` : ''}
+    ${tecnicaHtml(pid)}
     ${circsDe(pid)}`;
 }
 
@@ -1037,12 +1051,14 @@ function buildPages(pid, small) {
     const cards = [title];
     if (datos.length) cards.push({ k: 'Características', table: datos });
     if (mant.length) cards.push({ k: 'Mantenimiento', list: mant.map((m) => m.v) });
+    if (TEC[pid]?.fallas) cards.push({ k: 'Fallas típicas', list: TEC[pid].fallas.slice(0, 3).map(([a, b]) => `${a} → ${b}`) });
     if (f.ver) cards.push({ k: 'En el vault', v: f.ver });
     return [{ name: 'Todo', cards }];
   }
   const pages = [{ name: 'Identificación', cards: [title, f.que ? { k: 'Qué es', v: f.que } : null, f.ver ? { k: 'En el vault', v: f.ver } : null].filter(Boolean) }];
   if (datos.length) pages.push({ name: 'Características', cards: datos });
   if (mant.length) pages.push({ name: 'Mantenimiento', cards: mant });
+  if (TEC[pid]?.fallas) pages.push({ name: 'Fallas', cards: TEC[pid].fallas.map(([a, b, c], i, arr) => ({ k: 'Falla', num: `${i + 1}/${arr.length}`, v: `${a}: ${b}. ${c}` })) });
   return pages;
 }
 
@@ -1216,7 +1232,7 @@ function tickShow(now) {
 }
 
 // Acceso para pruebas, solo con ?debug en la dirección.
-if (new URLSearchParams(location.search).has('debug')) window.swift = { parts, enterFocus, exitFocus, goPage, get focus() { return focus; }, camera, controls, renderer, CAPAS, capaVisible, verCircuito, invalidate, setExplode, get dirty() { return dirty; } };
+if (new URLSearchParams(location.search).has('debug')) window.swift = { parts, enterFocus, exitFocus, goPage, get focus() { return focus; }, camera, controls, renderer, CAPAS, capaVisible, verCircuito, invalidate, setExplode, desmontar, salirDesm, paso: (ms) => tickDesm(performance.now() + ms), get desm() { return desm; }, get dirty() { return dirty; } };
 
 // ---------------------------------------------------------------- capas
 function capaVisible(id, on) {
@@ -1276,6 +1292,84 @@ function hudTick(now) {
 }
 
 // ---------------------------------------------------------------- circuitos
+function tecnicaHtml(pid) {
+  const t = TEC[pid];
+  if (!t) return '';
+  const nom = (q) => parts.get(q)?.nombre || q;
+  let h = '';
+  if (t.fallas) h += `<h3>Fallas típicas</h3><table class="data tec-tabla"><thead><tr><th>Síntoma</th><th>Causa y qué hacer</th></tr></thead><tbody>${t.fallas.map(([a, b, c]) => `<tr><th>${esc(a)}</th><td><b>${esc(b)}.</b> ${esc(c)}</td></tr>`).join('')}</tbody></table>`;
+  if (t.desmontaje) {
+    const d = t.desmontaje;
+    h += `<h3>Cómo se desmonta</h3>${d.antes.length ? `<p class="note">Antes hay que sacar: ${d.antes.map((q) => `<button class="chip" type="button" data-pid="${q}">${esc(nom(q))}</button>`).join(' ')}</p>` : ''}
+      <ol class="mant">${d.pasos.map((x) => `<li>${esc(x)}</li>`).join('')}</ol>
+      ${d.antes.length ? `<div class="btn-row"><button class="btn primary" type="button" data-desm="${pid}">Desmontaje animado</button></div>` : ''}`;
+  }
+  if (t.procedimientos) h += `<h3>En el manual de taller</h3><ul class="tec-proc">${t.procedimientos.map(([n, p]) => `<li>${pdfOk ? `<a href="${PDF_URL}#page=${p}" target="_blank" rel="noopener">${esc(n)}</a>` : esc(n)} <small>pág. ${p}</small></li>`).join('')}</ul>${pdfOk ? '' : '<p class="note">Las páginas abren el PDF en la app de la compu (el PDF no se publica).</p>'}`;
+  if (t.pares) h += `<h3>Pares de apriete</h3><table class="data"><tbody>${t.pares.map(([n, v]) => `<tr><th>${esc(n)}</th><td>${esc(v)} N·m</td></tr>`).join('')}</tbody></table>`;
+  if (t.herramientas) h += `<h3>Herramientas especiales</h3><p>${t.herramientas.map((x) => `<code>${esc(x)}</code>`).join(' ')}</p>`;
+  return h;
+}
+
+// ---------------------------------------------------------------- desmontaje animado
+let desm = null;
+function desmontar(pid) {
+  const t = TEC[pid]?.desmontaje;
+  if (!t || !parts.has(pid)) return;
+  if (focus) exitFocus();
+  circActivo = null;
+  const lista = t.antes.filter((q) => parts.has(q));
+  for (const q of [...lista, pid]) { const c = CAPAS.get(parts.get(q).capa); if (c && !c.visible) capaVisible(c.id, true); }
+  hidden.clear();
+  isolated = new Set([...lista, pid]);
+  selected = pid;
+  setExplode(0);
+  paint();
+  const box = new THREE.Box3();
+  for (const q of isolated) box.expandByObject(parts.get(q).obj);
+  const ctr = box.getCenter(new THREE.Vector3());
+  const r = Math.max(0.5, box.getSize(new THREE.Vector3()).length() * 0.7);
+  const dir = camera.position.clone().sub(controls.target).normalize();
+  flyTo(ctr, ctr.clone().addScaledVector(dir, r / Math.sin((camera.fov * Math.PI) / 360)), true, { x: 0, y: 0 });
+  desm = { pid, lista, i: 0, t0: performance.now() + 900, fin: false };
+  $('desmbar').hidden = false;
+  textoDesm();
+}
+function textoDesm() {
+  const d = desm;
+  if (!d) return;
+  $('desm-txt').textContent = d.fin ? `Listo: ya se puede sacar ${parts.get(d.pid).nombre}. Los pasos están en la ficha.`
+    : `Paso ${d.i + 1} de ${d.lista.length}: sacar ${parts.get(d.lista[d.i]).nombre}`;
+}
+function tickDesm(now) {
+  const d = desm;
+  if (!d || d.fin || now < d.t0) return;
+  const p = parts.get(d.lista[d.i]);
+  const k = Math.min(1, (now - d.t0) / 1100);
+  const v = p.vec.lengthSq() > 0.01 ? p.vec : new THREE.Vector3(0, 0.8, 0);
+  p.obj.position.copy(p.base).addScaledVector(v, ease(k) * 1.3);
+  for (const m of p.meshes) { m.material.emissive.copy(HL); m.material.emissiveIntensity = 0.45 * (1 - k); }
+  if (k >= 1) {
+    for (const m of p.meshes) setEmis(m, p.pid);
+    p.obj.visible = false;
+    d.i++;
+    d.t0 = now + 500;
+    if (d.i >= d.lista.length) { d.fin = true; for (const m of parts.get(d.pid).meshes) { m.material.emissive.copy(HL); m.material.emissiveIntensity = 0.5; } }
+    textoDesm();
+  }
+  invalidate();
+}
+function salirDesm() {
+  if (!desm) return;
+  desm = null;
+  $('desmbar').hidden = true;
+  isolated = null;
+  setExplode(explodeT);
+  paint();
+}
+$('desm-fin').addEventListener('click', salirDesm);
+$('desm-rep').addEventListener('click', () => { const pid = desm?.pid; salirDesm(); if (pid) desmontar(pid); });
+$('pane-ficha').addEventListener('click', (e) => { const b = e.target.closest('[data-desm]'); if (b) desmontar(b.dataset.desm); });
+
 function tituloCirc(c) { const t = c.nombre.replace(/^Diagrama del? circuito del? /, ''); return t[0].toUpperCase() + t.slice(1); }
 function circsDe(pid) {
   const cs = Object.entries(CIRCS).filter(([, c]) => (c.piezas || []).includes(pid));
@@ -1342,7 +1436,8 @@ renderer.setAnimationLoop((now) => {
   }
   controls.update();
   tickShow(now);
-  if (dirty || anim || fly || (focus && focus.show)) {
+  tickDesm(now);
+  if (dirty || anim || fly || (focus && focus.show) || (desm && !desm.fin)) {
     dirty = false;
     renderer.render(scene, camera);
     cuadros++;

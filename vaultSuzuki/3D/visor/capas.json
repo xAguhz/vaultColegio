@@ -36,10 +36,10 @@
     "Refrigeración",
     "Eléctrico"
    ],
-   "piezas": 22,
-   "triangulos": 30236,
-   "glb": 1136668,
-   "json": 1499651
+   "piezas": 23,
+   "triangulos": 33524,
+   "glb": 1263024,
+   "json": 1666106
   },
   {
    "id": "interior",
@@ -50,9 +50,9 @@
     "Aire acondicionado y calefacción"
    ],
    "piezas": 13,
-   "triangulos": 15120,
-   "glb": 501704,
-   "json": 657456
+   "triangulos": 15288,
+   "glb": 506548,
+   "json": 663917
   },
   {
    "id": "electrico",
@@ -64,9 +64,9 @@
     "Accesorios eléctricos"
    ],
    "piezas": 44,
-   "triangulos": 52264,
-   "glb": 2316484,
-   "json": 3047591
+   "triangulos": 52320,
+   "glb": 2323056,
+   "json": 3055968
   },
   {
    "id": "mecanismos",
@@ -75,10 +75,10 @@
     "Motor por dentro",
     "Caja por dentro"
    ],
-   "piezas": 12,
-   "triangulos": 63012,
-   "glb": 2266936,
-   "json": 3014177
+   "piezas": 11,
+   "triangulos": 58604,
+   "glb": 2142808,
+   "json": 2849713
   }
  ]
 }

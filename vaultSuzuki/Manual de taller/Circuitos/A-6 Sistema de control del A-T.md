@@ -10,7 +10,7 @@ Volver a [[Circuitos eléctricos]] · [[9A Sistemas de cableado]]
 PDF: [[Manual de taller Swift 2005-2010.pdf#page=1299|diagrama original, página 1299]] (copia local)
 
 > [!summary] Cómo funciona
-> Caja automática: el TCM lee el sensor de rango, las velocidades de entrada y salida, la temperatura del fluido y la mariposa (vía ECM) y maneja los solenoides de cambio y de presión.
+> No aplica a este auto (caja manual). En las versiones automáticas, el TCM lee el sensor de rango, las velocidades de entrada y salida, la temperatura del fluido y la mariposa (vía ECM) y maneja los solenoides de cambio y de presión.
 
 ```mermaid
 flowchart LR
@@ -21,8 +21,6 @@ flowchart LR
   F[Fusible AT ETM 15A] --> TCM
   TCM --> SOL[Solenoides de cambio y presión]
 ```
-
-**En el modelo 3D:** [tcm](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#tcm) · [sensor_rango_caja](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#sensor_rango_caja) · [caja_4at](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#caja_4at) · [caja_cuerpo_valvulas](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#caja_cuerpo_valvulas) · [ecu](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#ecu) · [mazo_motor](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#mazo_motor) · [palanca](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#palanca) · en el visor: **Circuitos → A-6**
 
 **Fusibles:** `BACK 10A`, `IG1 SIG 15A`, `LAMP 15A`, `RADIO 15A`
 

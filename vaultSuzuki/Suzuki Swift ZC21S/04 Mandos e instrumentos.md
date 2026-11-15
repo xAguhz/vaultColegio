@@ -12,8 +12,8 @@ Volver a [[00 Suzuki Swift ZC21S]]
 ## Puesto de manejo (auto japonés)
 - **Volante a la derecha.** El conductor se sube por la puerta delantera derecha.
 - En los autos japoneses, la **palanca de luces y giros va a la derecha** de la columna y la de **limpiaparabrisas a la izquierda** (al revés que en un auto argentino). Es lo primero que confunde al manejarlo.
-- **Pedales**: con caja automática hay solo dos, freno (ancho, a la izquierda) y acelerador. Se manejan los dos con el pie derecho.
-- **Palanca selectora** en la consola central: P · R · N · D · 3 · 2 · L (ver [[05 Conducción y caja automática]]).
+- **Pedales**: tres, de izquierda a derecha embrague, freno y acelerador.
+- **Palanca de cambios** en la consola central: 5 marchas y reversa (ver [[05 Conducción y caja manual]]).
 - **Freno de mano** de palanca, entre los asientos; actúa sobre los tambores traseros.
 
 ## Cuadro de instrumentos
@@ -41,6 +41,6 @@ El Swift de esta generación tiene un cuadro de **tres relojes**: velocímetro, 
 - **Levantavidrios** eléctricos con la botonera en la puerta del conductor.
 - **Aire acondicionado y calefacción**: perillas en el centro del tablero (velocidad del ventilador, temperatura y salida de aire). Para desempañar rápido: aire al parabrisas, ventilador al máximo y aire acondicionado prendido.
 - **Luneta térmica**: botón con el símbolo del vidrio trasero.
-- **Llave**: posiciones LOCK, ACC, ON y START. Con caja automática, el motor solo arranca en P o N.
+- **Llave**: posiciones LOCK, ACC, ON y START. El motor solo arranca con el pedal de embrague apretado a fondo.
 
-Ver también [[05 Conducción y caja automática]] · [[12 Seguridad, airbags y carrocería]]
+Ver también [[05 Conducción y caja manual]] · [[12 Seguridad, airbags y carrocería]]

@@ -31,7 +31,7 @@ Hay dos: la **del vano motor** (junto a la batería, con los fusibles grandes y 
 | FI | 15 A | Relé principal (inyección) |
 | HTR FAN | 30 A | Ventilador de la calefacción |
 | A/C CPRSR | 10 A | Compresor del aire acondicionado |
-| AT ETM | 15 A | Relé de la caja automática |
+| AT ETM | 15 A | Relé de la caja automática (no se usa en este auto manual) |
 | STOP LAMP | 15 A | Luces de freno |
 | ABS MOT / ABS SOL | 30 A / 30 A | Módulo del ABS |
 | ST MOT | 30 A | Relé del motor de arranque |

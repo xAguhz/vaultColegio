@@ -16,7 +16,7 @@ PDF: [[Manual de taller Swift 2005-2010.pdf#page=1329|diagrama original, página
 flowchart LR
   F[Fusible STOP LAMP 15A] --> IF[Interruptor del pedal]
   IF --> LF[Luces de freno y tercera luz]
-  IF --> ECM[ECM / TCM / ABS]
+  IF --> ECM[ECM / ABS]
 ```
 
 **En el modelo 3D:** [interruptor_freno](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#interruptor_freno) · [calavera_izq](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#calavera_izq) · [calavera_der](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#calavera_der) · [porton](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#porton) · [abs](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#abs) · en el visor: **Circuitos → D-7**

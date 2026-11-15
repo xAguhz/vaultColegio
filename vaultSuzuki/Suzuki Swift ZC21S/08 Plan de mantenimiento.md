@@ -32,15 +32,15 @@ Plan del manual de taller para **uso normal**, reorganizado por kilometraje. Val
 | Suspensión (ajuste, daños, ruidos) | — | I | — | I | — | I |
 | Dirección | — | I | — | I | — | I |
 | Fuelles de semiejes | — | — | I | — | — | I |
-| Nivel de ATF | — | I | — | I | — | I |
-| Manguera del ATF | — | — | — | I | — | — |
+| Aceite de la caja manual (pérdidas, nivel) | I | — | C | — | — | C |
+| Embrague (nivel del líquido, pérdidas) | — | I | — | I | — | I |
 | Bisagras, trabas y cerraduras | — | I | — | I | — | I |
 | Filtro de habitáculo (si tiene) | — | I | C | — | I | C |
 
 Con intervalo propio:
 - **Bujías de iridio** (NGK IFR6J11): cada **105 000 km** o 84 meses.
 - **Filtro de combustible**: cada **105 000 km**.
-- **Fluido de la caja automática**: cambio cada **165 000 km**.
+- **Aceite de la caja manual**: revisar a los primeros 15 000 km y cambiar a los 45 000 y 90 000 km.
 - **Freno de mano** (cable y recorrido): solo una inspección a los primeros 15 000 km.
 
 ## Uso severo
@@ -53,7 +53,7 @@ Si el auto hace **viajes cortos seguidos**, anda por **tierra o barro**, **mucho
 | Correa de accesorios | revisar cada 15 000 km, cambiar cada 45 000 km |
 | Bujías de níquel / iridio | cada 10 000 km (8 m) / cada 30 000 km (24 m) |
 | Rulemanes de rueda y semiejes | revisar cada 15 000 km |
-| Fluido de caja automática | cambiar cada 30 000 km o 24 meses |
+| Aceite de la caja manual | primero a los 15 000 km; después cada 30 000 km o 24 meses |
 | Filtro de habitáculo | revisar cada 15 000 km, cambiar cada 45 000 km |
 
 > [!tip] En Argentina

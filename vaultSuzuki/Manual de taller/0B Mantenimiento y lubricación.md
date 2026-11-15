@@ -13,7 +13,7 @@ Volver a [[00 Índice del manual de taller|Índice del manual]] · PDF: [[Manual
 
 **Notas del vault:** [[08 Plan de mantenimiento]] · [[07 Fluidos y capacidades]]
 
-**Piezas en el modelo 3D:** [filtro_aire](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#filtro_aire) · [bloque](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#bloque) · [bobinas](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#bobinas) · [canerias_freno](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#canerias_freno) · [caja_4at](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#caja_4at)
+**Piezas en el modelo 3D:** [filtro_aire](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#filtro_aire) · [bloque](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#bloque) · [bobinas](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#bobinas) · [canerias_freno](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#canerias_freno) · [caja_5mt](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#caja_5mt)
 
 ## Temas del capítulo
 | Tema | Página |

@@ -3,7 +3,7 @@
   {
    "id": "centro",
    "type": "text",
-   "text": "# Suzuki Swift 1.5XS\n**DBA-ZC21S** · Japón 2008\nM15A 1490 cm³ · 4AT · 5 puertas\nvolante a la derecha",
+   "text": "# Suzuki Swift 1.5XS\n**DBA-ZC21S** · Japón 2008\nM15A 1490 cm³ · manual 5 marchas · 5 puertas\nvolante a la derecha",
    "x": -170,
    "y": -90,
    "width": 340,
@@ -102,7 +102,7 @@
   {
    "id": "uso1",
    "type": "file",
-   "file": "Suzuki Swift ZC21S/05 Conducción y caja automática.md",
+   "file": "Suzuki Swift ZC21S/05 Conducción y caja manual.md",
    "x": -880,
    "y": 225,
    "width": 340,

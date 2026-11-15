@@ -70,8 +70,8 @@
   },
   "Transmisión": {
    "color": "#7852ee",
-   "nota": "05 Conducción y caja automática",
-   "resumen": "Caja automática de 4 marchas con convertidor de par y diferencial integrado (transeje), tracción delantera. Relación final 4,052.",
+   "nota": "05 Conducción y caja manual",
+   "resumen": "Caja manual de 5 marchas y marcha atrás con diferencial incorporado (transeje), tracción delantera, embrague de disco en seco con mando hidráulico y palanca con dos cables (cambio y selección).",
    "laminas": [
     [
      "lamina_motor.jpg",
@@ -82,7 +82,7 @@
   "Refrigeración": {
    "color": "#00bfbc",
    "nota": "07 Fluidos y capacidades",
-   "resumen": "Circuito presurizado con radiador, electroventilador y depósito recuperador. Lleva 6,1 L de refrigerante al 50 % (versión automática).",
+   "resumen": "Circuito presurizado con radiador, electroventilador y depósito recuperador. Lleva 6,2 L de refrigerante al 50 % (versión manual).",
    "laminas": [
     [
      "lamina_motor.jpg",
@@ -196,7 +196,7 @@
   "Módulos de control": {
    "color": "#9b5de5",
    "nota": "Manual de taller › 1A, 5A, 6C, 8B, 10B, 10C",
-   "resumen": "Las computadoras del auto: ECM (motor), TCM (caja), BCM dentro del bloque de empalmes, EPS (dirección), SDM (airbag), módulo de arranque sin llave, antena del inmovilizador y el cuadro de instrumentos.",
+   "resumen": "Las computadoras del auto: ECM (motor), BCM dentro del bloque de empalmes, EPS (dirección), SDM (airbag), módulo de arranque sin llave, antena del inmovilizador y el cuadro de instrumentos.",
    "laminas": [
     [
      "lamina_electrico.jpg",
@@ -233,8 +233,8 @@
   },
   "Caja por dentro": {
    "color": "#6c757d",
-   "nota": "Manual de taller › 5A",
-   "resumen": "Lo que está dentro del transeje automático: bomba de aceite, embragues, tren planetario Ravigneaux, cuerpo de válvulas con solenoides, engranajes de salida y diferencial.",
+   "nota": "Manual de taller › 5B",
+   "resumen": "Por dentro del transeje manual: eje de entrada, contraeje con el piñón de ataque, eje de marcha atrás con piñón loco deslizante, tres sincronizadores (baja en el contraeje con doble cono en 2ª, alta y 5ª en el eje de entrada), horquillas y diferencial.",
    "laminas": [
     [
      "lamina_caja_dentro.jpg",
@@ -667,7 +667,7 @@
    "ver": "08 Plan de mantenimiento"
   },
   "arranque": {
-   "que": "Motor eléctrico que hace girar el motor para arrancar, montado en la caja. Con caja automática solo arranca en P o N.",
+   "que": "Motor eléctrico que hace girar el motor para arrancar, montado en la caja. Con caja manual solo arranca con el pedal de embrague apretado.",
    "datos": [
     [
      "Potencia",
@@ -695,32 +695,6 @@
     "Inspeccionar cada 15 000 km y cambiar cada 45 000 km (en calles de tierra, mucho más seguido)."
    ],
    "ver": "08 Plan de mantenimiento"
-  },
-  "caja_4at": {
-   "que": "Transeje automático de 4 marchas con convertidor de par, engranajes planetarios y diferencial. Los cambios los decide la computadora de la caja (TCM).",
-   "datos": [
-    [
-     "Relaciones",
-     "1ª 2,875 · 2ª 1,568 · 3ª 1,000 · 4ª 0,697 · R 2,300"
-    ],
-    [
-     "Final",
-     "4,052"
-    ],
-    [
-     "Fluido",
-     "SUZUKI ATF 3317 o Mobil ATF 3309"
-    ],
-    [
-     "Capacidad",
-     "3,3 L en un cambio · 5,6 L total"
-    ]
-   ],
-   "mant": [
-    "Controlar el nivel cada 30 000 km; cambiar el fluido cada 165 000 km (30 000 km en uso severo).",
-    "El nivel se mide en caliente, en P y con el motor en marcha."
-   ],
-   "ver": "05 Conducción y caja automática"
   },
   "semieje_izq": {
    "que": "Palier que lleva el giro del diferencial a la rueda izquierda, con juntas homocinéticas en cada punta.",
@@ -750,22 +724,26 @@
    "ver": "09 Frenos, suspensión, dirección y ruedas"
   },
   "palanca": {
-   "que": "Palanca selectora de la caja automática en la consola central.",
+   "que": "Palanca de cambios en la consola: dos cables la unen con la caja, uno para el movimiento de cambio (adelante-atrás) y otro para el de selección (izquierda-derecha).",
    "datos": [
     [
-     "Posiciones",
-     "P · R · N · D · 3 · 2 · L"
+     "Esquema",
+     "5 marchas y reversa"
     ],
     [
-     "Arranque",
-     "solo en P o N"
+     "Fijación de la palanca",
+     "10 N·m"
+    ],
+    [
+     "Soporte de los cables",
+     "55 N·m"
     ]
    ],
    "mant": [
-    "Para salir de P hay que pisar el freno.",
-    "No pasar a P o R con el auto en movimiento."
+    "Cambios duros o imprecisos: revisar el ajuste y el desgaste de los cables antes que la caja.",
+    "Grasa en los extremos de los cables al montarlos."
    ],
-   "ver": "05 Conducción y caja automática"
+   "ver": "05 Conducción y caja manual"
   },
   "radiador": {
    "que": "Intercambiador de aluminio con tanques plásticos que enfría el líquido del motor con el aire de la marcha.",
@@ -775,8 +753,8 @@
      "etilenglicol al 50 %"
     ],
     [
-     "Capacidad (AT)",
-     "5,4 L motor + radiador + 0,7 L depósito"
+     "Capacidad (M/T)",
+     "5,5 L motor + radiador + 0,7 L depósito = 6,2 L"
     ]
    ],
    "mant": [
@@ -1293,11 +1271,11 @@
    "ver": "04 Mandos e instrumentos"
   },
   "pedalera": {
-   "que": "Con caja automática hay solo dos pedales: freno (ancho) y acelerador.",
+   "que": "Tres pedales (de izquierda a derecha): embrague, freno y acelerador. El interruptor del embrague solo deja arrancar con el pedal a fondo.",
    "datos": [
     [
-     "Pedales",
-     "freno y acelerador"
+     "Juego libre del embrague",
+     "2–8 mm"
     ],
     [
      "Altura del freno",
@@ -1305,9 +1283,9 @@
     ]
    ],
    "mant": [
-    "Manejar con el pie derecho solo; el izquierdo descansa."
+    "Pedal de embrague duro o con ruido: lubricar el pivote y revisar la bomba."
    ],
-   "ver": "05 Conducción y caja automática"
+   "ver": "05 Conducción y caja manual"
   },
   "tapa_combustible": {
    "que": "Tapa redonda de la boca de carga de nafta, en el costado trasero izquierdo. Se abre con una palanca desde el asiento del conductor.",
@@ -1382,7 +1360,7 @@
     "Revisar el recorrido a los primeros 15 000 km.",
     "En pendiente, poner el freno de mano antes de pasar a P."
    ],
-   "ver": "05 Conducción y caja automática"
+   "ver": "05 Conducción y caja manual"
   },
   "bastidor": {
    "que": "Cuna de acero abulonada abajo del vano motor. Sostiene los brazos de la suspensión y un soporte del motor.",
@@ -1620,19 +1598,6 @@
     "Pérdida por el agujero testigo de la bomba de agua: cambiarla."
    ],
    "ver": "06 Motor M15A"
-  },
-  "convertidor": {
-   "que": "Convertidor de par: acople hidráulico entre el motor y la caja automática, abulonado a la placa de arrastre del cigüeñal. Permite que el auto quede parado en D con el motor en marcha.",
-   "datos": [
-    [
-     "Fijación",
-     "3 pernos a la placa de arrastre"
-    ]
-   ],
-   "mant": [
-    "Al montar la caja, verificar que el convertidor entró hasta el fondo antes de apretar."
-   ],
-   "ver": "05 Conducción y caja automática"
   },
   "canister": {
    "que": "Recipiente con carbón activado que junta los vapores de nafta del tanque. La computadora abre la válvula de purga para quemarlos en el motor.",
@@ -1933,7 +1898,7 @@
    "ver": "Manual › 1K Sistema de escape"
   },
   "sensor_vss": {
-   "que": "Sensor de velocidad del vehículo en la caja: lo usan el velocímetro, el ECM, el TCM y la dirección eléctrica.",
+   "que": "Sensor de velocidad del vehículo en la caja: lo usan el velocímetro, el ECM y la dirección eléctrica.",
    "datos": [
     [
      "Conector",
@@ -1983,21 +1948,8 @@
    ],
    "ver": "Manual › 1B Dispositivos auxiliares de control de emisiones"
   },
-  "sensor_rango_caja": {
-   "que": "Interruptor en el eje de la palanca de la caja: le dice al TCM y al ECM en qué posición está (P R N D 3 2 L), permite el arranque solo en P o N y prende la luz de marcha atrás.",
-   "datos": [
-    [
-     "Códigos",
-     "—"
-    ]
-   ],
-   "mant": [
-    "Si no arranca en P, probar en N: puede estar desajustado."
-   ],
-   "ver": "Manual › 5A Transmisión automática - Transeje automático"
-  },
   "interruptor_freno": {
-   "que": "Interruptor sobre el pedal de freno: enciende las luces de freno y avisa al ECM, al TCM y al ABS que se está frenando.",
+   "que": "Interruptor sobre el pedal de freno: enciende las luces de freno y avisa al ECM y al ABS que se está frenando.",
    "datos": [
     [
      "Fusible",
@@ -2076,27 +2028,6 @@
     "Revisar los cables de alta si hay fallas en un solo par de cilindros."
    ],
    "ver": "Manual › 1H Sistema de encendido"
-  },
-  "tcm": {
-   "que": "Computadora de la caja automática: decide los cambios con la velocidad, la mariposa y el rango; maneja los solenoides de cambio y de presión.",
-   "datos": [
-    [
-     "Conectores",
-     "C34 · C35"
-    ],
-    [
-     "Fusible",
-     "AT ETM 15 A"
-    ],
-    [
-     "Códigos",
-     "P1603, P1676, P0751 / P0752 / P0756 / P0757, P0751, P0752, P0756"
-    ]
-   ],
-   "mant": [
-    "Leer los códigos P07xx con escáner antes de tocar la caja."
-   ],
-   "ver": "Manual › 5A Transmisión automática - Transeje automático"
   },
   "modulo_eps": {
    "que": "Módulo de la dirección eléctrica: lee el sensor de par y la velocidad y controla el motor de asistencia.",
@@ -2245,7 +2176,7 @@
    "ver": "Manual › 6C Sistema de servodirección asistida"
   },
   "mazo_tablero": {
-   "que": "Mazo del tablero sobre el travesaño: cuadro, radio, climatizador, columna, airbag del acompañante, TCM y bloque de empalmes.",
+   "que": "Mazo del tablero sobre el travesaño: cuadro, radio, climatizador, columna, airbag del acompañante, interruptor del embrague y bloque de empalmes.",
    "datos": [
     [
      "Conectores",
@@ -2426,87 +2357,186 @@
    ],
    "ver": "Manual › 4A Sistema de mando de los frenos y diagnósticos"
   },
-  "caja_bomba_aceite": {
-   "que": "Bomba de aceite de la caja, movida por el convertidor: da la presión para embragues, frenos y lubricación.",
-   "datos": [
-    [
-     "Fluido",
-     "ATF 3317 / 3309"
-    ]
-   ],
-   "mant": [
-    "Fluido quemado o bajo daña la bomba: controlar el nivel."
-   ],
-   "ver": "Manual › 5A Transmisión automática - Transeje automático"
-  },
-  "caja_embragues": {
-   "que": "Paquetes de discos de fricción y de acero de los embragues de directa, avance y reversa; se aprietan con presión de aceite.",
-   "datos": [
-    [
-     "Elementos",
-     "3 embragues, 3 frenos, 2 ruedas libres"
-    ]
-   ],
-   "mant": [
-    "Patinamiento al cambiar: revisar nivel y presión antes de desarmar."
-   ],
-   "ver": "Manual › 5A Transmisión automática - Transeje automático"
-  },
-  "caja_planetario": {
-   "que": "Tren planetario tipo Ravigneaux: dos solares, piñones largos y cortos y una corona; según qué se frena o se une, da las 4 marchas y la reversa.",
-   "datos": [
-    [
-     "Dientes",
-     "solar del. 24 · solar tras. 30 · piñón largo 20 · corto 19 · corona 69"
-    ],
-    [
-     "Relaciones",
-     "2,875 · 1,568 · 1,000 · 0,697 · R 2,300"
-    ]
-   ],
-   "mant": [
-    "Ruido en una sola marcha suele ser un piñón del planetario."
-   ],
-   "ver": "Manual › 5A Transmisión automática - Transeje automático"
-  },
-  "caja_cuerpo_valvulas": {
-   "que": "Cuerpo de válvulas: reparte la presión a cada embrague y freno; los solenoides de cambio y de presión los maneja el TCM.",
-   "datos": [
-    [
-     "Solenoides",
-     "cambio A y B, control de presión, TCC"
-    ]
-   ],
-   "mant": [
-    "Muy sensible a la suciedad: fluido limpio y del tipo indicado."
-   ],
-   "ver": "Manual › 5A Transmisión automática - Transeje automático"
-  },
-  "caja_engranajes": {
-   "que": "Engranaje de salida del planetario, intermedio y piñón de ataque al diferencial.",
-   "datos": [
-    [
-     "Reducción",
-     "1,023"
-    ]
-   ],
-   "mant": [
-    "—"
-   ],
-   "ver": "Manual › 5A Transmisión automática - Transeje automático"
-  },
   "caja_diferencial": {
    "que": "Diferencial: la corona recibe el giro y los satélites y planetarios reparten entre las dos ruedas permitiendo que giren distinto en las curvas.",
    "datos": [
     [
-     "Reducción final",
-     "4,052"
+     "Juego de empuje de los engranajes",
+     "0,03–0,31 mm"
+    ],
+    [
+     "Perno de la corona",
+     "90 N·m"
     ]
    ],
    "mant": [
     "Ruido al doblar: revisar satélites y rodamientos."
    ],
-   "ver": "Manual › 5A Transmisión automática - Transeje automático"
+   "ver": "Manual › 5B Transmisión - Transeje manual"
+  },
+  "caja_5mt": {
+   "que": "Transeje manual: caja de 5 marchas y marcha atrás con el diferencial adentro, de aluminio, a la izquierda del motor. Arriba tiene el mecanismo de cambio, al que llegan los cables de la palanca.",
+   "datos": [
+    [
+     "Aceite",
+     "API GL-4 75W-90"
+    ],
+    [
+     "Capacidad",
+     "2,2 L (referencia)"
+    ],
+    [
+     "Tapones de llenado y vaciado",
+     "21 N·m"
+    ],
+    [
+     "Interruptor de marcha atrás",
+     "23 N·m"
+    ]
+   ],
+   "mant": [
+    "Revisar pérdidas y nivel a los primeros 15 000 km; cambiar el aceite a los 45 000 y 90 000 km (cada 30 000 en uso severo).",
+    "El nivel llega al borde del agujero del tapón de llenado; sellador en la rosca al cerrarlo."
+   ],
+   "ver": "05 Conducción y caja manual"
+  },
+  "embrague": {
+   "que": "Embrague de disco en seco: la placa de presión aprieta el disco contra el volante motor. Al pisar el pedal, el cilindro receptor mueve la horquilla y el rodamiento empuja el diafragma y libera el disco.",
+   "datos": [
+    [
+     "Profundidad de los remaches del disco",
+     "1,65–2,25 mm (límite 0,5)"
+    ],
+    [
+     "Pernos de la placa",
+     "23 N·m"
+    ],
+    [
+     "Pernos del volante",
+     "70 N·m"
+    ],
+    [
+     "Juego libre del pedal",
+     "2–8 mm"
+    ]
+   ],
+   "mant": [
+    "Patina (sube vueltas y no acelera): disco gastado o con aceite.",
+    "Al cambiarlo, centrar el disco con la herramienta y revisar el volante y el rodamiento."
+   ],
+   "ver": "Manual › 5C Embrague"
+  },
+  "bomba_embrague": {
+   "que": "Cilindro maestro del embrague en el torpedo, empujado por el pedal. Toma líquido del depósito de frenos y manda presión por el tubo y la manguera al cilindro receptor de la caja.",
+   "datos": [
+    [
+     "Líquido",
+     "DOT 3 (compartido con los frenos)"
+    ],
+    [
+     "Juego de la varilla",
+     "hasta 3 mm"
+    ]
+   ],
+   "mant": [
+    "Pedal que se va al piso o no vuelve: pérdida o aire en el circuito; purgar por el receptor.",
+    "Revisar nivel y pérdidas cada 30 000 km."
+   ],
+   "ver": "Manual › 5C Embrague"
+  },
+  "eje_entrada": {
+   "que": "Eje de entrada: recibe el giro del disco de embrague. Lleva los engranajes de 1ª a 5ª y los sincronizadores de alta (3ª-4ª) y de 5ª.",
+   "datos": [
+    [
+     "Sincronizadores",
+     "alta (3ª-4ª) y 5ª"
+    ],
+    [
+     "Holgura anillo-engranaje",
+     "1,0–1,3 mm (límite 0,5)"
+    ]
+   ],
+   "mant": [
+    "Los anillos sincronizadores no se pulen: si están bajo el límite, se cambian."
+   ],
+   "ver": "Manual › 5B Transmisión - Transeje manual"
+  },
+  "contraeje": {
+   "que": "Contraeje: los engranajes que engranan con los del eje de entrada, el sincronizador de baja (1ª-2ª, con doble cono en 2ª) y el piñón de ataque que mueve la corona del diferencial.",
+   "datos": [
+    [
+     "Rodamientos",
+     "de rodillos cónicos con precarga"
+    ],
+    [
+     "Tuerca del contraeje",
+     "70–100 N·m según el lado"
+    ]
+   ],
+   "mant": [
+    "Al armar, ajustar la precarga de los rodamientos cónicos como indica el manual."
+   ],
+   "ver": "Manual › 5B Transmisión - Transeje manual"
+  },
+  "eje_marcha_atras": {
+   "que": "Eje de marcha atrás con el piñón loco deslizante: se mete entre el eje de entrada y el contraeje e invierte el giro. Un freno de marcha atrás (sincronización de 5ª) frena el eje de entrada para que no cruja.",
+   "datos": [
+    [
+     "Perno del eje",
+     "23 N·m"
+    ]
+   ],
+   "mant": [
+    "Poner reversa con el auto detenido y el embrague a fondo."
+   ],
+   "ver": "Manual › 5B Transmisión - Transeje manual"
+  },
+  "horquillas": {
+   "que": "Eje de cambio y horquillas: mueven los manguitos de los sincronizadores según la palanca.",
+   "datos": [
+    [
+     "Perno de la horquilla",
+     "10 N·m"
+    ]
+   ],
+   "mant": [
+    "Marchas que se salen solas: horquillas, manguitos o resortes de retención gastados."
+   ],
+   "ver": "Manual › 5B Transmisión - Transeje manual"
+  },
+  "interruptor_marcha_atras": {
+   "que": "Interruptor en la caja que cierra cuando se pone reversa y enciende las luces de marcha atrás.",
+   "datos": [
+    [
+     "Par de apriete",
+     "23 N·m"
+    ],
+    [
+     "Circuito",
+     "D-8"
+    ]
+   ],
+   "mant": [
+    "Si no prenden las luces de marcha atrás, revisar el interruptor y su conector."
+   ],
+   "ver": "Manual › 5B Transmisión - Transeje manual"
+  },
+  "interruptor_embrague": {
+   "que": "Interruptor sobre el pedal de embrague: el motor de arranque solo funciona con el pedal apretado a fondo.",
+   "datos": [
+    [
+     "Conector",
+     "E74"
+    ],
+    [
+     "Circuito",
+     "A-1"
+    ]
+   ],
+   "mant": [
+    "Si no arranca, probar el interruptor y su regulación con el pedal."
+   ],
+   "ver": "Manual › 5C Embrague"
   }
  }
 }

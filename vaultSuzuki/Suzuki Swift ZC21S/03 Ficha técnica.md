@@ -7,7 +7,7 @@ actualizado: 2026-11-14
 
 Volver a [[00 Suzuki Swift ZC21S]]
 
-Datos del **catálogo japonés del 1.5XS (DBA-ZC21S, 2WD, 4AT)** y del **manual de taller RS415**. Cuando un dato sale solo del manual de taller (versión europea) se marca con *(MT)*.
+Datos del **catálogo japonés del 1.5XS (DBA-ZC21S, 2WD)**, que figura con caja automática; **este auto es manual**, así que la caja, el peso y el consumo pueden diferir. Mecánica de la caja manual: manual de taller (5B, 5C) y del **manual de taller RS415**. Cuando un dato sale solo del manual de taller (versión europea) se marca con *(MT)*.
 
 ![[swift_perfil.jpg|600]]
 
@@ -41,9 +41,9 @@ Datos del **catálogo japonés del 1.5XS (DBA-ZC21S, 2WD, 4AT)** y del **manual 
 | Dato | Valor |
 | ---- | ----- |
 | Tracción | Delantera (FF) |
-| Caja | Automática de 4 marchas con convertidor de par |
-| Relaciones *(MT)* | 1ª 2,875 · 2ª 1,568 · 3ª 1,000 · 4ª 0,697 (superdirecta) · MA 2,300 |
-| Reducción final *(MT)* | 4,052 |
+| Caja | Manual de 5 marchas y marcha atrás, 3 sincronizadores (doble cono en 2ª) |
+| Embrague | Disco en seco, mando hidráulico |
+| Aceite de la caja | API GL-4 75W-90 · 2,2 L |
 
 ## Chasis
 | Dato | Valor |

@@ -37,6 +37,6 @@ El sistema de retención suplementaria (**SRS**) tiene los airbags frontales, la
 - Disponer el aceite usado y los filtros en un punto de recolección.
 
 ## Remolque
-- Con caja automática: **ruedas delanteras levantadas** o en grúa de plataforma (ver [[05 Conducción y caja automática]]).
+- Lo más seguro es la **grúa de plataforma**. Para remolcarlo con las ruedas en el piso, seguir lo que indica el manual del propietario (velocidad y distancia máximas) (ver [[05 Conducción y caja manual]]).
 
 Ver también [[04 Mandos e instrumentos]] · [[10 Sistema eléctrico]]

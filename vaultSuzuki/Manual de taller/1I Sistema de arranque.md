@@ -9,7 +9,7 @@ paginas_pdf: "460-469"
 Volver a [[00 Índice del manual de taller|Índice del manual]] · PDF: [[Manual de taller Swift 2005-2010.pdf#page=460|abrir en la página 460]] (páginas 460 a 469, solo en la copia local)
 
 > [!summary] De qué trata
-> Arranque: motor de arranque con su relé y el circuito que solo permite arrancar en P o N; pruebas de funcionamiento y desarme del motor de arranque.
+> Arranque: motor de arranque con su relé y el circuito que solo permite arrancar con el embrague apretado (en las automáticas, en P o N); pruebas y desarme del motor de arranque.
 
 **Notas del vault:** [[10 Sistema eléctrico]]
 

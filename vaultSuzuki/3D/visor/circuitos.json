@@ -7,11 +7,12 @@
 "cable_bateria",
 "fusibles",
 "arranque",
-"sensor_rango_caja",
+"interruptor_embrague",
+"pedalera",
 "ecu",
 "mazo_motor"
 ],
-"explicacion": "La llave en START (o el botón, con arranque sin llave) alimenta el relé de arranque a través del fusible ST SIG; el ECM solo lo deja cerrar con la caja en P o N (sensor de rango). El relé conecta el solenoide del motor de arranque, que toma corriente directa de la batería por el cable grueso.",
+"explicacion": "La llave en START alimenta el relé de arranque a través del fusible ST SIG; en este auto manual, el interruptor del pedal de embrague (E74) solo cierra el circuito con el pedal a fondo (en las automáticas lo hace el sensor de rango en P o N). El relé conecta el solenoide del motor de arranque, que toma corriente directa de la batería por el cable grueso.",
 "pagina": 1290
 },
 "A-2": {
@@ -89,16 +90,8 @@
 "A-6": {
 "nombre": "Diagrama del circuito del sistema de control del A/T",
 "nota": "A-6 Sistema de control del A-T",
-"piezas": [
-"tcm",
-"sensor_rango_caja",
-"caja_4at",
-"caja_cuerpo_valvulas",
-"ecu",
-"mazo_motor",
-"palanca"
-],
-"explicacion": "Caja automática: el TCM lee el sensor de rango, las velocidades de entrada y salida, la temperatura del fluido y la mariposa (vía ECM) y maneja los solenoides de cambio y de presión.",
+"piezas": [],
+"explicacion": "No aplica a este auto (caja manual). En las versiones automáticas, el TCM lee el sensor de rango, las velocidades de entrada y salida, la temperatura del fluido y la mariposa (vía ECM) y maneja los solenoides de cambio y de presión.",
 "pagina": 1299
 },
 "A-7": {
@@ -248,9 +241,9 @@
 "nota": "C-2 Juego de instrumentos (indicador)",
 "piezas": [
 "cuadro_instrumentos",
-"tcm"
+"bloque_empalmes"
 ],
-"explicacion": "Indicadores del cuadro: giros, luz alta, marcha seleccionada.",
+"explicacion": "Indicadores del cuadro: giros, luz alta y, en las automáticas, la marcha seleccionada.",
 "pagina": 1318
 },
 "C-3": {
@@ -353,11 +346,12 @@
 "nombre": "Diagrama del circuito del sistema de las luces de marcha atrás",
 "nota": "D-8 Sistema de las luces de marcha atrás",
 "piezas": [
-"sensor_rango_caja",
+"interruptor_marcha_atras",
+"caja_5mt",
 "calavera_izq",
 "calavera_der"
 ],
-"explicacion": "Marcha atrás: el sensor de rango de la caja enciende las luces al pasar a R.",
+"explicacion": "Marcha atrás: en la caja manual, el interruptor de luz de marcha atrás cierra al poner reversa y enciende las luces.",
 "pagina": 1330
 },
 "D-9": {

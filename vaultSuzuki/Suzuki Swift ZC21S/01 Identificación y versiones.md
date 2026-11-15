@@ -38,7 +38,7 @@ Los hermanos de la misma generación:
 - **Etiqueta de presiones de neumáticos**: en el marco de la puerta del conductor (lado derecho).
 
 ## La versión 1.5XS
-El **1.5XS** era la versión de 1,5 L del catálogo japonés (además hubo series especiales). El 1.5XS japonés de 2007-2009 se vendía **solo con caja automática de 4 marchas** y traía llantas de aleación de 15" con neumáticos 185/60R15. El manual de taller incluye ABS y airbags frontales para esta carrocería; conviene confirmar en el auto (testigos ABS y SRS al dar contacto).
+El **1.5XS** era la versión de 1,5 L del catálogo japonés (además hubo series especiales). El 1.5XS japonés de 2007-2009 figura en el catálogo con caja automática de 4 marchas, pero **este auto es manual de 5 marchas**: puede ser una versión de exportación o tener la caja cambiada (confirmar en el 車検証 y en la plaqueta del vano motor) y traía llantas de aleación de 15" con neumáticos 185/60R15. El manual de taller incluye ABS y airbags frontales para esta carrocería; conviene confirmar en el auto (testigos ABS y SRS al dar contacto).
 
 > [!tip] Para confirmar que el auto es este
 > Mirar el 車検証: tiene que decir `DBA-ZC21S` en *型式* y `M15A` en *原動機の型式*. Si dice `ZD21S`, es la 4×4 y cambian la caja de transferencia y el eje trasero.

@@ -9,7 +9,11 @@ paginas_pdf: "834-912"
 Volver a [[00 Índice del manual de taller|Índice del manual]] · PDF: [[Manual de taller Swift 2005-2010.pdf#page=834|abrir en la página 834]] (páginas 834 a 912, solo en la copia local)
 
 > [!summary] De qué trata
-> Caja manual de 5 marchas (no la lleva el 1.5XS japonés): varillaje, aceite y desarme.
+> Caja manual de 5 marchas, la de este auto (hay una parte para el M13 y otra para el M15): cables y palanca de cambio, aceite, retenes, desmontaje de la unidad y desarme de eje de entrada, contraeje, sincronizadores, marcha atrás y diferencial.
+
+**Notas del vault:** [[05 Conducción y caja manual]]
+
+**Piezas en el modelo 3D:** [caja_5mt](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#caja_5mt) · [palanca](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#palanca) · [eje_entrada](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#eje_entrada) · [contraeje](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#contraeje) · [eje_marcha_atras](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#eje_marcha_atras) · [horquillas](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#horquillas) · [caja_diferencial](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#caja_diferencial) · [interruptor_marcha_atras](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#interruptor_marcha_atras) · [sensor_vss](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#sensor_vss)
 
 ## Temas del capítulo
 | Tema | Página |

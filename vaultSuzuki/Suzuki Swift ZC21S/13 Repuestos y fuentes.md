@@ -8,14 +8,15 @@ actualizado: 2026-11-14
 Volver a [[00 Suzuki Swift ZC21S]]
 
 ## Repuestos de mantenimiento
-Al pedir repuestos conviene dar **modelo + código de chasis + motor**: *Suzuki Swift 2008, ZC21S, M15A 1.5, automático*. Los repuestos mecánicos son los mismos que los del Swift 1.5 europeo, australiano y asiático de 2005-2010.
+Al pedir repuestos conviene dar **modelo + código de chasis + motor**: *Suzuki Swift 2008, ZC21S, M15A 1.5, caja manual de 5 marchas*. Los repuestos mecánicos son los mismos que los del Swift 1.5 europeo, australiano y asiático de 2005-2010.
 
 | Repuesto | Referencia |
 | -------- | ---------- |
 | Bujías de níquel | NGK BKR6E-11 · Denso K20PR-U11 (luz 1,0–1,1 mm) |
 | Bujías de iridio | NGK IFR6J11 |
 | Aceite de motor | API SL o superior · 5W-30 · ≈ 3,9 L con filtro |
-| Fluido de caja | SUZUKI ATF 3317 o Mobil ATF 3309 · 3,3 L en un cambio |
+| Aceite de caja | API GL-4 75W-90 · 2,2 L |
+| Kit de embrague | disco, placa de presión y rodamiento de empuje (M15A, caja manual) |
 | Refrigerante | Anticongelante de etilenglicol al 50 % · ≈ 6,1 L |
 | Líquido de frenos | DOT 3 |
 | Batería | 46B24R (12 V, 36 Ah), borne positivo a la derecha |

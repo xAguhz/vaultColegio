@@ -9,11 +9,7 @@ paginas_pdf: "636-833"
 Volver a [[00 Índice del manual de taller|Índice del manual]] · PDF: [[Manual de taller Swift 2005-2010.pdf#page=636|abrir en la página 636]] (páginas 636 a 833, solo en la copia local)
 
 > [!summary] De qué trata
-> Caja automática de 4 marchas: cómo trabajan los embragues, frenos y el tren planetario, el TCM y sus solenoides, pruebas en el auto (presión, calado, tiempos), diagnóstico de códigos y el desarme completo de la caja.
-
-**Notas del vault:** [[05 Conducción y caja automática]]
-
-**Piezas en el modelo 3D:** [caja_4at](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#caja_4at) · [convertidor](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#convertidor) · [palanca](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#palanca) · [tcm](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#tcm) · [sensor_rango_caja](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#sensor_rango_caja) · [caja_bomba_aceite](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#caja_bomba_aceite) · [caja_embragues](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#caja_embragues) · [caja_planetario](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#caja_planetario) · [caja_cuerpo_valvulas](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#caja_cuerpo_valvulas) · [caja_diferencial](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#caja_diferencial) · [caja_engranajes](https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html#caja_engranajes)
+> Caja automática de 4 marchas (no la lleva este auto, que es manual): embragues, frenos, tren planetario, TCM, pruebas y desarme.
 
 ## Temas del capítulo
 | Tema | Página |

@@ -1095,6 +1095,8 @@ for lado, s in (('izq', 1), ('der', -1)):
     fg.ellip((1.842, s * 0.595, 0.34), (0.008, 0.044, 0.044), M['blanco_luz'], rot=Matrix.Rotation(math.radians(14 * s), 3, 'Z'))
     make(f'antiniebla_{lado}', f"Faro antiniebla {'izquierdo' if s > 0 else 'derecho'}", CJ, fg, (0.80, s * 0.35, -0.05))
 
+M['friccion'] = mat('Material de fricción', srgb('#5a4a3a'), 0.0, 0.9)
+
 
 # ================================================================ helpers de piezas
 def fuelle(part, p0, p1, r0, r1, pliegues, m, segs=24):
@@ -1414,10 +1416,10 @@ alt = [(0.0, -0.07)]
 for k in range(8):
     alt += [(0.062, -0.065 + k * 0.016), (0.066, -0.058 + k * 0.016)]
 alt += [(0.062, 0.065), (0.0, 0.07)]
-acc.lathe((1.19, -0.38, 0.60), alt, M['aluminio'], sign=-1, segs=32)                                 # alternador (atrás, arriba)
-acc.cyl('Y', (1.19, -0.455, 0.60), 0.03, 0.03, M['acero_osc'])
-acc.curve([(XC, -0.455, 0.33), (1.43, -0.455, 0.36), (1.45, -0.455, 0.62), (1.40, -0.455, 0.67), (1.19, -0.455, 0.63),
-           (1.16, -0.455, 0.60), (1.20, -0.455, 0.57), (1.31, -0.455, 0.42), (XC, -0.455, 0.33)], 0.0055, M['correa'], segs=6)
+acc.lathe((1.21, -0.38, 0.45), alt, M['aluminio'], sign=-1, segs=32)                                 # alternador (atrás, abajo, junto al semieje derecho)
+acc.cyl('Y', (1.21, -0.455, 0.45), 0.03, 0.03, M['acero_osc'])
+acc.curve([(XC, -0.455, 0.33), (1.43, -0.455, 0.36), (1.45, -0.455, 0.62), (1.40, -0.455, 0.67), (1.35, -0.455, 0.63),
+           (1.24, -0.455, 0.49), (1.18, -0.455, 0.45), (1.21, -0.455, 0.42), (1.30, -0.455, 0.35), (XC, -0.455, 0.33)], 0.0055, M['correa'], segs=6)
 acc.cyl('Y', (1.56, -0.36, 0.30), 0.062, 0.16, M['aluminio'])                                        # compresor del aire (adelante, abajo)
 acc.cyl('Y', (1.56, -0.465, 0.30), 0.056, 0.025, M['acero_osc'])
 acc.curve([(XC, -0.468, 0.47), (1.56, -0.468, 0.356), (1.62, -0.468, 0.30), (1.56, -0.468, 0.244), (XC, -0.468, 0.33),
@@ -1459,9 +1461,12 @@ for i, y in enumerate(CYL_Y):
         cg.tube('Y', (XC, y + dy, ZC), 0.004, 0.062, 0.018, M['acero_osc'], a0=ANG[i] + 30, a1=ANG[i] + 150, segs=24)
 cg.cyl('Y', (XC, -0.42, ZC), 0.02, 0.04, M['acero'])                                                  # punta delantera
 cg.gear('Y', (XC, -0.405, ZC), 0.022, 18, 0.012, M['acero_osc'])                                     # piñón de distribución
-cg.cyl('Y', (XC, 0.035, ZC), 0.13, 0.008, M['acero_osc'])                                             # placa de arrastre (A/T)
-cg.gear('Y', (XC, 0.035, ZC), 0.142, 90, 0.010, M['acero_osc'])                                       # corona del arranque
-make('ciguenal', 'Cigüeñal con placa de arrastre', CJ, cg, (1.05, -0.15, 0.10))
+cg.cyl('Y', (XC, 0.040, ZC), 0.135, 0.026, M['acero_osc'])                                            # volante motor (M/T)
+for k in range(6):
+    a_ = 2 * math.pi * k / 6
+    cg.cyl('Y', (XC + 0.03 * math.cos(a_), 0.026, ZC + 0.03 * math.sin(a_)), 0.006, 0.006, M['acero'], segs=6)   # pernos (70 N·m)
+cg.gear('Y', (XC, 0.045, ZC), 0.142, 90, 0.012, M['acero_osc'])                                       # corona del arranque
+make('ciguenal', 'Cigüeñal y volante motor', CJ, cg, (1.05, -0.15, 0.10))
 
 pb = P()
 for i, y in enumerate(CYL_Y):
@@ -1534,24 +1539,37 @@ make('bombas', 'Bomba de aceite (rotores) y bomba de agua', CJ, bo_, (1.05, -0.9
 # ================================================================ TRANSMISIÓN
 CJ = 'Transmisión'
 ta = P()
-ta.cyl('Y', (1.36, 0.07, 0.42), 0.17, 0.10, M['aluminio'], r2=0.15)
-ta.rbox((1.29, 0.26, 0.39), (0.34, 0.28, 0.33), 0.03, M['aluminio'])
-ta.cyl('Y', (1.20, 0.26, 0.30), 0.11, 0.26, M['aluminio'])                                          # diferencial
-for k in range(4):
-    ta.box(1.14 + k * 0.08, 1.15 + k * 0.08, 0.12, 0.40, 0.55, 0.56, M['aluminio'])                  # nervios
-ta.rbox((1.35, 0.405, 0.38), (0.10, 0.02, 0.14), 0.01, M['negro'])                                   # conector de solenoides
-ta.rbox((1.29, 0.26, 0.22), (0.26, 0.22, 0.03), 0.01, M['acero_osc'])                                # cárter de aceite
-for dz in (0.0, 0.02):                                                                                # caños del enfriador del ATF
-    ta.curve([(1.40, 0.18, 0.45 + dz), (1.55, 0.25, 0.42 + dz), (1.74, 0.36, 0.40 + dz)], 0.005, M['negro'])
-ta.curve([(1.30, 0.40, 0.47), (1.10, 0.30, 0.45), (0.50, 0.05, 0.40)], 0.004, M['negro'])           # cable de la palanca
-make('caja_4at', 'Caja automática de 4 marchas (4AT) con diferencial', CJ, ta, (0.30, 0.75, 0.75))
-cv = P()
-cv.lathe((XC, 0.045, ZC), [(0.03, 0.0), (0.12, 0.0), (0.132, 0.015), (0.132, 0.055), (0.115, 0.075), (0.04, 0.08),
-                           (0.03, 0.10), (0.02, 0.10), (0.02, 0.0)], M['aluminio'], sign=1, segs=48)
-for k in range(3):                                                                                    # tuercas de fijación a la placa
-    a_ = 2 * math.pi * k / 3
-    cv.cyl('Y', (XC + 0.10 * math.cos(a_), 0.042, ZC + 0.10 * math.sin(a_)), 0.008, 0.008, M['acero'], segs=6)
-make('convertidor', 'Convertidor de par', CJ, cv, (0.30, 0.45, 0.30))
+ta.cyl('Y', (XC, 0.09, ZC), 0.165, 0.10, M['aluminio'], r2=0.14)                                     # campana del embrague
+ta.rbox((1.30, 0.27, 0.38), (0.30, 0.24, 0.30), 0.03, M['aluminio'])                                  # caja (izquierda y derecha)
+ta.cyl('Y', (1.20, 0.26, 0.30), 0.11, 0.24, M['aluminio'])                                           # alojamiento del diferencial
+ta.rbox((1.33, 0.40, 0.40), (0.20, 0.02, 0.22), 0.01, M['aluminio'])                                  # tapa lateral
+for k in range(5):
+    ta.box(1.16 + k * 0.07, 1.17 + k * 0.07, 0.15, 0.39, 0.52, 0.535, M['aluminio'])                   # nervios
+ta.cyl('X', (1.18, 0.35, 0.36), 0.012, 0.03, M['acero'])                                             # tapón de llenado/nivel (21 N·m)
+ta.cyl('Z', (1.30, 0.30, 0.225), 0.012, 0.02, M['acero'])                                            # tapón de vaciado (21 N·m)
+# mecanismo de cambio sobre la caja: palancas de cambio y selección con los soportes de los cables
+ta.rbox((1.30, 0.22, 0.555), (0.10, 0.10, 0.04), 0.01, M['aluminio'])
+ta.barra((1.30, 0.20, 0.57), (1.22, 0.20, 0.63), 0.008, M['acero_osc'])                              # palanca de cambio
+ta.barra((1.30, 0.25, 0.57), (1.24, 0.30, 0.62), 0.008, M['acero_osc'])                              # palanca de selección
+ta.rbox((1.20, 0.25, 0.58), (0.03, 0.10, 0.05), 0.006, M['acero_osc'])                               # soporte de los cables
+make('caja_5mt', 'Caja manual de 5 marchas con diferencial (transeje)', CJ, ta, (0.30, 0.75, 0.75))
+em = P()
+em.lathe((XC, 0.075, ZC), [(0.04, 0.0), (0.118, 0.0), (0.118, 0.012), (0.105, 0.03), (0.06, 0.035), (0.04, 0.02)],
+         M['acero'], sign=1, segs=48)                                                                   # tapa (placa de presión)
+for k in range(18):                                                                                     # dedos del diafragma
+    a_ = 2 * math.pi * k / 18
+    em.obox((XC + 0.05 * math.cos(a_), 0.11, ZC + 0.05 * math.sin(a_)), (0.035, 0.002, 0.008),
+            Matrix.Rotation(-a_, 3, 'Y'), M['acero_osc'])
+em.tube('Y', (XC, 0.058, ZC), 0.065, 0.105, 0.008, M['friccion'], segs=48)                            # disco: forros
+em.tube('Y', (XC, 0.058, ZC), 0.02, 0.065, 0.004, M['acero'], segs=32)                                # disco: cubo
+for k in range(6):                                                                                      # resortes amortiguadores
+    a_ = 2 * math.pi * k / 6
+    em.cyl('X', (XC + 0.045 * math.cos(a_), 0.058, ZC + 0.045 * math.sin(a_)), 0.006, 0.02, M['resorte'], segs=8)
+em.cyl('Y', (XC, 0.13, ZC), 0.03, 0.025, M['acero'])                                                 # rodamiento de empuje
+em.barra((XC - 0.02, 0.13, ZC + 0.03), (1.26, 0.13, 0.56), 0.009, M['acero_osc'])                     # horquilla de desembrague
+em.cyl('Y', (1.26, 0.15, 0.56), 0.012, 0.04, M['acero_osc'])                                         # eje de la palanca (23 N·m)
+em.cyl('X', (1.21, 0.15, 0.57), 0.016, 0.07, M['aluminio'])                                          # cilindro receptor
+make('embrague', 'Embrague: placa de presión, disco, rodamiento y horquilla', CJ, em, (0.30, 0.50, 0.30))
 for lado, s in (('izq', 1), ('der', -1)):
     sm = P()
     p0 = Vector((1.20, 0.40 if s > 0 else -0.10, 0.30))
@@ -1564,12 +1582,22 @@ for lado, s in (('izq', 1), ('der', -1)):
          (0, s * 0.32, -0.28))
 pl = P()
 pl.rbox((0.37, 0.0, 0.45), (0.30, 0.20, 0.32), 0.03, M['tablero'])                                   # consola
-pl.rbox((0.42, 0.0, 0.615), (0.16, 0.10, 0.012), 0.004, M['cromo'])                                  # placa de posiciones
-pl.box(0.37, 0.48, -0.006, 0.006, 0.618, 0.622, M['negro'])                                          # ranura
-pl.cyl('Z', (0.45, 0.0, 0.69), 0.008, 0.15, M['cromo'])
-pl.ellip((0.45, 0.0, 0.78), (0.03, 0.025, 0.045), M['negro'])
+pl.lathe_z(None, [(0.0, 0.0), (0.06, 0.0), (0.045, 0.06), (0.02, 0.10), (0.0, 0.10)], M['goma'],
+           mtx=Matrix.Translation((0.42, 0.0, 0.61)), segs=24)                                         # fuelle
+pl.barra((0.42, 0.0, 0.62), (0.40, 0.0, 0.80), 0.009, M['cromo'])
+pl.ellip((0.40, 0.0, 0.82), (0.032, 0.03, 0.03), M['negro'])                                          # perilla con el esquema de 5 + R
+pl.box(0.38, 0.39, -0.012, 0.012, 0.835, 0.85, M['cuadro'])
 pl.rbox((0.23, 0.0, 0.55), (0.10, 0.12, 0.05), 0.015, M['tablero'])                                  # portavasos
-make('palanca', 'Consola y palanca selectora (P R N D 3 2 L)', CJ, pl, (0, 0, 1.30))
+for dy in (-0.02, 0.02):                                                                                # cables de cambio y de selección
+    pl.curve([(0.44, dy, 0.50), (0.70, dy, 0.30), (1.00, 0.10 + dy, 0.30), (1.15, 0.22 + dy, 0.50), (1.20, 0.25 + dy, 0.58)],
+             0.006, M['negro'])
+make('palanca', 'Palanca de cambios (5 marchas y reversa) con sus cables', CJ, pl, (0, 0, 1.30))
+be = P()
+be.cyl('X', (1.02, -0.20, 0.78), 0.016, 0.10, M['aluminio'])                                         # bomba del embrague
+be.barra((0.97, -0.20, 0.78), (0.82, -0.14, 0.70), 0.005, M['acero'])                                 # varilla al pedal
+be.curve([(1.15, -0.40, 0.89), (1.10, -0.30, 0.86), (1.05, -0.21, 0.80)], 0.004, M['goma'])         # alimentación desde el depósito de freno
+be.curve([(1.07, -0.20, 0.78), (1.12, -0.05, 0.78), (1.18, 0.12, 0.66), (1.21, 0.15, 0.585)], 0.0035, M['acero'])  # tubo y manguera
+make('bomba_embrague', 'Bomba (cilindro maestro) y cañería del embrague', CJ, be, (0.20, -0.30, 1.00))
 
 # ================================================================ REFRIGERACIÓN
 CJ = 'Refrigeración'
@@ -1771,12 +1799,13 @@ for lado, s in (('izq', 1), ('der', -1)):
          (0, s * 0.60, 0.20), angle=40)
 
 pe = P()
-pe.barra((0.80, -0.27, 0.70), (0.72, -0.27, 0.42), 0.008, M['acero_osc'])
-pe.rbox((0.715, -0.27, 0.41), (0.025, 0.10, 0.075), 0.01, M['goma'], rot=Matrix.Rotation(math.radians(-30), 3, 'Y'))
-pe.barra((0.82, -0.45, 0.62), (0.77, -0.45, 0.36), 0.006, M['acero_osc'])
+for y_, w_ in ((-0.13, 0.07), (-0.27, 0.10)):                                                          # embrague y freno
+    pe.barra((0.80, y_, 0.70), (0.72, y_, 0.42), 0.008, M['acero_osc'])
+    pe.rbox((0.715, y_, 0.41), (0.025, w_, 0.075), 0.01, M['goma'], rot=Matrix.Rotation(math.radians(-30), 3, 'Y'))
+pe.barra((0.82, -0.45, 0.62), (0.77, -0.45, 0.36), 0.006, M['acero_osc'])                              # acelerador
 pe.rbox((0.76, -0.45, 0.35), (0.018, 0.055, 0.15), 0.008, M['goma'], rot=Matrix.Rotation(math.radians(-35), 3, 'Y'))
-pe.rbox((0.70, -0.13, 0.36), (0.03, 0.07, 0.15), 0.01, M['goma'], rot=Matrix.Rotation(math.radians(-40), 3, 'Y'))  # apoyapié
-make('pedalera', 'Pedalera (freno y acelerador)', CJ, pe, (0.20, -0.30, 1.10))
+pe.rbox((0.80, -0.20, 0.72), (0.06, 0.20, 0.06), 0.01, M['acero_osc'])                                 # soporte de pedales
+make('pedalera', 'Pedalera: embrague, freno y acelerador', CJ, pe, (0.20, -0.30, 1.10))
 
 
 # ================================================================ SISTEMA ELÉCTRICO Y ELECTRÓNICO (manual, secciones 1A, 1C, 9A–10E)
@@ -1869,9 +1898,10 @@ sensor('valvula_purga', 'Válvula de purga del canister (EVAP)', (1.115, -0.12, 
        rama=[(1.15, -0.10, 0.78), (1.21, -0.10, 0.82)], explode=(-0.7, -0.1, 1.0))
 sensor('valvula_egr', 'Válvula EGR de motor paso a paso', (1.215, 0.04, 0.60), eje=(-0.4, 0, 1), r=0.022, L=0.05,
        rama=[(1.20, 0.06, 0.72), (1.21, 0.05, 0.82)], explode=(-0.6, 0.3, 1.1))
-sensor('sensor_rango_caja', 'Sensor de rango de la caja (posición de la palanca)', (1.20, 0.41, 0.50), eje=(0, 1, 0),
-       r=0.035, L=0.015, color='BLK', rama=[(1.16, 0.45, 0.60), (1.08, 0.50, 0.72)], explode=(0.1, 0.8, 0.6),
-       cj='Sensores y actuadores')
+sensor('interruptor_marcha_atras', 'Interruptor de la luz de marcha atrás (en la caja)', (1.22, 0.36, 0.48), eje=(-1, 0, 0.3),
+       r=0.011, L=0.025, color='BLK', rama=[(1.16, 0.40, 0.58), (1.08, 0.48, 0.72)], explode=(0.1, 0.8, 0.6))
+sensor('interruptor_embrague', 'Interruptor del pedal de embrague (arranque solo con el embrague apretado)', (0.82, -0.13, 0.69),
+       eje=(-1, 0, 0), r=0.008, L=0.03, color='BLK', rama=[(0.80, -0.18, 0.78), (0.79, -0.30, 0.82)], explode=(0.1, -0.2, 1.25))
 sensor('interruptor_freno', 'Interruptor de las luces de freno', (0.82, -0.27, 0.69), eje=(-1, 0, 0), r=0.008, L=0.03,
        rama=[(0.80, -0.32, 0.78), (0.78, -0.45, 0.82)], explode=(0.1, -0.3, 1.2))
 sensor('interruptor_nivel_freno', 'Interruptor de nivel del líquido de frenos', (1.15, -0.40, 0.945), r=0.012, L=0.02,
@@ -1913,8 +1943,6 @@ def modulo(pid, nombre, c, size, conectores, explode, m='aluminio', rot=None):
 
 modulo('ecu', 'Computadora del motor (ECM)', (1.62, 0.55, 0.42), (0.16, 0.04, 0.12),
        [((0, -0.03, 0.03), 'GRY'), ((0, -0.03, -0.02), 'GRY')], (0.75, 0.75, 0.3))
-modulo('tcm', 'Módulo de control de la caja (TCM)', (0.72, 0.46, 0.60), (0.14, 0.10, 0.035),
-       [((0.06, 0.0, 0.02), 'BLK'), ((0.06, 0.03, 0.02), 'BLK')], (0.2, 0.6, 0.9))
 modulo('modulo_eps', 'Módulo de control de la dirección eléctrica (EPS)', (0.62, -0.50, 0.78), (0.10, 0.03, 0.08),
        [((0, 0.02, 0.0), 'BLK')], (0.1, -0.7, 0.9))
 modulo('sdm', 'Módulo de diagnóstico y sensor del airbag (SDM)', (0.30, 0.0, 0.30), (0.12, 0.09, 0.04),
@@ -1954,7 +1982,7 @@ CJ = 'Cableado'
 cb = P()
 cb.curve([(1.33, 0.44, 0.665), (1.36, 0.36, 0.70), (1.20, 0.40, 0.72), (1.08, 0.48, 0.70)], 0.007, M['cable_rojo'])      # a la caja de fusibles
 cb.curve([(1.33, 0.44, 0.665), (1.28, 0.30, 0.60), (1.19, 0.12, 0.48)], 0.008, M['cable_rojo'])                        # al arranque
-cb.curve([(1.08, 0.48, 0.70), (1.10, 0.0, 0.78), (1.15, -0.30, 0.70), (1.19, -0.40, 0.62)], 0.006, M['cable_rojo'])    # al alternador
+cb.curve([(1.08, 0.48, 0.70), (1.10, 0.0, 0.78), (1.15, -0.30, 0.60), (1.21, -0.40, 0.47)], 0.006, M['cable_rojo'])    # al alternador
 cb.curve([(1.51, 0.44, 0.665), (1.56, 0.40, 0.60), (1.52, 0.30, 0.50), (1.45, 0.25, 0.42)], 0.008, M['negro'])         # masa a la caja
 cb.curve([(1.51, 0.48, 0.665), (1.58, 0.60, 0.62), (1.62, 0.70, 0.62)], 0.006, M['negro'])                             # masa a la carrocería
 for p_ in ((1.33, 0.44, 0.66), (1.51, 0.44, 0.66)):
@@ -1966,9 +1994,9 @@ mazo(mm_, TRONCO, 0.011)
 mazo(mm_, [(1.06, 0.50, 0.74), (1.30, 0.56, 0.62), (1.55, 0.58, 0.52), (1.62, 0.53, 0.46)], 0.010)          # a la ECM
 mazo(mm_, [(1.30, -0.44, 0.80), (1.50, -0.44, 0.80), (1.62, -0.35, 0.78)], 0.007)                          # a las sondas
 mazo(mm_, [(1.16, 0.30, 0.82), (1.10, 0.40, 0.70), (1.08, 0.48, 0.70)], 0.008)                             # caja de fusibles
-mazo(mm_, [(1.21, -0.30, 0.825), (1.15, -0.40, 0.60), (1.17, -0.38, 0.62)], 0.006)                          # alternador
+mazo(mm_, [(1.21, -0.30, 0.825), (1.15, -0.40, 0.60), (1.21, -0.38, 0.48)], 0.006)                          # alternador
 mazo(mm_, [(1.16, 0.30, 0.82), (1.12, 0.12, 0.60), (1.19, 0.10, 0.48)], 0.006)                             # arranque
-mazo(mm_, [(1.21, 0.05, 0.825), (1.30, 0.38, 0.62), (1.35, 0.40, 0.42)], 0.007)                            # solenoides de la caja (TCM)
+mazo(mm_, [(1.21, 0.05, 0.825), (1.25, 0.30, 0.62), (1.22, 0.36, 0.52)], 0.006)                            # interruptor de marcha atrás
 mazo(mm_, [(1.30, -0.44, 0.80), (1.45, -0.46, 0.55), (1.56, -0.45, 0.32)], 0.005)                          # compresor del A/C
 conector(mm_, (1.06, 0.50, 0.74), d=(0.04, 0.04, 0.03), color='BLK')                                       # C36 → E24
 make('mazo_motor', 'Mazo de cables del motor (conectores C)', CJ, mm_, (0.0, 0.0, 1.7))
@@ -1995,7 +2023,7 @@ make('cable_eps', 'Cable de la dirección eléctrica (fusible EPS 50 A)', CJ, ce
 
 mt = P()
 mazo(mt, [(0.78, -0.72, 0.80), (0.80, -0.30, 0.84), (0.80, 0.30, 0.84), (0.78, 0.72, 0.80)], 0.012)    # travesaño del tablero
-for p1 in ((0.62, -0.37, 0.96), (0.55, 0.0, 0.88), (0.80, 0.12, 0.74), (0.72, 0.46, 0.62), (0.55, 0.22, 0.57),
+for p1 in ((0.62, -0.37, 0.96), (0.55, 0.0, 0.88), (0.80, 0.12, 0.74), (0.82, -0.13, 0.72), (0.55, 0.22, 0.57),
            (0.30, 0.0, 0.33), (0.66, 0.37, 0.95), (0.60, -0.47, 0.86), (0.66, -0.62, 0.60)):
     p0 = (0.80, max(-0.7, min(0.7, p1[1])), 0.84)
     mazo(mt, [p0, ((p0[0] + p1[0]) / 2, (p0[1] + p1[1]) / 2, (p0[2] + p1[2]) / 2 + 0.02), p1], 0.005, cinta=False)
@@ -2110,45 +2138,38 @@ for s in (1, -1):
     cf.barra((XR + 0.25, s * 0.40, 0.30), (XR + 0.25, s * 0.40, 0.36), 0.008, M['goma'])            # flexible trasero
 make('canerias_freno', 'Cañerías de freno (bomba → ABS → 4 ruedas)', 'Frenos', cf, (0.0, 0.0, -0.5))
 
-# ================================================================ CAJA POR DENTRO (5A: unidad del transeje automático)
+# ================================================================ CAJA POR DENTRO (5B, M15: transeje manual de 5 marchas)
+# Tres árboles: eje de entrada (coaxial con el cigüeñal), contraeje (con el piñón de ataque al diferencial) y eje de
+# marcha atrás. Sincronizador de baja (1ª-2ª, doble cono en 2ª) en el contraeje; de alta (3ª-4ª) y de 5ª en el eje de entrada.
 CJ = 'Caja por dentro'
-YC = 0.0   # referencia
-cbo = P().lathe((XC, 0.125, ZC), [(0.03, 0.0), (0.105, 0.0), (0.105, 0.02), (0.03, 0.02)], M['aluminio'], segs=40)
-cbo.gear('Y', (XC, 0.135, ZC - 0.012), 0.045, 11, 0.012, M['acero'])
-cbo.tube('Y', (XC, 0.135, ZC - 0.012), 0.046, 0.056, 0.012, M['acero_osc'])
-make('caja_bomba_aceite', 'Bomba de aceite de la caja (impulsada por el convertidor)', CJ, cbo, (0.0, 0.55, 0.65))
-ce2 = P()
-for y0, r0 in ((0.165, 0.085), (0.205, 0.08), (0.245, 0.075)):                                     # embragues de directa, avance y reversa
-    ce2.tube('Y', (XC, y0, ZC), r0 - 0.012, r0, 0.03, M['acero_osc'], segs=40)
-    for k in range(5):
-        ce2.tube('Y', (XC, y0 - 0.012 + k * 0.006, ZC), 0.04, r0 - 0.013, 0.003,
-                 M['friccion'] if k % 2 else M['acero'], segs=32)
-make('caja_embragues', 'Embragues de directa, avance y reversa (paquetes de discos)', CJ, ce2, (0.0, 0.70, 0.85))
-pl_ = P()
-yp = 0.30
-pl_.gear('Y', (XC, yp - 0.012, ZC), 0.024, 24, 0.016, M['acero'])                                   # solar delantero (24 d)
-pl_.gear('Y', (XC, yp + 0.012, ZC), 0.030, 30, 0.016, M['acero'])                                   # solar trasero (30 d)
-for k in range(3):
-    a = 2 * math.pi * k / 3
-    pl_.gear('Y', (XC + 0.047 * math.cos(a), yp, ZC + 0.047 * math.sin(a)), 0.020, 20, 0.04, M['acero_osc'])   # piñón largo (20 d)
-    a2 = a + math.pi / 3
-    pl_.gear('Y', (XC + 0.042 * math.cos(a2), yp + 0.012, ZC + 0.042 * math.sin(a2)), 0.016, 19, 0.016, M['acero_osc'])  # corto (19 d)
-pl_.tube('Y', (XC, yp, ZC), 0.068, 0.078, 0.045, M['acero'], segs=69)                                # corona (69 d)
-pl_.tube('Y', (XC, yp - 0.03, ZC), 0.02, 0.07, 0.006, M['aluminio'])                                  # portasatélites
-make('caja_planetario', 'Tren planetario Ravigneaux (solares 24 y 30, piñones 20 y 19, corona 69)', CJ, pl_, (0.0, 0.85, 1.05))
-cvb = P().rbox((1.29, 0.26, 0.245), (0.22, 0.20, 0.035), 0.006, M['aluminio'])
-for k in range(5):
-    cvb.cyl('X', (1.29, 0.18 + k * 0.035, 0.27), 0.007, 0.18, M['acero'])                            # válvulas de carrete
-for k in range(4):
-    cvb.cyl('Y', (1.22 + k * 0.045, 0.37, 0.25), 0.012, 0.04, M['negro'])                            # solenoides
-    conector(cvb, (1.22 + k * 0.045, 0.395, 0.25), d=(0.012, 0.012, 0.012), color='BLK')
-make('caja_cuerpo_valvulas', 'Cuerpo de válvulas y solenoides de cambio y presión', CJ, cvb, (0.0, 0.55, -0.5))
-eng = P()
-eng.gear('Y', (XC, 0.35, ZC), 0.05, 32, 0.02, M['acero'])                                           # engranaje de salida
-eng.gear('Y', (1.27, 0.35, 0.33), 0.065, 42, 0.02, M['acero_osc'])                                  # intermedio
-eng.cyl('Y', (1.27, 0.30, 0.33), 0.012, 0.12, M['acero'])
-eng.gear('Y', (1.27, 0.27, 0.33), 0.026, 15, 0.025, M['acero'])                                     # piñón de ataque
-make('caja_engranajes', 'Engranajes de salida e intermedio (reducción 1,023)', CJ, eng, (0.0, 0.95, 0.4))
+XK, ZK = 1.30, 0.335                       # contraeje
+PARES = [('1ª', 0.36, 0.022, 0.074), ('2ª', 0.315, 0.034, 0.062), ('3ª', 0.265, 0.045, 0.051), ('4ª', 0.225, 0.052, 0.044),
+         ('5ª', 0.165, 0.058, 0.038)]
+ee = P().cyl('Y', (XC, 0.27, ZC), 0.012, 0.36, M['acero'])
+ee.cyl('Y', (XC, 0.08, ZC), 0.011, 0.06, M['acero_osc'])                                              # estrías del disco
+for nom, y, ri, rk in PARES:
+    ee.gear('Y', (XC, y, ZC), ri, max(12, int(ri * 600)), 0.016, M['acero'])
+for y in (0.245, 0.14):                                                                                 # sincronizadores de 3ª-4ª y de 5ª
+    ee.tube('Y', (XC, y, ZC), 0.018, 0.036, 0.022, M['acero_osc'], segs=32)
+    ee.tube('Y', (XC, y, ZC), 0.036, 0.042, 0.012, M['cromo'], segs=32)
+make('eje_entrada', 'Eje de entrada con engranajes de 1ª a 5ª y sincronizadores de alta y de 5ª', CJ, ee, (0.0, 0.70, 0.95))
+ck = P().cyl('Y', (XK, 0.27, ZK), 0.013, 0.34, M['acero'])
+for nom, y, ri, rk in PARES:
+    ck.gear('Y', (XK, y, ZK), rk, max(14, int(rk * 600)), 0.016, M['acero_osc'])
+ck.tube('Y', (XK, 0.338, ZK), 0.02, 0.05, 0.022, M['acero_osc'], segs=32)                               # sincronizador de baja
+ck.tube('Y', (XK, 0.338, ZK), 0.05, 0.056, 0.012, M['cromo'], segs=32)
+ck.gear('Y', (XK, 0.12, ZK), 0.028, 16, 0.03, M['acero'])                                              # piñón de ataque
+for y in (0.10, 0.43):
+    ck.tube('Y', (XK, y, ZK), 0.013, 0.03, 0.018, M['acero_osc'], segs=24)                               # rodamientos cónicos
+make('contraeje', 'Contraeje con sincronizador de baja y piñón de ataque', CJ, ck, (0.0, 0.85, 0.55))
+ma = P().cyl('Y', (1.36, 0.30, 0.30), 0.009, 0.12, M['acero'])
+ma.gear('Y', (1.36, 0.30, 0.30), 0.03, 18, 0.018, M['acero_osc'])                                      # piñón loco deslizante
+make('eje_marcha_atras', 'Eje y piñón loco de marcha atrás', CJ, ma, (0.0, 0.65, -0.20))
+hf = P().cyl('Y', (1.36, 0.27, 0.47), 0.008, 0.36, M['acero'])                                         # eje de cambio
+for y, (xa, za) in ((0.338, (XK, ZK)), (0.245, (XC, ZC)), (0.14, (XC, ZC))):
+    hf.caja_entre((1.36, y, 0.47), (xa, y, za + 0.045), 0.012, 0.01, M['bronce'] if 'bronce' in M else M['amarillo'])
+    hf.tube('Y', (xa, y, za), 0.044, 0.05, 0.006, M['amarillo'], a0=20, a1=160, segs=16)               # horquilla
+make('horquillas', 'Eje de cambio y horquillas', CJ, hf, (0.0, 0.55, 1.15))
 dif = P()
 dif.gear('Y', (1.20, 0.27, 0.27), 0.095, 61, 0.022, M['acero_osc'])                                 # corona (final 4,052)
 dif.ellip((1.20, 0.27, 0.27), (0.05, 0.05, 0.05), M['fundicion'])                                   # caja de satélites

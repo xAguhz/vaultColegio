@@ -6,7 +6,7 @@ actualizado: 2026-11-14
 # Suzuki Swift 1.5 XS (ZC21S) · Japón 2008
 
 > [!summary] Manual del auto, armado como vault
-> Manual de uso y mantenimiento del **Suzuki Swift de 2ª generación, 1.5 L, 5 puertas, versión japonesa** (código de chasis **DBA-ZC21S**, volante a la derecha, caja automática de 4 marchas). Reúne los datos del **manual de taller oficial RS415** (que cubre justo la carrocería ZC21S con motor M15A), el **catálogo japonés** del 1.5XS y un **modelo 3D por conjuntos** hecho en Blender.
+> Manual de uso y mantenimiento del **Suzuki Swift de 2ª generación, 1.5 L, 5 puertas, versión japonesa** (código de chasis **DBA-ZC21S**, volante a la derecha, caja manual de 5 marchas). Reúne los datos del **manual de taller oficial RS415** (que cubre justo la carrocería ZC21S con motor M15A), el **catálogo japonés** del 1.5XS y un **modelo 3D por conjuntos** hecho en Blender.
 > Está escrito con palabras propias: los manuales de Suzuki tienen derechos de autor y no se copian acá.
 
 ![[swift_34_delantera.jpg|560]]
@@ -18,7 +18,7 @@ actualizado: 2026-11-14
 | Carrocería            | Hatchback de 5 puertas, 5 plazas                       |
 | Motor                 | **M15A**: 4 cilindros en línea, 1490 cm³, DOHC 16V con VVT |
 | Potencia / par        | 110 PS (81 kW) a 6000 rpm · 143 N·m a 4000 rpm         |
-| Caja                  | Automática de 4 marchas (4AT)                          |
+| Caja                  | Manual de 5 marchas con embrague hidráulico             |
 | Medidas               | 3755 × 1690 × 1510 mm · 2390 mm entre ejes · 1030 kg   |
 | Neumáticos            | 185/60R15 84H                                          |
 | Aceite                | 5W-30 o 10W-30 (API SL) · ≈ 3,9 L con filtro           |
@@ -26,6 +26,7 @@ actualizado: 2026-11-14
 
 ## Mapas y 3D
 - 📘 [[00 Índice del manual de taller|Manual de taller completo]]: los 59 capítulos del manual de taller en castellano (resumen, temas, despieces, valores, pares de apriete, códigos de falla, herramientas), los [[Circuitos eléctricos|37 circuitos eléctricos]] y los [[Conectores del cableado|193 conectores]].
+- 🔧 [[Diagnóstico por síntoma]] (troubleshooting por sistema) y [[Guía técnica por pieza]]: fallas típicas, cómo se desmonta cada pieza, procedimientos del manual con su página, pares de apriete y herramientas especiales.
 - 🧊 [[Despiece 3D interactivo]]: modelo 3D con 140 piezas en 20 conjuntos: carrocería, mecánica, motor y caja por dentro, sensores, módulos, cableado y circuitos, despiece animado y una ficha por pieza.
 - 🖼️ [[Galería Gemini]]: vistas de referencia (frente, cola, planta y 3/4) usadas para modelar la carrocería.
 - 🗺️ [[Mapa Suzuki Swift.canvas|Mapa del auto]]: los sistemas del auto y en qué nota está cada uno.
@@ -35,7 +36,7 @@ actualizado: 2026-11-14
 2. [[02 Historia del modelo]]
 3. [[03 Ficha técnica]]
 4. [[04 Mandos e instrumentos]]: tablero, testigos, palancas (auto japonés).
-5. [[05 Conducción y caja automática]]
+5. [[05 Conducción y caja manual]]
 6. [[06 Motor M15A]]
 7. [[07 Fluidos y capacidades]]
 8. [[08 Plan de mantenimiento]]
