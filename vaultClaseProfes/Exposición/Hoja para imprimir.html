@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hoja IA para profes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600..800&family=Nunito+Sans:wght@400;700&family=Caveat:wght@700&display=swap">
+<style>
+  :root { --ink:#1B2A2F; --naranja:#B9481A; --naranja-claro:#E8743B; --papel:#F6F1E6; --papel2:#EDE4D0; --suave:#4A5258; }
+  @page { size: A4; margin: 11mm; }
+  * { box-sizing: border-box; margin: 0; }
+  html { background: #d9d3c6; }
+  body { font-family: 'Nunito Sans', Arial, sans-serif; color: var(--ink); background: #d9d3c6; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .hoja { width: 210mm; min-height: 297mm; margin: 12px auto; background: #fff; padding: 11mm; display: flex; flex-direction: column; gap: 5mm; }
+  @media print { html, body { background: #fff; } .hoja { margin: 0; width: auto; min-height: 0; padding: 0; } .aviso { display: none; } }
+  .aviso { max-width: 210mm; margin: 12px auto 0; font-size: 14px; color: var(--suave); }
+  h1, h2 { font-family: 'Bricolage Grotesque', Georgia, serif; line-height: 1.05; }
+  .cabecera { display: flex; gap: 7mm; align-items: stretch; }
+  .titulo { flex: 1; background: var(--ink); color: var(--papel); border-radius: 5mm; padding: 7mm; display: flex; flex-direction: column; gap: 3mm; }
+  .ceja { font-size: 9pt; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--naranja-claro); }
+  .titulo h1 { font-size: 25pt; font-weight: 800; }
+  .mano { font-family: 'Caveat', 'Brush Script MT', cursive; font-size: 16pt; color: #F2C94C; line-height: 1.1; }
+  .qr { width: 52mm; background: var(--papel2); border-radius: 5mm; padding: 3mm; display: flex; flex-direction: column; align-items: center; gap: 2mm; }
+  .qr img { width: 46mm; height: 46mm; display: block; }
+  .qr p { font-size: 7.5pt; text-align: center; word-break: break-all; line-height: 1.25; }
+  h2 { font-size: 13.5pt; font-weight: 700; margin-bottom: 2mm; }
+  h2 .n { color: var(--naranja); }
+  .bloque { background: var(--papel); border-radius: 4mm; padding: 4.5mm 5mm; }
+  p, li { font-size: 9.5pt; line-height: 1.38; }
+  .partes { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2.5mm; }
+  .parte { background: #fff; border-radius: 3mm; padding: 2.5mm 3mm; }
+  .parte b { display: block; font-size: 10pt; color: var(--naranja); }
+  .parte span { font-size: 8.5pt; color: var(--suave); line-height: 1.3; display: block; }
+  .dos { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; }
+  ul { padding-left: 4.5mm; }
+  li { margin-bottom: 1mm; }
+  .receta { background: #fff; border-left: 1.2mm solid var(--naranja-claro); border-radius: 2mm; padding: 2mm 3mm; font-size: 8.8pt; line-height: 1.35; margin-bottom: 2mm; font-style: italic; }
+  .receta:last-child { margin-bottom: 0; }
+  .pie { display: flex; justify-content: space-between; align-items: center; font-size: 8.5pt; color: var(--suave); border-top: 0.4mm solid var(--papel2); padding-top: 2.5mm; margin-top: auto; }
+</style>
+</head>
+<body>
+<p class="aviso">Para imprimir: <b>Ctrl + P</b> → tamaño A4 → márgenes "Predeterminados" → activar "Gráficos de fondo". También se puede elegir "Guardar como PDF".</p>
+<main class="hoja">
+
+  <section class="cabecera">
+    <div class="titulo">
+      <p class="ceja">Expo Técnica 2026 · Charla para profes</p>
+      <h1>La IA en el aula: por dónde empezar</h1>
+      <p style="color:#C9D6D3;">Lo que vimos hoy, en una hoja. La guía completa, gratis y desde cero, está en el QR: desde qué es un archivo hasta tener un entorno de trabajo con IA.</p>
+      <p class="mano">Con el nivel 1 solo ya les cambia la semana.</p>
+    </div>
+    <div class="qr">
+      <img src="../Adjuntos/qr_guia.png" alt="Código QR a la guía">
+      <p>xaguhz.github.io/vaultColegio/<br>vaultClaseProfes</p>
+    </div>
+  </section>
+
+  <section class="bloque">
+    <h2><span class="n">1.</span> Para empezar hoy mismo</h2>
+    <p>Entrá a <b>claude.ai</b> (o gemini.google.com, o chatgpt.com) → <b>Continuar con Google</b> → escribí tu pedido como se lo pedirías a un practicante que no conoce tu escuela. Si la respuesta no sirve, no empieces de cero: <b>decile qué cambiar</b> ("más corto", "para 2.° año", "sin palabras en inglés").</p>
+  </section>
+
+  <section class="bloque">
+    <h2><span class="n">2.</span> Las cinco partes de un buen pedido</h2>
+    <div class="partes">
+      <div class="parte"><b>Contexto</b><span>Quién sos, qué materia, qué curso y qué edad tienen</span></div>
+      <div class="parte"><b>Tarea</b><span>Qué querés exactamente</span></div>
+      <div class="parte"><b>Material</b><span>Pegá o adjuntá el texto, el PDF o la foto del pizarrón</span></div>
+      <div class="parte"><b>Formato</b><span>Tabla, lista, una hoja, para imprimir…</span></div>
+      <div class="parte"><b>Criterios</b><span>Qué tiene que cumplir o evitar</span></div>
+    </div>
+  </section>
+
+  <section class="dos">
+    <div class="bloque">
+      <h2><span class="n">3.</span> Tres pedidos para copiar</h2>
+      <p class="receta">Armá una rúbrica para evaluar [trabajo] de [año] con 4 criterios y 4 niveles, con descripciones concretas y puntaje total de 10. En tabla.</p>
+      <p class="receta">Armá 3 versiones del mismo ejercicio sobre [tema], con distintos valores y la misma dificultad, con la resolución al final.</p>
+      <p class="receta">Antes de armarlo, haceme las preguntas que necesites para que salga bien.</p>
+    </div>
+    <div class="bloque">
+      <h2><span class="n">4.</span> Tres reglas</h2>
+      <ul>
+        <li><b>Nada de datos de alumnos:</b> ni nombres con notas, ni DNI, ni informes. Para corregir, "Alumno A".</li>
+        <li><b>Verificar lo duro:</b> fechas, valores, normas y citas. Pedí la fuente y abrila: si no existe o no dice eso, era inventado.</li>
+        <li><b>Vos firmás:</b> lo que entregás es tuyo, con los errores incluidos.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="bloque">
+    <h2><span class="n">5.</span> Consignas que obligan a pensar, aunque se use IA</h2>
+    <div class="dos" style="gap:4mm;">
+      <ul>
+        <li><b>Defensa oral</b> del trabajo, con preguntas: lo que no se entendió, se nota.</li>
+        <li><b>Preguntar por lo que sobra:</b> el dato que nadie pidió suele ser el que puso la IA.</li>
+      </ul>
+      <ul>
+        <li><b>Un caso local:</b> el taller de la escuela, la casa del alumno. La IA no los conoce.</li>
+        <li><b>El proceso y las fuentes,</b> no solo el resultado. (Los detectores de IA no sirven: se equivocan mucho.)</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="bloque" style="background:var(--ink); color:var(--papel);">
+    <h2 style="color:var(--papel);"><span class="n" style="color:var(--naranja-claro);">6.</span> La guía, por niveles</h2>
+    <p style="color:#C9D6D3;"><b style="color:var(--papel);">0</b> Lo básico · <b style="color:var(--papel);">1</b> Chatear bien con la IA · <b style="color:var(--papel);">2</b> Sus archivos y su Drive · <b style="color:var(--papel);">3</b> Notas en Obsidian · <b style="color:var(--papel);">4</b> Claude trabajando en la compu · <b style="color:var(--papel);">5</b> Página web, imágenes y 3D. Cada uno llega hasta donde quiera.</p>
+  </section>
+
+  <footer class="pie">
+    <span>Hecha por un alumno de 7.° año, con IA y revisada a mano.</span>
+    <span>xaguhz.github.io/vaultColegio/vaultClaseProfes</span>
+  </footer>
+</main>
+</body>
+</html>

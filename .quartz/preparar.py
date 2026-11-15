@@ -29,6 +29,7 @@ VAULTS = {
     "vaultDoñetz": ("El Profe Juanito", "00 Inicio", "Automatización industrial (neumática, electroneumática, PLC y electrónica digital) estudiada a partir del canal El Profe Juanito."),
     "vaultCharrute": ("Sistemas Mecánicos", "00 Inicio", "Sistemas Mecánicos 2026 (profe Charrute): TP1 a TP9, equipos, conceptos y guía de estudio."),
     "vaultSuzuki": ("Suzuki Swift ZC21S", "Suzuki Swift ZC21S/00 Suzuki Swift ZC21S", "Manual del Suzuki Swift 1.5XS japonés (ZC21S, 2008): uso, mantenimiento y despiece 3D."),
+    "vaultClaseProfes": ("Clase para profes: IA", "00 Inicio", "Guía desde cero para que los profes usen la IA y armen un entorno de trabajo como este."),
 }
 IGNORAR_CARPETAS = {".obsidian", "herramientas", "Plantillas", "logs", ".trash"}
 IGNORAR_EXT = {".blend", ".blend1"}

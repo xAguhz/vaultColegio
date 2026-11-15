@@ -9,6 +9,7 @@ Notas del colegio en Obsidian, publicadas como página web: **https://xaguhz.git
 | `vaultDoñetz/` | Automatización industrial estudiada a partir del canal El Profe Juanito |
 | `vaultCharrute/` | Sistemas Mecánicos 2026 (profe Charrute): trabajos prácticos, equipos y guía de estudio |
 | `vaultSuzuki/` | Manual del Suzuki Swift 1.5XS japonés (ZC21S, 2008): uso, mantenimiento y despiece 3D |
+| `vaultClaseProfes/` | Guía para profes: cómo usar la IA y armar un entorno como este, desde cero |
 
 Cada vault se abre por separado en Obsidian con *Abrir carpeta como vault*.
 
