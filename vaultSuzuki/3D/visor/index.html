@@ -591,7 +591,7 @@ function chip(conj) {
 function laminas(conj) {
   const ls = CONJ[conj]?.laminas || [];
   if (!ls.length) return '';
-  return `<h3>Despiece del manual</h3><div class="thumbs">${ls.map(([f, cap]) =>
+  return `<h3>Láminas del modelo</h3><div class="thumbs">${ls.map(([f, cap]) =>
     `<button class="thumb" type="button" data-img="${esc(f)}" data-cap="${esc(cap)}" title="${esc(cap)}"><img loading="lazy" alt="${esc(cap)}" src="laminas/${esc(f)}" data-fallback="../../Adjuntos/Suzuki Swift/${esc(f)}"></button>`).join('')}</div>`;
 }
 function partsOf(conj) { return [...parts.values()].filter((p) => p.conjunto === conj); }

@@ -7,7 +7,7 @@ actualizado: 2026-11-14
 
 > [!summary] Qué es
 > Modelo 3D del Swift **por conjuntos** (65 piezas en 12 conjuntos), con despiece animado. Al tocar una pieza se abre su ficha: qué es, sus datos del manual, su mantenimiento, las láminas y la nota del vault donde está el detalle.
-> **Abrir el visor:** https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html
+> **Abrir el visor:** https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html (página pública del vault). También está como Artifact privado: https://claude.ai/artifact/5inUBYy9btJ8hJyYv1jBd9 (se comparte desde el menú *Compartir* de la página).
 
 Volver a [[00 Suzuki Swift ZC21S]] · [[Mapa Suzuki Swift.canvas|🗺️ Mapa del auto]]
 
