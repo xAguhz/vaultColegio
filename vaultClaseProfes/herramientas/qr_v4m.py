@@ -1,11 +1,17 @@
-"""Generador mínimo de QR versión 4, nivel M, modo byte (hasta 62 bytes). Solo usa PIL.
-Uso: python3 qr_v4m.py <texto> <salida.png> [escala] [color_oscuro] [color_claro]
+"""Generador mínimo de QR versión 4, modo byte. Nivel M (hasta 62 bytes) o L (hasta 78). Solo usa PIL.
+Uso: python3 qr_v4m.py <texto> <salida.png> [escala] [color_oscuro] [color_claro] [M|L]
 """
 import sys
 from PIL import Image
 
 SIZE = 33  # versión 4
-ECC_LEN, NUM_BLOCKS, DATA_CW = 18, 2, 64
+NIVELES = {"M": (18, 2, 64, 0b00), "L": (20, 1, 80, 0b01)}  # ecc por bloque, bloques, datos, bits de formato
+ECC_LEN, NUM_BLOCKS, DATA_CW, ECL_BITS = NIVELES["M"]
+
+
+def nivel(n):
+    global ECC_LEN, NUM_BLOCKS, DATA_CW, ECL_BITS
+    ECC_LEN, NUM_BLOCKS, DATA_CW, ECL_BITS = NIVELES[n]
 
 
 def gf_mul(x, y):
@@ -40,7 +46,7 @@ def rs_remainder(data, div):
 
 def encode_data(text):
     data = text.encode("utf-8")
-    assert len(data) <= 62, "demasiado largo para V4-M"
+    assert len(data) <= DATA_CW - 2, "demasiado largo para la versión 4"
     bits = []
     def put(v, n):
         bits.extend((v >> i) & 1 for i in reversed(range(n)))
@@ -97,7 +103,7 @@ class QR:
         self.format_bits(0)
 
     def format_bits(self, mask):
-        data = (0 << 3) | mask  # nivel M = 00
+        data = (ECL_BITS << 3) | mask
         rem = data
         for _ in range(10):
             rem = (rem << 1) ^ ((rem >> 9) * 0x537)
@@ -199,5 +205,6 @@ def render(q, path, scale=20, dark="#000000", light="#FFFFFF", border=4):
 
 if __name__ == "__main__":
     a = sys.argv
+    nivel(a[6] if len(a) > 6 else "M")
     render(make(a[1]), a[2], int(a[3]) if len(a) > 3 else 20,
            a[4] if len(a) > 4 else "#000000", a[5] if len(a) > 5 else "#FFFFFF")

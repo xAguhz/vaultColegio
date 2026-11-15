@@ -26,8 +26,8 @@ Una carilla A4 que resume la charla, con el QR de la guía. Está en `Exposició
 5. **Consignas que obligan a pensar**: ver [[04 Cómo usamos la IA los alumnos]].
 6. **Los niveles de la guía.**
 
-El QR lleva a `https://xaguhz.github.io/vaultColegio/vaultClaseProfes/`. Si cambia la dirección, se regenera con `herramientas/qr_v4m.py`:
+El QR lleva directo al Inicio: `https://xaguhz.github.io/vaultColegio/vaultClaseProfes/00-Inicio`. Si cambia la dirección, se regenera con `herramientas/qr_v4m.py`. El último argumento es el nivel de corrección: `L` admite hasta 78 letras y `M`, más resistente a manchas, hasta 62.
 
 ```bash
-python3 herramientas/qr_v4m.py "https://xaguhz.github.io/vaultColegio/vaultClaseProfes/" Adjuntos/qr_guia.png 24 "#1B2A2F" "#F6F1E6"
+python3 herramientas/qr_v4m.py "https://xaguhz.github.io/vaultColegio/vaultClaseProfes/00-Inicio" Adjuntos/qr_guia.png 24 "#1B2A2F" "#F6F1E6" L
 ```
