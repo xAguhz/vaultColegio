@@ -472,6 +472,106 @@ CONJ['Iluminación']['laminas'] = [['swift_frente_detalle.jpg', 'Faros con sus r
 CONJ['Puertas y cristales']['laminas'].append(['swift_cola_detalle.jpg', 'Luneta con banda negra, alerón y limpialuneta'])
 
 
+# ------------------------------------------------------------ mecánica corregida y completada con el manual de taller en castellano (15/11/2026)
+CONJ['Motor M15A']['resumen'] = ('Naftero de 4 cilindros en línea, 1490 cm³, DOHC de 16 válvulas con distribución por cadena y VVT en la admisión. '
+                                 'Va transversal: escape y catalizador adelante (hacia el radiador), admisión atrás (hacia el torpedo), '
+                                 'distribución a la derecha y caja a la izquierda.')
+CONJ['Motor M15A']['laminas'].insert(0, ['lamina_vano_motor.jpg', 'Vano motor visto de adelante: escape y catalizador al frente, admisión atrás'])
+CONJ['Motor por dentro'] = {
+    'color': '#d98b2b', 'nota': '06 Motor M15A',
+    'resumen': 'Lo que está adentro del bloque y la tapa: cigüeñal con 5 bancadas, 4 pistones con sus bielas, dos árboles de levas (el de admisión con VVT), 16 válvulas con botadores a calce, cadena de distribución y las bombas de aceite y de agua. Medidas del manual de taller.',
+    'laminas': [['lamina_motor_dentro.jpg', 'Motor por dentro: cigüeñal, pistones, levas, válvulas y cadena']]}
+CONJ['Aire acondicionado y calefacción'] = {
+    'color': '#2fa3c9', 'nota': '10 Sistema eléctrico',
+    'resumen': 'Aire acondicionado manual con gas HFC-134a: compresor movido por correa, condensador delante del radiador, filtro secador, cañerías y la unidad HVAC detrás del tablero con el evaporador, el radiador de calefacción y el soplador.',
+    'laminas': [['lamina_vano_motor.jpg', 'Condensador al frente del radiador y compresor adelante, abajo']]}
+CONJ['Combustible y escape']['resumen'] = ('Tanque de 43 L bajo el asiento trasero con la bomba adentro y el canister EVAP en el vano motor. '
+    'El escape sale del múltiple con catalizador incorporado (adelante), pasa bajo el motor, sigue por el caño central con resonador y termina en el silenciador trasero.')
+PIEZAS['multiple_escape'] = {
+    'que': 'Múltiple de escape de acero con el catalizador incorporado, montado adelante del motor (mirando al radiador). Lleva la sonda de oxígeno 1 antes del catalizador y la 2 después.',
+    'datos': [['Ubicación', 'frente del motor'], ['Sondas', 'n° 1 (conector verde) y n° 2 (conector gris)']],
+    'mant': ['Para sacarlo hay que retirar el paragolpes, el radiador y separar el condensador del A/C.', 'Trabajar siempre con el escape frío; juntas nuevas al armar.'],
+    'ver': '06 Motor M15A'}
+PIEZAS['admision']['que'] = 'Múltiple de admisión plástico, montado atrás del motor (mirando al torpedo), con la cámara, los conductos, los 4 inyectores con su riel y el cuerpo de mariposa en la punta izquierda.'
+PIEZAS['admision']['datos'] = [['Ubicación', 'atrás del motor'], ['Inyección', 'multipunto (EPI)'], ['Presión de nafta', '270–310 kPa (bomba andando)'], ['Sensores', 'TP en la mariposa, MAP en la cámara']]
+PIEZAS['accesorios']['que'] = ('Del lado derecho, dos correas: una mueve la bomba de agua y el alternador (atrás, arriba) y la otra el compresor del aire acondicionado (adelante, abajo).')
+PIEZAS['accesorios']['datos'] = [['Alternador', '70 A, atrás del motor'], ['Compresor', 'adelante, abajo (Mitsubishi o Matsushita)'], ['Tensión de correa', '4,5–5,5 mm con 100 N']]
+PIEZAS['distribucion']['que'] = 'Tapa de la cadena de distribución, del lado derecho. Tiene adentro la bomba de aceite de rotores, movida directo por el cigüeñal.'
+PIEZAS['bloque']['que'] = 'Bloque de aluminio con las camisas de los 4 cilindros y el cárter abajo. El filtro de aceite va adelante, del lado del escape.'
+PIEZAS['mangueras']['que'] = ('Mangueras y caños del agua: la superior sale de la tapa de salida de agua (en la tapa de cilindros, lado de la caja) al radiador; '
+                              'la inferior vuelve a la caja del termostato, que está atrás del motor. Dos más van al radiador de la calefacción.')
+PIEZAS['mangueras']['mant'] = ['Revisar grietas y abrazaderas en cada service.', 'Para cambiar el termostato hay que sacar antes el múltiple de admisión y el alternador.']
+PIEZAS['escape']['que'] = 'Caño delantero bajo el motor con flexible, caño central con resonador, silenciador trasero y protector de calor bajo el piso. Va colgado con gomas.'
+PIEZAS['escape']['datos'] = [['Tramos', 'caño n° 1 · central con resonador · silenciador'], ['Salida', 'derecha']]
+PIEZAS.update({
+    'soportes_motor': {
+        'que': 'Tres soportes de goma sostienen el motor y la caja: el derecho sobre la distribución, el izquierdo sobre la caja y uno trasero (barra de reacción) a la cuna, que frena el giro del motor al acelerar.',
+        'datos': [['Cantidad', '3 (derecho, izquierdo y trasero)']],
+        'mant': ['Un golpe al pasar de P a D o al acelerar suele ser un soporte roto.', 'Algunos pernos son con adhesivo y no se reutilizan.'],
+        'ver': '06 Motor M15A'},
+    'ciguenal': {
+        'que': 'Eje que convierte el movimiento de los pistones en giro. Tiene 5 muñones de bancada, 4 muñequillas (1 y 4 arriba, 2 y 3 abajo) y contrapesos. Adelante lleva el piñón de la cadena y atrás la placa de arrastre con la corona del arranque.',
+        'datos': [['Muñón de bancada', 'Ø 51,994–52,000 mm'], ['Muñequilla', 'Ø 44,994–45,000 mm'], ['Carrera', '78 mm']],
+        'mant': ['Al rectificar, elegir los cojinetes por las letras y números grabados en el bloque y el cigüeñal.'],
+        'ver': '06 Motor M15A'},
+    'pistones': {
+        'que': 'Cuatro pistones de aluminio con dos aros de compresión y uno de aceite, unidos al cigüeñal por las bielas.',
+        'datos': [['Diámetro del pistón', '77,969–77,984 mm'], ['Sobremedida', '+0,50 mm'], ['Perno', 'Ø 19,997–20,000 mm'], ['Biela', 'largo aproximado en el modelo']],
+        'mant': ['Medir el pistón en la falda, perpendicular al perno.', 'Las tuercas de biela llevan apriete en ángulo.'],
+        'ver': '06 Motor M15A'},
+    'arboles_levas': {
+        'que': 'Dos árboles de levas en la tapa: el de admisión atrás, con el actuador del VVT en el piñón, y el de escape adelante. Cada leva empuja un botador.',
+        'datos': [['Altura de leva admisión', '44,929–45,089 mm (mín. 44,80)'], ['Altura de leva escape', '44,399–44,559 mm (mín. 44,28)'], ['Válvula OCV', '6,7–7,7 Ω a 20 °C']],
+        'mant': ['Al armar, alinear las marcas de los piñones con la cadena.', 'Un VVT trabado da el código P0011: revisar aceite y la válvula OCV.'],
+        'ver': '06 Motor M15A'},
+    'valvulas': {
+        'que': 'Dieciséis válvulas (cuatro por cilindro) con sus resortes y botadores tipo vaso. La luz se ajusta cambiando el calce del botador.',
+        'datos': [['Vástago (admisión)', 'Ø 5,465–5,480 mm'], ['Resorte libre', '36,83 mm (mín. 35,83)'], ['Precarga', '107–125 N a 31,5 mm'], ['Botador', 'Ø 30,959–30,975 mm']],
+        'mant': ['Luz de válvulas cada 30 000 km (ver la nota 06).', 'Lapear al reemplazar una válvula.'],
+        'ver': '06 Motor M15A'},
+    'cadena': {
+        'que': 'Cadena de distribución con guía fija, guía móvil y tensor hidráulico. Mueve los dos árboles de levas a la mitad de vueltas del cigüeñal.',
+        'datos': [['Relación', '2 : 1'], ['Cambio', 'sin intervalo fijo']],
+        'mant': ['Ruido de cadena al arrancar en frío: revisar el tensor y el aceite.'],
+        'ver': '06 Motor M15A'},
+    'bombas': {
+        'que': 'Bomba de aceite de rotores (interior y exterior) dentro de la tapa de distribución, con su colador en el cárter; y la bomba de agua, movida por la correa.',
+        'datos': [['Presión de aceite', 'más de 270 kPa a 4000 rpm'], ['Bomba de agua', 'por correa, lado derecho']],
+        'mant': ['Limpiar el colador cuando se baja el cárter.', 'Pérdida por el agujero testigo de la bomba de agua: cambiarla.'],
+        'ver': '06 Motor M15A'},
+    'convertidor': {
+        'que': 'Convertidor de par: acople hidráulico entre el motor y la caja automática, abulonado a la placa de arrastre del cigüeñal. Permite que el auto quede parado en D con el motor en marcha.',
+        'datos': [['Fijación', '3 pernos a la placa de arrastre']],
+        'mant': ['Al montar la caja, verificar que el convertidor entró hasta el fondo antes de apretar.'],
+        'ver': '05 Conducción y caja automática'},
+    'canister': {
+        'que': 'Recipiente con carbón activado que junta los vapores de nafta del tanque. La computadora abre la válvula de purga para quemarlos en el motor.',
+        'datos': [['Sistema', 'EVAP'], ['Control', 'válvula de purga comandada por el ECM']],
+        'mant': ['Revisar el sistema EVAP a los 90 000 km.', 'No cargar el tanque de más: el líquido daña el canister.'],
+        'ver': '08 Plan de mantenimiento'},
+    'sensores_abs': {
+        'que': 'Un sensor magnético por rueda, frente a un anillo dentado, le dice al ABS a qué velocidad gira cada una.',
+        'datos': [['Cantidad', '4'], ['Luz sensor-anillo', 'no se ajusta']],
+        'mant': ['Limpiar viruta o barro del anillo si se prende el testigo ABS.', 'Cuidar el cable al cambiar amortiguadores.'],
+        'ver': '09 Frenos, suspensión, dirección y ruedas'},
+    'condensador': {
+        'que': 'Intercambiador delante del radiador que enfría y condensa el gas del aire acondicionado, con el filtro secador al costado.',
+        'datos': [['Gas', 'HFC-134a (R-134a)'], ['Ubicación', 'adelante del radiador']],
+        'mant': ['Limpiarlo con agua a baja presión desde atrás.', 'Al abrir el circuito, cambiar el secador.'],
+        'ver': '10 Sistema eléctrico'},
+    'canerias_ac': {
+        'que': 'Cañerías de aluminio del aire acondicionado: alta presión (compresor → condensador), líquido (condensador → evaporador) y succión (evaporador → compresor).',
+        'datos': [['Gas', 'HFC-134a'], ['Sensor', 'presión del refrigerante']],
+        'mant': ['El gas y el aceite del compresor no se mezclan con los de otros sistemas.', 'Cargar con equipo y la cantidad del manual.'],
+        'ver': '10 Sistema eléctrico'},
+    'unidad_hvac': {
+        'que': 'Caja detrás del tablero con el evaporador del aire acondicionado, el radiador de calefacción, el soplador y las compuertas que reparten el aire a los conductos.',
+        'datos': [['Soplador', 'lado del acompañante'], ['Fusible del soplador', 'HTR FAN, 30 A']],
+        'mant': ['Cambiar el filtro de habitáculo (si tiene) cada 45 000 km.', 'Olor a humedad: limpiar el evaporador.'],
+        'ver': '10 Sistema eléctrico'},
+})
+
+
 if __name__ == '__main__':
     out = os.path.join(VAULT, '3D', 'visor', 'fichas.json')
     with open(out, 'w', encoding='utf-8') as fh:

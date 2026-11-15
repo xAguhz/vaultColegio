@@ -6,7 +6,7 @@ actualizado: 2026-11-14
 # Despiece 3D interactivo
 
 > [!summary] Qué es
-> Modelo 3D del Swift **por conjuntos** (76 piezas en 12 conjuntos, unos 190 000 triángulos), con despiece animado. Al tocar una pieza se abre su ficha: qué es, sus datos del manual, su mantenimiento, las láminas y la nota del vault donde está el detalle.
+> Modelo 3D del Swift **por conjuntos** (89 piezas en 14 conjuntos, unos 250 000 triángulos), con despiece animado. Al tocar una pieza se abre su ficha: qué es, sus datos del manual, su mantenimiento, las láminas y la nota del vault donde está el detalle.
 > **Abrir el visor:** https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html (página pública del vault). También está como Artifact privado: https://claude.ai/artifact/5inUBYy9btJ8hJyYv1jBd9 (se comparte desde el menú *Compartir* de la página).
 
 Volver a [[00 Suzuki Swift ZC21S]] · [[Mapa Suzuki Swift.canvas|🗺️ Mapa del auto]]
@@ -40,15 +40,25 @@ Es el mismo visor que el del torno TM300, adaptado al auto:
 | Carrocería | casco, capó, portón con luneta y alerón, paragolpes delantero y trasero con patentes, parrilla y nichos de antinieblas, tapa de combustible |
 | Puertas y cristales | 4 puertas (con marco negro, vidrios, manija y espejo), parabrisas, limpiaparabrisas |
 | Iluminación | 2 faros, 2 calaveras, 2 antinieblas |
-| Motor M15A | bloque y cárter, culata, tapa de válvulas con bobinas, distribución, admisión, escape, accesorios, arranque, filtro de aire |
-| Transmisión | caja 4AT, 2 semiejes, palanca selectora |
+| Motor M15A | bloque y cárter, culata, tapa de válvulas con bobinas, distribución, admisión (atrás), múltiple de escape con catalizador (adelante), accesorios y correas, arranque, filtro de aire, soportes |
+| Motor por dentro | cigüeñal con placa de arrastre, pistones y bielas, árboles de levas con VVT, 16 válvulas con botadores, cadena con guías y tensor, bombas de aceite y de agua |
+| Transmisión | caja 4AT, convertidor de par, 2 semiejes, palanca selectora |
 | Refrigeración | radiador, electroventilador, mangueras y termostato, depósito |
 | Eléctrico | batería, fusibles del motor, computadora, bocina, fusibles de cabina |
 | Suspensión y dirección | 2 columnas McPherson, 2 brazos, estabilizadora, cuna, eje de torsión, 2 conjuntos traseros, cremallera, columna EPS, volante |
-| Frenos | 2 discos, 2 mordazas, 2 tambores, servofreno, ABS, freno de mano |
+| Frenos | 2 discos, 2 mordazas, 2 tambores, servofreno, ABS, sensores de rueda, freno de mano |
 | Ruedas | 4 ruedas 185/60R15 |
-| Combustible y escape | tanque, línea de escape |
+| Combustible y escape | tanque, canister EVAP, línea de escape (caño delantero, resonador, silenciador) |
+| Aire acondicionado y calefacción | condensador y secador, cañerías, unidad HVAC |
 | Interior | 3 asientos, tablero, techo interior, paneles de puertas, pedalera |
+
+## Mecánica según el manual de taller (15/11/2026)
+La mecánica se revisó contra la **edición en castellano del manual de taller** (ver [[13 Repuestos y fuentes]]):
+- **Corregido:** el escape y el catalizador pasaron adelante y la admisión atrás (estaban al revés); el alternador y el termostato, atrás; el compresor del aire, adelante con su correa; el filtro de aceite, adelante; el recorrido del escape (caño delantero bajo el motor, caño central con resonador, silenciador y protector de calor) y los soportes del motor.
+- **Agregado:** el motor por dentro con sus medidas, el convertidor de par, el aire acondicionado y la calefacción, el canister EVAP y los sensores de rueda del ABS.
+
+![[lamina_vano_motor.jpg]]
+*Vano motor sin carrocería: condensador y radiador adelante, múltiple de escape con catalizador detrás, admisión y servofreno contra el torpedo.*
 
 ## Cómo está hecho
 - Script: `herramientas/suzuki_swift_3d.py` (Blender 5.3 en segundo plano, sin abrir la ventana):

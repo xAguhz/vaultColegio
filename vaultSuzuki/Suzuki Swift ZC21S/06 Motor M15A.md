@@ -11,13 +11,34 @@ Volver a [[00 Suzuki Swift ZC21S]]
 *Motor del modelo 3D en despiece: bloque, tapa de cilindros, tapa de válvulas con bobinas, múltiples, accesorios y arranque.*
 
 ## Cómo es
-- **4 cilindros en línea**, montado **transversal** adelante, con la caja automática a su izquierda.
+- **4 cilindros en línea**, montado **transversal** adelante, con la caja automática a su izquierda y la distribución a la derecha.
+- **Escape adelante, admisión atrás.** El múltiple de escape (de acero, con el **catalizador incorporado**) mira al radiador, y el de admisión (de plástico, con la mariposa en la punta izquierda) mira al torpedo. Por eso, para sacar el múltiple de escape hay que retirar el paragolpes, el radiador y separar el condensador del aire acondicionado.
+- **Atrás también van el alternador y el termostato**: para cambiar el termostato hay que sacar antes el múltiple de admisión y el alternador. El compresor del aire va adelante, abajo, con su propia correa.
+- **Tres soportes**: el derecho sobre la distribución, el izquierdo sobre la caja y uno trasero (barra de reacción) a la cuna.
 - **Bloque y tapa de cilindros de aluminio**.
 - **DOHC**: dos árboles de levas en la tapa, 4 válvulas por cilindro (16 en total) en V, sin varillas.
 - **Distribución por cadena** desde el cigüeñal: no tiene cambio programado como una correa.
 - **VVT** (variador de fase): la computadora adelanta o atrasa el árbol de levas de **admisión** con presión de aceite, para tener más fuerza abajo y más potencia arriba con menos consumo. Por eso el motor es muy sensible al **aceite bajo o viejo**.
 - **Encendido**: dos bobinas sobre la tapa de válvulas. Cada bobina enciende un cilindro directo y otro por cable de alta (chispa perdida). Orden de encendido **1-3-4-2**; el cilindro 1 está del lado de la distribución.
 - **Inyección multipunto**, un inyector por cilindro, con cuerpo de mariposa y caudalímetro de aire (MAF).
+
+## Por dentro (medidas del manual de taller)
+| Pieza | Medida |
+| ----- | ------ |
+| Pistón | Ø 77,969–77,984 mm · sobremedida +0,50 mm · 2 aros de compresión y 1 de aceite |
+| Perno de pistón | Ø 19,997–20,000 mm |
+| Cigüeñal | 5 bancadas · muñón Ø 51,994–52,000 mm · muñequilla Ø 44,994–45,000 mm · carrera 78 mm |
+| Árbol de levas de admisión (con VVT) | altura de leva 44,929–45,089 mm (mínimo 44,80) |
+| Árbol de levas de escape | altura de leva 44,399–44,559 mm (mínimo 44,28) |
+| Botadores (tipo vaso, con calce) | Ø 30,959–30,975 mm |
+| Válvulas | vástago de admisión Ø 5,465–5,480 mm |
+| Resortes de válvula | largo libre 36,83 mm (mínimo 35,83) · 107–125 N a 31,5 mm |
+| Válvula de control de aceite (OCV) del VVT | 6,7–7,7 Ω a 20 °C |
+| Bomba de aceite | de rotores, dentro de la tapa de distribución, movida por el cigüeñal |
+
+En el visor 3D estas piezas están en el conjunto **Motor por dentro** ([[Despiece 3D interactivo]]).
+
+![[lamina_motor_dentro.jpg|560]]
 
 ## Valores de control (manual de taller)
 | Control | Valor |

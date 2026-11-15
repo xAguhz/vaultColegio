@@ -19,8 +19,9 @@ El perfil, las ventanillas, las puertas y las ópticas se midieron sobre una fot
 lateral del auto; el ancho a lo largo y la caída de los costados, sobre vistas de
 frente, cola y planta generadas con Gemini (Adjuntos/Gemini). Cotas del catálogo
 japonés (1.5XS, DBA-ZC21S): largo 3755, ancho 1690, alto
-1510, distancia entre ejes 2390, despeje 140 mm; neumáticos 185/60R15. Datos de
-mecánica del manual de taller RS415 (motor M15A, caja 4AT). La forma de la
+1510, distancia entre ejes 2390, despeje 140 mm; neumáticos 185/60R15. Datos y ubicación de la
+mecánica del manual de taller (RS415 en inglés y la edición en castellano de 2005):
+escape y catalizador adelante, admisión atrás, piezas internas con sus medidas. La forma de la
 carrocería sigue esas referencias, pero no es un relevamiento del auto.
 
 Cada objeto es una pieza seleccionable con propiedades propias (extras del
@@ -265,10 +266,9 @@ class Part:
         scene.collection.objects.link(ob)
         dg = bpy.context.evaluated_depsgraph_get()
         me = bpy.data.meshes.new_from_object(ob.evaluated_get(dg))
-        n0 = len(self.bm.faces)
+        antes = set(self.bm.faces)
         self.bm.from_mesh(me)
-        self.bm.faces.ensure_lookup_table()
-        self._tag(self.bm.faces[n0:], m)
+        self._tag([f for f in self.bm.faces if f not in antes], m)
         bpy.data.objects.remove(ob)
         bpy.data.curves.remove(cu)
         bpy.data.meshes.remove(me)
@@ -329,10 +329,9 @@ COLL = {}
 
 def add_mesh(part, me, override=None):
     """Agrega una malla ya hecha (por ejemplo, el resultado de una booleana) a la pieza."""
-    n0 = len(part.bm.faces)
+    antes = set(part.bm.faces)
     part.bm.from_mesh(me)
-    part.bm.faces.ensure_lookup_table()
-    for f in part.bm.faces[n0:]:
+    for f in [f for f in part.bm.faces if f not in antes]:
         src = override
         if src is None:
             src = me.materials[f.material_index] if len(me.materials) > f.material_index else M['pintura']
@@ -437,11 +436,10 @@ def rbox(self, center, size, r, m, rot=None, seg=2):
     me = bpy.data.meshes.new('tmp_rbox')
     tmp.to_mesh(me)
     tmp.free()
-    n0 = len(self.bm.faces)
+    antes = set(self.bm.faces)
     self.bm.from_mesh(me)
-    self.bm.faces.ensure_lookup_table()
     i = self._mi(m)
-    for f in self.bm.faces[n0:]:
+    for f in [f for f in self.bm.faces if f not in antes]:
         f.material_index = i
     bpy.data.meshes.remove(me)
     return self
@@ -1210,6 +1208,16 @@ ab.rbox((1.34, -0.505, 0.72), (0.10, 0.025, 0.07), 0.008, M['negro'])           
 for k, (dx, tgt) in enumerate(((-0.03, (XF, 0.55, 0.55)), (0.0, (XF, -0.55, 0.55)), (0.03, (-0.3, 0.0, 0.25)))):
     ab.curve([(1.34 + dx, -0.56, 0.765), (1.30 + dx, -0.45, 0.74), tgt], 0.0028, M['acero'])
 make('abs', 'Unidad de ABS (hidráulica y control)', CJ, ab, (0.30, -0.55, 0.90))
+se = P()
+for xa, ya, tr in ((XF, YF, 'del'), (XR, YR, 'tra')):
+    for s in (1, -1):
+        yr_ = s * (ya - 0.10)
+        se.tube('Y', (xa, yr_, ZA), 0.040, 0.048, 0.008, M['acero_osc'], segs=40)                    # anillo dentado
+        ps = Vector((xa - 0.03, yr_ - s * 0.01, ZA + 0.055))
+        se.cyl('Z', ps, 0.009, 0.04, M['negro'])                                                        # sensor
+        se.curve([tuple(ps + Vector((0, 0, 0.02))), (xa - 0.05, s * (ya - 0.20), 0.55), (xa - 0.10, s * 0.50, 0.75)],
+                 0.0035, M['negro'])
+make('sensores_abs', 'Sensores de velocidad de rueda y anillos del ABS', CJ, se, (0, 0, -0.35))
 
 fm = P()
 fm.rbox((0.05, 0.0, 0.40), (0.30, 0.035, 0.05), 0.012, M['negro'], rot=Matrix.Rotation(math.radians(-18), 3, 'Y'))
@@ -1317,109 +1325,227 @@ mtx = Matrix.Translation(VOL) @ eje_a(NV) @ Matrix.Rotation(math.radians(90), 4,
 make('volante', 'Volante con airbag (lado derecho, mano japonesa)', CJ, P().merge(vol, mtx), (-0.10, -0.25, 1.10))
 
 # ================================================================ MOTOR M15A
+# Ubicación según el manual de taller (sección 1A, "Ubicación de los componentes"; 1D y 1K):
+# escape y catalizador ADELANTE (hacia el radiador), admisión ATRÁS (hacia el torpedo),
+# distribución a la derecha y caja a la izquierda. El alternador y el termostato quedan atrás
+# (para sacar el termostato hay que sacar antes el múltiple de admisión y el alternador).
 CJ = 'Motor M15A'
 CYL_Y = [-0.335, -0.245, -0.155, -0.065]   # cilindro 1 del lado de la distribución (derecha)
+XC, ZC = 1.375, 0.40                      # eje del cigüeñal
+CARRERA = 0.078                           # 78 mm de carrera, 78 mm de diámetro
+BIELA = 0.130                             # largo entre centros de biela (aprox.)
 bl = P()
-bl.rbox((1.375, -0.19, 0.46), (0.25, 0.43, 0.33), 0.02, M['aluminio'])
+bl.rbox((XC, -0.19, 0.46), (0.25, 0.43, 0.33), 0.02, M['aluminio'])
 for y in CYL_Y:                                                                                       # nervios del bloque
     bl.box(1.495, 1.51, y - 0.008, y + 0.008, 0.33, 0.60, M['aluminio'])
     bl.box(1.24, 1.255, y - 0.008, y + 0.008, 0.33, 0.60, M['aluminio'])
-bl.rbox((1.375, -0.19, 0.25), (0.23, 0.40, 0.09), 0.015, M['acero_osc'])                             # cárter
+bl.rbox((XC, -0.19, 0.25), (0.23, 0.40, 0.09), 0.015, M['acero_osc'])                               # cárter
 for k in range(5):
     bl.box(1.27, 1.48, -0.37 + k * 0.08, -0.36 + k * 0.08, 0.205, 0.215, M['acero_osc'])
 bl.cyl('Z', (1.42, -0.20, 0.198), 0.012, 0.01, M['acero'])                                          # tapón de vaciado
-bl.cyl('X', (1.215, -0.10, 0.38), 0.036, 0.075, M['resorte'])                                        # filtro de aceite
-bl.cyl('X', (1.25, -0.10, 0.38), 0.04, 0.012, M['acero_osc'])
-bl.curve([(1.30, 0.0, 0.40), (1.30, 0.01, 0.60), (1.29, 0.02, 0.80), (1.30, 0.03, 0.85)], 0.006, M['negro'])  # tubo varilla
-bl.torus('Y', (1.30, 0.03, 0.87), 0.018, 0.005, M['amarillo'], segs=20, rsegs=6)                    # varilla de aceite
-for p_ in ((1.38, -0.44, 0.50), (1.38, 0.43, 0.48), (1.20, -0.18, 0.28)):                            # soportes de motor
-    bl.rbox(p_, (0.08, 0.06, 0.08), 0.01, M['goma'])
+bl.lathe_z(None, [(0.0, 0.0), (0.036, 0.0), (0.038, 0.01), (0.038, 0.07), (0.03, 0.085), (0.0, 0.085)], M['resorte'],
+           mtx=Matrix.Translation((1.51, -0.13, 0.34)) @ eje_a((0.85, 0, -0.5)), segs=28)          # filtro de aceite (adelante)
+bl.curve([(1.50, 0.0, 0.40), (1.52, 0.01, 0.60), (1.53, 0.02, 0.80), (1.53, 0.03, 0.86)], 0.006, M['negro'])  # tubo varilla
+bl.torus('Y', (1.53, 0.03, 0.88), 0.018, 0.005, M['amarillo'], segs=20, rsegs=6)                    # varilla de aceite
+bl.cyl('X', (1.24, -0.30, 0.36), 0.012, 0.03, M['negro'])                                           # sensor de detonación
 make('bloque', 'Bloque de cilindros, cárter y filtro de aceite', CJ, bl, (0.70, -0.15, 1.25))
 
 cz = P()
-cz.rbox((1.372, -0.19, 0.685), (0.235, 0.42, 0.12), 0.012, M['aluminio'])
+cz.rbox((XC, -0.19, 0.685), (0.235, 0.42, 0.12), 0.012, M['aluminio'])
 for y in CYL_Y:
-    cz.cyl('X', (1.25, y, 0.70), 0.01, 0.01, M['acero'])                                             # espárragos del escape
+    cz.cyl('X', (1.25, y, 0.70), 0.01, 0.01, M['acero'])
     cz.cyl('X', (1.49, y, 0.70), 0.01, 0.01, M['acero'])
-cz.cyl('Y', (1.33, 0.025, 0.71), 0.04, 0.012, M['acero_osc'])                                        # sensor de árbol de levas
+cz.cyl('Y', (1.31, 0.025, 0.72), 0.03, 0.012, M['acero_osc'])                                       # sensor de árbol de levas (CMP)
+cz.rbox((XC, 0.04, 0.69), (0.07, 0.05, 0.06), 0.01, M['aluminio'])                                  # tapa de salida de agua
+cz.cyl('Z', (XC + 0.03, 0.05, 0.73), 0.008, 0.03, M['negro'])                                       # sensor de temperatura (ECT)
+cz.rbox((1.26, -0.39, 0.70), (0.03, 0.05, 0.06), 0.008, M['negro'])                                  # válvula de control de aceite (OCV)
 make('culata', 'Tapa de cilindros (culata) DOHC 16 válvulas', CJ, cz, (0.70, -0.15, 1.62))
 
 tv = P()
-tv.rbox((1.372, -0.19, 0.77), (0.20, 0.40, 0.05), 0.02, M['motor_negro'])
-for k in range(6):                                                                                   # nervaduras
+tv.rbox((XC, -0.19, 0.77), (0.20, 0.40, 0.05), 0.02, M['motor_negro'])
+for k in range(6):
     tv.box(1.29, 1.455, -0.37 + k * 0.07, -0.364 + k * 0.07, 0.795, 0.803, M['motor_negro'])
 tv.cyl('Z', (1.42, -0.10, 0.805), 0.026, 0.025, M['amarillo'])                                      # tapa de aceite
 tv.cyl('Y', (1.30, -0.05, 0.78), 0.012, 0.06, M['negro'])                                            # válvula PCV
 for y in (CYL_Y[0], CYL_Y[3]):
-    tv.rbox((1.38, y, 0.82), (0.07, 0.05, 0.06), 0.01, M['negro'])                                   # bobinas (cil. 1 y 4)
-    tv.cyl('Z', (1.38, y, 0.86), 0.01, 0.02, M['negro'])
+    tv.rbox((XC, y, 0.82), (0.07, 0.05, 0.06), 0.01, M['negro'])                                     # bobinas (cil. 1 y 4)
+    tv.cyl('Z', (XC, y, 0.86), 0.01, 0.02, M['negro'])
 for y0, y1 in ((CYL_Y[0], CYL_Y[1]), (CYL_Y[3], CYL_Y[2])):
-    tv.curve([(1.40, y0, 0.84), (1.43, (y0 + y1) / 2, 0.88), (1.40, y1, 0.81)], 0.0055, M['negro'])  # cables de alta
-    tv.cyl('Z', (1.40, y1, 0.80), 0.012, 0.03, M['negro'])
+    tv.curve([(XC + 0.02, y0, 0.84), (XC + 0.05, (y0 + y1) / 2, 0.88), (XC + 0.02, y1, 0.81)], 0.0055, M['negro'])
+    tv.cyl('Z', (XC + 0.02, y1, 0.80), 0.012, 0.03, M['negro'])
 make('tapa_valvulas', 'Tapa de válvulas, bobinas y cables de alta', CJ, tv, (0.70, -0.15, 1.95))
 
 dist = P()
 dist.rbox((1.385, -0.42, 0.50), (0.26, 0.035, 0.52), 0.015, M['aluminio'])
-for k in range(8):                                                                                   # tornillos
+for k in range(8):
     a = 2 * math.pi * k / 8
     dist.cyl('Y', (1.385 + 0.11 * math.cos(a), -0.44, 0.50 + 0.22 * math.sin(a)), 0.006, 0.01, M['acero'], segs=6)
-dist.cyl('Y', (1.36, -0.44, 0.70), 0.05, 0.012, M['acero_osc'])                                      # tapa del VVT
-make('distribucion', 'Tapa de distribución (cadena) y variador VVT', CJ, dist, (0.70, -0.62, 1.25))
+dist.cyl('Y', (1.31, -0.44, 0.72), 0.045, 0.012, M['acero_osc'])                                     # tapa del VVT
+dist.cyl('X', (1.25, -0.42, 0.40), 0.012, 0.03, M['negro'])                                          # sensor de cigüeñal (CKP)
+make('distribucion', 'Tapa de distribución (con la bomba de aceite)', CJ, dist, (0.70, -0.62, 1.25))
 
+# admisión atrás: colector de plástico con la cámara junto al torpedo
 adm = P()
-adm.cyl('Y', (1.615, -0.16, 0.50), 0.052, 0.40, M['negro'])                                         # plenum
-adm.rbox((1.62, -0.16, 0.44), (0.06, 0.38, 0.02), 0.005, M['negro'])                                 # nervio
+adm.cyl('Y', (1.11, -0.17, 0.62), 0.055, 0.40, M['negro'])                                         # cámara (plenum)
+adm.rbox((1.06, -0.17, 0.62), (0.02, 0.36, 0.06), 0.005, M['negro'])
 for y in CYL_Y:
-    adm.curve([(1.49, y, 0.70), (1.56, y, 0.72), (1.635, y, 0.64), (1.625, y, 0.535)], 0.023, M['negro'])
-    adm.cyl('X', (1.515, y, 0.735), 0.008, 0.06, M['negro'])                                         # inyectores
-adm.cyl('Y', (1.535, -0.20, 0.765), 0.012, 0.36, M['acero'])                                         # riel de inyección
-adm.curve([(1.535, 0.0, 0.765), (1.52, 0.10, 0.80), (1.40, 0.25, 0.85), (1.10, 0.30, 0.60)], 0.005, M['negro'])  # caño de nafta
-adm.cyl('Y', (1.615, 0.065, 0.50), 0.04, 0.07, M['aluminio'])                                        # cuerpo de mariposa
-adm.rbox((1.65, 0.07, 0.50), (0.03, 0.05, 0.06), 0.008, M['negro'])                                  # sensor TPS
-make('admision', 'Múltiple de admisión, inyectores y cuerpo de mariposa', CJ, adm, (1.20, 0.10, 1.10))
+    adm.curve([(1.255, y, 0.70), (1.20, y, 0.745), (1.13, y, 0.72), (1.105, y, 0.665)], 0.023, M['negro'])
+    adm.cyl('X', (1.235, y, 0.735), 0.008, 0.055, M['negro'])                                        # inyectores
+adm.cyl('Y', (1.215, -0.20, 0.765), 0.012, 0.36, M['acero'])                                         # tubo de descarga (riel)
+adm.curve([(1.215, 0.0, 0.765), (1.20, 0.10, 0.70), (1.10, 0.30, 0.50), (0.98, 0.20, 0.30)], 0.005, M['negro'])  # caño de nafta
+adm.cyl('Y', (1.11, 0.065, 0.62), 0.04, 0.07, M['aluminio'])                                         # cuerpo de mariposa
+adm.rbox((1.11, 0.07, 0.675), (0.05, 0.03, 0.03), 0.008, M['negro'])                                 # sensor TP
+adm.rbox((1.11, -0.30, 0.68), (0.04, 0.03, 0.03), 0.008, M['negro'])                                 # sensor MAP
+make('admision', 'Múltiple de admisión, inyectores y cuerpo de mariposa', CJ, adm, (-0.45, 0.10, 1.10))
 
 af = P()
-af.rbox((1.43, 0.25, 0.70), (0.26, 0.24, 0.16), 0.03, M['negro'])                                    # caja del filtro
-af.rbox((1.43, 0.25, 0.785), (0.27, 0.25, 0.012), 0.005, M['negro'])                                 # unión de la tapa
+af.rbox((1.43, 0.25, 0.70), (0.26, 0.24, 0.16), 0.03, M['negro'])
+af.rbox((1.43, 0.25, 0.785), (0.27, 0.25, 0.012), 0.005, M['negro'])
 for dx in (-0.11, 0.11):
-    af.rbox((1.43 + dx, 0.375, 0.775), (0.03, 0.02, 0.03), 0.006, M['acero'])                        # trabas
+    af.rbox((1.43 + dx, 0.375, 0.775), (0.03, 0.02, 0.03), 0.006, M['acero'])
 af.curve([(1.56, 0.30, 0.70), (1.70, 0.36, 0.72), (1.82, 0.38, 0.66)], 0.035, M['negro'])           # toma de aire
-af.cyl('Y', (1.43, 0.115, 0.72), 0.04, 0.05, M['negro'])                                              # caudalímetro (MAF)
-af.fuelle((1.43, 0.09, 0.72), (1.62, 0.10, 0.52), 0.04, 0.04, 6, M['goma'])                          # manguera a la mariposa
+af.cyl('X', (1.29, 0.20, 0.74), 0.04, 0.05, M['negro'])                                              # caudalímetro (MAF)
+af.fuelle((1.27, 0.19, 0.74), (1.13, 0.10, 0.63), 0.042, 0.042, 6, M['goma'])                       # manguera a la mariposa
 make('filtro_aire', 'Caja del filtro de aire y caudalímetro', CJ, af, (0.75, 0.60, 1.05))
 
+# escape adelante: el múltiple lleva el catalizador incorporado (sección 1K)
 esc = P()
 for y in CYL_Y:
-    esc.curve([(1.255, y, 0.70), (1.20, y, 0.68), (1.17, (y - 0.20) / 2, 0.57), (1.16, -0.20, 0.47)], 0.021, M['escape'])
-esc.rbox((1.18, -0.19, 0.64), (0.06, 0.40, 0.15), 0.02, M['aluminio'], rot=Matrix.Rotation(math.radians(12), 3, 'Y'))  # cubrecalor
+    esc.curve([(1.495, y, 0.70), (1.55, y, 0.68), (1.585, (y - 0.20) / 2, 0.60), (1.60, -0.20, 0.53)], 0.021, M['escape'])
+esc.lathe_z(None, [(0.0, 0.0), (0.03, 0.0), (0.068, 0.04), (0.068, 0.20), (0.035, 0.25), (0.0, 0.25)], M['escape'],
+            mtx=Matrix.Translation((1.60, -0.20, 0.53)) @ eje_a((0, 0, -1)), segs=32)                # catalizador
+esc.rbox((1.565, -0.19, 0.62), (0.06, 0.40, 0.16), 0.02, M['aluminio'], rot=Matrix.Rotation(math.radians(-12), 3, 'Y'))
 for k in range(6):
-    esc.box(1.205, 1.215, -0.36 + k * 0.07, -0.33 + k * 0.07, 0.60, 0.70, M['aluminio'])
-esc.cyl('X', (1.16, -0.12, 0.50), 0.01, 0.05, M['negro'])                                           # sonda de oxígeno 1
-make('multiple_escape', 'Múltiple de escape, sonda y cubrecalor', CJ, esc, (0.15, -0.20, 1.30))
+    esc.box(1.535, 1.545, -0.36 + k * 0.07, -0.33 + k * 0.07, 0.56, 0.68, M['aluminio'])
+esc.cyl('X', (1.60, -0.12, 0.60), 0.01, 0.05, M['negro'])                                           # sonda de oxígeno 1
+esc.cyl('X', (1.61, -0.20, 0.27), 0.01, 0.05, M['negro'])                                           # sonda de oxígeno 2
+make('multiple_escape', 'Múltiple de escape con catalizador y sondas', CJ, esc, (1.35, -0.20, 0.95))
 
+# lado de las correas (derecha): bomba de agua y alternador atrás con una correa; compresor adelante con otra
 acc = P()
-acc.lathe((1.36, -0.455, 0.40), [(0.02, -0.02), (0.07, -0.02), (0.068, -0.012), (0.072, -0.004), (0.068, 0.004),
-                                   (0.072, 0.012), (0.07, 0.02), (0.02, 0.02)], M['acero_osc'], sign=-1, segs=40)
-acc.lathe((1.42, -0.455, 0.63), [(0.01, -0.015), (0.05, -0.015), (0.05, 0.015), (0.01, 0.015)], M['acero_osc'], sign=-1)
+acc.lathe((XC, -0.455, ZC), [(0.02, -0.025), (0.07, -0.025), (0.068, -0.015), (0.072, -0.006), (0.068, 0.004),
+                              (0.072, 0.014), (0.07, 0.025), (0.02, 0.025)], M['acero_osc'], sign=-1, segs=40)
+acc.lathe((1.40, -0.455, 0.62), [(0.01, -0.015), (0.05, -0.015), (0.05, 0.015), (0.01, 0.015)], M['acero_osc'], sign=-1)
 alt = [(0.0, -0.07)]
-for k in range(8):                                                                                   # alternador con aletas
+for k in range(8):
     alt += [(0.062, -0.065 + k * 0.016), (0.066, -0.058 + k * 0.016)]
 alt += [(0.062, 0.065), (0.0, 0.07)]
-acc.lathe((1.56, -0.38, 0.36), alt, M['aluminio'], sign=-1, segs=32)
-acc.cyl('Y', (1.56, -0.455, 0.36), 0.03, 0.03, M['acero_osc'])
-acc.cyl('Y', (1.20, -0.36, 0.33), 0.06, 0.16, M['aluminio'])                                         # compresor del aire
-acc.cyl('Y', (1.20, -0.455, 0.33), 0.055, 0.025, M['acero_osc'])
-acc.cyl('Y', (1.46, -0.455, 0.50), 0.03, 0.02, M['acero'])                                           # tensor
-acc.curve([(1.36, -0.455, 0.33), (1.20, -0.455, 0.275), (1.14, -0.455, 0.33), (1.20, -0.455, 0.385), (1.31, -0.455, 0.45),
-           (1.43, -0.455, 0.68), (1.47, -0.455, 0.63), (1.49, -0.455, 0.50), (1.56, -0.455, 0.42), (1.62, -0.455, 0.36),
-           (1.56, -0.455, 0.295), (1.43, -0.455, 0.33), (1.36, -0.455, 0.33)], 0.0055, M['correa'], segs=6)
-make('accesorios', 'Alternador, compresor del aire, bomba de agua y correa', CJ, acc, (0.90, -0.75, 0.95))
+acc.lathe((1.19, -0.38, 0.60), alt, M['aluminio'], sign=-1, segs=32)                                 # alternador (atrás, arriba)
+acc.cyl('Y', (1.19, -0.455, 0.60), 0.03, 0.03, M['acero_osc'])
+acc.curve([(XC, -0.455, 0.33), (1.43, -0.455, 0.36), (1.45, -0.455, 0.62), (1.40, -0.455, 0.67), (1.19, -0.455, 0.63),
+           (1.16, -0.455, 0.60), (1.20, -0.455, 0.57), (1.31, -0.455, 0.42), (XC, -0.455, 0.33)], 0.0055, M['correa'], segs=6)
+acc.cyl('Y', (1.56, -0.36, 0.30), 0.062, 0.16, M['aluminio'])                                        # compresor del aire (adelante, abajo)
+acc.cyl('Y', (1.56, -0.465, 0.30), 0.056, 0.025, M['acero_osc'])
+acc.curve([(XC, -0.468, 0.47), (1.56, -0.468, 0.356), (1.62, -0.468, 0.30), (1.56, -0.468, 0.244), (XC, -0.468, 0.33),
+           (1.31, -0.468, 0.40), (XC, -0.468, 0.47)], 0.005, M['correa'], segs=6)
+make('accesorios', 'Alternador, bomba de agua, compresor del aire y correas', CJ, acc, (0.90, -0.80, 0.95))
 
 arr = P().cyl('Y', (1.17, 0.08, 0.40), 0.042, 0.17, M['acero_osc'])
 arr.cyl('Y', (1.17, 0.18, 0.40), 0.03, 0.04, M['negro'])
-arr.cyl('Y', (1.19, 0.06, 0.45), 0.02, 0.09, M['acero_osc'])                                         # solenoide
-arr.curve([(1.19, 0.10, 0.47), (1.25, 0.20, 0.55), (1.38, 0.43, 0.60)], 0.005, M['rojo_tapa'])       # cable a la batería
-make('arranque', 'Motor de arranque', CJ, arr, (-0.35, 0.45, 0.90))
+arr.cyl('Y', (1.19, 0.06, 0.45), 0.02, 0.09, M['acero_osc'])
+arr.curve([(1.19, 0.10, 0.47), (1.25, 0.20, 0.55), (1.33, 0.43, 0.66)], 0.005, M['rojo_tapa'])
+make('arranque', 'Motor de arranque', CJ, arr, (-0.40, 0.45, 0.70))
+
+# soportes (sección 1D): derecho arriba en la distribución, izquierdo sobre la caja y trasero (barra de reacción) a la cuna
+so = P()
+so.rbox((1.40, -0.47, 0.66), (0.10, 0.08, 0.06), 0.01, M['acero_osc'])
+so.cyl('Y', (1.40, -0.56, 0.68), 0.05, 0.08, M['goma'])
+so.rbox((1.40, -0.63, 0.68), (0.12, 0.06, 0.10), 0.01, M['acero_osc'])
+so.rbox((1.30, 0.43, 0.58), (0.10, 0.06, 0.06), 0.01, M['acero_osc'])
+so.cyl('Y', (1.30, 0.52, 0.60), 0.05, 0.08, M['goma'])
+so.rbox((1.30, 0.59, 0.60), (0.12, 0.06, 0.10), 0.01, M['acero_osc'])
+so.caja_entre((1.13, 0.12, 0.26), (0.97, 0.05, 0.21), 0.05, 0.03, M['acero_osc'])
+so.cyl('Y', (0.97, 0.05, 0.21), 0.03, 0.05, M['goma'])
+make('soportes_motor', 'Soportes del motor (derecho, izquierdo y trasero)', CJ, so, (0.20, 0, 0.50))
+
+# ================================================================ MOTOR POR DENTRO (cigüeñal, pistones, levas, válvulas, cadena)
+CJ = 'Motor por dentro'
+ANG = {0: 0, 3: 0, 1: 180, 2: 180}        # muñequillas 1-4 arriba, 2-3 abajo (orden 1-3-4-2)
+cg = P()
+for k in range(5):                                                                                    # muñones de bancada Ø52
+    yj = -0.38 + k * 0.09
+    cg.cyl('Y', (XC, yj, ZC), 0.026, 0.022, M['acero'])
+for i, y in enumerate(CYL_Y):
+    a = math.radians(ANG[i])
+    px_, pz_ = XC + (CARRERA / 2) * math.sin(a), ZC + (CARRERA / 2) * math.cos(a)
+    cg.cyl('Y', (px_, y, pz_), 0.0225, 0.024, M['acero'])                                             # muñequilla Ø45
+    for dy in (-0.022, 0.022):                                                                         # brazos y contrapesos
+        cg.obox(((XC + px_) / 2, y + dy, (ZC + pz_) / 2), (0.05, 0.018, 0.075),
+                Matrix.Rotation(-a, 3, 'Y'), M['acero_osc'])
+        cg.tube('Y', (XC, y + dy, ZC), 0.004, 0.062, 0.018, M['acero_osc'], a0=ANG[i] + 30, a1=ANG[i] + 150, segs=24)
+cg.cyl('Y', (XC, -0.42, ZC), 0.02, 0.04, M['acero'])                                                  # punta delantera
+cg.gear('Y', (XC, -0.405, ZC), 0.022, 18, 0.012, M['acero_osc'])                                     # piñón de distribución
+cg.cyl('Y', (XC, 0.035, ZC), 0.13, 0.008, M['acero_osc'])                                             # placa de arrastre (A/T)
+cg.gear('Y', (XC, 0.035, ZC), 0.142, 90, 0.010, M['acero_osc'])                                       # corona del arranque
+make('ciguenal', 'Cigüeñal con placa de arrastre', CJ, cg, (1.05, -0.15, 0.10))
+
+pb = P()
+for i, y in enumerate(CYL_Y):
+    a = math.radians(ANG[i])
+    px_, pz_ = XC + (CARRERA / 2) * math.sin(a), ZC + (CARRERA / 2) * math.cos(a)
+    zp = pz_ + math.sqrt(BIELA ** 2 - (px_ - XC) ** 2)                                                 # perno del pistón
+    pb.barra((px_, y, pz_), (XC, y, zp), 0.011, M['acero_osc'])                                       # biela
+    pb.cyl('Y', (px_, y, pz_), 0.031, 0.022, M['acero_osc'])                                          # cabeza de biela
+    pb.cyl('Y', (XC, y, zp), 0.016, 0.022, M['acero_osc'])                                            # pie de biela
+    pb.cyl('Y', (XC, y, zp), 0.010, 0.07, M['acero'])                                                 # perno Ø20
+    pist = [(0.0, -0.03), (0.0385, -0.03), (0.0385, 0.012), (0.0375, 0.013), (0.0375, 0.016), (0.0388, 0.017),
+            (0.0388, 0.019), (0.0375, 0.020), (0.0375, 0.023), (0.0388, 0.024), (0.0388, 0.026), (0.0375, 0.027),
+            (0.0375, 0.030), (0.0388, 0.031), (0.0388, 0.035), (0.034, 0.036), (0.0, 0.036)]
+    pb.lathe_z(None, pist, M['aluminio'], mtx=Matrix.Translation((XC, y, zp)), segs=32)               # pistón Ø78 con 3 aros
+make('pistones', 'Pistones, aros y bielas', CJ, pb, (1.05, -0.15, 0.55))
+
+XI, XE, ZL = 1.315, 1.435, 0.735          # árboles de levas: admisión atrás, escape adelante
+lv = P()
+for xl, nom in ((XI, 'adm'), (XE, 'esc')):
+    lv.cyl('Y', (xl, -0.19, ZL), 0.012, 0.42, M['acero'])
+    for k in range(5):
+        lv.cyl('Y', (xl, -0.38 + k * 0.09, ZL), 0.0145, 0.02, M['acero'])                            # apoyos
+        lv.rbox((xl, -0.38 + k * 0.09, ZL + 0.02), (0.04, 0.022, 0.012), 0.004, M['aluminio'])       # sombreretes
+    for i, y in enumerate(CYL_Y):
+        for dy in (-0.019, 0.019):
+            ang = math.radians(90 * i + (0 if nom == 'adm' else 100))
+            lv.ellip((xl + 0.008 * math.sin(ang), y + dy, ZL - 0.008 * math.cos(ang)), (0.02, 0.008, 0.02),
+                     M['acero_osc'], rot=Matrix.Rotation(-ang, 3, 'Y'), segs=16, rings=8)              # levas (45 mm de alto)
+lv.gear('Y', (XI, -0.40, ZL), 0.05, 36, 0.012, M['acero_osc'])                                        # piñón con VVT
+lv.cyl('Y', (XI, -0.385, ZL), 0.043, 0.03, M['aluminio'])                                            # actuador del VVT
+lv.gear('Y', (XE, -0.40, ZL), 0.045, 36, 0.012, M['acero_osc'])
+make('arboles_levas', 'Árboles de levas y actuador del VVT', CJ, lv, (1.05, -0.15, 1.75))
+
+va = P()
+for i, y in enumerate(CYL_Y):
+    for dy in (-0.019, 0.019):
+        for xl, sgn, rh in ((XI, -1, 0.0145), (XE, 1, 0.0125)):
+            top = Vector((xl, y + dy, ZL - 0.025))
+            d_ = Vector((sgn * 0.30, 0, -1)).normalized()                                              # válvulas en V
+            va.cyl('Z', top + Vector((0, 0, -0.002)), 0.0155, 0.018, M['acero'])                      # botador (Ø31)
+            va.helice(top + d_ * 0.012, top + d_ * 0.042, 0.011, 5, 0.0016, M['resorte'], n=40)       # resorte (36,8 mm libre)
+            va.barra(top + d_ * 0.01, top + d_ * 0.080, 0.00275, M['acero'], segs=8)                  # vástago Ø5,5
+            va.lathe_z(None, [(0.0, 0.0), (rh, 0.0), (rh, 0.002), (0.004, 0.008)], M['acero'],
+                       mtx=Matrix.Translation(top + d_ * 0.082) @ eje_a(-d_), segs=16)                # cabeza
+make('valvulas', 'Válvulas, resortes y botadores (16)', CJ, va, (1.05, -0.15, 1.42))
+
+ca = P()
+# cadena: tramos rectos entre el piñón del cigüeñal y los de las levas, con guías y tensor
+pts = [(XC + 0.022, ZC), (XE + 0.045, ZL), (XE, ZL + 0.045), (XI, ZL + 0.05), (XI - 0.05, ZL), (XC - 0.022, ZC),
+       (XC, ZC - 0.022), (XC + 0.022, ZC)]
+ca.curve([(x, -0.40, z) for x, z in pts], 0.004, M['acero'], segs=4)
+ca.rbox((XE + 0.055, -0.40, (ZC + ZL) / 2), (0.012, 0.016, 0.26), 0.004, M['negro'],
+        rot=Matrix.Rotation(math.radians(-6), 3, 'Y'))                                                # guía fija
+ca.rbox((XI - 0.06, -0.40, (ZC + ZL) / 2), (0.012, 0.016, 0.26), 0.004, M['negro'],
+        rot=Matrix.Rotation(math.radians(8), 3, 'Y'))                                                 # guía del tensor
+ca.rbox((XI - 0.085, -0.40, 0.50), (0.03, 0.03, 0.04), 0.006, M['aluminio'])                          # tensor
+make('cadena', 'Cadena de distribución, guías y tensor', CJ, ca, (1.05, -0.95, 1.30))
+
+bo_ = P()
+bo_.gear('Y', (XC, -0.43, ZC), 0.032, 10, 0.012, M['acero'])                                          # rotor interior
+bo_.tube('Y', (XC, -0.43, ZC), 0.033, 0.045, 0.012, M['acero_osc'])                                   # rotor exterior
+bo_.curve([(XC + 0.02, -0.25, 0.30), (XC + 0.03, -0.20, 0.24), (XC + 0.02, -0.18, 0.215)], 0.008, M['acero'])  # colador
+bo_.cyl('Z', (XC + 0.02, -0.18, 0.212), 0.035, 0.006, M['acero'])
+bo_.lathe((1.40, -0.425, 0.62), [(0.005, -0.006), (0.035, -0.006), (0.035, 0.006), (0.005, 0.006)], M['acero'], sign=-1)
+for k in range(6):                                                                                     # turbina de la bomba de agua
+    r = Matrix.Rotation(-2 * math.pi * k / 6, 3, 'Y')
+    bo_.obox(Vector((1.40, -0.41, 0.62)) + r @ Vector((0.018, 0, 0)), (0.03, 0.012, 0.003), r, M['acero'])
+make('bombas', 'Bomba de aceite (rotores) y bomba de agua', CJ, bo_, (1.05, -0.95, 0.85))
 
 # ================================================================ TRANSMISIÓN
 CJ = 'Transmisión'
@@ -1435,6 +1561,13 @@ for dz in (0.0, 0.02):                                                          
     ta.curve([(1.40, 0.18, 0.45 + dz), (1.55, 0.25, 0.42 + dz), (1.74, 0.36, 0.40 + dz)], 0.005, M['negro'])
 ta.curve([(1.30, 0.40, 0.47), (1.10, 0.30, 0.45), (0.50, 0.05, 0.40)], 0.004, M['negro'])           # cable de la palanca
 make('caja_4at', 'Caja automática de 4 marchas (4AT) con diferencial', CJ, ta, (0.30, 0.75, 0.75))
+cv = P()
+cv.lathe((XC, 0.045, ZC), [(0.03, 0.0), (0.12, 0.0), (0.132, 0.015), (0.132, 0.055), (0.115, 0.075), (0.04, 0.08),
+                           (0.03, 0.10), (0.02, 0.10), (0.02, 0.0)], M['aluminio'], sign=1, segs=48)
+for k in range(3):                                                                                    # tuercas de fijación a la placa
+    a_ = 2 * math.pi * k / 3
+    cv.cyl('Y', (XC + 0.10 * math.cos(a_), 0.042, ZC + 0.10 * math.sin(a_)), 0.008, 0.008, M['acero'], segs=6)
+make('convertidor', 'Convertidor de par', CJ, cv, (0.30, 0.45, 0.30))
 for lado, s in (('izq', 1), ('der', -1)):
     sm = P()
     p0 = Vector((1.20, 0.40 if s > 0 else -0.10, 0.30))
@@ -1472,11 +1605,13 @@ for k in range(7):
              (0.008, 0.10, 0.05), r, M['negro'])
 make('electroventilador', 'Electroventilador del radiador', CJ, ven, (0.95, 0, 0.45))
 mg = P()
-mg.curve([(1.77, 0.33, 0.64), (1.68, 0.20, 0.72), (1.55, -0.10, 0.78), (1.47, -0.30, 0.75)], 0.018, M['goma'])     # superior
-mg.curve([(1.77, -0.33, 0.33), (1.66, -0.30, 0.28), (1.55, -0.40, 0.30), (1.45, -0.43, 0.42)], 0.018, M['goma'])   # inferior
-mg.rbox((1.47, -0.32, 0.75), (0.06, 0.05, 0.05), 0.01, M['aluminio'])                                 # caja del termostato
-mg.curve([(1.20, -0.25, 0.62), (1.05, -0.20, 0.70), (0.99, -0.10, 0.72)], 0.008, M['goma'])         # mangueras de la calefacción
-mg.curve([(1.20, -0.30, 0.60), (1.05, -0.25, 0.66), (0.99, -0.16, 0.70)], 0.008, M['goma'])
+mg.curve([(XC, 0.065, 0.69), (1.50, 0.18, 0.74), (1.66, 0.28, 0.70), (1.77, 0.33, 0.64)], 0.018, M['goma'])      # superior
+mg.rbox((1.20, 0.0, 0.46), (0.07, 0.07, 0.07), 0.012, M['aluminio'])                                 # caja del termostato (atrás)
+mg.curve([(1.77, -0.33, 0.33), (1.68, -0.20, 0.22), (1.40, 0.05, 0.19), (1.24, 0.06, 0.30), (1.21, 0.03, 0.43)],
+         0.018, M['goma'])                                                                             # inferior al termostato
+mg.curve([(1.21, -0.03, 0.47), (1.24, -0.20, 0.42), (1.30, -0.40, 0.55), (1.38, -0.42, 0.60)], 0.012, M['acero'])  # tubo a la bomba
+mg.curve([(1.17, 0.0, 0.48), (1.05, -0.10, 0.60), (0.99, -0.10, 0.72)], 0.008, M['goma'])            # mangueras de la calefacción
+mg.curve([(1.30, 0.02, 0.66), (1.05, -0.16, 0.66), (0.99, -0.16, 0.70)], 0.008, M['goma'])
 make('mangueras', 'Mangueras del radiador, termostato y calefacción', CJ, mg, (0.80, -0.20, 0.80))
 dep = P().rbox((1.67, -0.54, 0.64), (0.10, 0.12, 0.16), 0.02, M['bateria'])
 dep.cyl('Z', (1.67, -0.54, 0.73), 0.02, 0.02, M['negro'])
@@ -1520,23 +1655,54 @@ tq.curve([(-0.95, 0.38, 0.28), (-1.15, 0.55, 0.45), (X_TAPA + 0.02, 0.70, Z_TAPA
 tq.cyl('Y', (X_TAPA, 0.785, Z_TAPA), 0.035, 0.02, M['negro'])
 tq.curve([(-0.70, 0.15, 0.35), (-0.30, -0.15, 0.24), (0.60, -0.20, 0.235), (1.10, -0.20, 0.34)], 0.0045, M['acero'])
 make('tanque', 'Tanque de combustible (43 L) con bomba y boca de carga', CJ, tq, (0, 0.05, -0.70))
+cn = P().cyl('Z', (1.02, 0.66, 0.53), 0.05, 0.17, M['negro'])
+cn.cyl('Z', (1.02, 0.66, 0.625), 0.02, 0.02, M['negro'])
+cn.curve([(1.02, 0.66, 0.64), (1.06, 0.40, 0.70), (1.11, -0.10, 0.68)], 0.005, M['goma'])            # a la válvula de purga
+cn.rbox((1.11, -0.12, 0.68), (0.03, 0.04, 0.03), 0.006, M['negro'])                                  # válvula de purga
+cn.curve([(1.02, 0.66, 0.45), (0.80, 0.45, 0.24), (-0.70, 0.20, 0.25), (-0.82, 0.15, 0.34)], 0.004, M['negro'])
+make('canister', 'Recipiente de EVAP (canister) y válvula de purga', CJ, cn, (0.20, 0.55, 0.40))
 ex = P()
-ex.curve([(1.16, -0.20, 0.47), (1.12, -0.15, 0.30), (1.06, -0.07, 0.24)], 0.025, M['escape'])
-ex.fuelle((1.06, -0.07, 0.24), (0.94, -0.05, 0.225), 0.03, 0.03, 8, M['acero'])                     # flexible
-ex.lathe_z(None, [(0.0, 0.0), (0.025, 0.0), (0.065, 0.06), (0.065, 0.28), (0.025, 0.34), (0.0, 0.34)], M['escape'],
-           mtx=Matrix.Translation((0.94, -0.05, 0.225)) @ eje_a((-1, 0, 0)), segs=32)                 # catalizador
-ex.rbox((0.77, -0.05, 0.30), (0.34, 0.16, 0.012), 0.004, M['aluminio'])                              # cubrecalor
-ex.cyl('Z', (0.92, -0.05, 0.29), 0.01, 0.04, M['negro'])                                            # sonda de oxígeno 2
-ex.curve([(0.60, -0.05, 0.215), (0.0, -0.05, 0.205), (-0.30, -0.06, 0.20), (-0.50, -0.25, 0.20), (-0.62, -0.47, 0.20),
-          (-1.25, -0.47, 0.20), (-1.38, -0.38, 0.25)], 0.022, M['escape'])
-ex.lathe_z(None, [(0.0, 0.0), (0.05, 0.0), (0.05, 0.22), (0.0, 0.22)], M['escape'],
-           mtx=Matrix.Translation((-0.05, -0.06, 0.205)) @ eje_a((-1, 0, 0)), segs=24)                 # resonador
-ex.rbox((-1.55, -0.22, 0.31), (0.24, 0.44, 0.17), 0.07, M['escape'], seg=3)                          # silenciador
+ex.curve([(1.61, -0.20, 0.27), (1.58, -0.18, 0.18), (1.45, -0.10, 0.165), (1.25, -0.06, 0.17), (1.10, -0.05, 0.19)],
+         0.024, M['escape'])                                                                          # caño delantero n° 1
+ex.fuelle((1.10, -0.05, 0.19), (0.98, -0.05, 0.20), 0.03, 0.03, 8, M['acero'])                      # flexible
+ex.curve([(0.98, -0.05, 0.20), (0.40, -0.05, 0.205), (0.20, -0.05, 0.205)], 0.022, M['escape'])
+ex.lathe_z(None, [(0.0, 0.0), (0.025, 0.0), (0.06, 0.05), (0.06, 0.40), (0.025, 0.45), (0.0, 0.45)], M['escape'],
+           mtx=Matrix.Translation((0.20, -0.05, 0.205)) @ eje_a((-1, 0, 0)), segs=28)                 # resonador (silenciador central)
+ex.curve([(-0.25, -0.05, 0.205), (-0.45, -0.18, 0.20), (-0.62, -0.47, 0.20), (-1.25, -0.47, 0.20),
+          (-1.38, -0.38, 0.25)], 0.022, M['escape'])                                                  # caño central
+ex.rbox((-1.55, -0.22, 0.31), (0.24, 0.44, 0.17), 0.07, M['escape'], seg=3)                          # silenciador trasero
 ex.curve([(-1.62, -0.36, 0.29), (-1.74, -0.37, 0.27), (-1.80, -0.367, 0.265)], 0.022, M['escape'])
 ex.cyl('X', (-1.81, -0.367, 0.265), 0.03, 0.07, M['cromo'])                                          # puntera
-for p_ in ((-0.45, -0.18, 0.21), (-1.30, -0.42, 0.24), (-1.60, -0.05, 0.36)):                        # colgadores de goma
+ex.rbox((-0.95, -0.47, 0.245), (0.50, 0.20, 0.008), 0.004, M['aluminio'])                           # protector de calor bajo el piso
+for p_ in ((-0.45, -0.18, 0.21), (-1.30, -0.42, 0.24), (-1.60, -0.05, 0.36), (0.95, -0.05, 0.23)):   # colgadores de goma
     ex.cyl('Z', p_, 0.012, 0.05, M['goma'])
-make('escape', 'Línea de escape (catalizador, resonador y silenciador)', CJ, ex, (0, 0, -0.60))
+make('escape', 'Línea de escape (caño delantero, resonador y silenciador)', CJ, ex, (0, 0, -0.60))
+
+# ================================================================ AIRE ACONDICIONADO Y CALEFACCIÓN (secciones 7A y 7B)
+CJ = 'Aire acondicionado y calefacción'
+co = P().box(1.80, 1.815, -0.34, 0.34, 0.32, 0.64, M['radiador'])
+for k in range(14):
+    co.box(1.815, 1.818, -0.33, 0.33, 0.335 + k * 0.021, 0.340 + k * 0.021, M['acero_osc'])
+for s in (1, -1):
+    co.box(1.798, 1.818, s * 0.34, s * 0.36, 0.31, 0.65, M['aluminio'])                              # tanques del condensador
+co.cyl('Z', (1.80, 0.38, 0.48), 0.025, 0.20, M['acero_osc'])                                         # secador (receptor)
+make('condensador', 'Condensador del A/C y filtro secador', CJ, co, (1.55, 0, 0.05))
+cl = P()
+cl.curve([(1.56, -0.28, 0.33), (1.62, -0.10, 0.40), (1.79, 0.30, 0.62)], 0.009, M['aluminio'])       # descarga (alta)
+cl.curve([(1.80, 0.38, 0.38), (1.65, 0.50, 0.40), (1.30, 0.62, 0.62), (0.98, 0.25, 0.70)], 0.006, M['aluminio'])  # líquido
+cl.curve([(0.98, 0.20, 0.66), (1.20, 0.30, 0.50), (1.45, -0.10, 0.36), (1.56, -0.28, 0.27)], 0.011, M['aluminio'])  # succión (baja)
+cl.cyl('Z', (1.30, 0.62, 0.66), 0.012, 0.04, M['negro'])                                              # sensor de presión
+make('canerias_ac', 'Cañerías del A/C (alta, líquido y succión)', CJ, cl, (0.60, 0.30, 0.75))
+hv = P()
+hv.rbox((0.80, 0.12, 0.70), (0.20, 0.50, 0.26), 0.03, M['negro'])                                    # caja HVAC
+hv.rbox((0.80, 0.12, 0.70), (0.06, 0.30, 0.18), 0.006, M['aluminio'])                                # evaporador
+hv.rbox((0.74, 0.0, 0.62), (0.03, 0.18, 0.12), 0.006, M['cobre'] if 'cobre' in M else M['aluminio']) # radiador de calefacción
+hv.cyl('Z', (0.78, 0.45, 0.62), 0.07, 0.10, M['negro'])                                              # soplador
+hv.cyl('Z', (0.78, 0.45, 0.555), 0.03, 0.04, M['acero_osc'])                                         # motor del soplador
+hv.rbox((0.70, 0.45, 0.72), (0.06, 0.10, 0.03), 0.008, M['bateria'])                                  # filtro de habitáculo
+for y in (-0.62, -0.10, 0.10, 0.62):
+    hv.curve([(0.82, 0.12, 0.82), (0.75, y * 0.6, 0.90), (0.62, y, 0.93 if abs(y) > 0.3 else 0.97)], 0.025, M['negro'])  # conductos
+make('unidad_hvac', 'Unidad HVAC: evaporador, calefacción y soplador', CJ, hv, (0.35, 0.10, 1.05))
 
 # ================================================================ INTERIOR
 CJ = 'Interior'
@@ -1725,7 +1891,7 @@ if LAM:
     foto('swift_despiece', (7.4, 6.6, 4.6), (0.2, 0, 1.0), lens=40, despiece=1.0)
     foto('swift_frente_detalle', (3.7, 1.9, 1.15), (1.55, 0.05, 0.62), lens=50)
     foto('swift_cola_detalle', (-3.7, -1.9, 1.5), (-1.55, -0.05, 0.85), lens=50)
-    mec = ['Motor M15A', 'Transmisión', 'Refrigeración', 'Eléctrico', 'Suspensión y dirección', 'Frenos', 'Ruedas',
+    mec = ['Motor M15A', 'Motor por dentro', 'Aire acondicionado y calefacción', 'Transmisión', 'Refrigeración', 'Eléctrico', 'Suspensión y dirección', 'Frenos', 'Ruedas',
            'Combustible y escape', 'Interior']
     foto('swift_mecanica', (4.6, 4.0, 2.6), (0.0, 0, 0.45), solo=mec)
     lam = {
@@ -1736,6 +1902,9 @@ if LAM:
         'lamina_interior': (['Interior', 'Suspensión y dirección'], (2.0, 2.6, 2.6), (0.1, 0, 0.6), 0.0),
         'lamina_combustible': (['Combustible y escape', 'Ruedas'], (3.0, 4.0, 1.8), (-0.3, 0, 0.25), 0.0),
         'lamina_carroceria': (['Carrocería', 'Puertas y cristales', 'Iluminación'], (6.5, 6.0, 3.6), (0.1, 0, 0.8), 1.0),
+        'lamina_vano_motor': (['Motor M15A', 'Transmisión', 'Refrigeración', 'Eléctrico', 'Aire acondicionado y calefacción',
+                               'Frenos'], (3.0, 1.6, 1.9), (1.35, -0.02, 0.45), 0.0),
+        'lamina_motor_dentro': (['Motor por dentro'], (2.3, -1.3, 1.1), (1.37, -0.18, 0.55), 0.0),
     }
     for nombre, (solo, loc, tgt, de) in lam.items():
         foto(nombre, loc, tgt, solo=solo, despiece=de)

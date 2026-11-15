@@ -31,6 +31,7 @@ Al pedir repuestos conviene dar **modelo + código de chasis + motor**: *Suzuki 
 | Fuente | Qué se sacó |
 | ------ | ----------- |
 | **Manual de taller Suzuki Swift RS415**, tomos 1 y 2 (Suzuki Motor Corporation, 2004; 1257 páginas, inglés). Aplica desde el chasis `JSAEZC21S00100001`. | Motor, fluidos, plan de mantenimiento, frenos, alineación, caja automática, sistema eléctrico, fusibles y precauciones. |
+| **Manual de taller Suzuki Swift 2005-2010, edición en castellano** (Suzuki, 2005; 1584 páginas, PDF propio del usuario, no subido al vault). Mismos modelos ZC11S y ZC21S, incluye las versiones con volante a la derecha. | Ubicación de los componentes del vano motor, despieces del motor por dentro, escape, refrigeración, combustible, suspensión, frenos, ABS, caja automática, dirección y aire acondicionado; medidas internas del motor. Base de la mecánica del modelo 3D. |
 | **Catálogo japonés del Swift 1.5XS DBA-ZC21S** (datos de 2007-2009, publicados en sitios de catálogo de autos usados). | Medidas, peso, potencia, par, consumo, tanque, neumáticos, frenos y suspensión. |
 | **Comunicado de Suzuki Japón del 5/6/2008** (series especiales del Swift). | Contexto del año 2008. |
 
