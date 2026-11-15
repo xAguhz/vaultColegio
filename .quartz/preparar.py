@@ -7,7 +7,7 @@ Uso: python3 preparar.py <carpeta vaultColegio> <carpeta content de Quartz>
 - Convierte cada Canvas (.canvas) en una nota con el tablero dibujado.
 - Convierte cada dibujo de Excalidraw (.excalidraw.md) en una nota con el dibujo en SVG.
 - Cambia los links a los Artifacts privados por las copias publicadas en el sitio.
-- Copia las láminas del torno al visor 3D.
+- Las láminas de los visores 3D (torno y Swift) las copia el workflow después del armado.
 Solo usa la biblioteca estándar de Python.
 """
 import html
@@ -28,12 +28,14 @@ VAULTS = {
     "vaultTorno": ("Torno TM300", "00 Torno TM300", "Manual de mantenimiento y repuestos del torno Femar TM300, con despiece 3D."),
     "vaultDoñetz": ("El Profe Juanito", "00 Inicio", "Automatización industrial (neumática, electroneumática, PLC y electrónica digital) estudiada a partir del canal El Profe Juanito."),
     "vaultCharrute": ("Sistemas Mecánicos", "00 Inicio", "Sistemas Mecánicos 2026 (profe Charrute): TP1 a TP9, equipos, conceptos y guía de estudio."),
+    "vaultSuzuki": ("Suzuki Swift ZC21S", "Suzuki Swift ZC21S/00 Suzuki Swift ZC21S", "Manual del Suzuki Swift 1.5XS japonés (ZC21S, 2008): uso, mantenimiento y despiece 3D."),
 }
 IGNORAR_CARPETAS = {".obsidian", "herramientas", "Plantillas", "logs", ".trash"}
 IGNORAR_EXT = {".blend", ".blend1"}
 # Artifacts privados de claude.ai → su copia en el sitio
 ARTIFACTS = {
     "https://claude.ai/artifact/6k1uizayAvXsBWRHKa3caD": f"{SITIO}/vaultTorno/3D/visor/index.html",
+    "https://claude.ai/artifact/5inUBYy9btJ8hJyYv1jBd9": f"{SITIO}/vaultSuzuki/3D/visor/index.html",
     "https://claude.ai/artifact/H3ZKnU41iqELZVsaQRg9zc": f"{SITIO}/vaultAutoLID/AutoLID/Web/index.html",
 }
 COLORES = {"1": "#e93147", "2": "#ec7500", "3": "#e0ac00", "4": "#08b94e", "5": "#00bfbc", "6": "#7852ee"}

@@ -8,6 +8,7 @@ Notas del colegio en Obsidian, publicadas como página web: **https://xaguhz.git
 | `vaultTorno/` | TP del torno Femar TM300: manual de mantenimiento, repuestos y despiece 3D |
 | `vaultDoñetz/` | Automatización industrial estudiada a partir del canal El Profe Juanito |
 | `vaultCharrute/` | Sistemas Mecánicos 2026 (profe Charrute): trabajos prácticos, equipos y guía de estudio |
+| `vaultSuzuki/` | Manual del Suzuki Swift 1.5XS japonés (ZC21S, 2008): uso, mantenimiento y despiece 3D |
 
 Cada vault se abre por separado en Obsidian con *Abrir carpeta como vault*.
 

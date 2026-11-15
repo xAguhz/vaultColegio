@@ -52,13 +52,16 @@ jobs:
         working-directory: quartz
         run: npx quartz build
 
-      - name: Copiar las páginas propias (visor 3D y web de AutoLID)
+      - name: Copiar las páginas propias (visores 3D y web de AutoLID)
         # Quartz no publica los .html sueltos; se copian tal cual sobre el sitio armado.
         run: |
           mkdir -p quartz/public/vaultTorno/3D/visor/laminas quartz/public/vaultAutoLID/AutoLID/Web
           cp -r vault/vaultTorno/3D/visor/. quartz/public/vaultTorno/3D/visor/
           cp "vault/vaultTorno/Adjuntos/Torno TM300/"*.png quartz/public/vaultTorno/3D/visor/laminas/
           cp -r vault/vaultAutoLID/AutoLID/Web/. quartz/public/vaultAutoLID/AutoLID/Web/
+          mkdir -p quartz/public/vaultSuzuki/3D/visor/laminas
+          cp -r vault/vaultSuzuki/3D/visor/. quartz/public/vaultSuzuki/3D/visor/
+          cp "vault/vaultSuzuki/Adjuntos/Suzuki Swift/"*.jpg quartz/public/vaultSuzuki/3D/visor/laminas/
 
       - uses: actions/upload-pages-artifact@v4
         with:

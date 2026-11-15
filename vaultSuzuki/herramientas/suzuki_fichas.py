@@ -1,0 +1,407 @@
+"""Fichas del visor 3D del Suzuki Swift ZC21S → 3D/visor/fichas.json
+
+Uso: python3 herramientas/suzuki_fichas.py
+Cada pieza: que (qué es), datos (pares nombre/valor), mant (mantenimiento), ver (nota del vault).
+Los datos salen del manual de taller RS415 (ZC21S, motor M15A) y del catálogo japonés del 1.5XS.
+"""
+import json
+import os
+
+VAULT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+CONJ = {
+    'Carrocería': {
+        'color': '#b3121f', 'nota': '03 Ficha técnica · 12 Seguridad, airbags y carrocería',
+        'resumen': 'Casco autoportante de acero de 5 puertas: 3755 mm de largo, 1690 de ancho y 1510 de alto, con 2390 mm entre ejes. Capó, portón y paragolpes se desmontan; el resto va soldado.',
+        'laminas': [['lamina_carroceria.jpg', 'Carrocería, puertas y ópticas en despiece'], ['swift_perfil.jpg', 'Perfil del modelo']]},
+    'Puertas y cristales': {
+        'color': '#5a7ea6', 'nota': '04 Mandos e instrumentos · 12 Seguridad, airbags y carrocería',
+        'resumen': 'Cuatro puertas con levantavidrios, parabrisas laminado pegado y luneta en el portón. En el Swift los parantes A y B van en negro y el techo parece "flotar".',
+        'laminas': [['lamina_carroceria.jpg', 'Puertas y cristales separados del casco']]},
+    'Iluminación': {
+        'color': '#e0ac00', 'nota': '10 Sistema eléctrico',
+        'resumen': 'Faros grandes que suben por el guardabarros y calaveras verticales en los parantes traseros. Cada faro tiene su fusible propio (H/L L y H/L R).',
+        'laminas': [['swift_34_delantera.jpg', 'Vista delantera'], ['swift_34_trasera.jpg', 'Vista trasera']]},
+    'Motor M15A': {
+        'color': '#c0623b', 'nota': '06 Motor M15A',
+        'resumen': 'Naftero de 4 cilindros en línea, 1490 cm³, DOHC de 16 válvulas con distribución por cadena y variador de fase de admisión (VVT). 110 PS a 6000 rpm y 143 N·m a 4000 rpm en la versión japonesa.',
+        'laminas': [['lamina_motor.jpg', 'Vano motor: motor transversal, caja, radiador y batería'], ['lamina_motor_despiece.jpg', 'Motor M15A en despiece']]},
+    'Transmisión': {
+        'color': '#7852ee', 'nota': '05 Conducción y caja automática',
+        'resumen': 'Caja automática de 4 marchas con convertidor de par y diferencial integrado (transeje), tracción delantera. Relación final 4,052.',
+        'laminas': [['lamina_motor.jpg', 'La caja va a la izquierda del motor']]},
+    'Refrigeración': {
+        'color': '#00bfbc', 'nota': '07 Fluidos y capacidades',
+        'resumen': 'Circuito presurizado con radiador, electroventilador y depósito recuperador. Lleva 6,1 L de refrigerante al 50 % (versión automática).',
+        'laminas': [['lamina_motor.jpg', 'Radiador y electroventilador al frente']]},
+    'Eléctrico': {
+        'color': '#08b94e', 'nota': '10 Sistema eléctrico',
+        'resumen': 'Sistema de 12 V con negativo a masa: batería 46B24R de 36 Ah, alternador de 70 A y dos cajas de fusibles (motor y cabina).',
+        'laminas': [['lamina_motor.jpg', 'Batería y caja de fusibles en el vano motor']]},
+    'Suspensión y dirección': {
+        'color': '#3f7fb5', 'nota': '09 Frenos, suspensión, dirección y ruedas',
+        'resumen': 'Adelante McPherson con barra estabilizadora; atrás eje de torsión con resortes y amortiguadores separados. Dirección a cremallera con asistencia eléctrica en la columna (EPS).',
+        'laminas': [['lamina_suspension.jpg', 'Tren delantero, trasero y dirección'], ['lamina_interior.jpg', 'Columna y volante (mano derecha)']]},
+    'Frenos': {
+        'color': '#e93147', 'nota': '09 Frenos, suspensión, dirección y ruedas',
+        'resumen': 'Discos ventilados adelante y tambores atrás, con servofreno de vacío y ABS. Líquido DOT 3, cambio cada 30 000 km o 2 años.',
+        'laminas': [['lamina_frenos.jpg', 'Discos, mordazas, tambores y servofreno']]},
+    'Ruedas': {
+        'color': '#55606a', 'nota': '09 Frenos, suspensión, dirección y ruedas',
+        'resumen': 'Neumáticos 185/60R15 84H en llantas 15 × 5½ JJ. Tuercas a 85 N·m.',
+        'laminas': [['lamina_suspension.jpg', 'Ruedas con el tren rodante']]},
+    'Combustible y escape': {
+        'color': '#8a7f6a', 'nota': '07 Fluidos y capacidades · 08 Plan de mantenimiento',
+        'resumen': 'Tanque de 43 L bajo el asiento trasero con la bomba adentro (inyección multipunto). El escape pasa por el catalizador, va por debajo del piso y termina en el silenciador trasero.',
+        'laminas': [['lamina_combustible.jpg', 'Tanque y línea de escape']]},
+    'Interior': {
+        'color': '#7a7d84', 'nota': '04 Mandos e instrumentos',
+        'resumen': 'Cinco plazas, volante a la derecha (mano japonesa) y cuadro de tres relojes. Respaldo trasero rebatible.',
+        'laminas': [['lamina_interior.jpg', 'Puesto de manejo y asientos']]},
+}
+
+PIEZAS = {
+    # ------------------------------------------------------------ Carrocería
+    'casco': {
+        'que': 'La estructura soldada del auto: piso, parantes, techo, guardabarros y laterales. No tiene chasis aparte; el casco mismo resiste las cargas (carrocería autoportante).',
+        'datos': [['Largo × ancho × alto', '3755 × 1690 × 1510 mm'], ['Entre ejes', '2390 mm'], ['Despeje', '140 mm'], ['Peso en orden de marcha', '1030 kg (1.5XS 2WD)']],
+        'mant': ['Revisar el piso y los zócalos por óxido, sobre todo atrás de las ruedas.', 'Mantener libres los desagotes de puertas y zócalos.', 'Antes de soldar o pintar al horno (más de 93 °C), sacar los módulos de airbag y los pretensores.'],
+        'ver': '12 Seguridad, airbags y carrocería'},
+    'capo': {
+        'que': 'Tapa del vano motor, abisagrada atrás y trabada adelante con la cerradura y el gancho de seguridad.',
+        'datos': [['Apertura', 'palanca en la cabina + gancho de seguridad'], ['Lubricación', 'cerradura con aceite de motor o grasa']],
+        'mant': ['Lubricar la cerradura y el gancho en cada service.', 'Verificar que trabe en el segundo gancho antes de circular.'],
+        'ver': '08 Plan de mantenimiento'},
+    'porton': {
+        'que': 'Puerta trasera del baúl con la luneta térmica y el limpialuneta. Se sostiene abierta con dos amortiguadores a gas.',
+        'datos': [['Luneta', 'con desempañador eléctrico'], ['Soporte', '2 amortiguadores a gas']],
+        'mant': ['Si el portón no se sostiene solo, cambiar los dos amortiguadores juntos.', 'Lubricar bisagras y cerradura.'],
+        'ver': '12 Seguridad, airbags y carrocería'},
+    'paragolpes_del': {
+        'que': 'Cubierta plástica del frente. Atrás lleva el travesaño de acero que absorbe los golpes.',
+        'datos': [['Material', 'polipropileno pintado'], ['Fijación', 'tornillos y grampas']],
+        'mant': ['Después de un golpe, revisar el travesaño, el radiador y los soportes de los faros.'],
+        'ver': '12 Seguridad, airbags y carrocería'},
+    'paragolpes_tra': {
+        'que': 'Cubierta plástica trasera, por debajo del portón. Detrás va el travesaño trasero.',
+        'datos': [['Material', 'polipropileno pintado']],
+        'mant': ['Revisar las grampas: si está flojo, vibra a alta velocidad.'],
+        'ver': '12 Seguridad, airbags y carrocería'},
+    'parrilla': {
+        'que': 'Rejillas que dejan entrar el aire al radiador (arriba) y a la toma inferior.',
+        'datos': [['Función', 'entrada de aire al radiador']],
+        'mant': ['Sacar hojas e insectos del frente del radiador; si se tapa, el motor calienta.'],
+        'ver': '11 Diagnóstico de fallas'},
+    # ------------------------------------------------------------ Puertas y cristales
+    'puerta_del_izq': {
+        'que': 'Puerta del acompañante (en el auto japonés el conductor va a la derecha). Lleva el espejo retrovisor, la manija y el levantavidrios.',
+        'datos': [['Espejo', 'montado en la puerta'], ['Levantavidrios', 'eléctrico']],
+        'mant': ['Lubricar bisagras, retenes y cerradura.', 'Limpiar los desagotes de la parte de abajo.'],
+        'ver': '04 Mandos e instrumentos'},
+    'puerta_del_der': {
+        'que': 'Puerta del conductor (mano derecha, mercado japonés), con la botonera de levantavidrios y espejos.',
+        'datos': [['Lado', 'conductor (volante a la derecha)'], ['Espejos', 'regulación eléctrica']],
+        'mant': ['Lubricar bisagras, retenes y cerradura.', 'Si el vidrio sube lento, limpiar las guías antes de cambiar el motor.'],
+        'ver': '04 Mandos e instrumentos'},
+    'puerta_tra_izq': {
+        'que': 'Puerta trasera izquierda. Su borde de atrás rodea el pasarueda.',
+        'datos': [['Traba de niños', 'en el canto de la puerta']],
+        'mant': ['Lubricar bisagras y cerradura.', 'Probar la traba de niños.'],
+        'ver': '04 Mandos e instrumentos'},
+    'puerta_tra_der': {
+        'que': 'Puerta trasera derecha, igual a la izquierda pero simétrica.',
+        'datos': [['Traba de niños', 'en el canto de la puerta']],
+        'mant': ['Lubricar bisagras y cerradura.', 'Probar la traba de niños.'],
+        'ver': '04 Mandos e instrumentos'},
+    'parabrisas': {
+        'que': 'Vidrio delantero laminado (dos capas con una lámina plástica en el medio), pegado a la carrocería. Forma parte de la rigidez del techo.',
+        'datos': [['Tipo', 'laminado, pegado con uretano']],
+        'mant': ['Cambiar las escobillas si dejan franjas.', 'Un impacto chico se puede reparar antes de que se extienda.'],
+        'ver': '12 Seguridad, airbags y carrocería'},
+    'vidrios_fijos': {
+        'que': 'Pequeños vidrios fijos detrás de las puertas traseras, en el parante C.',
+        'datos': [['Tipo', 'templado, fijo']],
+        'mant': ['Revisar el burlete si entra agua.'],
+        'ver': '12 Seguridad, airbags y carrocería'},
+    'limpiaparabrisas': {
+        'que': 'Brazos y escobillas del parabrisas, movidos por un motor con varillaje en el torpedo.',
+        'datos': [['Velocidades', 'intermitente, baja y alta'], ['Lavador', 'depósito en el vano motor']],
+        'mant': ['Cambiar las escobillas una vez por año.', 'Usar líquido lavaparabrisas, no detergente.'],
+        'ver': '04 Mandos e instrumentos'},
+    # ------------------------------------------------------------ Iluminación
+    'faro_izq': {
+        'que': 'Óptica delantera izquierda: luz alta y baja, posición y giro.',
+        'datos': [['Fusible', 'H/L L, 15 A'], ['Regulación', 'tornillos de altura y de lado']],
+        'mant': ['Revisar la regulación después de cambiar una lámpara.', 'No tocar el vidrio de la lámpara halógena con los dedos.'],
+        'ver': '10 Sistema eléctrico'},
+    'faro_der': {
+        'que': 'Óptica delantera derecha: luz alta y baja, posición y giro.',
+        'datos': [['Fusible', 'H/L R, 15 A'], ['Regulación', 'tornillos de altura y de lado']],
+        'mant': ['Revisar la regulación después de cambiar una lámpara.', 'Si un solo faro no anda, mirar primero su fusible propio.'],
+        'ver': '10 Sistema eléctrico'},
+    'calavera_izq': {
+        'que': 'Luz trasera izquierda vertical: posición, freno, giro y marcha atrás.',
+        'datos': [['Fusible de freno', 'STOP LAMP, 15 A']],
+        'mant': ['Probar las luces de freno con ayuda o contra una pared.'],
+        'ver': '10 Sistema eléctrico'},
+    'calavera_der': {
+        'que': 'Luz trasera derecha vertical: posición, freno, giro y marcha atrás.',
+        'datos': [['Fusible de freno', 'STOP LAMP, 15 A']],
+        'mant': ['Revisar que no entre agua (empañado por dentro).'],
+        'ver': '10 Sistema eléctrico'},
+    # ------------------------------------------------------------ Motor
+    'bloque': {
+        'que': 'Bloque de aluminio con las camisas de los 4 cilindros, el cigüeñal y el cárter de aceite abajo. Atrás va el filtro de aceite.',
+        'datos': [['Cilindrada', '1490 cm³'], ['Diámetro × carrera', '78 × 78 mm'], ['Compresión', '1400 kPa (mín. 1100; dif. máx. 100)'], ['Presión de aceite', 'más de 270 kPa a 4000 rpm'], ['Aceite', '≈ 3,7 L cárter + 0,2 L filtro']],
+        'mant': ['Aceite y filtro cada 15 000 km o 12 meses (7500 km o 6 meses en uso severo).', 'Tapón de vaciado a 35 N·m; filtro ¾ de vuelta después de que apoya (≈ 14 N·m).'],
+        'ver': '06 Motor M15A'},
+    'culata': {
+        'que': 'Tapa de cilindros con dos árboles de levas (DOHC) y 4 válvulas por cilindro. El árbol de admisión tiene el variador de fase (VVT).',
+        'datos': [['Válvulas', '16'], ['Luz en frío', 'admisión 0,18–0,22 · escape 0,28–0,32 mm'], ['Luz en caliente', 'admisión 0,21–0,27 · escape 0,30–0,36 mm']],
+        'mant': ['Controlar la luz de válvulas cada 30 000 km o 24 meses.', 'Se ajusta cambiando las pastillas de los botadores.'],
+        'ver': '06 Motor M15A'},
+    'tapa_valvulas': {
+        'que': 'Tapa superior con la boca de llenado de aceite. Arriba van las dos bobinas: cada una enciende un cilindro directo y otro por cable de alta.',
+        'datos': [['Orden de encendido', '1-3-4-2'], ['Bujía níquel', 'NGK BKR6E-11 / Denso K20PR-U11'], ['Bujía iridio', 'NGK IFR6J11'], ['Luz de bujía', '1,0–1,1 mm']],
+        'mant': ['Bujías de níquel cada 45 000 km; de iridio cada 105 000 km (según el plan).', 'Revisar los cables de alta y la junta de la tapa.'],
+        'ver': '06 Motor M15A'},
+    'distribucion': {
+        'que': 'Tapa de la cadena de distribución, del lado derecho del motor. La cadena no tiene cambio programado.',
+        'datos': [['Accionamiento', 'cadena (sin cambio periódico)']],
+        'mant': ['Si hay ruido de cadena en frío, revisar el tensor y el nivel de aceite.', 'Un aceite viejo o bajo daña primero el variador VVT y el tensor.'],
+        'ver': '06 Motor M15A'},
+    'admision': {
+        'que': 'Múltiple plástico que reparte el aire a los 4 cilindros, con el cuerpo de mariposa a la entrada. Los inyectores van en los conductos.',
+        'datos': [['Inyección', 'multipunto (EPI)'], ['Presión de nafta', '270–310 kPa (bomba andando)']],
+        'mant': ['Limpiar el cuerpo de mariposa si el ralentí es inestable.', 'Revisar mangueras de vacío por fisuras.'],
+        'ver': '06 Motor M15A'},
+    'multiple_escape': {
+        'que': 'Colector que junta los gases de los 4 cilindros y los lleva al catalizador. Va cubierto por una chapa contra el calor.',
+        'datos': [['Sonda de oxígeno', 'antes y después del catalizador']],
+        'mant': ['Revisar las tuercas y el cubrecalor en cada service con el auto levantado.', 'No tocar con el motor caliente.'],
+        'ver': '08 Plan de mantenimiento'},
+    'accesorios': {
+        'que': 'Lado de la correa: polea del cigüeñal, bomba de agua y alternador, movidos por una correa en V.',
+        'datos': [['Tensión de correa', '4,5–5,5 mm de flecha con 100 N'], ['Alternador', '70 A, 14,2–14,8 V']],
+        'mant': ['Inspeccionar la correa a los 45 000 km y cambiarla a los 90 000 km.', 'La tensión se ajusta moviendo el alternador.'],
+        'ver': '08 Plan de mantenimiento'},
+    'arranque': {
+        'que': 'Motor eléctrico que hace girar el motor para arrancar, montado en la caja. Con caja automática solo arranca en P o N.',
+        'datos': [['Potencia', '1,2 kW'], ['Fusible', 'ST MOT, 30 A']],
+        'mant': ['Si hace "clic" y no gira, medir primero la batería y los bornes.'],
+        'ver': '10 Sistema eléctrico'},
+    'filtro_aire': {
+        'que': 'Caja con el elemento filtrante del aire de admisión, sobre la caja de cambios.',
+        'datos': [['Elemento', 'papel seco']],
+        'mant': ['Inspeccionar cada 15 000 km y cambiar cada 45 000 km (en calles de tierra, mucho más seguido).'],
+        'ver': '08 Plan de mantenimiento'},
+    # ------------------------------------------------------------ Transmisión
+    'caja_4at': {
+        'que': 'Transeje automático de 4 marchas con convertidor de par, engranajes planetarios y diferencial. Los cambios los decide la computadora de la caja (TCM).',
+        'datos': [['Relaciones', '1ª 2,875 · 2ª 1,568 · 3ª 1,000 · 4ª 0,697 · R 2,300'], ['Final', '4,052'], ['Fluido', 'SUZUKI ATF 3317 o Mobil ATF 3309'], ['Capacidad', '3,3 L en un cambio · 5,6 L total']],
+        'mant': ['Controlar el nivel cada 30 000 km; cambiar el fluido cada 165 000 km (30 000 km en uso severo).', 'El nivel se mide en caliente, en P y con el motor en marcha.'],
+        'ver': '05 Conducción y caja automática'},
+    'semieje_izq': {
+        'que': 'Palier que lleva el giro del diferencial a la rueda izquierda, con juntas homocinéticas en cada punta.',
+        'datos': [['Juntas', 'homocinéticas con fuelles de goma']],
+        'mant': ['Revisar los fuelles cada 45 000 km: si se rompen, entra tierra y se pierde la grasa.', 'Un "tac-tac" al doblar indica junta gastada.'],
+        'ver': '09 Frenos, suspensión, dirección y ruedas'},
+    'semieje_der': {
+        'que': 'Palier derecho, igual al izquierdo pero de otro largo (el diferencial no está en el centro).',
+        'datos': [['Juntas', 'homocinéticas con fuelles de goma']],
+        'mant': ['Revisar los fuelles cada 45 000 km.'],
+        'ver': '09 Frenos, suspensión, dirección y ruedas'},
+    'palanca': {
+        'que': 'Palanca selectora de la caja automática en la consola central.',
+        'datos': [['Posiciones', 'P · R · N · D · 3 · 2 · L'], ['Arranque', 'solo en P o N']],
+        'mant': ['Para salir de P hay que pisar el freno.', 'No pasar a P o R con el auto en movimiento.'],
+        'ver': '05 Conducción y caja automática'},
+    # ------------------------------------------------------------ Refrigeración
+    'radiador': {
+        'que': 'Intercambiador de aluminio con tanques plásticos que enfría el líquido del motor con el aire de la marcha.',
+        'datos': [['Refrigerante', 'etilenglicol al 50 %'], ['Capacidad (AT)', '5,4 L motor + radiador + 0,7 L depósito']],
+        'mant': ['Cambiar el refrigerante cada 45 000 km o 36 meses.', 'No abrir la tapa con el motor caliente.'],
+        'ver': '07 Fluidos y capacidades'},
+    'electroventilador': {
+        'que': 'Ventilador eléctrico detrás del radiador. La computadora del motor lo prende según la temperatura y el aire acondicionado.',
+        'datos': [['Fusible', 'RDTR FAN, 30 A']],
+        'mant': ['Si el motor calienta en tránsito, revisar que el ventilador arranque y su fusible.'],
+        'ver': '11 Diagnóstico de fallas'},
+    'deposito_refrigerante': {
+        'que': 'Depósito recuperador: recibe el líquido que se dilata en caliente y lo devuelve al enfriar.',
+        'datos': [['Marcas', 'FULL y LOW']],
+        'mant': ['Controlar el nivel en frío, entre FULL y LOW, una vez por semana.'],
+        'ver': '07 Fluidos y capacidades'},
+    # ------------------------------------------------------------ Eléctrico
+    'bateria': {
+        'que': 'Batería de plomo de 12 V que alimenta el arranque y todo el auto con el motor parado.',
+        'datos': [['Tipo', '46B24R'], ['Capacidad', '36 Ah (5 h)'], ['Carga del alternador', '14,2–14,8 V']],
+        'mant': ['Mantener los bornes limpios y ajustados.', 'Desconectar primero el negativo y conectarlo último.'],
+        'ver': '10 Sistema eléctrico'},
+    'fusibles': {
+        'que': 'Caja de fusibles y relés del vano motor: alimenta el ventilador, la inyección, el ABS, la dirección eléctrica, los faros y el arranque.',
+        'datos': [['Ejemplos', 'FI 15 A · ABS MOT 30 A · EPS 50 A · RDTR FAN 30 A · H/L L/R 15 A']],
+        'mant': ['Cambiar un fusible siempre por uno del mismo amperaje.', 'Si se vuelve a quemar, buscar el cortocircuito.'],
+        'ver': '10 Sistema eléctrico'},
+    'fusibles_cabina': {
+        'que': 'Caja de empalmes con los fusibles de la cabina, del lado del conductor bajo el tablero.',
+        'datos': [['Ejemplos', 'IG COIL 15 A · DOME · tablero · encendedor']],
+        'mant': ['Si se apagan a la vez varias cosas del tablero, revisar esta caja.'],
+        'ver': '10 Sistema eléctrico'},
+    # ------------------------------------------------------------ Suspensión y dirección
+    'amortiguador_del_izq': {
+        'que': 'Columna McPherson: amortiguador y resorte en un solo conjunto que además guía la rueda al doblar.',
+        'datos': [['Caída', '0° ± 1° (no regulable)'], ['Avance', '5° 12′ ± 2° (no regulable)']],
+        'mant': ['Revisar pérdidas de aceite y los topes de goma.', 'Cambiar los amortiguadores de a pares.'],
+        'ver': '09 Frenos, suspensión, dirección y ruedas'},
+    'amortiguador_del_der': {
+        'que': 'Columna McPherson derecha, igual a la izquierda.',
+        'datos': [['Caída', '0° ± 1° (no regulable)'], ['Avance', '5° 12′ ± 2° (no regulable)']],
+        'mant': ['Revisar pérdidas de aceite y los topes de goma.'],
+        'ver': '09 Frenos, suspensión, dirección y ruedas'},
+    'brazo_izq': {
+        'que': 'Brazo inferior en L que une la mangueta con el bastidor delantero por dos bujes y una rótula.',
+        'datos': [['Uniones', 'rótula + 2 bujes de goma']],
+        'mant': ['Revisar el juego de la rótula y las grietas en los bujes.'],
+        'ver': '09 Frenos, suspensión, dirección y ruedas'},
+    'brazo_der': {
+        'que': 'Brazo inferior derecho, simétrico al izquierdo.',
+        'datos': [['Uniones', 'rótula + 2 bujes de goma']],
+        'mant': ['Revisar el juego de la rótula y las grietas en los bujes.'],
+        'ver': '09 Frenos, suspensión, dirección y ruedas'},
+    'estabilizadora': {
+        'que': 'Barra de torsión que une las dos ruedas delanteras y reduce el balanceo al doblar.',
+        'datos': [['Uniones', 'bujes al bastidor y bieletas a las columnas']],
+        'mant': ['Un golpeteo en pozos suele ser una bieleta gastada.'],
+        'ver': '09 Frenos, suspensión, dirección y ruedas'},
+    'eje_torsion': {
+        'que': 'Eje trasero semirrígido: dos brazos longitudinales unidos por una viga que se tuerce. Simple y liviano.',
+        'datos': [['Convergencia trasera', '5,2 ± 5,2 mm (no regulable)'], ['Caída trasera', '−1° ± 1°']],
+        'mant': ['Revisar los bujes delanteros de los brazos.'],
+        'ver': '09 Frenos, suspensión, dirección y ruedas'},
+    'amortiguador_tra_izq': {
+        'que': 'Atrás, el resorte y el amortiguador van separados: el resorte apoya sobre el brazo y el amortiguador queda detrás del eje.',
+        'datos': [['Tipo', 'resorte helicoidal + amortiguador telescópico']],
+        'mant': ['Revisar pérdidas y los bujes de los extremos.'],
+        'ver': '09 Frenos, suspensión, dirección y ruedas'},
+    'amortiguador_tra_der': {
+        'que': 'Resorte y amortiguador trasero derecho.',
+        'datos': [['Tipo', 'resorte helicoidal + amortiguador telescópico']],
+        'mant': ['Revisar pérdidas y los bujes de los extremos.'],
+        'ver': '09 Frenos, suspensión, dirección y ruedas'},
+    'cremallera': {
+        'que': 'Caja de dirección de piñón y cremallera con las bieletas a las manguetas. La convergencia se regula girando las bieletas.',
+        'datos': [['Convergencia delantera', '0 (+1,0 / −0,5) mm'], ['Giro de rueda', 'interior 39,1° · exterior 33,3°']],
+        'mant': ['Revisar los fuelles y el juego de los extremos.', 'Alinear después de cambiar cualquier pieza de la dirección.'],
+        'ver': '09 Frenos, suspensión, dirección y ruedas'},
+    'columna_eps': {
+        'que': 'Columna de dirección con un motor eléctrico que ayuda a girar (EPS). No tiene bomba ni líquido hidráulico.',
+        'datos': [['Asistencia', 'eléctrica en la columna'], ['Fusible', 'EPS, 50 A'], ['Juego del volante', '0–30 mm']],
+        'mant': ['Si se pone dura y se prende el testigo EPS, revisar batería y fusible antes que nada.'],
+        'ver': '09 Frenos, suspensión, dirección y ruedas'},
+    'volante': {
+        'que': 'Volante de 3 rayos con el airbag del conductor en el centro. En el Swift japonés va a la derecha.',
+        'datos': [['Lado', 'derecho'], ['Airbag', 'módulo en el centro']],
+        'mant': ['No desarmar ni golpear el módulo del airbag: lo hace solo un taller habilitado.'],
+        'ver': '12 Seguridad, airbags y carrocería'},
+    # ------------------------------------------------------------ Frenos
+    'disco_izq': {
+        'que': 'Disco ventilado delantero: dos caras unidas por aletas para que se enfríe mejor.',
+        'datos': [['Espesor', '20,0 mm (mín. 18,0)'], ['Torque de tuercas', '85 N·m']],
+        'mant': ['Medir el espesor con micrómetro al cambiar pastillas.', 'Si vibra el pedal al frenar, revisar el alabeo.'],
+        'ver': '09 Frenos, suspensión, dirección y ruedas'},
+    'disco_der': {
+        'que': 'Disco ventilado delantero derecho.',
+        'datos': [['Espesor', '20,0 mm (mín. 18,0)']],
+        'mant': ['Cambiar los discos de a pares.'],
+        'ver': '09 Frenos, suspensión, dirección y ruedas'},
+    'mordaza_izq': {
+        'que': 'Mordaza (caliper) flotante de un pistón que aprieta las pastillas contra el disco.',
+        'datos': [['Pastillas', '10 mm nuevas · cambiar con 2 mm']],
+        'mant': ['Revisar las pastillas cada 15 000 km.', 'Cambiar las 4 pastillas del eje juntas.'],
+        'ver': '09 Frenos, suspensión, dirección y ruedas'},
+    'mordaza_der': {
+        'que': 'Mordaza delantera derecha.',
+        'datos': [['Pastillas', '10 mm nuevas · cambiar con 2 mm']],
+        'mant': ['Revisar las pastillas cada 15 000 km.'],
+        'ver': '09 Frenos, suspensión, dirección y ruedas'},
+    'tambor_izq': {
+        'que': 'Freno trasero a tambor con zapatas (tipo zapata primaria y secundaria). También actúa el freno de mano.',
+        'datos': [['Diámetro interior', '200 mm (máx. 202)']],
+        'mant': ['Revisar zapatas y tambor cada 30 000 km.', 'Si el freno de mano sube mucho, regular.'],
+        'ver': '09 Frenos, suspensión, dirección y ruedas'},
+    'tambor_der': {
+        'que': 'Freno trasero derecho a tambor.',
+        'datos': [['Diámetro interior', '200 mm (máx. 202)']],
+        'mant': ['Revisar zapatas y tambor cada 30 000 km.'],
+        'ver': '09 Frenos, suspensión, dirección y ruedas'},
+    'servofreno': {
+        'que': 'Servofreno de vacío que multiplica la fuerza del pie, con la bomba de freno y su depósito adelante. Va del lado del conductor.',
+        'datos': [['Líquido', 'DOT 3 / SAE J1703'], ['Altura del pedal', '130–150 mm desde el piso']],
+        'mant': ['Cambiar el líquido cada 30 000 km o 24 meses.', 'Si el nivel baja, revisar pastillas y pérdidas.'],
+        'ver': '09 Frenos, suspensión, dirección y ruedas'},
+    # ------------------------------------------------------------ Ruedas
+    'rueda_del_izq': {
+        'que': 'Rueda delantera: llanta de aleación de 15" y neumático radial.',
+        'datos': [['Neumático', '185/60R15 84H'], ['Llanta', '15 × 5½ JJ'], ['Tuercas', '85 N·m']],
+        'mant': ['Presión en frío según la etiqueta del marco de la puerta del conductor.', 'Rotar las ruedas cada 15 000 km.'],
+        'ver': '09 Frenos, suspensión, dirección y ruedas'},
+    'rueda_del_der': {
+        'que': 'Rueda delantera derecha.',
+        'datos': [['Neumático', '185/60R15 84H'], ['Tuercas', '85 N·m']],
+        'mant': ['Ajustar las tuercas en cruz.'],
+        'ver': '09 Frenos, suspensión, dirección y ruedas'},
+    'rueda_tra_izq': {
+        'que': 'Rueda trasera izquierda.',
+        'datos': [['Neumático', '185/60R15 84H'], ['Tuercas', '85 N·m']],
+        'mant': ['Revisar desgaste irregular: puede indicar bujes del eje gastados.'],
+        'ver': '09 Frenos, suspensión, dirección y ruedas'},
+    'rueda_tra_der': {
+        'que': 'Rueda trasera derecha.',
+        'datos': [['Neumático', '185/60R15 84H'], ['Tuercas', '85 N·m']],
+        'mant': ['Revisar desgaste y daños en cada service.'],
+        'ver': '09 Frenos, suspensión, dirección y ruedas'},
+    # ------------------------------------------------------------ Combustible y escape
+    'tanque': {
+        'que': 'Tanque de 43 L debajo del asiento trasero, con la bomba eléctrica y el aforador adentro.',
+        'datos': [['Capacidad', '43 L'], ['Combustible', 'nafta sin plomo regular (91 RON en Japón)'], ['Filtro', 'cambio cada 105 000 km']],
+        'mant': ['No andar siempre en reserva: la bomba se enfría con la nafta.', 'Revisar el tanque y sus caños cada 45 000 km.'],
+        'ver': '07 Fluidos y capacidades'},
+    'escape': {
+        'que': 'Caño de escape con el catalizador debajo del piso y el silenciador atrás.',
+        'datos': [['Tramos', 'bajada · catalizador · caño central · silenciador']],
+        'mant': ['Revisar soportes de goma y pérdidas cada 30 000 km.', 'Un ruido metálico abajo suele ser un cubrecalor flojo.'],
+        'ver': '08 Plan de mantenimiento'},
+    # ------------------------------------------------------------ Interior
+    'asiento_izq': {
+        'que': 'Asiento del acompañante con apoyacabeza y cinturón de 3 puntos con pretensor.',
+        'datos': [['Cinturón', '3 puntos, pretensor']],
+        'mant': ['Revisar que el cinturón se trabe con un tirón fuerte.'],
+        'ver': '12 Seguridad, airbags y carrocería'},
+    'asiento_der': {
+        'que': 'Asiento del conductor (mano derecha), regulable en largo y respaldo.',
+        'datos': [['Cinturón', '3 puntos, pretensor']],
+        'mant': ['Revisar las correderas y que trabe en cada posición.'],
+        'ver': '04 Mandos e instrumentos'},
+    'asiento_trasero': {
+        'que': 'Asiento trasero de 3 plazas con respaldo rebatible para agrandar el baúl.',
+        'datos': [['Plazas', '3']],
+        'mant': ['Al volver a levantar el respaldo, verificar que trabe.'],
+        'ver': '04 Mandos e instrumentos'},
+    'tablero': {
+        'que': 'Tablero con el cuadro de tres relojes (velocímetro, cuentavueltas y combustible/temperatura), el audio y los mandos del aire.',
+        'datos': [['Cuadro', '3 relojes + testigos'], ['Lado', 'conductor a la derecha']],
+        'mant': ['Al dar contacto, todos los testigos deben prenderse y apagarse al arrancar.'],
+        'ver': '04 Mandos e instrumentos'},
+    'pedalera': {
+        'que': 'Con caja automática hay solo dos pedales: freno (ancho) y acelerador.',
+        'datos': [['Pedales', 'freno y acelerador'], ['Altura del freno', '130–150 mm']],
+        'mant': ['Manejar con el pie derecho solo; el izquierdo descansa.'],
+        'ver': '05 Conducción y caja automática'},
+}
+
+if __name__ == '__main__':
+    out = os.path.join(VAULT, '3D', 'visor', 'fichas.json')
+    with open(out, 'w', encoding='utf-8') as fh:
+        json.dump({'conjuntos': CONJ, 'piezas': PIEZAS}, fh, ensure_ascii=False, indent=1)
+    print('fichas:', len(PIEZAS), '→', out)

@@ -1,0 +1,265 @@
+{
+ "nodes": [
+  {
+   "id": "centro",
+   "type": "text",
+   "text": "# Suzuki Swift 1.5XS\n**DBA-ZC21S** · Japón 2008\nM15A 1490 cm³ · 4AT · 5 puertas\nvolante a la derecha",
+   "x": -170,
+   "y": -90,
+   "width": 340,
+   "height": 180,
+   "color": "1"
+  },
+  {
+   "id": "inicio",
+   "type": "file",
+   "file": "Suzuki Swift ZC21S/00 Suzuki Swift ZC21S.md",
+   "x": -170,
+   "y": -260,
+   "width": 340,
+   "height": 80
+  },
+  {
+   "id": "3d",
+   "type": "file",
+   "file": "Suzuki Swift ZC21S/Despiece 3D interactivo.md",
+   "x": 260,
+   "y": -260,
+   "width": 300,
+   "height": 80,
+   "color": "6"
+  },
+  {
+   "id": "img",
+   "type": "file",
+   "file": "Adjuntos/Suzuki Swift/swift_despiece.jpg",
+   "x": 260,
+   "y": -560,
+   "width": 300,
+   "height": 200,
+   "color": "6"
+  },
+  {
+   "id": "ident",
+   "type": "group",
+   "label": "Conocer el auto",
+   "x": -900,
+   "y": -420,
+   "width": 380,
+   "height": 355,
+   "color": "5"
+  },
+  {
+   "id": "ident0",
+   "type": "file",
+   "file": "Suzuki Swift ZC21S/01 Identificación y versiones.md",
+   "x": -880,
+   "y": -370,
+   "width": 340,
+   "height": 75,
+   "color": "5"
+  },
+  {
+   "id": "ident1",
+   "type": "file",
+   "file": "Suzuki Swift ZC21S/02 Historia del modelo.md",
+   "x": -880,
+   "y": -275,
+   "width": 340,
+   "height": 75,
+   "color": "5"
+  },
+  {
+   "id": "ident2",
+   "type": "file",
+   "file": "Suzuki Swift ZC21S/03 Ficha técnica.md",
+   "x": -880,
+   "y": -180,
+   "width": 340,
+   "height": 75,
+   "color": "5"
+  },
+  {
+   "id": "uso",
+   "type": "group",
+   "label": "Usarlo",
+   "x": -900,
+   "y": 80,
+   "width": 380,
+   "height": 355,
+   "color": "4"
+  },
+  {
+   "id": "uso0",
+   "type": "file",
+   "file": "Suzuki Swift ZC21S/04 Mandos e instrumentos.md",
+   "x": -880,
+   "y": 130,
+   "width": 340,
+   "height": 75,
+   "color": "4"
+  },
+  {
+   "id": "uso1",
+   "type": "file",
+   "file": "Suzuki Swift ZC21S/05 Conducción y caja automática.md",
+   "x": -880,
+   "y": 225,
+   "width": 340,
+   "height": 75,
+   "color": "4"
+  },
+  {
+   "id": "uso2",
+   "type": "file",
+   "file": "Suzuki Swift ZC21S/12 Seguridad, airbags y carrocería.md",
+   "x": -880,
+   "y": 320,
+   "width": 340,
+   "height": 75,
+   "color": "4"
+  },
+  {
+   "id": "mec",
+   "type": "group",
+   "label": "Mecánica",
+   "x": 650,
+   "y": -60,
+   "width": 380,
+   "height": 450,
+   "color": "2"
+  },
+  {
+   "id": "mec0",
+   "type": "file",
+   "file": "Suzuki Swift ZC21S/06 Motor M15A.md",
+   "x": 670,
+   "y": -10,
+   "width": 340,
+   "height": 75,
+   "color": "2"
+  },
+  {
+   "id": "mec1",
+   "type": "file",
+   "file": "Suzuki Swift ZC21S/07 Fluidos y capacidades.md",
+   "x": 670,
+   "y": 85,
+   "width": 340,
+   "height": 75,
+   "color": "2"
+  },
+  {
+   "id": "mec2",
+   "type": "file",
+   "file": "Suzuki Swift ZC21S/09 Frenos, suspensión, dirección y ruedas.md",
+   "x": 670,
+   "y": 180,
+   "width": 340,
+   "height": 75,
+   "color": "2"
+  },
+  {
+   "id": "mec3",
+   "type": "file",
+   "file": "Suzuki Swift ZC21S/10 Sistema eléctrico.md",
+   "x": 670,
+   "y": 275,
+   "width": 340,
+   "height": 75,
+   "color": "2"
+  },
+  {
+   "id": "mant",
+   "type": "group",
+   "label": "Mantener y reparar",
+   "x": -170,
+   "y": 300,
+   "width": 380,
+   "height": 355,
+   "color": "3"
+  },
+  {
+   "id": "mant0",
+   "type": "file",
+   "file": "Suzuki Swift ZC21S/08 Plan de mantenimiento.md",
+   "x": -150,
+   "y": 350,
+   "width": 340,
+   "height": 75,
+   "color": "3"
+  },
+  {
+   "id": "mant1",
+   "type": "file",
+   "file": "Suzuki Swift ZC21S/11 Diagnóstico de fallas.md",
+   "x": -150,
+   "y": 445,
+   "width": 340,
+   "height": 75,
+   "color": "3"
+  },
+  {
+   "id": "mant2",
+   "type": "file",
+   "file": "Suzuki Swift ZC21S/13 Repuestos y fuentes.md",
+   "x": -150,
+   "y": 540,
+   "width": 340,
+   "height": 75,
+   "color": "3"
+  },
+  {
+   "id": "tip",
+   "type": "text",
+   "text": "**Uso severo** (viajes cortos, tierra, polvo): aceite cada **7500 km**.\nLíquido de frenos cada **30 000 km**.\nATF solo **3317 / 3309**.",
+   "x": -170,
+   "y": 720,
+   "width": 340,
+   "height": 140,
+   "color": "1"
+  }
+ ],
+ "edges": [
+  {
+   "id": "e_centro_ident0",
+   "fromNode": "centro",
+   "toNode": "ident0"
+  },
+  {
+   "id": "e_centro_uso0",
+   "fromNode": "centro",
+   "toNode": "uso0"
+  },
+  {
+   "id": "e_centro_mec0",
+   "fromNode": "centro",
+   "toNode": "mec0"
+  },
+  {
+   "id": "e_centro_mant0",
+   "fromNode": "centro",
+   "toNode": "mant0"
+  },
+  {
+   "id": "e_centro_inicio",
+   "fromNode": "centro",
+   "toNode": "inicio"
+  },
+  {
+   "id": "e_inicio_3d",
+   "fromNode": "inicio",
+   "toNode": "3d"
+  },
+  {
+   "id": "e_3d_img",
+   "fromNode": "3d",
+   "toNode": "img"
+  },
+  {
+   "id": "e_mant0_tip",
+   "fromNode": "mant0",
+   "toNode": "tip"
+  }
+ ]
+}
