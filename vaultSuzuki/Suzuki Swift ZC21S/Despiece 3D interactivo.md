@@ -6,7 +6,7 @@ actualizado: 2026-11-14
 # Despiece 3D interactivo
 
 > [!summary] Qué es
-> Modelo 3D del Swift **por conjuntos** (65 piezas en 12 conjuntos), con despiece animado. Al tocar una pieza se abre su ficha: qué es, sus datos del manual, su mantenimiento, las láminas y la nota del vault donde está el detalle.
+> Modelo 3D del Swift **por conjuntos** (76 piezas en 12 conjuntos, unos 190 000 triángulos), con despiece animado. Al tocar una pieza se abre su ficha: qué es, sus datos del manual, su mantenimiento, las láminas y la nota del vault donde está el detalle.
 > **Abrir el visor:** https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html (página pública del vault). También está como Artifact privado: https://claude.ai/artifact/5inUBYy9btJ8hJyYv1jBd9 (se comparte desde el menú *Compartir* de la página).
 
 Volver a [[00 Suzuki Swift ZC21S]] · [[Mapa Suzuki Swift.canvas|🗺️ Mapa del auto]]
@@ -16,6 +16,12 @@ Volver a [[00 Suzuki Swift ZC21S]] · [[Mapa Suzuki Swift.canvas|🗺️ Mapa de
 
 ![[swift_despiece.jpg]]
 *El mismo modelo con el despiece al 100 %: cada conjunto sale en su dirección de montaje (la mecánica hacia arriba, las ruedas hacia afuera, el escape y el tanque hacia abajo).*
+
+![[swift_frente_detalle.jpg]]
+*Detalle del frente: parrilla de panal, faros con sus parábolas, antinieblas y patente.*
+
+![[swift_cola_detalle.jpg]]
+*Detalle de la cola: calaveras con sectores, luneta con banda negra, alerón y limpialuneta.*
 
 ![[swift_mecanica.jpg]]
 *Sin carrocería: motor y caja adelante, tren rodante, tanque, escape e interior.*
@@ -31,18 +37,18 @@ Es el mismo visor que el del torno TM300, adaptado al auto:
 ## Conjuntos
 | Conjunto | Piezas |
 | -------- | ------ |
-| Carrocería | casco, capó, portón con luneta, paragolpes delantero y trasero, parrilla |
-| Puertas y cristales | 4 puertas (con su vidrio, manija y espejo), parabrisas, vidrios fijos, limpiaparabrisas |
-| Iluminación | 2 faros, 2 calaveras |
+| Carrocería | casco, capó, portón con luneta y alerón, paragolpes delantero y trasero con patentes, parrilla y nichos de antinieblas, tapa de combustible |
+| Puertas y cristales | 4 puertas (con marco negro, vidrios, manija y espejo), parabrisas, limpiaparabrisas |
+| Iluminación | 2 faros, 2 calaveras, 2 antinieblas |
 | Motor M15A | bloque y cárter, culata, tapa de válvulas con bobinas, distribución, admisión, escape, accesorios, arranque, filtro de aire |
 | Transmisión | caja 4AT, 2 semiejes, palanca selectora |
-| Refrigeración | radiador, electroventilador, depósito |
-| Eléctrico | batería, fusibles del motor, fusibles de cabina |
-| Suspensión y dirección | 2 columnas McPherson, 2 brazos, estabilizadora, eje de torsión, 2 conjuntos traseros, cremallera, columna EPS, volante |
-| Frenos | 2 discos, 2 mordazas, 2 tambores, servofreno |
+| Refrigeración | radiador, electroventilador, mangueras y termostato, depósito |
+| Eléctrico | batería, fusibles del motor, computadora, bocina, fusibles de cabina |
+| Suspensión y dirección | 2 columnas McPherson, 2 brazos, estabilizadora, cuna, eje de torsión, 2 conjuntos traseros, cremallera, columna EPS, volante |
+| Frenos | 2 discos, 2 mordazas, 2 tambores, servofreno, ABS, freno de mano |
 | Ruedas | 4 ruedas 185/60R15 |
 | Combustible y escape | tanque, línea de escape |
-| Interior | 3 asientos, tablero, pedalera |
+| Interior | 3 asientos, tablero, techo interior, paneles de puertas, pedalera |
 
 ## Cómo está hecho
 - Script: `herramientas/suzuki_swift_3d.py` (Blender 5.3 en segundo plano, sin abrir la ventana):
@@ -52,11 +58,12 @@ Es el mismo visor que el del torno TM300, adaptado al auto:
   ```
   Genera `3D/suzuki_swift.blend`, `3D/suzuki_swift.glb`, `3D/visor/suzuki_swift.json` (el modelo que lee el visor) y, con la variable `SWIFT_LAMINAS`, las imágenes de `Adjuntos/Suzuki Swift/`.
 - Fichas: `herramientas/suzuki_fichas.py` genera `3D/visor/fichas.json`. Para cambiar un texto del visor, se edita ese script y se vuelve a correr.
-- **Carrocería:** se arma como una superficie que pasa por ~120 secciones transversales (como las cuadernas de un barco). El perfil, la cintura, el ancho y el techo se definen con puntos clave interpolados. Después se le da 12 mm de espesor y se corta con **booleanas** (prismas) para separar puertas, capó, portón, paragolpes, ópticas y cristales. Así cada pieza calza exacto con el hueco que deja.
+- **Carrocería:** se arma como una superficie que pasa por ~180 secciones transversales (como las cuadernas de un barco). El perfil, la cintura, el ancho y el techo se definen con puntos clave interpolados. Después se le da 12 mm de espesor y se corta con **booleanas** (prismas) para separar puertas, capó, portón, paragolpes, ópticas y cristales. Así cada pieza calza exacto con el hueco que deja, y el casco se corta 3,5 mm más grande para que quede la **luz entre paneles** como en el auto. Los vidrios tienen su marco negro y el parabrisas y la luneta, la banda negra serigrafiada.
+- **Detalle (versión del 15/11/2026):** ópticas con parábolas cromadas, parrilla de panal, antinieblas, patentes, alerón con tercera luz de freno, limpialuneta, espejos con carcasa, manijas con cerradura, repetidores de giro, antena y guardabarros interiores; llantas de 6 rayos con 4 tuercas y neumáticos con surcos; discos ventilados con aletas, mordazas con soporte, tambores con aletas, ABS y caños de freno; fuelles en homocinéticas y cremallera, cuna delantera; motor con riel de inyección, inyectores, caudalímetro, cables de alta, varilla de aceite, tensor, compresor del aire y soportes; mangueras del radiador, computadora, bocina; butacas con laterales y cinturones, tablero con tres relojes y rejillas redondas, paneles de puertas, parasoles y espejo interior.
 - **Mecánica:** primitivas (cajas, cilindros, tubos, resortes helicoidales, sólidos de revolución para las ruedas), ubicadas con las cotas del manual (trochas, ruedas 185/60R15, disco de 20 mm, batería 46B24R, etc.).
 
 > [!warning] Precisión
-> Las cotas generales (largo, ancho, alto, entre ejes, ruedas) son las del catálogo. La **forma** de la carrocería y de las piezas mecánicas es una aproximación hecha a mano sobre fotos y proporciones: sirve para ubicar cada sistema y estudiarlo, no para medir. Si se consiguen fotos del auto real, se pueden ajustar los puntos clave del perfil en el script (`K_TECHO`, `K_CINTURA`, `K_ANCHO`…).
+> Las cotas generales (largo, ancho, alto, entre ejes, ruedas) son las del catálogo. El **perfil** (techo, cintura, ventanillas, cortes de puertas, faros, calaveras y tapa de combustible) se midió sobre una foto lateral del auto, y el **ancho a lo largo** y la **caída de los costados** sobre vistas de frente, cola y planta hechas con Gemini ([[Galería Gemini]]). Es mucho más fiel que la primera versión, pero sigue sin ser un relevamiento: sirve para ubicar y estudiar cada sistema, no para medir piezas.
 
 ## Láminas
 ![[lamina_motor.jpg]]

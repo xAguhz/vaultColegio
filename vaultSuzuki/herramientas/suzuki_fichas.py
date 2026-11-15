@@ -400,6 +400,78 @@ PIEZAS = {
         'ver': '05 Conducción y caja automática'},
 }
 
+# ------------------------------------------------------------ piezas agregadas en la versión detallada (15/11/2026)
+PIEZAS.pop('vidrios_fijos', None)
+PIEZAS['puerta_tra_izq']['que'] = 'Puerta trasera izquierda. Su borde de atrás rodea el pasarrueda y el vidrio tiene un sector fijo detrás de un parante negro.'
+PIEZAS['puerta_tra_der']['que'] = 'Puerta trasera derecha, simétrica a la izquierda, con el mismo vidrio fijo atrás.'
+PIEZAS.update({
+    'tapa_combustible': {
+        'que': 'Tapa redonda de la boca de carga de nafta, en el costado trasero izquierdo. Se abre con una palanca desde el asiento del conductor.',
+        'datos': [['Lado', 'izquierdo'], ['Combustible', 'nafta sin plomo regular']],
+        'mant': ['Apretar el tapón hasta que haga clic: si queda flojo puede prender el testigo de motor por el sistema de vapores (EVAP).'],
+        'ver': '07 Fluidos y capacidades'},
+    'antiniebla_izq': {
+        'que': 'Faro antiniebla redondo en el paragolpes, debajo del faro principal.',
+        'datos': [['Fusible', 'FR FOG, 15 A']],
+        'mant': ['Usar solo con niebla o lluvia intensa: encandila a los demás.'],
+        'ver': '10 Sistema eléctrico'},
+    'antiniebla_der': {
+        'que': 'Faro antiniebla derecho, igual al izquierdo.',
+        'datos': [['Fusible', 'FR FOG, 15 A']],
+        'mant': ['Revisar que el vidrio no esté roto: entra agua y quema la lámpara.'],
+        'ver': '10 Sistema eléctrico'},
+    'abs': {
+        'que': 'Unidad hidráulica del ABS con su bomba y su computadora. Si una rueda se bloquea, baja y sube la presión de ese freno varias veces por segundo.',
+        'datos': [['Fusibles', 'ABS MOT 30 A · ABS SOL 30 A'], ['Testigo', 'ABS en el tablero']],
+        'mant': ['Al purgar los frenos, seguir el orden del manual para no meter aire en la unidad.', 'Con el testigo prendido los frenos andan, pero sin antibloqueo.'],
+        'ver': '09 Frenos, suspensión, dirección y ruedas'},
+    'freno_mano': {
+        'que': 'Palanca del freno de estacionamiento entre los asientos. Tira de dos cables que abren las zapatas de los tambores traseros.',
+        'datos': [['Actúa sobre', 'tambores traseros']],
+        'mant': ['Revisar el recorrido a los primeros 15 000 km.', 'En pendiente, poner el freno de mano antes de pasar a P.'],
+        'ver': '05 Conducción y caja automática'},
+    'bastidor': {
+        'que': 'Cuna de acero abulonada abajo del vano motor. Sostiene los brazos de la suspensión y un soporte del motor.',
+        'datos': [['Fijación', '4 bulones a la carrocería']],
+        'mant': ['Después de un golpe abajo, revisar que no esté doblada: cambia la alineación.'],
+        'ver': '09 Frenos, suspensión, dirección y ruedas'},
+    'mangueras': {
+        'que': 'Mangueras del circuito de refrigeración: la superior lleva el líquido caliente al radiador, la inferior lo devuelve frío y dos más van a la calefacción. El termostato abre el paso al radiador cuando el motor calienta.',
+        'datos': [['Refrigerante', 'etilenglicol al 50 %']],
+        'mant': ['Revisar grietas y abrazaderas en cada service.', 'Si la superior queda fría con el motor caliente, el termostato no abre.'],
+        'ver': '07 Fluidos y capacidades'},
+    'ecu': {
+        'que': 'Computadora del motor (ECM): lee los sensores y maneja la inyección, el encendido, el VVT y el electroventilador. Guarda los códigos de falla.',
+        'datos': [['Diagnóstico', 'conector OBD-II bajo el tablero']],
+        'mant': ['Leer los códigos con un escáner antes de cambiar piezas.', 'No desconectarla con el contacto puesto.'],
+        'ver': '11 Diagnóstico de fallas'},
+    'bocina': {
+        'que': 'Bocina eléctrica detrás del paragolpes delantero.',
+        'datos': [['Tensión', '12 V']],
+        'mant': ['Si no suena, revisar el fusible y el relé antes que la bocina.'],
+        'ver': '10 Sistema eléctrico'},
+    'techo_interior': {
+        'que': 'Espejo retrovisor interior pegado al parabrisas, parasoles y luz de techo.',
+        'datos': [['Fusible de la luz', 'DOME']],
+        'mant': ['Si el espejo se despega, se vuelve a pegar con adhesivo especial para vidrio.'],
+        'ver': '04 Mandos e instrumentos'},
+    'tapizado_izq': {
+        'que': 'Paneles interiores de las puertas izquierdas: apoyabrazos, manija interior y parlante.',
+        'datos': [['Fijación', 'grampas y tornillos']],
+        'mant': ['Para sacarlos, primero los tornillos del apoyabrazos y después las grampas, de abajo hacia arriba.'],
+        'ver': '12 Seguridad, airbags y carrocería'},
+    'tapizado_der': {
+        'que': 'Paneles interiores de las puertas derechas, con la botonera de levantavidrios en la del conductor.',
+        'datos': [['Fijación', 'grampas y tornillos']],
+        'mant': ['Cuidar la lámina de nylon de adentro: evita que entre agua al panel.'],
+        'ver': '04 Mandos e instrumentos'},
+})
+CONJ['Carrocería']['laminas'].insert(0, ['swift_frente_detalle.jpg', 'Frente: parrilla de panal, faros, antinieblas y patente'])
+CONJ['Iluminación']['laminas'] = [['swift_frente_detalle.jpg', 'Faros con sus reflectores y antinieblas'],
+                                  ['swift_cola_detalle.jpg', 'Calaveras con sectores de giro y marcha atrás']]
+CONJ['Puertas y cristales']['laminas'].append(['swift_cola_detalle.jpg', 'Luneta con banda negra, alerón y limpialuneta'])
+
+
 if __name__ == '__main__':
     out = os.path.join(VAULT, '3D', 'visor', 'fichas.json')
     with open(out, 'w', encoding='utf-8') as fh:
