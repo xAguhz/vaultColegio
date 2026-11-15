@@ -19,8 +19,8 @@ Esta guía explica **cómo llegar a trabajar así, empezando de cero**. No hace 
 
 | Nivel | Qué vas a poder hacer | Qué necesitás | Tiempo aproximado |
 |---|---|---|---|
-| [[Nivel 0 - Lo básico/0.1 La computadora por dentro (lo mínimo)\|0 · Lo básico]] | Entender qué es la IA y manejar archivos y carpetas sin miedo | Nada | 1 hora de lectura |
-| [[Nivel 1 - Chatear con la IA/1.1 Crear la cuenta y elegir el plan\|1 · Chatear con la IA]] | Pedirle a la IA consignas, rúbricas, ejercicios, explicaciones | Una cuenta de Claude | 1 o 2 tardes |
+| [[0.1 La computadora por dentro (lo mínimo)\|0 · Lo básico]] | Entender qué es la IA y manejar archivos y carpetas sin miedo | Nada | 1 hora de lectura |
+| [[1.1 Crear la cuenta y elegir el plan\|1 · Chatear con la IA]] | Pedirle a la IA consignas, rúbricas, ejercicios, explicaciones | Una cuenta de Claude | 1 o 2 tardes |
 | 2 · Archivos, proyectos y Drive *(en preparación)* | Darle a la IA tus PDF, planificaciones y apuntes para que trabaje sobre ellos | Plan Pro | 1 tarde |
 | 3 · Obsidian *(en preparación)* | Tener tus apuntes en notas conectadas, como esta página | Obsidian (gratis) | 1 tarde |
 | 4 · Claude Code *(en preparación)* | Que la IA cree y ordene archivos en tu compu por vos | Plan Pro + la app de Claude | 1 fin de semana |
@@ -30,20 +30,20 @@ Esta guía explica **cómo llegar a trabajar así, empezando de cero**. No hace 
 - **[[01 Mi entorno en una imagen]]**: qué uso yo y cómo se conecta todo. Conviene leerla primero para saber a dónde vamos.
 - **[[03 Cómo llegué hasta acá]]**: mi camino con la IA, de los chats gratis a este entorno.
 - **Nivel 0 — Lo básico**
-  - [[Nivel 0 - Lo básico/0.1 La computadora por dentro (lo mínimo)|0.1 La computadora por dentro (lo mínimo)]]
-  - [[Nivel 0 - Lo básico/0.2 Windows, Mac y Ubuntu|0.2 Windows, Mac y Ubuntu]]
-  - [[Nivel 0 - Lo básico/0.3 Qué es la inteligencia artificial|0.3 Qué es la inteligencia artificial]]
-  - [[Nivel 0 - Lo básico/0.4 Lo que la IA hace bien y lo que hace mal|0.4 Lo que la IA hace bien y lo que hace mal]]
-  - [[Nivel 0 - Lo básico/0.5 Qué IA elegir|0.5 Qué IA elegir]]
+  - [[0.1 La computadora por dentro (lo mínimo)|0.1 La computadora por dentro (lo mínimo)]]
+  - [[0.2 Windows, Mac y Ubuntu|0.2 Windows, Mac y Ubuntu]]
+  - [[0.3 Qué es la inteligencia artificial|0.3 Qué es la inteligencia artificial]]
+  - [[0.4 Lo que la IA hace bien y lo que hace mal|0.4 Lo que la IA hace bien y lo que hace mal]]
+  - [[0.5 Qué IA elegir|0.5 Qué IA elegir]]
 - **Nivel 1 — Chatear con la IA**
-  - [[Nivel 1 - Chatear con la IA/1.1 Crear la cuenta y elegir el plan|1.1 Crear la cuenta y elegir el plan]]
-  - [[Nivel 1 - Chatear con la IA/1.2 El primer chat|1.2 El primer chat]]
-  - [[Nivel 1 - Chatear con la IA/1.3 Cómo pedir bien|1.3 Cómo pedir bien]]
-  - [[Nivel 1 - Chatear con la IA/1.4 Recetas para docentes|1.4 Recetas para docentes]]
-  - [[Nivel 1 - Chatear con la IA/1.5 Revisar lo que responde|1.5 Revisar lo que responde]]
+  - [[1.1 Crear la cuenta y elegir el plan|1.1 Crear la cuenta y elegir el plan]]
+  - [[1.2 El primer chat|1.2 El primer chat]]
+  - [[1.3 Cómo pedir bien|1.3 Cómo pedir bien]]
+  - [[1.4 Recetas para docentes|1.4 Recetas para docentes]]
+  - [[1.5 Revisar lo que responde|1.5 Revisar lo que responde]]
 - **[[04 Cómo usamos la IA los alumnos]]**: mi mirada de alumno, y qué consignas obligan a pensar aunque se use IA.
 - **[[02 Glosario]]**: todas las palabras raras, explicadas.
-- **[[Exposición/00 Exposición|Exposición del 19/11]]**: guion, demo en vivo, diapositivas y hoja para repartir.
+- **[[00 Exposición|Exposición del 19/11]]**: guion, demo en vivo, diapositivas y hoja para repartir.
 
 > [!info] En construcción
 > La guía se está escribiendo de a partes. Faltan los niveles 2 a 5 y los casos reales (cómo se hizo cada vault).
