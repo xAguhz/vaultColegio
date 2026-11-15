@@ -572,6 +572,148 @@ PIEZAS.update({
 })
 
 
+# ------------------------------------------------------------ sistema eléctrico, caja por dentro y detalle del manual completo (15/11/2026)
+import json as _json, os as _os, re as _re
+_MD = _json.load(open(_os.path.join(VAULT, 'herramientas', 'manual_datos.json'), encoding='utf-8'))
+_DTC = [(c, t) for cap in ('1A', '5A', '4E', '6C', '8B', '7B') for c, t in _MD['capitulos'][cap]['dtc']]
+_CON = _MD['conectores']
+
+
+def _dtc(*palabras):
+    out = []
+    for c, t in _DTC:
+        if any(_re.search(w, t, _re.I) for w in palabras) and c not in out:
+            out.append(c)
+    return ', '.join(out[:6]) or '—'
+
+
+def _con(*codigos):
+    return ' · '.join(f"{c} ({_CON[c][0]})" if c in _CON and _CON[c][0] not in ('', '-', 'N') else c for c in codigos)
+
+
+PIEZAS.pop('fusibles_cabina', None)
+for cj, color, nota, resumen, lam in (
+    ('Sensores y actuadores', '#f2c14e', 'Manual de taller › 1A, 1C', 'Todos los sensores que lee la computadora del motor y los actuadores que maneja, en su lugar real según el diagrama de ubicación del manual (1A) y con su conector del mazo del motor (tabla del capítulo 9A).',
+     [['lamina_electrico_motor.jpg', 'Sensores, actuadores y mazo del motor']]),
+    ('Módulos de control', '#9b5de5', 'Manual de taller › 1A, 5A, 6C, 8B, 10B, 10C', 'Las computadoras del auto: ECM (motor), TCM (caja), BCM dentro del bloque de empalmes, EPS (dirección), SDM (airbag), módulo de arranque sin llave, antena del inmovilizador y el cuadro de instrumentos.',
+     [['lamina_electrico.jpg', 'Módulos y mazos de cables']]),
+    ('Cableado', '#2b2d30', 'Manual de taller › 9A Sistemas de cableado', 'Mazos de cables con sus conectores: batería (A), motor (C), principal (E), tablero (G), piso (L), puertas y portón. Cada circuito del manual se puede resaltar en el visor (pestaña Circuitos).',
+     [['lamina_electrico.jpg', 'Recorrido de los mazos'], ['lamina_electrico_motor.jpg', 'Mazo del motor y sus ramas']]),
+    ('Accesorios eléctricos', '#4cc9a0', 'Manual de taller › 9D, 9E, 9F', 'Limpiaparabrisas y limpialuneta, lavadores, levantavidrios, cierre centralizado y desempañador.', []),
+    ('Airbag y cinturones', '#e07a5f', 'Manual de taller › 8A, 8B', 'Airbags frontales, SDM y cinturones delanteros con pretensor. Trabajar siempre con la batería desconectada y esperando 90 s.', []),
+    ('Caja por dentro', '#6c757d', 'Manual de taller › 5A', 'Lo que está dentro del transeje automático: bomba de aceite, embragues, tren planetario Ravigneaux, cuerpo de válvulas con solenoides, engranajes de salida y diferencial.',
+     [['lamina_caja_dentro.jpg', 'Caja automática por dentro']])):
+    CONJ[cj] = {'color': color, 'nota': nota, 'resumen': resumen, 'laminas': lam}
+CONJ.setdefault('Eléctrico', {'color': '#08b94e'})['resumen'] = 'Batería, caja de fusibles del motor y bocina.'
+
+
+def F(que, datos, mant, ver):
+    return {'que': que, 'datos': datos, 'mant': mant, 'ver': ver}
+
+
+V1C = 'Manual › 1C Dispositivos eléctricos del motor'
+PIEZAS.update({
+    'sensor_maf': F('Mide la masa de aire que entra al motor (hilo caliente) y, en el mismo cuerpo, la temperatura del aire (IAT). Con ese dato el ECM calcula cuánta nafta inyectar.',
+                    [['Conector', _con('C13')], ['Códigos', _dtc('caudal de masa', 'temperatura del aire de admisión')]],
+                    ['No tocar el elemento sensor; limpiar solo con limpiador específico para MAF.'], V1C),
+    'sensor_tp': F('Potenciómetro en el eje de la mariposa: le dice al ECM cuánto se pisa el acelerador.',
+                   [['Conector', _con('C11')], ['Códigos', _dtc('posición de la mariposa')]], ['Después de cambiarlo, verificar la tensión en ralentí con el escáner.'], V1C),
+    'valvula_iac': F('Válvula de control del aire de ralentí: deja pasar aire alrededor de la mariposa para mantener las vueltas en ralentí.',
+                     [['Conector', _con('C01')], ['Códigos', _dtc('ralentí', 'IAC')]], ['Ralentí inestable: limpiar el cuerpo de mariposa y el paso de la IAC.'], 'Manual › 1D Mecánica del motor'),
+    'sensor_map': F('Mide la presión (vacío) dentro del colector de admisión.', [['Conector', _con('C12')], ['Códigos', _dtc('presión absoluta')]],
+                    ['Revisar la manguera de vacío si da lecturas raras.'], V1C),
+    'sensor_ect': F('Termistor en la tapa de salida de agua: informa la temperatura del refrigerante al ECM (inyección, ventilador, reloj).',
+                    [['Conector', _con('C09')], ['Códigos', _dtc('temperatura del refrigerante')]], ['Cambiar con el motor frío y reponer refrigerante.'], V1C),
+    'sensor_cmp': F('Lee la posición del árbol de levas para identificar el cilindro 1 y controlar el VVT.', [['Conector', _con('C08')], ['Códigos', _dtc('árbol de levas')]],
+                    ['Una falla puede dar arranque largo o el código del VVT.'], 'Manual › 1H Sistema de encendido'),
+    'sensor_ckp': F('Lee los dientes de la rueda del cigüeñal: régimen del motor y posición de los pistones para inyectar y encender.',
+                    [['Conector', _con('C20')], ['Códigos', _dtc('cigüeñal')]], ['Sin esta señal el motor no arranca: es lo primero a revisar si no hay chispa.'], 'Manual › 1H Sistema de encendido'),
+    'sensor_detonacion': F('Piezoeléctrico abulonado al bloque: detecta el "pistoneo" para que el ECM atrase el encendido.', [['Conector', _con('C26')], ['Códigos', _dtc('detonación')]],
+                           ['Respetar el par de apriete: flojo o muy apretado cambia la lectura.'], V1C),
+    'sensor_presion_aceite': F('Interruptor que prende el testigo de aceite cuando la presión cae.', [['Conector', _con('C18')], ['Presión', 'más de 270 kPa a 4000 rpm']],
+                               ['Si el testigo se prende andando, parar el motor y medir la presión con manómetro.'], 'Manual › 1E Sistema de lubricación del motor'),
+    'solenoide_vvt': F('Válvula de control de aceite (OCV): manda aceite al actuador del árbol de levas de admisión para adelantar o atrasar la distribución.',
+                       [['Conector', _con('C19')], ['Resistencia', '6,7–7,7 Ω a 20 °C'], ['Códigos', _dtc('actuador de posición', 'demasiado avanzada')]],
+                       ['Limpiar su colador si hay códigos del VVT.'], 'Manual › 1D Mecánica del motor'),
+    'sonda_o2_1': F('Sonda de oxígeno calentada antes del catalizador: el ECM ajusta la mezcla con su señal.', [['Conector', _con('C15')], ['Códigos', _dtc('HO2S', 'oxígeno')]],
+                    ['Ajustar con la llave especial; no usar productos con siliconas cerca.'], 'Manual › 1K Sistema de escape'),
+    'sonda_o2_2': F('Sonda de oxígeno después del catalizador: controla que el catalizador funcione (código P0420).', [['Conector', _con('C16')], ['Códigos', _dtc('catalizador')]],
+                    ['Revisar primero pérdidas de escape antes de cambiarla.'], 'Manual › 1K Sistema de escape'),
+    'sensor_vss': F('Sensor de velocidad del vehículo en la caja: lo usan el velocímetro, el ECM, el TCM y la dirección eléctrica.', [['Conector', _con('C25')], ['Códigos', _dtc('velocidad del vehículo')]],
+                    ['Si el velocímetro marca 0, revisar este sensor y su conector.'], 'Manual › 1A Información general y diagnóstico del motor'),
+    'valvula_purga': F('Solenoide que abre el paso de los vapores del canister al colector cuando el motor está caliente.', [['Conector', _con('C14')], ['Códigos', _dtc('purga', 'EVAP')]],
+                       ['Un chasquido suave en marcha es normal.'], 'Manual › 1B Dispositivos auxiliares de control de emisiones'),
+    'valvula_egr': F('Válvula de recirculación de gases movida por un motor paso a paso: devuelve un poco de gas de escape a la admisión para bajar la temperatura de combustión.',
+                     [['Conector', _con('C10')], ['Códigos', _dtc('EGR')]], ['Con carbón, el ralentí se vuelve inestable: limpiar los conductos.'], 'Manual › 1B Dispositivos auxiliares de control de emisiones'),
+    'sensor_rango_caja': F('Interruptor en el eje de la palanca de la caja: le dice al TCM y al ECM en qué posición está (P R N D 3 2 L), permite el arranque solo en P o N y prende la luz de marcha atrás.',
+                           [['Códigos', _dtc('rango de la transmisión', 'interruptor de rango')]], ['Si no arranca en P, probar en N: puede estar desajustado.'], 'Manual › 5A Transmisión automática - Transeje automático'),
+    'interruptor_freno': F('Interruptor sobre el pedal de freno: enciende las luces de freno y avisa al ECM, al TCM y al ABS que se está frenando.', [['Fusible', 'STOP LAMP 15 A']],
+                           ['Regular la luz con el pedal si las luces quedan prendidas.'], 'Manual › 4A Sistema de mando de los frenos y diagnósticos'),
+    'interruptor_nivel_freno': F('Flotante en el depósito de la bomba de freno: prende el testigo de frenos si baja el líquido.', [['Conector', _con('E02')]],
+                                 ['Testigo prendido con freno de mano bajo: revisar nivel y pastillas.'], 'Manual › 4A Sistema de mando de los frenos y diagnósticos'),
+    'sensor_presion_ac': F('Mide la presión del gas del aire acondicionado: protege el compresor y comanda el ventilador.', [['Conector', _con('E04')], ['Gas', 'R-134a']],
+                           ['Se cambia con el circuito descargado.'], 'Manual › 7B Sistema de aire acondicionado'),
+    'inyectores': F('Cuatro inyectores electromagnéticos que pulverizan la nafta en cada conducto de admisión, uno por cilindro, comandados por el ECM.',
+                    [['Conectores', _con('C04', 'C05', 'C06', 'C07')], ['Presión', '270–310 kPa']], ['Juntas tóricas nuevas al montarlos.'], 'Manual › 1G Sistema de combustible'),
+    'bobinas': F('Dos bobinas de chispa perdida: una dispara los cilindros 1 y 4 y la otra el 2 y 3, con cables de alta a las bujías que no tienen bobina encima.',
+                 [['Conectores', _con('C02', 'C03')], ['Orden de encendido', '1-3-4-2'], ['Códigos', _dtc('encendido')]], ['Revisar los cables de alta si hay fallas en un solo par de cilindros.'], 'Manual › 1H Sistema de encendido'),
+    'tcm': F('Computadora de la caja automática: decide los cambios con la velocidad, la mariposa y el rango; maneja los solenoides de cambio y de presión.',
+             [['Conectores', _con('C34', 'C35')], ['Fusible', 'AT ETM 15 A'], ['Códigos', _dtc('TCM', 'solenoide')]], ['Leer los códigos P07xx con escáner antes de tocar la caja.'], 'Manual › 5A Transmisión automática - Transeje automático'),
+    'modulo_eps': F('Módulo de la dirección eléctrica: lee el sensor de par y la velocidad y controla el motor de asistencia.', [['Fusible', 'EPS 50 A'], ['Códigos', _dtc('EPS', 'par', 'motor de P/S')]],
+                    ['Si la dirección se pone dura, revisar batería y fusible primero.'], 'Manual › 6C Sistema de servodirección asistida'),
+    'sdm': F('Módulo de diagnóstico y sensor del airbag, bajo la consola: detecta el choque y dispara airbags y pretensores; guarda los códigos del sistema SRS.',
+             [['Códigos', _dtc('airbag', 'pretensor')]], ['No golpear ni desconectar con la batería conectada.'], 'Manual › 8B Sistema de airbag'),
+    'modulo_keyless': F('Módulo del arranque sin llave (en las versiones que lo traen): habla con la llave electrónica por antenas y habilita el arranque.', [['Capítulo', '10E']],
+                        ['Registrar las llaves con el equipo de Suzuki.'], 'Manual › 10E Sistema de arranque sin llave'),
+    'bloque_empalmes': F('Bloque de empalmes del lado del conductor: fusibles y relés de la cabina y, adentro, el BCM que maneja luces, cierre, desempañador y avisos.',
+                         [['Fusibles', 'IG COIL, DOME y otros'], ['Comunicación', 'CAN con ECM y cuadro']], ['Fusible quemado: cambiar por uno igual y buscar el corto.'], 'Manual › 10B Sistema de control eléctrico de la carrocería'),
+    'cuadro_instrumentos': F('Cuadro de tres relojes (velocímetro, cuentavueltas y combustible/temperatura) con testigos; recibe los datos por CAN.',
+                             [['Relojes', '3'], ['Testigos', 'aceite, carga, frenos, ABS, airbag, EPS, motor']], ['Con el contacto puesto todos los testigos se prenden un momento.'], 'Manual › 9C Instrumentos - Información para el conductor - Bocina'),
+    'antena_inmovilizador': F('Bobina-antena alrededor del tambor de la llave: lee el transpondedor de la llave y se lo pasa al ECM para habilitar el arranque.',
+                              [['Códigos', _dtc('inmovilizador')]], ['Una llave nueva se registra en el ECM con el equipo de diagnóstico.'], 'Manual › 10C Sistema de control del inmovilizador'),
+    'cable_bateria': F('Cable positivo grueso a la caja de fusibles, al arranque y al alternador, y cables de masa a la caja y a la carrocería.',
+                       [['Batería', '46B24R']], ['Masas flojas causan fallas raras en todo el auto: limpiar y ajustar.'], 'Manual › 1I Sistema de arranque'),
+    'mazo_motor': F('Mazo del motor: lleva todos los sensores y actuadores del motor hasta el ECM y se une al principal por el conector C36/E24.',
+                    [['Conectores', 'C01 a C41'], ['ECM', _con('C37')]], ['Revisar que no roce el escape ni piezas móviles.'], 'Manual › 9A Sistemas de cableado'),
+    'mazo_principal': F('Mazo principal del vano motor: faros, ventilador, bocina, ABS, limpiaparabrisas y relés; entra a la cabina por el pasacables del torpedo.',
+                        [['Conectores', 'E01 en adelante']], ['El pasacables debe quedar bien puesto para que no entre agua.'], 'Manual › 9A Sistemas de cableado'),
+    'cable_eps': F('Cable grueso que alimenta la dirección eléctrica desde la caja de fusibles.', [['Fusible', 'EPS 50 A']], ['Conector bien trabado: un falso contacto deja la dirección dura.'], 'Manual › 6C Sistema de servodirección asistida'),
+    'mazo_tablero': F('Mazo del tablero sobre el travesaño: cuadro, radio, climatizador, columna, airbag del acompañante, TCM y bloque de empalmes.', [['Conectores', 'G01 en adelante']],
+                      ['Para trabajar detrás del tablero, desconectar la batería (airbag).'], 'Manual › 9A Sistemas de cableado'),
+    'mazo_piso': F('Mazo del piso: corre por los zócalos hasta atrás; alimenta bomba de nafta, cinturones, calaveras y el SDM.', [['Conectores', 'L01 en adelante']],
+                   ['Al sacar alfombras, no pisar los conectores.'], 'Manual › 9A Sistemas de cableado'),
+    'mazo_puertas': F('Mazos de las puertas: pasan por un fuelle de goma en la bisagra y llevan levantavidrios, cerraduras, parlantes y espejos.', [['Fuelle', 'entre el parante y la puerta']],
+                      ['Cables cortados dentro del fuelle son una falla típica de puertas que se abren mucho.'], 'Manual › 9E Cristales - Ventanas - Retrovisores'),
+    'mazo_porton': F('Mazo del techo y el portón: limpialuneta, desempañador, tercera luz de freno y cerradura del portón.', [['Fuelle', 'entre el techo y el portón']],
+                     ['Revisar el fuelle si el limpialuneta o el desempañador fallan.'], 'Manual › 9A Sistemas de cableado'),
+    'motor_limpiaparabrisas': F('Motor del limpiaparabrisas bajo la rejilla del torpedo, con el varillaje que mueve los dos brazos.', [['Conector', _con('E01')]],
+                                ['Si las escobillas no quedan abajo, revisar el contacto de parada del motor.'], 'Manual › 9D Limpiaparabrisas - Lavaparabrisas'),
+    'motor_limpialuneta': F('Motor del limpialuneta dentro del portón.', [['Circuito', 'B-2']], ['Lubricar el eje del brazo una vez por año.'], 'Manual › 9D Limpiaparabrisas - Lavaparabrisas'),
+    'lavador': F('Depósito del lavaparabrisas con su bomba eléctrica y las mangueras a los picos del capó.', [['Circuito', 'B-1']], ['Usar líquido limpiavidrios, no detergente.'], 'Manual › 9D Limpiaparabrisas - Lavaparabrisas'),
+    'levantavidrios_izq': F('Mecanismos de tijera con motor eléctrico de las puertas izquierdas.', [['Circuito', 'B-4']], ['Si el vidrio baja trabado, limpiar y lubricar las guías.'], 'Manual › 9E Cristales - Ventanas - Retrovisores'),
+    'levantavidrios_der': F('Mecanismos de tijera con motor eléctrico de las puertas derechas (la del conductor lleva la botonera).', [['Circuito', 'B-4']], ['Si el vidrio baja trabado, limpiar y lubricar las guías.'], 'Manual › 9E Cristales - Ventanas - Retrovisores'),
+    'cerraduras': F('Actuadores del cierre centralizado en las cuatro puertas y el portón, comandados por el BCM.', [['Circuito', 'B-5']], ['Lubricar las cerraduras en cada service.'], 'Manual › 9F Seguridad y bloqueos'),
+    'desempanador': F('Resistencias impresas en la luneta que calientan el vidrio; las maneja un relé del BCM y se apagan solas.', [['Circuito', 'B-3']],
+                      ['No raspar la luneta por dentro: se cortan las líneas.'], 'Manual › 9E Cristales - Ventanas - Retrovisores'),
+    'airbag_acompanante': F('Módulo del airbag del acompañante en la parte superior del tablero.', [['Circuito', 'F-1']], ['Guardarlo con la tapa hacia arriba; nunca medirlo con tester.'], 'Manual › 8B Sistema de airbag'),
+    'pretensores': F('Cinturones delanteros con pretensor pirotécnico: tensan el cinturón en el instante del choque.', [['Circuito', 'F-1']], ['Un pretensor disparado se cambia completo.'], 'Manual › 8A Cinturones de seguridad'),
+    'canerias_freno': F('Cañerías rígidas de freno: de la bomba al ABS y de ahí a cada rueda, con flexibles en las ruedas.', [['Líquido', 'DOT 3']],
+                        ['Purgar en el orden del manual después de abrir el circuito.'], 'Manual › 4A Sistema de mando de los frenos y diagnósticos'),
+    'caja_bomba_aceite': F('Bomba de aceite de la caja, movida por el convertidor: da la presión para embragues, frenos y lubricación.', [['Fluido', 'ATF 3317 / 3309']],
+                           ['Fluido quemado o bajo daña la bomba: controlar el nivel.'], 'Manual › 5A Transmisión automática - Transeje automático'),
+    'caja_embragues': F('Paquetes de discos de fricción y de acero de los embragues de directa, avance y reversa; se aprietan con presión de aceite.', [['Elementos', '3 embragues, 3 frenos, 2 ruedas libres']],
+                        ['Patinamiento al cambiar: revisar nivel y presión antes de desarmar.'], 'Manual › 5A Transmisión automática - Transeje automático'),
+    'caja_planetario': F('Tren planetario tipo Ravigneaux: dos solares, piñones largos y cortos y una corona; según qué se frena o se une, da las 4 marchas y la reversa.',
+                         [['Dientes', 'solar del. 24 · solar tras. 30 · piñón largo 20 · corto 19 · corona 69'], ['Relaciones', '2,875 · 1,568 · 1,000 · 0,697 · R 2,300']],
+                         ['Ruido en una sola marcha suele ser un piñón del planetario.'], 'Manual › 5A Transmisión automática - Transeje automático'),
+    'caja_cuerpo_valvulas': F('Cuerpo de válvulas: reparte la presión a cada embrague y freno; los solenoides de cambio y de presión los maneja el TCM.', [['Solenoides', 'cambio A y B, control de presión, TCC']],
+                              ['Muy sensible a la suciedad: fluido limpio y del tipo indicado.'], 'Manual › 5A Transmisión automática - Transeje automático'),
+    'caja_engranajes': F('Engranaje de salida del planetario, intermedio y piñón de ataque al diferencial.', [['Reducción', '1,023']], ['—'], 'Manual › 5A Transmisión automática - Transeje automático'),
+    'caja_diferencial': F('Diferencial: la corona recibe el giro y los satélites y planetarios reparten entre las dos ruedas permitiendo que giren distinto en las curvas.',
+                          [['Reducción final', '4,052']], ['Ruido al doblar: revisar satélites y rodamientos.'], 'Manual › 5A Transmisión automática - Transeje automático'),
+})
+
+
 if __name__ == '__main__':
     out = os.path.join(VAULT, '3D', 'visor', 'fichas.json')
     with open(out, 'w', encoding='utf-8') as fh:

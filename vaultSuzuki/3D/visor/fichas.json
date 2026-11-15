@@ -93,7 +93,7 @@
   "Eléctrico": {
    "color": "#08b94e",
    "nota": "10 Sistema eléctrico",
-   "resumen": "Sistema de 12 V con negativo a masa: batería 46B24R de 36 Ah, alternador de 70 A y dos cajas de fusibles (motor y cabina).",
+   "resumen": "Batería, caja de fusibles del motor y bocina.",
    "laminas": [
     [
      "lamina_motor.jpg",
@@ -179,6 +179,66 @@
     [
      "lamina_vano_motor.jpg",
      "Condensador al frente del radiador y compresor adelante, abajo"
+    ]
+   ]
+  },
+  "Sensores y actuadores": {
+   "color": "#f2c14e",
+   "nota": "Manual de taller › 1A, 1C",
+   "resumen": "Todos los sensores que lee la computadora del motor y los actuadores que maneja, en su lugar real según el diagrama de ubicación del manual (1A) y con su conector del mazo del motor (tabla del capítulo 9A).",
+   "laminas": [
+    [
+     "lamina_electrico_motor.jpg",
+     "Sensores, actuadores y mazo del motor"
+    ]
+   ]
+  },
+  "Módulos de control": {
+   "color": "#9b5de5",
+   "nota": "Manual de taller › 1A, 5A, 6C, 8B, 10B, 10C",
+   "resumen": "Las computadoras del auto: ECM (motor), TCM (caja), BCM dentro del bloque de empalmes, EPS (dirección), SDM (airbag), módulo de arranque sin llave, antena del inmovilizador y el cuadro de instrumentos.",
+   "laminas": [
+    [
+     "lamina_electrico.jpg",
+     "Módulos y mazos de cables"
+    ]
+   ]
+  },
+  "Cableado": {
+   "color": "#2b2d30",
+   "nota": "Manual de taller › 9A Sistemas de cableado",
+   "resumen": "Mazos de cables con sus conectores: batería (A), motor (C), principal (E), tablero (G), piso (L), puertas y portón. Cada circuito del manual se puede resaltar en el visor (pestaña Circuitos).",
+   "laminas": [
+    [
+     "lamina_electrico.jpg",
+     "Recorrido de los mazos"
+    ],
+    [
+     "lamina_electrico_motor.jpg",
+     "Mazo del motor y sus ramas"
+    ]
+   ]
+  },
+  "Accesorios eléctricos": {
+   "color": "#4cc9a0",
+   "nota": "Manual de taller › 9D, 9E, 9F",
+   "resumen": "Limpiaparabrisas y limpialuneta, lavadores, levantavidrios, cierre centralizado y desempañador.",
+   "laminas": []
+  },
+  "Airbag y cinturones": {
+   "color": "#e07a5f",
+   "nota": "Manual de taller › 8A, 8B",
+   "resumen": "Airbags frontales, SDM y cinturones delanteros con pretensor. Trabajar siempre con la batería desconectada y esperando 90 s.",
+   "laminas": []
+  },
+  "Caja por dentro": {
+   "color": "#6c757d",
+   "nota": "Manual de taller › 5A",
+   "resumen": "Lo que está dentro del transeje automático: bomba de aceite, embragues, tren planetario Ravigneaux, cuerpo de válvulas con solenoides, engranajes de salida y diferencial.",
+   "laminas": [
+    [
+     "lamina_caja_dentro.jpg",
+     "Caja automática por dentro"
     ]
    ]
   }
@@ -784,19 +844,6 @@
    "mant": [
     "Cambiar un fusible siempre por uno del mismo amperaje.",
     "Si se vuelve a quemar, buscar el cortocircuito."
-   ],
-   "ver": "10 Sistema eléctrico"
-  },
-  "fusibles_cabina": {
-   "que": "Caja de empalmes con los fusibles de la cabina, del lado del conductor bajo el tablero.",
-   "datos": [
-    [
-     "Ejemplos",
-     "IG COIL 15 A · DOME · tablero · encendedor"
-    ]
-   ],
-   "mant": [
-    "Si se apagan a la vez varias cosas del tablero, revisar esta caja."
    ],
    "ver": "10 Sistema eléctrico"
   },
@@ -1676,6 +1723,790 @@
     "Olor a humedad: limpiar el evaporador."
    ],
    "ver": "10 Sistema eléctrico"
+  },
+  "sensor_maf": {
+   "que": "Mide la masa de aire que entra al motor (hilo caliente) y, en el mismo cuerpo, la temperatura del aire (IAT). Con ese dato el ECM calcula cuánta nafta inyectar.",
+   "datos": [
+    [
+     "Conector",
+     "C13 (BLK)"
+    ],
+    [
+     "Códigos",
+     "P0101, P0103, P0111, P0112, P0113"
+    ]
+   ],
+   "mant": [
+    "No tocar el elemento sensor; limpiar solo con limpiador específico para MAF."
+   ],
+   "ver": "Manual › 1C Dispositivos eléctricos del motor"
+  },
+  "sensor_tp": {
+   "que": "Potenciómetro en el eje de la mariposa: le dice al ECM cuánto se pisa el acelerador.",
+   "datos": [
+    [
+     "Conector",
+     "C11 (BLK)"
+    ],
+    [
+     "Códigos",
+     "P0122, P0123"
+    ]
+   ],
+   "mant": [
+    "Después de cambiarlo, verificar la tensión en ralentí con el escáner."
+   ],
+   "ver": "Manual › 1C Dispositivos eléctricos del motor"
+  },
+  "valvula_iac": {
+   "que": "Válvula de control del aire de ralentí: deja pasar aire alrededor de la mariposa para mantener las vueltas en ralentí.",
+   "datos": [
+    [
+     "Conector",
+     "C01 (GRY)"
+    ],
+    [
+     "Códigos",
+     "—"
+    ]
+   ],
+   "mant": [
+    "Ralentí inestable: limpiar el cuerpo de mariposa y el paso de la IAC."
+   ],
+   "ver": "Manual › 1D Mecánica del motor"
+  },
+  "sensor_map": {
+   "que": "Mide la presión (vacío) dentro del colector de admisión.",
+   "datos": [
+    [
+     "Conector",
+     "C12 (BLK)"
+    ],
+    [
+     "Códigos",
+     "P0402"
+    ]
+   ],
+   "mant": [
+    "Revisar la manguera de vacío si da lecturas raras."
+   ],
+   "ver": "Manual › 1C Dispositivos eléctricos del motor"
+  },
+  "sensor_ect": {
+   "que": "Termistor en la tapa de salida de agua: informa la temperatura del refrigerante al ECM (inyección, ventilador, reloj).",
+   "datos": [
+    [
+     "Conector",
+     "C09 (GRN)"
+    ],
+    [
+     "Códigos",
+     "P0116, P0117, B1561"
+    ]
+   ],
+   "mant": [
+    "Cambiar con el motor frío y reponer refrigerante."
+   ],
+   "ver": "Manual › 1C Dispositivos eléctricos del motor"
+  },
+  "sensor_cmp": {
+   "que": "Lee la posición del árbol de levas para identificar el cilindro 1 y controlar el VVT.",
+   "datos": [
+    [
+     "Conector",
+     "C08 (BLK)"
+    ],
+    [
+     "Códigos",
+     "P0010, P0011 / P0012, P0340"
+    ]
+   ],
+   "mant": [
+    "Una falla puede dar arranque largo o el código del VVT."
+   ],
+   "ver": "Manual › 1H Sistema de encendido"
+  },
+  "sensor_ckp": {
+   "que": "Lee los dientes de la rueda del cigüeñal: régimen del motor y posición de los pistones para inyectar y encender.",
+   "datos": [
+    [
+     "Conector",
+     "C20 (GRY)"
+    ],
+    [
+     "Códigos",
+     "P0335"
+    ]
+   ],
+   "mant": [
+    "Sin esta señal el motor no arranca: es lo primero a revisar si no hay chispa."
+   ],
+   "ver": "Manual › 1H Sistema de encendido"
+  },
+  "sensor_detonacion": {
+   "que": "Piezoeléctrico abulonado al bloque: detecta el \"pistoneo\" para que el ECM atrase el encendido.",
+   "datos": [
+    [
+     "Conector",
+     "C26 (GRY)"
+    ],
+    [
+     "Códigos",
+     "P0327"
+    ]
+   ],
+   "mant": [
+    "Respetar el par de apriete: flojo o muy apretado cambia la lectura."
+   ],
+   "ver": "Manual › 1C Dispositivos eléctricos del motor"
+  },
+  "sensor_presion_aceite": {
+   "que": "Interruptor que prende el testigo de aceite cuando la presión cae.",
+   "datos": [
+    [
+     "Conector",
+     "C18"
+    ],
+    [
+     "Presión",
+     "más de 270 kPa a 4000 rpm"
+    ]
+   ],
+   "mant": [
+    "Si el testigo se prende andando, parar el motor y medir la presión con manómetro."
+   ],
+   "ver": "Manual › 1E Sistema de lubricación del motor"
+  },
+  "solenoide_vvt": {
+   "que": "Válvula de control de aceite (OCV): manda aceite al actuador del árbol de levas de admisión para adelantar o atrasar la distribución.",
+   "datos": [
+    [
+     "Conector",
+     "C19 (BLU)"
+    ],
+    [
+     "Resistencia",
+     "6,7–7,7 Ω a 20 °C"
+    ],
+    [
+     "Códigos",
+     "P0010, P0011 / P0012"
+    ]
+   ],
+   "mant": [
+    "Limpiar su colador si hay códigos del VVT."
+   ],
+   "ver": "Manual › 1D Mecánica del motor"
+  },
+  "sonda_o2_1": {
+   "que": "Sonda de oxígeno calentada antes del catalizador: el ECM ajusta la mezcla con su señal.",
+   "datos": [
+    [
+     "Conector",
+     "C15 (GRY)"
+    ],
+    [
+     "Códigos",
+     "P0031 / P0032, P0037 / P0038, P0131 / P0132, P0131, P0132, P0133"
+    ]
+   ],
+   "mant": [
+    "Ajustar con la llave especial; no usar productos con siliconas cerca."
+   ],
+   "ver": "Manual › 1K Sistema de escape"
+  },
+  "sonda_o2_2": {
+   "que": "Sonda de oxígeno después del catalizador: controla que el catalizador funcione (código P0420).",
+   "datos": [
+    [
+     "Conector",
+     "C16 (GRN)"
+    ],
+    [
+     "Códigos",
+     "P0420"
+    ]
+   ],
+   "mant": [
+    "Revisar primero pérdidas de escape antes de cambiarla."
+   ],
+   "ver": "Manual › 1K Sistema de escape"
+  },
+  "sensor_vss": {
+   "que": "Sensor de velocidad del vehículo en la caja: lo usan el velocímetro, el ECM, el TCM y la dirección eléctrica.",
+   "datos": [
+    [
+     "Conector",
+     "C25 (GRY)"
+    ],
+    [
+     "Códigos",
+     "P0500, B1557"
+    ]
+   ],
+   "mant": [
+    "Si el velocímetro marca 0, revisar este sensor y su conector."
+   ],
+   "ver": "Manual › 1A Información general y diagnóstico del motor"
+  },
+  "valvula_purga": {
+   "que": "Solenoide que abre el paso de los vapores del canister al colector cuando el motor está caliente.",
+   "datos": [
+    [
+     "Conector",
+     "C14 (BLK)"
+    ],
+    [
+     "Códigos",
+     "P0443, B1503"
+    ]
+   ],
+   "mant": [
+    "Un chasquido suave en marcha es normal."
+   ],
+   "ver": "Manual › 1B Dispositivos auxiliares de control de emisiones"
+  },
+  "valvula_egr": {
+   "que": "Válvula de recirculación de gases movida por un motor paso a paso: devuelve un poco de gas de escape a la admisión para bajar la temperatura de combustión.",
+   "datos": [
+    [
+     "Conector",
+     "C10 (GRY)"
+    ],
+    [
+     "Códigos",
+     "P0401"
+    ]
+   ],
+   "mant": [
+    "Con carbón, el ralentí se vuelve inestable: limpiar los conductos."
+   ],
+   "ver": "Manual › 1B Dispositivos auxiliares de control de emisiones"
+  },
+  "sensor_rango_caja": {
+   "que": "Interruptor en el eje de la palanca de la caja: le dice al TCM y al ECM en qué posición está (P R N D 3 2 L), permite el arranque solo en P o N y prende la luz de marcha atrás.",
+   "datos": [
+    [
+     "Códigos",
+     "—"
+    ]
+   ],
+   "mant": [
+    "Si no arranca en P, probar en N: puede estar desajustado."
+   ],
+   "ver": "Manual › 5A Transmisión automática - Transeje automático"
+  },
+  "interruptor_freno": {
+   "que": "Interruptor sobre el pedal de freno: enciende las luces de freno y avisa al ECM, al TCM y al ABS que se está frenando.",
+   "datos": [
+    [
+     "Fusible",
+     "STOP LAMP 15 A"
+    ]
+   ],
+   "mant": [
+    "Regular la luz con el pedal si las luces quedan prendidas."
+   ],
+   "ver": "Manual › 4A Sistema de mando de los frenos y diagnósticos"
+  },
+  "interruptor_nivel_freno": {
+   "que": "Flotante en el depósito de la bomba de freno: prende el testigo de frenos si baja el líquido.",
+   "datos": [
+    [
+     "Conector",
+     "E02 (GRY)"
+    ]
+   ],
+   "mant": [
+    "Testigo prendido con freno de mano bajo: revisar nivel y pastillas."
+   ],
+   "ver": "Manual › 4A Sistema de mando de los frenos y diagnósticos"
+  },
+  "sensor_presion_ac": {
+   "que": "Mide la presión del gas del aire acondicionado: protege el compresor y comanda el ventilador.",
+   "datos": [
+    [
+     "Conector",
+     "E04 (BLK)"
+    ],
+    [
+     "Gas",
+     "R-134a"
+    ]
+   ],
+   "mant": [
+    "Se cambia con el circuito descargado."
+   ],
+   "ver": "Manual › 7B Sistema de aire acondicionado"
+  },
+  "inyectores": {
+   "que": "Cuatro inyectores electromagnéticos que pulverizan la nafta en cada conducto de admisión, uno por cilindro, comandados por el ECM.",
+   "datos": [
+    [
+     "Conectores",
+     "C04 (GRY) · C05 (GRY) · C06 (GRY) · C07 (GRY)"
+    ],
+    [
+     "Presión",
+     "270–310 kPa"
+    ]
+   ],
+   "mant": [
+    "Juntas tóricas nuevas al montarlos."
+   ],
+   "ver": "Manual › 1G Sistema de combustible"
+  },
+  "bobinas": {
+   "que": "Dos bobinas de chispa perdida: una dispara los cilindros 1 y 4 y la otra el 2 y 3, con cables de alta a las bujías que no tienen bobina encima.",
+   "datos": [
+    [
+     "Conectores",
+     "C02 (GRY) · C03 (GRY)"
+    ],
+    [
+     "Orden de encendido",
+     "1-3-4-2"
+    ],
+    [
+     "Códigos",
+     "P0300, P0350, P2228 / P2229, P0752"
+    ]
+   ],
+   "mant": [
+    "Revisar los cables de alta si hay fallas en un solo par de cilindros."
+   ],
+   "ver": "Manual › 1H Sistema de encendido"
+  },
+  "tcm": {
+   "que": "Computadora de la caja automática: decide los cambios con la velocidad, la mariposa y el rango; maneja los solenoides de cambio y de presión.",
+   "datos": [
+    [
+     "Conectores",
+     "C34 · C35"
+    ],
+    [
+     "Fusible",
+     "AT ETM 15 A"
+    ],
+    [
+     "Códigos",
+     "P1603, P1676, P0751 / P0752 / P0756 / P0757, P0751, P0752, P0756"
+    ]
+   ],
+   "mant": [
+    "Leer los códigos P07xx con escáner antes de tocar la caja."
+   ],
+   "ver": "Manual › 5A Transmisión automática - Transeje automático"
+  },
+  "modulo_eps": {
+   "que": "Módulo de la dirección eléctrica: lee el sensor de par y la velocidad y controla el motor de asistencia.",
+   "datos": [
+    [
+     "Fusible",
+     "EPS 50 A"
+    ],
+    [
+     "Códigos",
+     "P0010, P1676, P1678, P0976, P1878, C1113 / C1117 / C1118"
+    ]
+   ],
+   "mant": [
+    "Si la dirección se pone dura, revisar batería y fusible primero."
+   ],
+   "ver": "Manual › 6C Sistema de servodirección asistida"
+  },
+  "sdm": {
+   "que": "Módulo de diagnóstico y sensor del airbag, bajo la consola: detecta el choque y dispara airbags y pretensores; guarda los códigos del sistema SRS.",
+   "datos": [
+    [
+     "Códigos",
+     "B1014, B1021, B1024 / B1025, B1026, B1031, B1032"
+    ]
+   ],
+   "mant": [
+    "No golpear ni desconectar con la batería conectada."
+   ],
+   "ver": "Manual › 8B Sistema de airbag"
+  },
+  "modulo_keyless": {
+   "que": "Módulo del arranque sin llave (en las versiones que lo traen): habla con la llave electrónica por antenas y habilita el arranque.",
+   "datos": [
+    [
+     "Capítulo",
+     "10E"
+    ]
+   ],
+   "mant": [
+    "Registrar las llaves con el equipo de Suzuki."
+   ],
+   "ver": "Manual › 10E Sistema de arranque sin llave"
+  },
+  "bloque_empalmes": {
+   "que": "Bloque de empalmes del lado del conductor: fusibles y relés de la cabina y, adentro, el BCM que maneja luces, cierre, desempañador y avisos.",
+   "datos": [
+    [
+     "Fusibles",
+     "IG COIL, DOME y otros"
+    ],
+    [
+     "Comunicación",
+     "CAN con ECM y cuadro"
+    ]
+   ],
+   "mant": [
+    "Fusible quemado: cambiar por uno igual y buscar el corto."
+   ],
+   "ver": "Manual › 10B Sistema de control eléctrico de la carrocería"
+  },
+  "cuadro_instrumentos": {
+   "que": "Cuadro de tres relojes (velocímetro, cuentavueltas y combustible/temperatura) con testigos; recibe los datos por CAN.",
+   "datos": [
+    [
+     "Relojes",
+     "3"
+    ],
+    [
+     "Testigos",
+     "aceite, carga, frenos, ABS, airbag, EPS, motor"
+    ]
+   ],
+   "mant": [
+    "Con el contacto puesto todos los testigos se prenden un momento."
+   ],
+   "ver": "Manual › 9C Instrumentos - Información para el conductor - Bocina"
+  },
+  "antena_inmovilizador": {
+   "que": "Bobina-antena alrededor del tambor de la llave: lee el transpondedor de la llave y se lo pasa al ECM para habilitar el arranque.",
+   "datos": [
+    [
+     "Códigos",
+     "—"
+    ]
+   ],
+   "mant": [
+    "Una llave nueva se registra en el ECM con el equipo de diagnóstico."
+   ],
+   "ver": "Manual › 10C Sistema de control del inmovilizador"
+  },
+  "cable_bateria": {
+   "que": "Cable positivo grueso a la caja de fusibles, al arranque y al alternador, y cables de masa a la caja y a la carrocería.",
+   "datos": [
+    [
+     "Batería",
+     "46B24R"
+    ]
+   ],
+   "mant": [
+    "Masas flojas causan fallas raras en todo el auto: limpiar y ajustar."
+   ],
+   "ver": "Manual › 1I Sistema de arranque"
+  },
+  "mazo_motor": {
+   "que": "Mazo del motor: lleva todos los sensores y actuadores del motor hasta el ECM y se une al principal por el conector C36/E24.",
+   "datos": [
+    [
+     "Conectores",
+     "C01 a C41"
+    ],
+    [
+     "ECM",
+     "C37 (GRY)"
+    ]
+   ],
+   "mant": [
+    "Revisar que no roce el escape ni piezas móviles."
+   ],
+   "ver": "Manual › 9A Sistemas de cableado"
+  },
+  "mazo_principal": {
+   "que": "Mazo principal del vano motor: faros, ventilador, bocina, ABS, limpiaparabrisas y relés; entra a la cabina por el pasacables del torpedo.",
+   "datos": [
+    [
+     "Conectores",
+     "E01 en adelante"
+    ]
+   ],
+   "mant": [
+    "El pasacables debe quedar bien puesto para que no entre agua."
+   ],
+   "ver": "Manual › 9A Sistemas de cableado"
+  },
+  "cable_eps": {
+   "que": "Cable grueso que alimenta la dirección eléctrica desde la caja de fusibles.",
+   "datos": [
+    [
+     "Fusible",
+     "EPS 50 A"
+    ]
+   ],
+   "mant": [
+    "Conector bien trabado: un falso contacto deja la dirección dura."
+   ],
+   "ver": "Manual › 6C Sistema de servodirección asistida"
+  },
+  "mazo_tablero": {
+   "que": "Mazo del tablero sobre el travesaño: cuadro, radio, climatizador, columna, airbag del acompañante, TCM y bloque de empalmes.",
+   "datos": [
+    [
+     "Conectores",
+     "G01 en adelante"
+    ]
+   ],
+   "mant": [
+    "Para trabajar detrás del tablero, desconectar la batería (airbag)."
+   ],
+   "ver": "Manual › 9A Sistemas de cableado"
+  },
+  "mazo_piso": {
+   "que": "Mazo del piso: corre por los zócalos hasta atrás; alimenta bomba de nafta, cinturones, calaveras y el SDM.",
+   "datos": [
+    [
+     "Conectores",
+     "L01 en adelante"
+    ]
+   ],
+   "mant": [
+    "Al sacar alfombras, no pisar los conectores."
+   ],
+   "ver": "Manual › 9A Sistemas de cableado"
+  },
+  "mazo_puertas": {
+   "que": "Mazos de las puertas: pasan por un fuelle de goma en la bisagra y llevan levantavidrios, cerraduras, parlantes y espejos.",
+   "datos": [
+    [
+     "Fuelle",
+     "entre el parante y la puerta"
+    ]
+   ],
+   "mant": [
+    "Cables cortados dentro del fuelle son una falla típica de puertas que se abren mucho."
+   ],
+   "ver": "Manual › 9E Cristales - Ventanas - Retrovisores"
+  },
+  "mazo_porton": {
+   "que": "Mazo del techo y el portón: limpialuneta, desempañador, tercera luz de freno y cerradura del portón.",
+   "datos": [
+    [
+     "Fuelle",
+     "entre el techo y el portón"
+    ]
+   ],
+   "mant": [
+    "Revisar el fuelle si el limpialuneta o el desempañador fallan."
+   ],
+   "ver": "Manual › 9A Sistemas de cableado"
+  },
+  "motor_limpiaparabrisas": {
+   "que": "Motor del limpiaparabrisas bajo la rejilla del torpedo, con el varillaje que mueve los dos brazos.",
+   "datos": [
+    [
+     "Conector",
+     "E01 (GRY)"
+    ]
+   ],
+   "mant": [
+    "Si las escobillas no quedan abajo, revisar el contacto de parada del motor."
+   ],
+   "ver": "Manual › 9D Limpiaparabrisas - Lavaparabrisas"
+  },
+  "motor_limpialuneta": {
+   "que": "Motor del limpialuneta dentro del portón.",
+   "datos": [
+    [
+     "Circuito",
+     "B-2"
+    ]
+   ],
+   "mant": [
+    "Lubricar el eje del brazo una vez por año."
+   ],
+   "ver": "Manual › 9D Limpiaparabrisas - Lavaparabrisas"
+  },
+  "lavador": {
+   "que": "Depósito del lavaparabrisas con su bomba eléctrica y las mangueras a los picos del capó.",
+   "datos": [
+    [
+     "Circuito",
+     "B-1"
+    ]
+   ],
+   "mant": [
+    "Usar líquido limpiavidrios, no detergente."
+   ],
+   "ver": "Manual › 9D Limpiaparabrisas - Lavaparabrisas"
+  },
+  "levantavidrios_izq": {
+   "que": "Mecanismos de tijera con motor eléctrico de las puertas izquierdas.",
+   "datos": [
+    [
+     "Circuito",
+     "B-4"
+    ]
+   ],
+   "mant": [
+    "Si el vidrio baja trabado, limpiar y lubricar las guías."
+   ],
+   "ver": "Manual › 9E Cristales - Ventanas - Retrovisores"
+  },
+  "levantavidrios_der": {
+   "que": "Mecanismos de tijera con motor eléctrico de las puertas derechas (la del conductor lleva la botonera).",
+   "datos": [
+    [
+     "Circuito",
+     "B-4"
+    ]
+   ],
+   "mant": [
+    "Si el vidrio baja trabado, limpiar y lubricar las guías."
+   ],
+   "ver": "Manual › 9E Cristales - Ventanas - Retrovisores"
+  },
+  "cerraduras": {
+   "que": "Actuadores del cierre centralizado en las cuatro puertas y el portón, comandados por el BCM.",
+   "datos": [
+    [
+     "Circuito",
+     "B-5"
+    ]
+   ],
+   "mant": [
+    "Lubricar las cerraduras en cada service."
+   ],
+   "ver": "Manual › 9F Seguridad y bloqueos"
+  },
+  "desempanador": {
+   "que": "Resistencias impresas en la luneta que calientan el vidrio; las maneja un relé del BCM y se apagan solas.",
+   "datos": [
+    [
+     "Circuito",
+     "B-3"
+    ]
+   ],
+   "mant": [
+    "No raspar la luneta por dentro: se cortan las líneas."
+   ],
+   "ver": "Manual › 9E Cristales - Ventanas - Retrovisores"
+  },
+  "airbag_acompanante": {
+   "que": "Módulo del airbag del acompañante en la parte superior del tablero.",
+   "datos": [
+    [
+     "Circuito",
+     "F-1"
+    ]
+   ],
+   "mant": [
+    "Guardarlo con la tapa hacia arriba; nunca medirlo con tester."
+   ],
+   "ver": "Manual › 8B Sistema de airbag"
+  },
+  "pretensores": {
+   "que": "Cinturones delanteros con pretensor pirotécnico: tensan el cinturón en el instante del choque.",
+   "datos": [
+    [
+     "Circuito",
+     "F-1"
+    ]
+   ],
+   "mant": [
+    "Un pretensor disparado se cambia completo."
+   ],
+   "ver": "Manual › 8A Cinturones de seguridad"
+  },
+  "canerias_freno": {
+   "que": "Cañerías rígidas de freno: de la bomba al ABS y de ahí a cada rueda, con flexibles en las ruedas.",
+   "datos": [
+    [
+     "Líquido",
+     "DOT 3"
+    ]
+   ],
+   "mant": [
+    "Purgar en el orden del manual después de abrir el circuito."
+   ],
+   "ver": "Manual › 4A Sistema de mando de los frenos y diagnósticos"
+  },
+  "caja_bomba_aceite": {
+   "que": "Bomba de aceite de la caja, movida por el convertidor: da la presión para embragues, frenos y lubricación.",
+   "datos": [
+    [
+     "Fluido",
+     "ATF 3317 / 3309"
+    ]
+   ],
+   "mant": [
+    "Fluido quemado o bajo daña la bomba: controlar el nivel."
+   ],
+   "ver": "Manual › 5A Transmisión automática - Transeje automático"
+  },
+  "caja_embragues": {
+   "que": "Paquetes de discos de fricción y de acero de los embragues de directa, avance y reversa; se aprietan con presión de aceite.",
+   "datos": [
+    [
+     "Elementos",
+     "3 embragues, 3 frenos, 2 ruedas libres"
+    ]
+   ],
+   "mant": [
+    "Patinamiento al cambiar: revisar nivel y presión antes de desarmar."
+   ],
+   "ver": "Manual › 5A Transmisión automática - Transeje automático"
+  },
+  "caja_planetario": {
+   "que": "Tren planetario tipo Ravigneaux: dos solares, piñones largos y cortos y una corona; según qué se frena o se une, da las 4 marchas y la reversa.",
+   "datos": [
+    [
+     "Dientes",
+     "solar del. 24 · solar tras. 30 · piñón largo 20 · corto 19 · corona 69"
+    ],
+    [
+     "Relaciones",
+     "2,875 · 1,568 · 1,000 · 0,697 · R 2,300"
+    ]
+   ],
+   "mant": [
+    "Ruido en una sola marcha suele ser un piñón del planetario."
+   ],
+   "ver": "Manual › 5A Transmisión automática - Transeje automático"
+  },
+  "caja_cuerpo_valvulas": {
+   "que": "Cuerpo de válvulas: reparte la presión a cada embrague y freno; los solenoides de cambio y de presión los maneja el TCM.",
+   "datos": [
+    [
+     "Solenoides",
+     "cambio A y B, control de presión, TCC"
+    ]
+   ],
+   "mant": [
+    "Muy sensible a la suciedad: fluido limpio y del tipo indicado."
+   ],
+   "ver": "Manual › 5A Transmisión automática - Transeje automático"
+  },
+  "caja_engranajes": {
+   "que": "Engranaje de salida del planetario, intermedio y piñón de ataque al diferencial.",
+   "datos": [
+    [
+     "Reducción",
+     "1,023"
+    ]
+   ],
+   "mant": [
+    "—"
+   ],
+   "ver": "Manual › 5A Transmisión automática - Transeje automático"
+  },
+  "caja_diferencial": {
+   "que": "Diferencial: la corona recibe el giro y los satélites y planetarios reparten entre las dos ruedas permitiendo que giren distinto en las curvas.",
+   "datos": [
+    [
+     "Reducción final",
+     "4,052"
+    ]
+   ],
+   "mant": [
+    "Ruido al doblar: revisar satélites y rodamientos."
+   ],
+   "ver": "Manual › 5A Transmisión automática - Transeje automático"
   }
  }
 }

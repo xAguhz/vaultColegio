@@ -2,6 +2,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Suzuki Swift en 3D</title>
 <meta name="claude:viewport-fit-sides" content="cover">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#1b1f23">
+<link rel="icon" href="icono-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
@@ -36,6 +39,25 @@
   --grid: #262c32; --chip: #23292e; color-scheme: dark;
 }
 [hidden] { display: none !important; }
+.pop { position: absolute; right: 10px; bottom: 112px; z-index: 6; width: min(300px, calc(100% - 20px)); max-height: calc(100% - 170px); overflow-y: auto; padding: 12px 14px; border-radius: 10px; font-size: 13px; }
+.pop h4 { margin: 0 0 8px; font-family: var(--font-display); font-size: 17px; letter-spacing: .02em; }
+.pop label { display: flex; align-items: center; gap: 8px; padding: 4px 0; cursor: pointer; }
+.pop label.sep { border-top: 1px solid var(--line); margin-top: 6px; padding-top: 8px; }
+.pop .capa { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 8px; padding: 5px 0; }
+.pop .capa small { color: var(--muted); font-family: var(--font-data); font-size: 11px; }
+.pop .bar { grid-column: 2 / 4; height: 3px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.pop .bar i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .2s; }
+.hud { position: absolute; left: 10px; top: 10px; z-index: 5; font-family: var(--font-data); font-size: 11px; line-height: 1.45; padding: 6px 9px; border-radius: 8px; background: color-mix(in srgb, var(--panel) 85%, transparent); border: 1px solid var(--line); pointer-events: none; white-space: pre; }
+.layerbar { position: absolute; left: 50%; transform: translateX(-50%); top: 10px; z-index: 5; padding: 5px 12px; border-radius: 999px; font-family: var(--font-data); font-size: 12px; }
+.circ { display: block; width: 100%; text-align: left; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); margin-bottom: 6px; }
+.circ b { font-family: var(--font-data); margin-right: 6px; color: var(--accent); }
+.circ[aria-current="true"] { border-color: var(--accent); background: var(--accent-bg); }
+.group-h { display: flex; align-items: center; gap: 8px; width: 100%; background: none; border: 0; padding: 6px 0; font-weight: 600; text-align: left; }
+.group-h .n { margin-left: auto; color: var(--muted); font-family: var(--font-data); font-size: 12px; font-weight: 400; }
+.group-h::after { content: '▾'; color: var(--muted); }
+.group.cerrado .group-h::after { content: '▸'; }
+.group.cerrado .list { display: none; }
+.circ-actions { display: flex; gap: 6px; flex-wrap: wrap; margin: 8px 0 12px; }
 html, body { height: 100%; margin: 0; }
 body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 14px; line-height: 1.5; }
 * { box-sizing: border-box; }
@@ -233,6 +255,17 @@ ul.mant { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
     </div>
     <button class="mode glass" id="btn-mode" type="button" aria-pressed="true" title="Al tocar una pieza, la muestra girando con sus datos flotando"><span class="sw" aria-hidden="true"></span>Modo animación</button>
     <div class="pager glass" id="pager" hidden></div>
+    <div class="pop glass" id="pop-capas" hidden></div>
+    <div class="pop glass" id="pop-rend" hidden>
+      <h4>Calidad de imagen</h4>
+      <label><input type="radio" name="cal" value="alta"> Alta (nítida)</label>
+      <label><input type="radio" name="cal" value="media"> Media</label>
+      <label><input type="radio" name="cal" value="baja"> Baja (compu lenta)</label>
+      <label class="sep"><input type="checkbox" id="chk-fps"> Mostrar cuadros por segundo</label>
+      <p class="note" id="rend-info"></p>
+    </div>
+    <div class="hud" id="hud" hidden></div>
+    <div class="layerbar glass" id="layerbar" hidden></div>
     <div class="controls">
       <div class="slider">
         <label for="explode">Despiece</label>
@@ -243,6 +276,9 @@ ul.mant { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
         <button class="btn primary" id="btn-anim" type="button">Despiezar</button>
         <button class="btn" id="btn-color" type="button" aria-pressed="false">Color por conjunto</button>
         <button class="btn" id="btn-cut" type="button" aria-pressed="false">Corte</button>
+        <button class="btn" id="btn-xray" type="button" aria-pressed="false" title="Carrocería e interior casi transparentes para ver la mecánica y los cables">Rayos X</button>
+        <button class="btn" id="btn-capas" type="button" aria-expanded="false">Capas</button>
+        <button class="btn" id="btn-rend" type="button" aria-expanded="false" title="Calidad y cuadros por segundo">Rendimiento</button>
         <button class="btn" id="btn-show" type="button" hidden>Mostrar todo</button>
         <button class="btn" id="btn-home" type="button">Vista inicial</button>
       </div>
@@ -253,8 +289,10 @@ ul.mant { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
     <div class="tabs" role="tablist">
       <button class="tab" role="tab" id="tab-ficha" aria-selected="true" aria-controls="pane-ficha" type="button">Ficha</button>
       <button class="tab" role="tab" id="tab-piezas" aria-selected="false" aria-controls="pane-piezas" type="button">Piezas</button>
+      <button class="tab" role="tab" id="tab-circ" aria-selected="false" aria-controls="pane-circ" type="button">Circuitos</button>
     </div>
     <div class="pane" id="pane-ficha" role="tabpanel" aria-labelledby="tab-ficha"></div>
+    <div class="pane" id="pane-circ" role="tabpanel" aria-labelledby="tab-circ" hidden></div>
     <div class="pane" id="pane-piezas" role="tabpanel" aria-labelledby="tab-piezas" hidden>
       <input class="search" id="search" type="search" placeholder="Buscar pieza, código o conjunto" aria-label="Buscar pieza">
       <div id="plist"></div>
@@ -270,7 +308,8 @@ ul.mant { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
 <script type="importmap">
 { "imports": {
   "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
-  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/",
+  "three-mesh-bvh": "https://cdn.jsdelivr.net/npm/three-mesh-bvh@0.7.6/build/index.module.js"
 } }
 </script>
 <script type="module">
@@ -284,13 +323,31 @@ const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&l
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 const FICHAS = await fetch('fichas.json').then((r) => r.json());
+const MANIF = await fetch('capas.json').then((r) => r.json());
+const CIRCS = await fetch('circuitos.json').then((r) => r.json()).catch(() => ({}));
+const SITIO = 'https://xaguhz.github.io/vaultColegio/vaultSuzuki/';
+// Búsqueda acelerada de la pieza bajo el puntero (BVH): si la librería no carga, se usa la búsqueda común.
+let BVH = null;
+try {
+  BVH = await import('three-mesh-bvh');
+  THREE.BufferGeometry.prototype.computeBoundsTree = BVH.computeBoundsTree;
+  THREE.BufferGeometry.prototype.disposeBoundsTree = BVH.disposeBoundsTree;
+  THREE.Mesh.prototype.raycast = BVH.acceleratedRaycast;
+} catch (e) { BVH = null; }
 const CONJ = FICHAS.conjuntos;
 const ORDER = Object.keys(CONJ);
 
 // ---------------------------------------------------------------- escena
 const stage = $('stage');
 const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+const CALIDAD = { alta: Math.min(devicePixelRatio, 2), media: Math.min(devicePixelRatio, 1), baja: 0.7 };
+let calidad = 'alta';
+try { calidad = localStorage.getItem('swift-calidad') || 'alta'; } catch (e) { /* sin almacenamiento */ }
+if (!CALIDAD[calidad]) calidad = 'alta';
+renderer.setPixelRatio(CALIDAD[calidad]);
+// Se dibuja solo cuando algo cambia (cámara, despiece, selección, capas): sin movimiento, la GPU descansa.
+let dirty = true;
+function invalidate() { dirty = true; }
 renderer.localClippingEnabled = true;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 0.92;
@@ -306,6 +363,7 @@ scene.add(sun, new THREE.HemisphereLight(0xffffff, 0x666666, 0.6));
 const camera = new THREE.PerspectiveCamera(35, 1, 0.05, 50);
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
+controls.addEventListener('change', invalidate);
 controls.maxPolarAngle = Math.PI * 0.62;
 controls.minDistance = 0.35;
 controls.maxDistance = 16;
@@ -328,6 +386,7 @@ function applyViewOffset() {
   if (Math.abs(vo.x) < 0.5 && Math.abs(vo.y) < 0.5) camera.clearViewOffset();
   else camera.setViewOffset(w, h, vo.x, vo.y, w, h);
   camera.updateProjectionMatrix();
+  invalidate();
 }
 
 function cssVar(n) { return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
@@ -337,6 +396,7 @@ function applyTheme() {
   grid = new THREE.GridHelper(10, 40, cssVar('--grid'), cssVar('--grid'));
   grid.position.set(0, 0, 0);
   scene.add(grid);
+  invalidate();
 }
 applyTheme();
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
@@ -379,7 +439,7 @@ const hidden = new Set();
 // El modelo viene como glTF con el binario embebido en base64 (las páginas
 // publicadas no sirven .glb). La política de seguridad del visor bloquea que
 // GLTFLoader lea ese data:, así que se decodifica acá y se arma un GLB en memoria.
-async function loadModelBuffer(url) {
+async function loadModelBuffer(url, onProg) {
   const res = await fetch(url);
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   const total = Number(res.headers.get('content-length')) || 0;
@@ -393,7 +453,8 @@ async function loadModelBuffer(url) {
       if (done) break;
       chunks.push(value);
       got += value.length;
-      $('loading').textContent = `Cargando el modelo… ${Math.min(100, Math.round(100 * got / total))} %`;
+      if (onProg) onProg(got / total);
+      else $('loading').textContent = `Cargando el modelo… ${Math.min(100, Math.round(100 * got / total))} %`;
     }
     text = new TextDecoder().decode(await new Blob(chunks).arrayBuffer());
   } else {
@@ -424,10 +485,47 @@ function modelError(err) {
 }
 
 const loader = new GLTFLoader();
-loadModelBuffer('suzuki_swift.json').then((buf) => loader.parse(buf, '', onModel, modelError)).catch(modelError);
+// Capas: cada una es un archivo aparte (.glb en GitHub Pages, .json con el binario adentro en los Artifacts).
+const USAR_GLB = /github\.io$|^localhost$|^127\.0\.0\.1$/.test(location.hostname);
+// En GitHub Pages y en la compu, el visor se puede instalar y usar sin internet (no en los Artifacts).
+if (USAR_GLB && 'serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+const CAPAS = new Map(MANIF.capas.map((c) => [c.id, { ...c, estado: 'pendiente', visible: c.id !== 'mecanismos', prog: 0 }]));
+try {
+  const g = JSON.parse(localStorage.getItem('swift-capas') || 'null');
+  if (g) for (const [k, v] of Object.entries(g)) if (CAPAS.has(k)) CAPAS.get(k).visible = !!v;
+} catch (e) { /* sin almacenamiento */ }
+function guardarCapas() { try { localStorage.setItem('swift-capas', JSON.stringify(Object.fromEntries([...CAPAS].map(([k, c]) => [k, c.visible])))); } catch (e) { /* nada */ } }
+let primera = true;
+async function cargarCapa(id) {
+  const c = CAPAS.get(id);
+  if (!c || c.estado !== 'pendiente') return;
+  c.estado = 'cargando'; renderCapas();
+  try {
+    let gltf;
+    if (USAR_GLB) {
+      gltf = await loader.loadAsync(`capas/${id}.glb`, (e) => { if (e.total) { c.prog = e.loaded / e.total; renderCapas(); } });
+    } else {
+      const buf = await loadModelBuffer(`capas/${id}.json`, (k) => { c.prog = k; renderCapas(); });
+      gltf = await new Promise((ok, mal) => loader.parse(buf, '', ok, mal));
+    }
+    onModel(gltf, id);
+    c.estado = 'lista'; c.prog = 1;
+  } catch (err) { console.error(err); c.estado = 'error'; }
+  renderCapas();
+}
+(async () => {
+  // primero lo que se ve de afuera; después lo de adentro, en segundo plano
+  for (const id of ['exterior', 'chasis', 'motor', 'interior', 'electrico', 'mecanismos']) {
+    if (!CAPAS.has(id)) continue;
+    if (!CAPAS.get(id).visible && id === 'mecanismos') continue;   // se carga al prenderla
+    await cargarCapa(id);
+  }
+  $('layerbar').hidden = true;
+})();
 
-function onModel(gltf) {
+function onModel(gltf, capa) {
   scene.add(gltf.scene);
+  const nuevos = [];
   gltf.scene.traverse((o) => {
     if (!o.userData || !o.userData.pid || parts.has(o.userData.pid)) return;
     const u = o.userData;
@@ -441,20 +539,39 @@ function onModel(gltf) {
       m.userData.part = u.pid;
       meshes.push(m);
     });
-    parts.set(u.pid, {
-      pid: u.pid, obj: o, nombre: u.nombre, conjunto: u.conjunto, meshes,
+    const p = {
+      pid: u.pid, obj: o, nombre: u.nombre, conjunto: u.conjunto, meshes, capa: capa || u.capa,
       base: o.position.clone(), vec: new THREE.Vector3(e[0], e[2], -e[1]),
-    });
+    };
+    parts.set(u.pid, p);
+    nuevos.push(p);
+    // si ya hay despiece aplicado, la pieza nueva entra en su lugar
+    if (explodeT) o.position.copy(p.base).addScaledVector(p.vec, ease(explodeT));
   });
+  // índice espacial de cada malla, de a poco para no trabar la pantalla
+  if (BVH) {
+    const ms = nuevos.flatMap((p) => p.meshes);
+    const paso = () => { const t0 = performance.now(); while (ms.length && performance.now() - t0 < 8) { const m = ms.pop(); try { m.geometry.computeBoundsTree(); } catch (e) { /* nada */ } } if (ms.length) setTimeout(paso, 0); };
+    setTimeout(paso, 0);
+  }
   // tamaño de cada pieza (diagonal de su caja, armada): decide cómo se anima
   gltf.scene.updateMatrixWorld(true);
-  for (const p of parts.values()) p.size = new THREE.Box3().setFromObject(p.obj).getSize(new THREE.Vector3()).length();
+  for (const p of nuevos) p.size = new THREE.Box3().setFromObject(p.obj).getSize(new THREE.Vector3()).length();
   $('loading').hidden = true;
+  remember();
   buildList();
-  homeView(false);
-  updateFocusUi();
+  pickCache = null;
+  paint();
+  if (primera) {
+    primera = false;
+    homeView(false);
+    updateFocusUi();
+    renderOverview();
+  } else if (!selected && !focus && !circActivo) renderOverview();
   const h = location.hash.slice(1).replace(/-/g, '_');
-  if (h && parts.has(h)) { renderOverview(); enterFocus(h, false); } else renderOverview();
+  if (h && parts.has(h) && !focus && nuevos.some((p) => p.pid === h)) { capaVisible(parts.get(h).capa, true); enterFocus(h, false); }
+  renderCircs();
+  invalidate();
 }
 
 function ease(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
@@ -465,6 +582,7 @@ function setExplode(t) {
   $('explode').value = Math.round(t * 100);
   $('explode-out').textContent = `${Math.round(t * 100)} %`;
   $('btn-anim').textContent = t > 0.5 ? 'Armar' : 'Despiezar';
+  invalidate();
 }
 let anim = null;
 $('explode').addEventListener('input', (e) => { anim = null; setExplode(e.target.value / 100); });
@@ -475,48 +593,77 @@ $('btn-anim').addEventListener('click', () => {
   anim = { t0: performance.now(), from: explodeT, to, dur: 1400 };
 });
 
+const XRAY = new Set(['exterior', 'interior']);
+let xray = false, circActivo = null;
+function capaOn(p) { const c = CAPAS.get(p.capa); return !c || c.visible; }
 function paint() {
   for (const p of parts.values()) {
-    const ghost = isolated && !isolated.has(p.pid);
+    const iso = isolated && isolated.has(p.pid);
+    const ghost = (isolated && !iso) || (xray && XRAY.has(p.capa) && !iso);
     const col = colorMode ? new THREE.Color(CONJ[p.conjunto]?.color || '#888') : null;
+    const clip = cutOn && !focus;
     for (const m of p.meshes) {
       const mat = m.material;
       mat.color.copy(col || m.userData.orig);
-      if (colorMode) { mat.metalness = 0.1; mat.roughness = 0.6; } else { mat.metalness = m.userData.metal ?? (m.userData.metal = mat.metalness); mat.roughness = m.userData.rough ?? (m.userData.rough = mat.roughness); }
-      mat.emissive.set(0x000000);
-      mat.emissiveIntensity = 1;
-      if (!focus && p.pid === selected) { mat.emissive.copy(HL); mat.emissiveIntensity = 0.55; }
-      else if (!focus && p.pid === hovered) { mat.emissive.copy(HL); mat.emissiveIntensity = 0.22; }
-      mat.transparent = !!ghost;
-      mat.opacity = ghost ? (focus ? 0.06 : 0.1) : 1;
+      if (colorMode) { mat.metalness = 0.1; mat.roughness = 0.6; } else { mat.metalness = m.userData.metal ?? mat.metalness; mat.roughness = m.userData.rough ?? mat.roughness; }
+      const origT = m.userData.origT ?? (m.userData.origT = mat.transparent);
+      const origO = m.userData.origO ?? (m.userData.origO = mat.opacity);
+      const quiereT = ghost || origT;
+      const op = ghost ? (focus ? 0.05 : (xray && !isolated ? 0.08 : 0.1)) : origO;
+      // cambiar transparencia o planos de corte obliga a recompilar el material: solo si cambió
+      if (mat.transparent !== quiereT || !!m.userData.clip !== clip) {
+        mat.transparent = quiereT;
+        mat.clippingPlanes = clip ? cut : [];
+        m.userData.clip = clip;
+        mat.needsUpdate = true;
+      }
+      mat.opacity = op;
       mat.depthWrite = !ghost;
-      mat.clippingPlanes = cutOn && !focus ? cut : [];
-      mat.needsUpdate = true;
+      setEmis(m, p.pid);
     }
-    // en el modo animación se muestra una copia que gira; la pieza original se oculta
-    p.obj.visible = !hidden.has(p.pid) && !(focus && focus.show && focus.pid === p.pid);
+    p.obj.visible = capaOn(p) && !hidden.has(p.pid) && !(focus && focus.show && focus.pid === p.pid);
   }
+  pickCache = null;
   $('btn-show').hidden = !(hidden.size || isolated);
+  invalidate();
+}
+function setEmis(m, pid) {
+  const mat = m.material;
+  if (!focus && pid === selected) { mat.emissive.copy(HL); mat.emissiveIntensity = 0.55; }
+  else if (!focus && pid === hovered) { mat.emissive.copy(HL); mat.emissiveIntensity = 0.22; }
+  else { mat.emissive.setRGB(0, 0, 0); mat.emissiveIntensity = 1; }
+}
+// al pasar el puntero solo se repintan las dos piezas que cambian
+function setHover(pid) {
+  if (pid === hovered) return;
+  const prev = hovered;
+  hovered = pid;
+  for (const q of [prev, pid]) { const p = q && parts.get(q); if (p) for (const m of p.meshes) setEmis(m, q); }
+  invalidate();
 }
 // guardar metal/rugosidad originales antes de cualquier cambio
-function remember() { for (const p of parts.values()) for (const m of p.meshes) { m.userData.metal = m.material.metalness; m.userData.rough = m.material.roughness; } }
+function remember() { for (const p of parts.values()) for (const m of p.meshes) { if (m.userData.metal === undefined) { m.userData.metal = m.material.metalness; m.userData.rough = m.material.roughness; } } }
 
-$('btn-color').addEventListener('click', (e) => { if (!colorMode) remember(); colorMode = !colorMode; e.currentTarget.setAttribute('aria-pressed', colorMode); paint(); });
+$('btn-color').addEventListener('click', (e) => { colorMode = !colorMode; e.currentTarget.setAttribute('aria-pressed', colorMode); paint(); });
 $('btn-cut').addEventListener('click', (e) => { cutOn = !cutOn; e.currentTarget.setAttribute('aria-pressed', cutOn); paint(); });
 $('btn-show').addEventListener('click', () => { hidden.clear(); isolated = null; paint(); refresh(); });
 $('btn-home').addEventListener('click', () => homeView());
 
 // ---------------------------------------------------------------- selección con el puntero
 const ray = new THREE.Raycaster();
+let pickCache = null;
 const ndc = new THREE.Vector2();
 function pick(ev) {
   const r = renderer.domElement.getBoundingClientRect();
   ndc.set(((ev.clientX - r.left) / r.width) * 2 - 1, -((ev.clientY - r.top) / r.height) * 2 + 1);
   ray.setFromCamera(ndc, camera);
   if (focus && focus.show) return ray.intersectObject(focus.show.clone, true).length ? focus.pid : null;
-  const objs = [];
-  for (const p of parts.values()) if (p.obj.visible && (!isolated || isolated.has(p.pid))) objs.push(...p.meshes);
-  for (const h of ray.intersectObjects(objs, false)) {
+  if (!pickCache) {
+    pickCache = [];
+    for (const p of parts.values()) if (p.obj.visible && (!isolated || isolated.has(p.pid)) && !(xray && XRAY.has(p.capa))) pickCache.push(...p.meshes);
+  }
+  ray.firstHitOnly = !cutOn;
+  for (const h of ray.intersectObjects(pickCache, false)) {
     if (cutOn && h.point.z > 0) continue;
     return h.object.userData.part;
   }
@@ -538,11 +685,17 @@ cv.addEventListener('pointerup', (e) => {
   }
   if (pid) enterFocus(pid); else { selected = null; paint(); renderOverview(); setHash(''); refreshList(); }
 });
+let moverPend = null;
 cv.addEventListener('pointermove', (e) => {
+  if (moverPend) { moverPend = e; return; }
+  moverPend = e;
+  requestAnimationFrame(() => { const ev = moverPend; moverPend = null; mover(ev); });
+});
+function mover(e) {
   if (focus) { $('tip').hidden = true; cv.style.cursor = focus.show && pick(e) ? 'pointer' : ''; return; }
   if (e.pointerType !== 'mouse' || e.buttons) { $('tip').hidden = true; return; }
   const pid = pick(e);
-  if (pid !== hovered) { hovered = pid; paint(); }
+  setHover(pid);
   const tip = $('tip');
   if (pid) {
     const r = stage.getBoundingClientRect();
@@ -552,8 +705,8 @@ cv.addEventListener('pointermove', (e) => {
     tip.hidden = false;
     cv.style.cursor = 'pointer';
   } else { tip.hidden = true; cv.style.cursor = ''; }
-});
-cv.addEventListener('pointerleave', () => { $('tip').hidden = true; if (hovered) { hovered = null; paint(); } });
+}
+cv.addEventListener('pointerleave', () => { $('tip').hidden = true; setHover(null); });
 addEventListener('keydown', (e) => {
   if (e.key !== 'Escape') return;
   if (!$('lightbox').hidden) { closeLightbox(); return; }
@@ -577,13 +730,14 @@ function select(pid) { enterFocus(pid); }
 
 // ---------------------------------------------------------------- panel
 function showTab(t) {
-  for (const n of ['ficha', 'piezas']) {
+  for (const n of ['ficha', 'piezas', 'circ']) {
     $(`tab-${n}`).setAttribute('aria-selected', n === t);
     $(`pane-${n}`).hidden = n !== t;
   }
 }
 $('tab-ficha').addEventListener('click', () => showTab('ficha'));
 $('tab-piezas').addEventListener('click', () => showTab('piezas'));
+$('tab-circ').addEventListener('click', () => showTab('circ'));
 
 function chip(conj) {
   return `<button class="chip" type="button" data-conj="${esc(conj)}"><span class="dot" style="background:${CONJ[conj]?.color}"></span>${esc(conj)}</button>`;
@@ -597,10 +751,10 @@ function laminas(conj) {
 function partsOf(conj) { return [...parts.values()].filter((p) => p.conjunto === conj); }
 
 function renderOverview() {
-  const counts = ORDER.map((c) => `<button class="row" type="button" data-conj="${esc(c)}"><span class="dot" style="background:${CONJ[c].color}"></span>${esc(c)}<span class="n">${partsOf(c).length}</span></button>`).join('');
+  const counts = ORDER.filter((c) => partsOf(c).length).map((c) => `<button class="row" type="button" data-conj="${esc(c)}"><span class="dot" style="background:${CONJ[c].color}"></span>${esc(c)}<span class="n">${partsOf(c).length}</span></button>`).join('');
   $('pane-ficha').innerHTML = `
     <span class="chip"><span class="dot" style="background:var(--accent)"></span>Vista general</span>
-    <h2 class="name">${parts.size} piezas en ${ORDER.length} conjuntos</h2>
+    <h2 class="name">${parts.size} piezas en ${ORDER.filter((c) => partsOf(c).length).length} conjuntos</h2>
     <p>Tocá una pieza del modelo: se aísla, la cámara se acerca y acá aparece qué es, sus datos y cómo se mantiene. Con <b>← Volver</b> (o Esc) regresás a la vista anterior. Con el deslizador <b>Despiece</b> se separan los conjuntos siguiendo su dirección de montaje.</p>
     <p>Con el <b>Modo animación</b> activado, la pieza elegida gira con sus datos flotando alrededor. Las piezas chicas cambian de enfoque (identificación, características, mantenimiento) con un giro rápido; las grandes muestran todo junto.</p>
     <h3>Ficha técnica (1.5XS, DBA-ZC21S)</h3>
@@ -652,7 +806,8 @@ function renderPart(pid) {
     ${datos ? `<h3>Datos</h3><table class="data"><tbody>${datos}</tbody></table>` : ''}
     ${mant ? `<h3>Mantenimiento</h3><ul class="mant">${mant}</ul>` : ''}
     ${laminas(p.conjunto)}
-    ${f.ver ? `<p class="ver">Más en el vault: <b>${esc(f.ver)}</b></p>` : ''}`;
+    ${f.ver ? `<p class="ver">Más en el vault: <b>${esc(f.ver)}</b></p>` : ''}
+    ${circsDe(pid)}`;
 }
 
 $('pane-ficha').addEventListener('click', (e) => {
@@ -684,22 +839,27 @@ function refresh() { if (selected) renderPart(selected); else renderOverview(); 
 
 // ---------------------------------------------------------------- lista de piezas
 function buildList() {
-  $('plist').innerHTML = ORDER.map((c) => `
-    <div class="group" data-group="${esc(c)}">
-      <div class="group-h"><span class="dot" style="background:${CONJ[c].color}"></span>${esc(c)}</div>
+  $('plist').innerHTML = ORDER.filter((c) => partsOf(c).length).map((c) => `
+    <div class="group cerrado" data-group="${esc(c)}">
+      <button class="group-h" type="button" aria-expanded="false"><span class="dot" style="background:${CONJ[c].color}"></span>${esc(c)}<span class="n">${partsOf(c).length}</span></button>
       <div class="list">${partsOf(c).map((p) => `<button class="row" type="button" data-pid="${p.pid}" data-q="${esc((p.nombre + ' ' + c + ' ' + (FICHAS.piezas[p.pid]?.datos || []).map((d) => d[1]).join(' ')).toLowerCase())}">${esc(p.nombre)}</button>`).join('')}</div>
     </div>`).join('');
 }
 function refreshList() {
   for (const r of $('plist').querySelectorAll('.row')) r.setAttribute('aria-current', r.dataset.pid === selected);
 }
-$('plist').addEventListener('click', (e) => { const b = e.target.closest('.row'); if (b) select(b.dataset.pid); });
+$('plist').addEventListener('click', (e) => {
+  const h = e.target.closest('.group-h');
+  if (h) { const g = h.parentElement; g.classList.toggle('cerrado'); h.setAttribute('aria-expanded', !g.classList.contains('cerrado')); return; }
+  const b = e.target.closest('.row'); if (b) select(b.dataset.pid);
+});
 $('search').addEventListener('input', (e) => {
   const q = e.target.value.trim().toLowerCase();
   for (const g of $('plist').querySelectorAll('.group')) {
     let any = false;
     for (const r of g.querySelectorAll('.row')) { const ok = !q || r.dataset.q.includes(q); r.hidden = !ok; any = any || ok; }
     g.hidden = !any;
+    g.classList.toggle('cerrado', !q);
   }
 });
 
@@ -1056,7 +1216,114 @@ function tickShow(now) {
 }
 
 // Acceso para pruebas, solo con ?debug en la dirección.
-if (new URLSearchParams(location.search).has('debug')) window.swift = { parts, enterFocus, exitFocus, goPage, get focus() { return focus; }, camera, controls };
+if (new URLSearchParams(location.search).has('debug')) window.swift = { parts, enterFocus, exitFocus, goPage, get focus() { return focus; }, camera, controls, renderer, CAPAS, capaVisible, verCircuito, invalidate, setExplode, get dirty() { return dirty; } };
+
+// ---------------------------------------------------------------- capas
+function capaVisible(id, on) {
+  const c = CAPAS.get(id);
+  if (!c) return;
+  c.visible = on;
+  if (on && c.estado === 'pendiente') cargarCapa(id);
+  guardarCapas(); paint(); renderCapas();
+}
+function renderCapas() {
+  const filas = [...CAPAS.values()].map((c) => {
+    const est = c.estado === 'lista' ? `${c.piezas} piezas` : c.estado === 'cargando' ? `${Math.round(c.prog * 100)} %` : c.estado === 'error' ? 'error' : 'sin cargar';
+    return `<label class="capa"><input type="checkbox" data-capa="${c.id}" ${c.visible ? 'checked' : ''}><span>${esc(c.titulo)}<br><small>${esc(c.conjuntos.join(' · '))}</small></span><small>${est}</small>
+      ${c.estado === 'cargando' ? `<span class="bar"><i style="width:${Math.round(c.prog * 100)}%"></i></span>` : ''}</label>`;
+  }).join('');
+  $('pop-capas').innerHTML = `<h4>Capas del modelo</h4>${filas}<p class="note">Apagar capas que no se usan aliviana el dibujo. "Por dentro" (motor y caja por dentro) se carga al prenderla.</p>`;
+  const carg = [...CAPAS.values()].filter((c) => c.estado === 'cargando');
+  $('layerbar').hidden = !carg.length;
+  if (carg.length) $('layerbar').textContent = `Cargando ${carg.map((c) => c.titulo.toLowerCase()).join(', ')}… ${Math.round(100 * carg[0].prog)} %`;
+}
+$('pop-capas').addEventListener('change', (e) => { const i = e.target.closest('[data-capa]'); if (i) capaVisible(i.dataset.capa, i.checked); });
+function togglePop(id, btn) {
+  for (const k of ['pop-capas', 'pop-rend']) if (k !== id) { $(k).hidden = true; }
+  $(id).hidden = !$(id).hidden;
+  for (const b of ['btn-capas', 'btn-rend']) $(b).setAttribute('aria-expanded', !$(b === 'btn-capas' ? 'pop-capas' : 'pop-rend').hidden);
+}
+$('btn-capas').addEventListener('click', () => { renderCapas(); togglePop('pop-capas'); });
+$('btn-rend').addEventListener('click', () => { renderRend(); togglePop('pop-rend'); });
+$('btn-xray').addEventListener('click', (e) => { xray = !xray; e.currentTarget.setAttribute('aria-pressed', xray); paint(); });
+renderCapas();
+
+// ---------------------------------------------------------------- rendimiento
+let cuadros = 0, hudT = performance.now(), fpsOn = false;
+try { fpsOn = localStorage.getItem('swift-fps') === '1'; } catch (e) { /* nada */ }
+$('chk-fps').checked = fpsOn;
+$('hud').hidden = !fpsOn;
+function renderRend() {
+  for (const r of document.querySelectorAll('input[name="cal"]')) r.checked = r.value === calidad;
+  const gl = renderer.getContext();
+  const dbg = gl.getExtension('WEBGL_debug_renderer_info');
+  const gpu = dbg ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : 'GPU';
+  const tris = [...CAPAS.values()].filter((c) => c.estado === 'lista').reduce((a, c) => a + c.triangulos, 0);
+  $('rend-info').textContent = `${gpu} · ${(renderer.getPixelRatio() * 100).toFixed(0)} % de resolución · ${parts.size} piezas y ${(tris / 1000).toFixed(0)} mil triángulos cargados. Solo se dibuja cuando algo se mueve.`;
+}
+document.querySelectorAll('input[name="cal"]').forEach((r) => r.addEventListener('change', () => {
+  calidad = r.value;
+  try { localStorage.setItem('swift-calidad', calidad); } catch (e) { /* nada */ }
+  renderer.setPixelRatio(CALIDAD[calidad]); resize(); renderRend();
+}));
+$('chk-fps').addEventListener('change', (e) => { fpsOn = e.target.checked; $('hud').hidden = !fpsOn; try { localStorage.setItem('swift-fps', fpsOn ? '1' : '0'); } catch (er) { /* nada */ } });
+function hudTick(now) {
+  if (!fpsOn || now - hudT < 500) return;
+  const dt = (now - hudT) / 1000;
+  const i = renderer.info.render;
+  $('hud').textContent = `${Math.round(cuadros / dt)} cuadros/s dibujados${cuadros ? '' : ' (quieto)'}\n${i.calls} llamadas · ${(i.triangles / 1000).toFixed(0)} mil triáng.\n${(renderer.info.memory.geometries)} geometrías`;
+  cuadros = 0; hudT = now;
+}
+
+// ---------------------------------------------------------------- circuitos
+function tituloCirc(c) { const t = c.nombre.replace(/^Diagrama del? circuito del? /, ''); return t[0].toUpperCase() + t.slice(1); }
+function circsDe(pid) {
+  const cs = Object.entries(CIRCS).filter(([, c]) => (c.piezas || []).includes(pid));
+  if (!cs.length) return '';
+  return `<h3>Circuitos donde aparece</h3><div class="btn-row">${cs.map(([k]) => `<button class="btn" type="button" data-circ="${k}">${k}</button>`).join('')}</div>`;
+}
+function renderCircs() {
+  $('pane-circ').innerHTML = `<p class="note" style="margin-top:0">Elegí un circuito del capítulo 9A: se resaltan sus piezas (batería, fusibles, sensores, módulos, mazos) y el resto queda transparente.</p>` +
+    Object.entries(CIRCS).map(([k, c]) => `<button class="circ" type="button" data-circ="${k}" aria-current="${circActivo === k}"><b>${k}</b>${esc(tituloCirc(c))}</button>`).join('');
+}
+function verCircuito(k) {
+  const c = CIRCS[k];
+  if (!c) return;
+  if (focus) exitFocus();
+  circActivo = k;
+  const pz = (c.piezas || []).filter((p) => parts.has(p));
+  for (const p of pz) if (!CAPAS.get(parts.get(p).capa)?.visible) capaVisible(parts.get(p).capa, true);
+  if (!CAPAS.get('electrico').visible) capaVisible('electrico', true);
+  isolated = new Set(pz);
+  selected = null;
+  paint();
+  if (pz.length) {
+    const box = new THREE.Box3();
+    for (const p of pz) box.expandByObject(parts.get(p).obj);
+    const ctr = box.getCenter(new THREE.Vector3());
+    const r = Math.max(0.4, box.getSize(new THREE.Vector3()).length() * 0.55);
+    const dir = camera.position.clone().sub(controls.target).normalize();
+    flyTo(ctr, ctr.clone().addScaledVector(dir, r / Math.sin((camera.fov * Math.PI) / 360)), true, { x: 0, y: 0 });
+  }
+  const url = SITIO + 'Manual-de-taller/Circuitos/' + encodeURIComponent(c.nota.replace(/ /g, '-'));
+  $('pane-ficha').innerHTML = `<span class="chip"><span class="dot" style="background:var(--accent)"></span>Circuito ${esc(k)}</span>
+    <h2 class="name">${esc(tituloCirc(c))}</h2>
+    <div class="circ-actions"><button class="btn" type="button" data-act="salir-circ">Salir del circuito</button>
+      <a class="btn" href="${url}" target="_blank" rel="noopener">Ver la nota con el esquema</a></div>
+    ${c.explicacion ? `<p>${esc(c.explicacion)}</p>` : ''}
+    <h3>Piezas del circuito</h3><div class="list">${pz.map((p) => `<button class="row" type="button" data-pid="${p}">${esc(parts.get(p).nombre)}</button>`).join('') || '<p class="note">Todavía cargando…</p>'}</div>
+    <p class="note">Página ${c.pagina} del manual de taller (diagrama original).</p>`;
+  showTab('ficha');
+  renderCircs();
+}
+function salirCircuito() { circActivo = null; isolated = null; paint(); renderOverview(); renderCircs(); }
+$('pane-circ').addEventListener('click', (e) => { const b = e.target.closest('[data-circ]'); if (b) verCircuito(b.dataset.circ); });
+$('pane-ficha').addEventListener('click', (e) => {
+  const b = e.target.closest('button');
+  if (!b) return;
+  if (b.dataset.circ) verCircuito(b.dataset.circ);
+  else if (b.dataset.act === 'salir-circ') salirCircuito();
+});
 
 // ---------------------------------------------------------------- bucle
 renderer.setAnimationLoop((now) => {
@@ -1075,6 +1342,11 @@ renderer.setAnimationLoop((now) => {
   }
   controls.update();
   tickShow(now);
-  renderer.render(scene, camera);
+  if (dirty || anim || fly || (focus && focus.show)) {
+    dirty = false;
+    renderer.render(scene, camera);
+    cuadros++;
+  }
+  hudTick(now);
 });
 </script>

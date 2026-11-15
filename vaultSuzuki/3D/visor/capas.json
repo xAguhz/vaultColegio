@@ -1,0 +1,84 @@
+{
+ "capas": [
+  {
+   "id": "exterior",
+   "titulo": "Exterior",
+   "conjuntos": [
+    "Carrocería",
+    "Puertas y cristales",
+    "Iluminación"
+   ],
+   "piezas": 19,
+   "triangulos": 70110,
+   "glb": 1670120,
+   "json": 2210867
+  },
+  {
+   "id": "chasis",
+   "titulo": "Chasis",
+   "conjuntos": [
+    "Ruedas",
+    "Frenos",
+    "Suspensión y dirección",
+    "Combustible y escape"
+   ],
+   "piezas": 30,
+   "triangulos": 88732,
+   "glb": 2988712,
+   "json": 3957945
+  },
+  {
+   "id": "motor",
+   "titulo": "Motor y caja",
+   "conjuntos": [
+    "Motor M15A",
+    "Transmisión",
+    "Refrigeración",
+    "Eléctrico"
+   ],
+   "piezas": 22,
+   "triangulos": 30236,
+   "glb": 1136668,
+   "json": 1499651
+  },
+  {
+   "id": "interior",
+   "titulo": "Interior",
+   "conjuntos": [
+    "Interior",
+    "Airbag y cinturones",
+    "Aire acondicionado y calefacción"
+   ],
+   "piezas": 13,
+   "triangulos": 15120,
+   "glb": 501704,
+   "json": 657456
+  },
+  {
+   "id": "electrico",
+   "titulo": "Electricidad",
+   "conjuntos": [
+    "Sensores y actuadores",
+    "Módulos de control",
+    "Cableado",
+    "Accesorios eléctricos"
+   ],
+   "piezas": 44,
+   "triangulos": 52264,
+   "glb": 2316484,
+   "json": 3047591
+  },
+  {
+   "id": "mecanismos",
+   "titulo": "Por dentro",
+   "conjuntos": [
+    "Motor por dentro",
+    "Caja por dentro"
+   ],
+   "piezas": 12,
+   "triangulos": 63012,
+   "glb": 2266936,
+   "json": 3014177
+  }
+ ]
+}

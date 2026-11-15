@@ -1,0 +1,15 @@
+{
+  "name": "Suzuki Swift ZC21S en 3D",
+  "short_name": "Swift 3D",
+  "description": "Despiece 3D del Suzuki Swift 1.5XS japonés con el manual de taller: piezas, sensores, cableado y circuitos.",
+  "lang": "es",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#14171a",
+  "theme_color": "#1b1f23",
+  "icons": [
+    { "src": "icono-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icono-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}

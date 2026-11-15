@@ -6,7 +6,7 @@ actualizado: 2026-11-14
 # Despiece 3D interactivo
 
 > [!summary] Qué es
-> Modelo 3D del Swift **por conjuntos** (89 piezas en 14 conjuntos, unos 250 000 triángulos), con despiece animado. Al tocar una pieza se abre su ficha: qué es, sus datos del manual, su mantenimiento, las láminas y la nota del vault donde está el detalle.
+> Modelo 3D del Swift **por conjuntos** (140 piezas en 20 conjuntos y 6 capas, unos 319 000 triángulos), con despiece animado. Al tocar una pieza se abre su ficha: qué es, sus datos del manual, su mantenimiento, las láminas y la nota del vault donde está el detalle.
 > **Abrir el visor:** https://xaguhz.github.io/vaultColegio/vaultSuzuki/3D/visor/index.html (página pública del vault). También está como Artifact privado: https://claude.ai/artifact/5inUBYy9btJ8hJyYv1jBd9 (se comparte desde el menú *Compartir* de la página).
 
 Volver a [[00 Suzuki Swift ZC21S]] · [[Mapa Suzuki Swift.canvas|🗺️ Mapa del auto]]
@@ -34,23 +34,37 @@ Es el mismo visor que el del torno TM300, adaptado al auto:
 - **Color por conjunto** y **Corte** (corta el auto por la mitad a lo largo, para ver el interior y el vano motor).
 - **Piezas:** lista buscable por nombre o conjunto (por ejemplo `McPherson`, `46B24R`, `ATF`).
 
-## Conjuntos
-| Conjunto | Piezas |
-| -------- | ------ |
-| Carrocería | casco, capó, portón con luneta y alerón, paragolpes delantero y trasero con patentes, parrilla y nichos de antinieblas, tapa de combustible |
-| Puertas y cristales | 4 puertas (con marco negro, vidrios, manija y espejo), parabrisas, limpiaparabrisas |
-| Iluminación | 2 faros, 2 calaveras, 2 antinieblas |
-| Motor M15A | bloque y cárter, culata, tapa de válvulas con bobinas, distribución, admisión (atrás), múltiple de escape con catalizador (adelante), accesorios y correas, arranque, filtro de aire, soportes |
-| Motor por dentro | cigüeñal con placa de arrastre, pistones y bielas, árboles de levas con VVT, 16 válvulas con botadores, cadena con guías y tensor, bombas de aceite y de agua |
-| Transmisión | caja 4AT, convertidor de par, 2 semiejes, palanca selectora |
-| Refrigeración | radiador, electroventilador, mangueras y termostato, depósito |
-| Eléctrico | batería, fusibles del motor, computadora, bocina, fusibles de cabina |
-| Suspensión y dirección | 2 columnas McPherson, 2 brazos, estabilizadora, cuna, eje de torsión, 2 conjuntos traseros, cremallera, columna EPS, volante |
-| Frenos | 2 discos, 2 mordazas, 2 tambores, servofreno, ABS, sensores de rueda, freno de mano |
-| Ruedas | 4 ruedas 185/60R15 |
-| Combustible y escape | tanque, canister EVAP, línea de escape (caño delantero, resonador, silenciador) |
-| Aire acondicionado y calefacción | condensador y secador, cañerías, unidad HVAC |
-| Interior | 3 asientos, tablero, techo interior, paneles de puertas, pedalera |
+## Capas y conjuntos
+El modelo está partido en **6 capas**, cada una en su archivo: el visor carga primero lo de afuera y después el resto en segundo plano. "Por dentro" (motor y caja por dentro) se carga recién al prenderla en **Capas**.
+
+| Capa | Conjuntos | Piezas | Triángulos | Archivo |
+| --- | --- | --- | --- | --- |
+| **Exterior** | Carrocería · Puertas y cristales · Iluminación | 19 | 70 mil | 1.7 MB |
+| **Chasis** | Ruedas · Frenos · Suspensión y dirección · Combustible y escape | 30 | 88 mil | 3.0 MB |
+| **Motor y caja** | Motor M15A · Transmisión · Refrigeración · Eléctrico | 22 | 30 mil | 1.1 MB |
+| **Interior** | Interior · Airbag y cinturones · Aire acondicionado y calefacción | 13 | 15 mil | 0.5 MB |
+| **Electricidad** | Sensores y actuadores · Módulos de control · Cableado · Accesorios eléctricos | 44 | 52 mil | 2.3 MB |
+| **Por dentro** | Motor por dentro · Caja por dentro | 12 | 63 mil | 2.3 MB |
+
+## Lo nuevo del visor (15/11/2026)
+- **Capas:** prender y apagar exterior, chasis, motor, interior, electricidad y "por dentro". Lo apagado no se dibuja.
+- **Rayos X:** carrocería e interior casi transparentes para ver la mecánica, los sensores y los mazos de cables en su lugar.
+- **Circuitos:** pestaña con los 37 circuitos del capítulo 9A. Al elegir uno se resaltan sus piezas (batería, fusibles, sensores, módulos, mazos), se explica cómo circula la corriente y hay un enlace a la nota con el esquema ([[Circuitos eléctricos]]). Cada ficha de pieza dice en qué circuitos aparece.
+- **Electricidad completa:** 21 sensores y actuadores con su conector del manual (C09, C20…) y sus códigos de falla, 8 módulos de control, 8 mazos de cables encintados con sus conectores y 7 accesorios eléctricos.
+- **Por dentro:** motor (cigüeñal, pistones, levas, válvulas, cadena, bombas) y caja automática (bomba, embragues, planetario, cuerpo de válvulas, engranajes, diferencial).
+- **Piezas:** la lista se agrupa por conjunto y los grupos se pliegan; al buscar, se abren solos.
+
+## Rendimiento (pensado para la compu: Ryzen 5 3400G, GTX 1660 Ti, 1080p, Firefox)
+- **Solo dibuja cuando algo cambia** (girar, despiezar, elegir). Con el auto quieto no gasta placa de video ni procesador.
+- La **búsqueda de la pieza bajo el mouse** usa un índice espacial (BVH): 0,3 ms con las 140 piezas, en lugar de recorrer los 330 000 triángulos.
+- Al pasar el mouse solo se repintan las dos piezas que cambian; los materiales no se recompilan salvo al cambiar el corte o la transparencia.
+- **Medido** con todo cargado: unos 5 ms por cuadro (509 llamadas de dibujo), o sea, más de 150 cuadros por segundo posibles.
+- **Rendimiento** (botón): calidad alta, media o baja, y un contador de cuadros por segundo.
+
+## Usarlo como aplicación
+- **En la compu:** en el menú de aplicaciones aparece **Suzuki Swift 3D**. Abre el visor en Firefox desde la copia local del vault (`herramientas/visor_swift.sh`), con los modelos en binario (lo más rápido) y sin depender de GitHub.
+- **Desde la página web:** en Chrome o Edge se puede **instalar** como aplicación (ícono de instalar en la barra de direcciones). Queda guardada y anda sin internet.
+- La versión de claude.ai (Artifact) sigue andando, pero carga los modelos en texto (un poco más lento).
 
 ## Mecánica según el manual de taller (15/11/2026)
 La mecánica se revisó contra la **edición en castellano del manual de taller** (ver [[13 Repuestos y fuentes]]):

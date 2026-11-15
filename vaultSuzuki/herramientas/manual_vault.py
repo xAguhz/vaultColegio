@@ -351,7 +351,9 @@ for cod, nombre in CIRC['lista']:
     open(os.path.join(OUT, 'Circuitos', fn + '.md'), 'w', encoding='utf-8').write('\n'.join(L))
     I2.append(f'| {cod} | [[{fn}|{titulo}]] | [[{PDF}#page={info["pagina"]}|{info["pagina"]}]] |')
 open(os.path.join(OUT, 'Circuitos eléctricos.md'), 'w', encoding='utf-8').write('\n'.join(I2) + '\n')
-json.dump({k: {'nombre': n, 'piezas': CX.get(k, ('', '', []))[2], 'explicacion': CX.get(k, ('', '', []))[0]}
+_nota = lambda cod, n: f"{cod} " + re.sub(r'[/:]', '-', (lambda t: t[0].upper() + t[1:])(n.replace('Diagrama del circuito del ', '').replace('Diagrama de circuito del ', '').replace('Diagrama del circuito de ', '')))
+json.dump({k: {'nombre': n, 'nota': _nota(k, n), 'piezas': CX.get(k, ('', '', []))[2], 'explicacion': CX.get(k, ('', '', []))[0],
+               'pagina': CIRC['info'][k]['pagina']}
            for k, n in CIRC['lista']}, open(os.path.join(VAULT, '3D', 'visor', 'circuitos.json'), 'w', encoding='utf-8'),
           ensure_ascii=False, indent=0)
 

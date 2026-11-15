@@ -1347,7 +1347,6 @@ bl.lathe_z(None, [(0.0, 0.0), (0.036, 0.0), (0.038, 0.01), (0.038, 0.07), (0.03,
            mtx=Matrix.Translation((1.51, -0.13, 0.34)) @ eje_a((0.85, 0, -0.5)), segs=28)          # filtro de aceite (adelante)
 bl.curve([(1.50, 0.0, 0.40), (1.52, 0.01, 0.60), (1.53, 0.02, 0.80), (1.53, 0.03, 0.86)], 0.006, M['negro'])  # tubo varilla
 bl.torus('Y', (1.53, 0.03, 0.88), 0.018, 0.005, M['amarillo'], segs=20, rsegs=6)                    # varilla de aceite
-bl.cyl('X', (1.24, -0.30, 0.36), 0.012, 0.03, M['negro'])                                           # sensor de detonación
 make('bloque', 'Bloque de cilindros, cárter y filtro de aceite', CJ, bl, (0.70, -0.15, 1.25))
 
 cz = P()
@@ -1355,10 +1354,7 @@ cz.rbox((XC, -0.19, 0.685), (0.235, 0.42, 0.12), 0.012, M['aluminio'])
 for y in CYL_Y:
     cz.cyl('X', (1.25, y, 0.70), 0.01, 0.01, M['acero'])
     cz.cyl('X', (1.49, y, 0.70), 0.01, 0.01, M['acero'])
-cz.cyl('Y', (1.31, 0.025, 0.72), 0.03, 0.012, M['acero_osc'])                                       # sensor de árbol de levas (CMP)
 cz.rbox((XC, 0.04, 0.69), (0.07, 0.05, 0.06), 0.01, M['aluminio'])                                  # tapa de salida de agua
-cz.cyl('Z', (XC + 0.03, 0.05, 0.73), 0.008, 0.03, M['negro'])                                       # sensor de temperatura (ECT)
-cz.rbox((1.26, -0.39, 0.70), (0.03, 0.05, 0.06), 0.008, M['negro'])                                  # válvula de control de aceite (OCV)
 make('culata', 'Tapa de cilindros (culata) DOHC 16 válvulas', CJ, cz, (0.70, -0.15, 1.62))
 
 tv = P()
@@ -1367,13 +1363,7 @@ for k in range(6):
     tv.box(1.29, 1.455, -0.37 + k * 0.07, -0.364 + k * 0.07, 0.795, 0.803, M['motor_negro'])
 tv.cyl('Z', (1.42, -0.10, 0.805), 0.026, 0.025, M['amarillo'])                                      # tapa de aceite
 tv.cyl('Y', (1.30, -0.05, 0.78), 0.012, 0.06, M['negro'])                                            # válvula PCV
-for y in (CYL_Y[0], CYL_Y[3]):
-    tv.rbox((XC, y, 0.82), (0.07, 0.05, 0.06), 0.01, M['negro'])                                     # bobinas (cil. 1 y 4)
-    tv.cyl('Z', (XC, y, 0.86), 0.01, 0.02, M['negro'])
-for y0, y1 in ((CYL_Y[0], CYL_Y[1]), (CYL_Y[3], CYL_Y[2])):
-    tv.curve([(XC + 0.02, y0, 0.84), (XC + 0.05, (y0 + y1) / 2, 0.88), (XC + 0.02, y1, 0.81)], 0.0055, M['negro'])
-    tv.cyl('Z', (XC + 0.02, y1, 0.80), 0.012, 0.03, M['negro'])
-make('tapa_valvulas', 'Tapa de válvulas, bobinas y cables de alta', CJ, tv, (0.70, -0.15, 1.95))
+make('tapa_valvulas', 'Tapa de válvulas y válvula PCV', CJ, tv, (0.70, -0.15, 1.95))
 
 dist = P()
 dist.rbox((1.385, -0.42, 0.50), (0.26, 0.035, 0.52), 0.015, M['aluminio'])
@@ -1381,7 +1371,6 @@ for k in range(8):
     a = 2 * math.pi * k / 8
     dist.cyl('Y', (1.385 + 0.11 * math.cos(a), -0.44, 0.50 + 0.22 * math.sin(a)), 0.006, 0.01, M['acero'], segs=6)
 dist.cyl('Y', (1.31, -0.44, 0.72), 0.045, 0.012, M['acero_osc'])                                     # tapa del VVT
-dist.cyl('X', (1.25, -0.42, 0.40), 0.012, 0.03, M['negro'])                                          # sensor de cigüeñal (CKP)
 make('distribucion', 'Tapa de distribución (con la bomba de aceite)', CJ, dist, (0.70, -0.62, 1.25))
 
 # admisión atrás: colector de plástico con la cámara junto al torpedo
@@ -1390,12 +1379,9 @@ adm.cyl('Y', (1.11, -0.17, 0.62), 0.055, 0.40, M['negro'])                      
 adm.rbox((1.06, -0.17, 0.62), (0.02, 0.36, 0.06), 0.005, M['negro'])
 for y in CYL_Y:
     adm.curve([(1.255, y, 0.70), (1.20, y, 0.745), (1.13, y, 0.72), (1.105, y, 0.665)], 0.023, M['negro'])
-    adm.cyl('X', (1.235, y, 0.735), 0.008, 0.055, M['negro'])                                        # inyectores
 adm.cyl('Y', (1.215, -0.20, 0.765), 0.012, 0.36, M['acero'])                                         # tubo de descarga (riel)
 adm.curve([(1.215, 0.0, 0.765), (1.20, 0.10, 0.70), (1.10, 0.30, 0.50), (0.98, 0.20, 0.30)], 0.005, M['negro'])  # caño de nafta
 adm.cyl('Y', (1.11, 0.065, 0.62), 0.04, 0.07, M['aluminio'])                                         # cuerpo de mariposa
-adm.rbox((1.11, 0.07, 0.675), (0.05, 0.03, 0.03), 0.008, M['negro'])                                 # sensor TP
-adm.rbox((1.11, -0.30, 0.68), (0.04, 0.03, 0.03), 0.008, M['negro'])                                 # sensor MAP
 make('admision', 'Múltiple de admisión, inyectores y cuerpo de mariposa', CJ, adm, (-0.45, 0.10, 1.10))
 
 af = P()
@@ -1417,8 +1403,6 @@ esc.lathe_z(None, [(0.0, 0.0), (0.03, 0.0), (0.068, 0.04), (0.068, 0.20), (0.035
 esc.rbox((1.565, -0.19, 0.62), (0.06, 0.40, 0.16), 0.02, M['aluminio'], rot=Matrix.Rotation(math.radians(-12), 3, 'Y'))
 for k in range(6):
     esc.box(1.535, 1.545, -0.36 + k * 0.07, -0.33 + k * 0.07, 0.56, 0.68, M['aluminio'])
-esc.cyl('X', (1.60, -0.12, 0.60), 0.01, 0.05, M['negro'])                                           # sonda de oxígeno 1
-esc.cyl('X', (1.61, -0.20, 0.27), 0.01, 0.05, M['negro'])                                           # sonda de oxígeno 2
 make('multiple_escape', 'Múltiple de escape con catalizador y sondas', CJ, esc, (1.35, -0.20, 0.95))
 
 # lado de las correas (derecha): bomba de agua y alternador atrás con una correa; compresor adelante con otra
@@ -1633,14 +1617,9 @@ fus = P().rbox((1.065, 0.51, 0.66), (0.13, 0.14, 0.12), 0.012, M['negro'])
 fus.rbox((1.065, 0.51, 0.725), (0.135, 0.145, 0.02), 0.008, M['negro'])
 fus.rbox((1.065, 0.51, 0.738), (0.05, 0.03, 0.004), 0.002, M['amarillo'])
 make('fusibles', 'Caja de fusibles y relés del motor', CJ, fus, (0.10, 0.75, 0.90))
-ecu = P().rbox((1.62, 0.55, 0.40), (0.16, 0.04, 0.12), 0.006, M['aluminio'])
-ecu.rbox((1.62, 0.525, 0.40), (0.07, 0.012, 0.06), 0.004, M['negro'])
-make('ecu', 'Computadora del motor (ECM)', CJ, ecu, (0.70, 0.70, 0.25))
 bo = P().lathe_z(None, [(0.006, -0.01), (0.04, 0.0), (0.042, 0.02), (0.0, 0.02)], M['negro'],
                  mtx=Matrix.Translation((1.83, -0.50, 0.42)) @ eje_a((1, 0, 0)), segs=24)
 make('bocina', 'Bocina', CJ, bo, (0.70, -0.40, 0.0))
-fus2 = P().rbox((0.66, -0.66, 0.60), (0.10, 0.12, 0.12), 0.012, M['negro'])
-make('fusibles_cabina', 'Caja de empalmes (fusibles de cabina)', CJ, fus2, (0, -0.65, 0.75))
 
 # ================================================================ COMBUSTIBLE Y ESCAPE
 CJ = 'Combustible y escape'
@@ -1658,7 +1637,6 @@ make('tanque', 'Tanque de combustible (43 L) con bomba y boca de carga', CJ, tq,
 cn = P().cyl('Z', (1.02, 0.66, 0.53), 0.05, 0.17, M['negro'])
 cn.cyl('Z', (1.02, 0.66, 0.625), 0.02, 0.02, M['negro'])
 cn.curve([(1.02, 0.66, 0.64), (1.06, 0.40, 0.70), (1.11, -0.10, 0.68)], 0.005, M['goma'])            # a la válvula de purga
-cn.rbox((1.11, -0.12, 0.68), (0.03, 0.04, 0.03), 0.006, M['negro'])                                  # válvula de purga
 cn.curve([(1.02, 0.66, 0.45), (0.80, 0.45, 0.24), (-0.70, 0.20, 0.25), (-0.82, 0.15, 0.34)], 0.004, M['negro'])
 make('canister', 'Recipiente de EVAP (canister) y válvula de purga', CJ, cn, (0.20, 0.55, 0.40))
 ex = P()
@@ -1691,7 +1669,6 @@ cl = P()
 cl.curve([(1.56, -0.28, 0.33), (1.62, -0.10, 0.40), (1.79, 0.30, 0.62)], 0.009, M['aluminio'])       # descarga (alta)
 cl.curve([(1.80, 0.38, 0.38), (1.65, 0.50, 0.40), (1.30, 0.62, 0.62), (0.98, 0.25, 0.70)], 0.006, M['aluminio'])  # líquido
 cl.curve([(0.98, 0.20, 0.66), (1.20, 0.30, 0.50), (1.45, -0.10, 0.36), (1.56, -0.28, 0.27)], 0.011, M['aluminio'])  # succión (baja)
-cl.cyl('Z', (1.30, 0.62, 0.66), 0.012, 0.04, M['negro'])                                              # sensor de presión
 make('canerias_ac', 'Cañerías del A/C (alta, líquido y succión)', CJ, cl, (0.60, 0.30, 0.75))
 hv = P()
 hv.rbox((0.80, 0.12, 0.70), (0.20, 0.50, 0.26), 0.03, M['negro'])                                    # caja HVAC
@@ -1755,12 +1732,6 @@ tb = P()
 tb.rbox((0.72, 0, 0.86), (0.32, 1.46, 0.26), 0.05, M['tablero'])                                    # cuerpo
 tb.rbox((0.78, 0, 1.005), (0.36, 1.40, 0.05), 0.025, M['tablero'], rot=Matrix.Rotation(math.radians(10), 3, 'Y'))  # tapa superior
 tb.rbox((0.60, -0.37, 1.02), (0.16, 0.36, 0.10), 0.04, M['tablero'])                                 # visera del cuadro
-for y, r in ((-0.29, 0.058), (-0.45, 0.058), (-0.37, 0.042)):                                         # tres relojes
-    zc_ = 0.985 if r < 0.05 else 0.965
-    tb.lathe_z(None, [(r - 0.006, 0.0), (r, 0.0), (r, -0.02)], M['cromo'],
-               mtx=Matrix.Translation((0.552, y, zc_)) @ eje_a((-1, 0, 0.12)), segs=32)
-    tb.cyl('X', (0.556, y, zc_), r - 0.006, 0.004, M['negro'])
-    tb.obox((0.552, y + 0.015, zc_ + 0.012), (0.002, 0.004, r * 0.85), Matrix.Rotation(math.radians(-50), 3, 'X'), M['aguja'])
 tb.rbox((0.565, 0.0, 0.83), (0.06, 0.22, 0.30), 0.02, M['negro'])                                    # consola central
 tb.rbox((0.535, 0.0, 0.90), (0.01, 0.18, 0.06), 0.004, M['cuadro'])                                  # pantalla del audio
 for y in (-0.06, 0.0, 0.06):
@@ -1806,6 +1777,385 @@ pe.barra((0.82, -0.45, 0.62), (0.77, -0.45, 0.36), 0.006, M['acero_osc'])
 pe.rbox((0.76, -0.45, 0.35), (0.018, 0.055, 0.15), 0.008, M['goma'], rot=Matrix.Rotation(math.radians(-35), 3, 'Y'))
 pe.rbox((0.70, -0.13, 0.36), (0.03, 0.07, 0.15), 0.01, M['goma'], rot=Matrix.Rotation(math.radians(-40), 3, 'Y'))  # apoyapié
 make('pedalera', 'Pedalera (freno y acelerador)', CJ, pe, (0.20, -0.30, 1.10))
+
+
+# ================================================================ SISTEMA ELÉCTRICO Y ELECTRÓNICO (manual, secciones 1A, 1C, 9A–10E)
+# Ubicaciones según "Ubicación de los componentes del sistema de control electrónico" (1A) y las tablas de
+# conectores del capítulo 9A (C = mazo del motor, E = principal, G = tablero, L = piso).
+M.update({
+    'mazo': mat('Mazo de cables', srgb('#151617'), 0.0, 0.7),
+    'cinta': mat('Cinta del mazo', srgb('#2b2d30'), 0.0, 0.85),
+    'conector_gris': mat('Conector gris', srgb('#8c9196'), 0.0, 0.5),
+    'conector_negro': mat('Conector negro', srgb('#202224'), 0.0, 0.5),
+    'conector_verde': mat('Conector verde', srgb('#3e8e4f'), 0.0, 0.5),
+    'conector_azul': mat('Conector azul', srgb('#3a6fb0'), 0.0, 0.5),
+    'cable_rojo': mat('Cable positivo', srgb('#b3261e'), 0.0, 0.5),
+    'cobre': mat('Cobre', srgb('#b87333'), 1.0, 0.3),
+    'placa': mat('Placa electrónica', srgb('#2f6b3a'), 0.1, 0.6),
+    'airbag': mat('Tela del airbag', srgb('#e9e6dc'), 0.0, 0.9),
+    'friccion': mat('Material de fricción', srgb('#5a4a3a'), 0.0, 0.9),
+    'aceite_atf': mat('Fluido ATF', srgb('#b5232f'), 0.0, 0.3),
+})
+CON_M = {'GRY': M['conector_gris'], 'BLK': M['conector_negro'], 'GRN': M['conector_verde'], 'BLU': M['conector_azul']}
+
+
+def conector(part, p, d=(0.022, 0.016, 0.014), color='GRY', rot=None):
+    """Conector chico (cuerpo con traba) en el punto p."""
+    p = Vector(p)
+    part.rbox(p, d, 0.003, CON_M.get(color, M['conector_gris']), rot=rot, seg=1)
+    part.box(p.x - d[0] * 0.3, p.x + d[0] * 0.3, p.y - d[1] * 0.5, p.y + d[1] * 0.5, p.z + d[2] * 0.5, p.z + d[2] * 0.75,
+             M['conector_negro'])
+    return part
+
+
+def mazo(part, pts, r=0.008, cinta=True):
+    """Tramo de mazo de cables (tubo encintado) que sigue los puntos."""
+    part.curve(pts, r, M['mazo'], segs=6)
+    if cinta:                                                     # vueltas de cinta cada tanto
+        for a, b in zip(pts[:-1], pts[1:]):
+            a, b = Vector(a), Vector(b)
+            L = (b - a).length
+            for k in range(1, int(L / 0.12) + 1):
+                c = a.lerp(b, k * 0.12 / L)
+                part.barra(c - (b - a).normalized() * 0.006, c + (b - a).normalized() * 0.006, r * 1.25, M['cinta'], segs=8)
+    return part
+
+
+def sensor(pid, nombre, p, eje=(0, 0, 1), r=0.012, L=0.035, color='GRY', cuerpo='negro', rama=None, explode=(0, 0, 0.4),
+           cj='Sensores y actuadores'):
+    """Sensor genérico: cuerpo cilíndrico, cabeza con conector y una rama de cables hacia el mazo."""
+    s = P()
+    p, ax = Vector(p), Vector(eje).normalized()
+    s.barra(p, p + ax * L, r, M[cuerpo], segs=14)
+    s.barra(p - ax * 0.004, p + ax * 0.004, r * 1.4, M['acero'], segs=6)                       # hexágono / brida
+    cab_ = p + ax * (L + 0.012)
+    conector(s, cab_, color=color)
+    if rama:
+        mazo(s, [tuple(cab_ + ax * 0.01)] + rama, 0.004, cinta=False)
+    make(pid, nombre, cj, s, explode)
+
+
+# ---------------------------------------------------------------- sensores y actuadores del motor
+TRONCO = [(1.06, 0.50, 0.74), (1.16, 0.30, 0.82), (1.21, 0.05, 0.825), (1.21, -0.30, 0.825), (1.30, -0.44, 0.80)]
+sensor('sensor_maf', 'Sensor de caudal de aire MAF y temperatura de admisión IAT', (1.29, 0.20, 0.78), r=0.018, L=0.02,
+       color='BLK', rama=[(1.24, 0.24, 0.84), (1.16, 0.30, 0.83)], explode=(0.5, 0.6, 0.9))
+sensor('sensor_tp', 'Sensor de posición de la mariposa (TP)', (1.11, 0.105, 0.64), eje=(0, 1, 0), r=0.016, L=0.012,
+       color='BLK', rama=[(1.14, 0.16, 0.74), (1.16, 0.25, 0.82)], explode=(-0.6, 0.4, 0.9))
+sensor('valvula_iac', 'Válvula de control del aire de ralentí (IAC)', (1.08, 0.08, 0.565), eje=(-1, 0, -0.3), r=0.014, L=0.03,
+       rama=[(1.04, 0.12, 0.62), (1.10, 0.25, 0.78)], explode=(-0.6, 0.5, 0.7))
+sensor('sensor_map', 'Sensor de presión absoluta del colector (MAP)', (1.10, -0.30, 0.675), r=0.012, L=0.02, color='BLK',
+       rama=[(1.14, -0.30, 0.75), (1.21, -0.30, 0.82)], explode=(-0.6, -0.2, 0.9))
+sensor('sensor_ect', 'Sensor de temperatura del refrigerante (ECT)', (1.40, 0.055, 0.71), r=0.008, L=0.03, color='GRN',
+       rama=[(1.36, 0.05, 0.80), (1.21, 0.05, 0.83)], explode=(0.3, 0.5, 1.2))
+sensor('sensor_cmp', 'Sensor de posición del árbol de levas (CMP)', (1.31, 0.03, 0.735), eje=(0, 1, 0), r=0.012, L=0.02,
+       color='BLK', rama=[(1.30, 0.08, 0.80), (1.21, 0.06, 0.825)], explode=(0.2, 0.6, 1.3))
+sensor('sensor_ckp', 'Sensor de posición del cigüeñal (CKP)', (1.235, -0.42, 0.40), eje=(-1, 0, 0), r=0.01, L=0.025,
+       rama=[(1.19, -0.42, 0.50), (1.20, -0.40, 0.70), (1.21, -0.30, 0.82)], explode=(-0.5, -0.7, 0.6))
+sensor('sensor_detonacion', 'Sensor de detonación', (1.245, -0.20, 0.42), eje=(-1, 0, 0), r=0.016, L=0.015,
+       rama=[(1.20, -0.20, 0.50), (1.19, -0.15, 0.70), (1.21, -0.15, 0.82)], explode=(-0.6, -0.2, 0.5))
+sensor('sensor_presion_aceite', 'Sensor (interruptor) de presión de aceite', (1.245, -0.34, 0.32), eje=(-1, 0, 0), r=0.011,
+       L=0.03, color='BLK', rama=[(1.19, -0.34, 0.40), (1.18, -0.36, 0.60), (1.21, -0.32, 0.82)], explode=(-0.6, -0.4, 0.4))
+sensor('solenoide_vvt', 'Válvula de control de aceite del VVT (OCV)', (1.255, -0.385, 0.70), eje=(-1, 0, 0.3), r=0.013,
+       L=0.04, color='BLU', rama=[(1.20, -0.38, 0.76), (1.21, -0.32, 0.82)], explode=(-0.5, -0.6, 1.0))
+sensor('sonda_o2_1', 'Sonda de oxígeno calentada n° 1 (antes del catalizador)', (1.625, -0.12, 0.60), eje=(1, 0, 0.4), r=0.009,
+       L=0.04, color='GRN', rama=[(1.70, -0.10, 0.66), (1.62, -0.30, 0.80), (1.40, -0.44, 0.82), (1.30, -0.44, 0.80)],
+       explode=(1.4, -0.1, 0.8))
+sensor('sonda_o2_2', 'Sonda de oxígeno calentada n° 2 (después del catalizador)', (1.635, -0.20, 0.28), eje=(1, 0, 0.2),
+       r=0.009, L=0.04, color='GRY', rama=[(1.70, -0.25, 0.33), (1.66, -0.38, 0.55), (1.50, -0.45, 0.78), (1.30, -0.44, 0.80)],
+       explode=(1.4, -0.3, 0.2))
+sensor('sensor_vss', 'Sensor de velocidad del vehículo (VSS)', (1.30, 0.30, 0.235), eje=(0, 0, -1), r=0.012, L=0.03,
+       rama=[(1.25, 0.32, 0.30), (1.15, 0.40, 0.55), (1.10, 0.48, 0.70)], explode=(0.2, 0.7, -0.4))
+sensor('valvula_purga', 'Válvula de purga del canister (EVAP)', (1.115, -0.12, 0.69), r=0.015, L=0.04, color='BLK',
+       rama=[(1.15, -0.10, 0.78), (1.21, -0.10, 0.82)], explode=(-0.7, -0.1, 1.0))
+sensor('valvula_egr', 'Válvula EGR de motor paso a paso', (1.215, 0.04, 0.60), eje=(-0.4, 0, 1), r=0.022, L=0.05,
+       rama=[(1.20, 0.06, 0.72), (1.21, 0.05, 0.82)], explode=(-0.6, 0.3, 1.1))
+sensor('sensor_rango_caja', 'Sensor de rango de la caja (posición de la palanca)', (1.20, 0.41, 0.50), eje=(0, 1, 0),
+       r=0.035, L=0.015, color='BLK', rama=[(1.16, 0.45, 0.60), (1.08, 0.50, 0.72)], explode=(0.1, 0.8, 0.6),
+       cj='Sensores y actuadores')
+sensor('interruptor_freno', 'Interruptor de las luces de freno', (0.82, -0.27, 0.69), eje=(-1, 0, 0), r=0.008, L=0.03,
+       rama=[(0.80, -0.32, 0.78), (0.78, -0.45, 0.82)], explode=(0.1, -0.3, 1.2))
+sensor('interruptor_nivel_freno', 'Interruptor de nivel del líquido de frenos', (1.15, -0.40, 0.945), r=0.012, L=0.02,
+       rama=[(1.20, -0.45, 0.96), (1.30, -0.55, 0.85)], explode=(0.3, -0.4, 1.3))
+sensor('sensor_presion_ac', 'Sensor de presión del refrigerante del A/C', (1.30, 0.62, 0.665), r=0.011, L=0.03, color='BLK',
+       rama=[(1.30, 0.60, 0.74), (1.10, 0.52, 0.74)], explode=(0.5, 0.7, 0.8))
+
+iny = P()
+for y in CYL_Y:
+    base = Vector((1.235, y, 0.735))
+    iny.barra(base, base + Vector((-0.035, 0, 0.03)), 0.009, M['negro'], segs=12)
+    iny.barra(base, base + Vector((0.012, 0, -0.01)), 0.005, M['acero'], segs=8)
+    conector(iny, base + Vector((-0.04, 0, 0.045)), color='GRY')
+    mazo(iny, [tuple(base + Vector((-0.04, 0, 0.055))), (1.21, y, 0.825)], 0.004, cinta=False)
+make('inyectores', 'Inyectores de combustible (4)', 'Sensores y actuadores', iny, (-0.55, 0.0, 1.0))
+
+bob = P()
+for y in (CYL_Y[0], CYL_Y[3]):
+    bob.rbox((XC, y, 0.82), (0.07, 0.05, 0.06), 0.01, M['negro'])
+    bob.cyl('Z', (XC, y, 0.86), 0.01, 0.02, M['negro'])
+    conector(bob, (XC - 0.045, y, 0.83), color='GRY')
+    mazo(bob, [(XC - 0.06, y, 0.835), (1.21, y, 0.83)], 0.004, cinta=False)
+for y0, y1 in ((CYL_Y[0], CYL_Y[1]), (CYL_Y[3], CYL_Y[2])):
+    bob.curve([(XC + 0.02, y0, 0.84), (XC + 0.05, (y0 + y1) / 2, 0.88), (XC + 0.02, y1, 0.81)], 0.0055, M['negro'])
+    bob.cyl('Z', (XC + 0.02, y1, 0.80), 0.012, 0.03, M['negro'])
+make('bobinas', 'Bobinas de encendido (1-4 y 2-3) y cables de alta', 'Sensores y actuadores', bob, (0.4, -0.15, 1.6))
+
+# ---------------------------------------------------------------- módulos de control
+CJ = 'Módulos de control'
+
+
+def modulo(pid, nombre, c, size, conectores, explode, m='aluminio', rot=None):
+    md = P().rbox(c, size, 0.008, M[m], rot=rot)
+    md.rbox(Vector(c) + Vector((0, 0, size[2] / 2 + 0.002)), (size[0] * 0.9, size[1] * 0.9, 0.004), 0.002, M['placa'], rot=rot)
+    for k, (dp, col) in enumerate(conectores):
+        conector(md, Vector(c) + Vector(dp), d=(0.035, 0.02, 0.03), color=col)
+    make(pid, nombre, CJ, md, explode)
+
+
+modulo('ecu', 'Computadora del motor (ECM)', (1.62, 0.55, 0.42), (0.16, 0.04, 0.12),
+       [((0, -0.03, 0.03), 'GRY'), ((0, -0.03, -0.02), 'GRY')], (0.75, 0.75, 0.3))
+modulo('tcm', 'Módulo de control de la caja (TCM)', (0.72, 0.46, 0.60), (0.14, 0.10, 0.035),
+       [((0.06, 0.0, 0.02), 'BLK'), ((0.06, 0.03, 0.02), 'BLK')], (0.2, 0.6, 0.9))
+modulo('modulo_eps', 'Módulo de control de la dirección eléctrica (EPS)', (0.62, -0.50, 0.78), (0.10, 0.03, 0.08),
+       [((0, 0.02, 0.0), 'BLK')], (0.1, -0.7, 0.9))
+modulo('sdm', 'Módulo de diagnóstico y sensor del airbag (SDM)', (0.30, 0.0, 0.30), (0.12, 0.09, 0.04),
+       [((0.05, 0.0, 0.02), 'BLK')], (0, 0.0, 1.6), m='negro')
+modulo('modulo_keyless', 'Módulo de arranque sin llave (si lo trae)', (0.55, 0.22, 0.56), (0.12, 0.08, 0.03),
+       [((0.05, 0.0, 0.015), 'BLK')], (0.0, 0.5, 1.2), m='negro')
+bj = P().rbox((0.66, -0.66, 0.60), (0.10, 0.14, 0.14), 0.012, M['negro'])
+for k in range(4):
+    for j in range(5):
+        bj.box(0.605, 0.611, -0.71 + j * 0.022, -0.70 + j * 0.022, 0.56 + k * 0.025, 0.575 + k * 0.025, M['amarillo'] if (k + j) % 3 else M['rojo_tapa'])
+for k in range(5):
+    conector(bj, (0.70, -0.60 + k * 0.0, 0.53 + k * 0.03), d=(0.03, 0.03, 0.02), color='BLK')
+make('bloque_empalmes', 'Bloque de empalmes (J/B) con el BCM y los fusibles de cabina', CJ, bj, (0.0, -0.70, 0.85))
+cu = P()
+cu.rbox((0.60, -0.37, 0.965), (0.06, 0.30, 0.13), 0.02, M['negro'])
+for y, r in ((-0.29, 0.058), (-0.45, 0.058), (-0.37, 0.042)):
+    zc_ = 0.985 if r < 0.05 else 0.965
+    cu.lathe_z(None, [(r - 0.006, 0.0), (r, 0.0), (r, -0.02)], M['cromo'],
+               mtx=Matrix.Translation((0.552, y, zc_)) @ eje_a((-1, 0, 0.12)), segs=32)
+    cu.cyl('X', (0.556, y, zc_), r - 0.006, 0.004, M['negro'])
+    for k in range(9):                                                                        # marcas de escala
+        a = math.radians(-120 + k * 30)
+        cu.box(0.553, 0.554, y + (r - 0.012) * math.sin(a) - 0.001, y + (r - 0.012) * math.sin(a) + 0.001,
+               zc_ + (r - 0.012) * math.cos(a) - 0.004, zc_ + (r - 0.012) * math.cos(a) + 0.004, M['cuadro'])
+    cu.obox((0.552, y + 0.015, zc_ + 0.012), (0.002, 0.004, r * 0.85), Matrix.Rotation(math.radians(-50), 3, 'X'), M['aguja'])
+cu.rbox((0.553, -0.37, 0.925), (0.004, 0.06, 0.015), 0.002, M['cuadro'])                      # pantalla del odómetro
+conector(cu, (0.635, -0.37, 0.96), d=(0.02, 0.05, 0.02), color='BLK')
+make('cuadro_instrumentos', 'Cuadro de instrumentos (3 relojes y testigos)', CJ, cu, (-0.25, -0.20, 1.10))
+pa_ = VOL + NV * 0.16 + Vector((0.02, -0.10, -0.02))
+an = P().torus('X', pa_, 0.022, 0.006, M['negro'], segs=24, rsegs=6)
+an.cyl('X', pa_, 0.012, 0.03, M['cromo'])                                                      # tambor de la llave
+mazo(an, [tuple(pa_ + Vector((0.0, -0.02, -0.02))), tuple(pa_ + Vector((0.05, -0.05, -0.08)))], 0.003, cinta=False)
+make('antena_inmovilizador', 'Antena del inmovilizador y tambor de la llave', CJ, an, (-0.20, -0.40, 0.9))
+
+# ---------------------------------------------------------------- cableado
+CJ = 'Cableado'
+cb = P()
+cb.curve([(1.33, 0.44, 0.665), (1.36, 0.36, 0.70), (1.20, 0.40, 0.72), (1.08, 0.48, 0.70)], 0.007, M['cable_rojo'])      # a la caja de fusibles
+cb.curve([(1.33, 0.44, 0.665), (1.28, 0.30, 0.60), (1.19, 0.12, 0.48)], 0.008, M['cable_rojo'])                        # al arranque
+cb.curve([(1.08, 0.48, 0.70), (1.10, 0.0, 0.78), (1.15, -0.30, 0.70), (1.19, -0.40, 0.62)], 0.006, M['cable_rojo'])    # al alternador
+cb.curve([(1.51, 0.44, 0.665), (1.56, 0.40, 0.60), (1.52, 0.30, 0.50), (1.45, 0.25, 0.42)], 0.008, M['negro'])         # masa a la caja
+cb.curve([(1.51, 0.48, 0.665), (1.58, 0.60, 0.62), (1.62, 0.70, 0.62)], 0.006, M['negro'])                             # masa a la carrocería
+for p_ in ((1.33, 0.44, 0.66), (1.51, 0.44, 0.66)):
+    cb.rbox(p_, (0.03, 0.025, 0.02), 0.004, M['cobre'])                                        # terminales
+make('cable_bateria', 'Cables de batería (positivo y masas)', CJ, cb, (0.4, 0.9, 1.3))
+
+mm_ = P()
+mazo(mm_, TRONCO, 0.011)
+mazo(mm_, [(1.06, 0.50, 0.74), (1.30, 0.56, 0.62), (1.55, 0.58, 0.52), (1.62, 0.53, 0.46)], 0.010)          # a la ECM
+mazo(mm_, [(1.30, -0.44, 0.80), (1.50, -0.44, 0.80), (1.62, -0.35, 0.78)], 0.007)                          # a las sondas
+mazo(mm_, [(1.16, 0.30, 0.82), (1.10, 0.40, 0.70), (1.08, 0.48, 0.70)], 0.008)                             # caja de fusibles
+mazo(mm_, [(1.21, -0.30, 0.825), (1.15, -0.40, 0.60), (1.17, -0.38, 0.62)], 0.006)                          # alternador
+mazo(mm_, [(1.16, 0.30, 0.82), (1.12, 0.12, 0.60), (1.19, 0.10, 0.48)], 0.006)                             # arranque
+mazo(mm_, [(1.21, 0.05, 0.825), (1.30, 0.38, 0.62), (1.35, 0.40, 0.42)], 0.007)                            # solenoides de la caja (TCM)
+mazo(mm_, [(1.30, -0.44, 0.80), (1.45, -0.46, 0.55), (1.56, -0.45, 0.32)], 0.005)                          # compresor del A/C
+conector(mm_, (1.06, 0.50, 0.74), d=(0.04, 0.04, 0.03), color='BLK')                                       # C36 → E24
+make('mazo_motor', 'Mazo de cables del motor (conectores C)', CJ, mm_, (0.0, 0.0, 1.7))
+
+mp = P()
+ruta = [(1.065, 0.51, 0.70), (1.30, 0.66, 0.72), (1.62, 0.62, 0.70), (1.78, 0.45, 0.66), (1.80, 0.0, 0.66),
+        (1.78, -0.45, 0.66), (1.62, -0.62, 0.70), (1.30, -0.66, 0.74), (1.02, -0.62, 0.80), (0.95, -0.62, 0.78),
+        (0.75, -0.66, 0.66)]
+mazo(mp, ruta, 0.012)
+for p0, p1 in (((1.62, 0.62, 0.70), (1.72, 0.66, 0.74)), ((1.62, -0.62, 0.70), (1.72, -0.66, 0.74)),     # faros
+               ((1.78, 0.30, 0.66), (1.72, 0.20, 0.55)), ((1.78, -0.45, 0.66), (1.83, -0.50, 0.45)),     # ventilador, bocina
+               ((1.30, -0.66, 0.74), (1.34, -0.56, 0.74)), ((1.02, -0.62, 0.80), (1.15, -0.45, 0.94)),   # ABS, nivel de frenos
+               ((0.95, -0.62, 0.78), (0.98, -0.32, 0.96)), ((1.62, 0.62, 0.70), (1.72, 0.55, 0.45)),     # limpia, lavador
+               ((1.30, 0.66, 0.72), (1.30, 0.62, 0.70))):                                                # presión del A/C
+    mazo(mp, [p0, p1], 0.005, cinta=False)
+    conector(mp, p1, color='BLK')
+mp.cyl('X', (0.95, -0.62, 0.78), 0.03, 0.03, M['goma'])                                           # pasacables del torpedo
+make('mazo_principal', 'Mazo de cables principal del vano motor (conectores E)', CJ, mp, (0.0, 0.0, 2.0))
+
+ce = P()
+mazo(ce, [(1.065, 0.51, 0.66), (1.00, 0.30, 0.82), (0.92, -0.20, 0.82), (0.70, -0.45, 0.80), (0.63, -0.50, 0.78)], 0.009)
+conector(ce, (0.63, -0.48, 0.78), color='BLU')
+make('cable_eps', 'Cable de la dirección eléctrica (fusible EPS 50 A)', CJ, ce, (0.1, -0.5, 1.6))
+
+mt = P()
+mazo(mt, [(0.78, -0.72, 0.80), (0.80, -0.30, 0.84), (0.80, 0.30, 0.84), (0.78, 0.72, 0.80)], 0.012)    # travesaño del tablero
+for p1 in ((0.62, -0.37, 0.96), (0.55, 0.0, 0.88), (0.80, 0.12, 0.74), (0.72, 0.46, 0.62), (0.55, 0.22, 0.57),
+           (0.30, 0.0, 0.33), (0.66, 0.37, 0.95), (0.60, -0.47, 0.86), (0.66, -0.62, 0.60)):
+    p0 = (0.80, max(-0.7, min(0.7, p1[1])), 0.84)
+    mazo(mt, [p0, ((p0[0] + p1[0]) / 2, (p0[1] + p1[1]) / 2, (p0[2] + p1[2]) / 2 + 0.02), p1], 0.005, cinta=False)
+    conector(mt, p1, color='BLK')
+make('mazo_tablero', 'Mazo de cables del tablero (conectores G)', CJ, mt, (-0.3, 0.0, 1.9))
+
+mpz = P()
+for s in (1, -1):
+    mazo(mpz, [(0.70, s * 0.66, 0.55), (0.55, s * 0.66, 0.30), (0.0, s * 0.65, 0.27), (-0.95, s * 0.62, 0.30),
+               (-1.45, s * 0.62, 0.45), (-1.62, s * 0.62, 0.75)], 0.009)
+    mazo(mpz, [(-0.22, s * 0.65, 0.27), (-0.22, s * 0.66, 0.60), (-0.24, s * 0.66, 1.25)], 0.005, cinta=False)   # parante B
+    conector(mpz, (-1.62, s * 0.62, 0.78), color='BLK')                                                       # calaveras
+mazo(mpz, [(0.0, -0.65, 0.27), (-0.60, -0.30, 0.30), (-0.80, 0.15, 0.36)], 0.006, cinta=False)               # bomba de nafta
+conector(mpz, (-0.80, 0.15, 0.37), color='BLK')
+mazo(mpz, [(0.0, 0.65, 0.27), (0.20, 0.30, 0.27), (0.30, 0.05, 0.30)], 0.005, cinta=False)                    # SDM
+make('mazo_piso', 'Mazo de cables del piso (conectores L)', CJ, mpz, (0.0, 0.0, -0.9))
+
+mpu = P()
+for xh, s in ((0.80, 1), (0.80, -1), (-0.23, 1), (-0.23, -1)):
+    y0 = s * 0.70
+    mpu.barra((xh - 0.06, y0, 0.80), (xh, s * 0.80, 0.80), 0.014, M['goma'], segs=10)                # fuelle de la bisagra
+    mazo(mpu, [(xh, s * 0.80, 0.80), (xh - 0.25, s * 0.80, 0.78), (xh - 0.45, s * 0.80, 0.62)], 0.006, cinta=False)
+    conector(mpu, (xh - 0.45, s * 0.80, 0.60), color='BLK')
+make('mazo_puertas', 'Mazos de las puertas', CJ, mpu, (0.0, 0.0, 0.25))
+
+mpo = P()
+mazo(mpo, [(-1.0, 0.45, 1.44), (-1.25, 0.40, 1.43), (-1.32, 0.30, 1.40)], 0.006)
+mpo.barra((-1.32, 0.30, 1.40), (-1.36, 0.30, 1.32), 0.012, M['goma'], segs=10)                       # fuelle del portón
+mazo(mpo, [(-1.36, 0.30, 1.32), (-1.55, 0.20, 1.08), (-1.70, 0.05, 1.04)], 0.005, cinta=False)
+make('mazo_porton', 'Mazo del techo y del portón', CJ, mpo, (-0.6, 0.0, 0.6))
+
+# ---------------------------------------------------------------- accesorios eléctricos (9D, 9E, 9F)
+CJ = 'Accesorios eléctricos'
+lw = P()
+lw.cyl('Y', (0.985, -0.30, 0.95), 0.035, 0.07, M['acero_osc'])                                   # motor del limpia
+lw.rbox((0.985, -0.25, 0.95), (0.06, 0.04, 0.05), 0.01, M['negro'])
+lw.barra((0.985, -0.30, 0.98), (0.96, -0.47, 1.02), 0.006, M['acero'])                            # varillaje
+lw.barra((0.985, -0.30, 0.98), (0.96, 0.10, 1.02), 0.006, M['acero'])
+conector(lw, (0.985, -0.22, 0.95), color='GRY')
+make('motor_limpiaparabrisas', 'Motor y varillaje del limpiaparabrisas', CJ, lw, (0.2, -0.3, 1.1))
+lt = P().cyl('X', (-1.70, 0.0, 1.05), 0.03, 0.06, M['acero_osc'])
+lt.rbox((-1.68, 0.05, 1.05), (0.04, 0.05, 0.05), 0.01, M['negro'])
+make('motor_limpialuneta', 'Motor del limpialuneta', CJ, lt, (-0.6, 0.0, 0.3))
+la = P().rbox((1.72, 0.55, 0.42), (0.12, 0.12, 0.18), 0.02, M['bateria'])
+la.cyl('Z', (1.72, 0.55, 0.52), 0.025, 0.04, M['amarillo'])
+la.cyl('X', (1.78, 0.55, 0.36), 0.015, 0.04, M['negro'])                                         # bomba
+la.curve([(1.78, 0.55, 0.36), (1.65, 0.40, 0.70), (1.40, 0.20, 0.86), (1.20, 0.15, 0.87)], 0.003, M['negro'])
+make('lavador', 'Depósito, bomba y mangueras del lavaparabrisas', CJ, la, (0.6, 0.6, 0.0))
+for lado, s in (('izq', 1), ('der', -1)):
+    lv_ = P()
+    for x0 in (0.30, -0.70):
+        y = s * 0.795
+        rot = Matrix.Rotation(math.radians(35), 3, 'Y')
+        lv_.obox((x0, y, 0.70), (0.40, 0.008, 0.025), rot, M['acero_osc'])                      # brazos en X
+        lv_.obox((x0, y, 0.70), (0.40, 0.008, 0.025), rot.inverted(), M['acero_osc'])
+        lv_.cyl('Y', (x0 + 0.12, y, 0.60), 0.035, 0.04, M['negro'])                              # motor
+        lv_.box(x0 - 0.20, x0 + 0.20, y - 0.005, y + 0.005, 0.86, 0.875, M['acero'])             # riel del vidrio
+    make(f'levantavidrios_{lado}', f"Levantavidrios eléctricos {'izquierdos' if s > 0 else 'derechos'}", CJ, lv_,
+         (0.0, s * 0.55, 0.0))
+ce_ = P()
+for x0, s in ((-0.24, 1), (-0.24, -1), (-1.20, 1), (-1.20, -1)):
+    ce_.rbox((x0, s * 0.80, 0.80), (0.05, 0.035, 0.08), 0.01, M['negro'])
+    ce_.barra((x0, s * 0.80, 0.84), (x0 + 0.05, s * 0.79, 0.95), 0.003, M['acero'])
+ce_.rbox((-1.78, 0.0, 0.70), (0.04, 0.10, 0.06), 0.01, M['negro'])                                 # cerradura del portón
+make('cerraduras', 'Actuadores del cierre centralizado (4 puertas y portón)', CJ, ce_, (0.0, 0.0, 0.5))
+
+
+def techo_z(x, y):
+    """Altura de la superficie superior de la carrocería en (x, y)."""
+    half = seccion(x)
+    best = None
+    for (y0, z0), (y1, z1) in zip(half[:-1], half[1:]):
+        if min(y0, y1) <= abs(y) <= max(y0, y1) and y1 != y0:
+            z = z0 + (z1 - z0) * (abs(y) - y0) / (y1 - y0)
+            best = z if best is None else max(best, z)
+    return best or cr(K_TECHO, x)
+
+
+de = P()
+for k in range(9):
+    x = -1.34 - k * 0.032
+    ys = [y / 20 * 0.48 for y in range(-20, 21)]
+    de.curve([(x, y, techo_z(x, y) + 0.001) for y in ys], 0.0012, M['cobre'], segs=2)
+make('desempanador', 'Desempañador de la luneta (resistencias)', CJ, de, (-0.8, 0.0, 0.5))
+
+# ---------------------------------------------------------------- airbags y cinturones (8A, 8B)
+CJ = 'Airbag y cinturones'
+aa = P().rbox((0.68, 0.37, 0.975), (0.16, 0.30, 0.07), 0.02, M['acero_osc'])
+aa.rbox((0.66, 0.37, 1.01), (0.13, 0.27, 0.01), 0.004, M['airbag'])
+conector(aa, (0.76, 0.37, 0.96), color='GRY')
+make('airbag_acompanante', 'Módulo del airbag del acompañante', CJ, aa, (0.2, 0.3, 1.0))
+pr = P()
+for s in (1, -1):
+    pr.rbox((-0.22, s * 0.66, 0.36), (0.08, 0.06, 0.14), 0.012, M['negro'])                          # retractor con pretensor
+    pr.cyl('Y', (-0.22, s * 0.62, 0.40), 0.02, 0.05, M['amarillo'])                                   # generador de gas
+    pr.rbox((0.0, s * 0.12, 0.52), (0.05, 0.03, 0.08), 0.01, M['negro'])                              # hebilla
+make('pretensores', 'Cinturones delanteros con pretensor', CJ, pr, (0.0, 0.0, 0.8))
+
+# ---------------------------------------------------------------- cañerías de freno completas (4A)
+cf = P()
+mc = (1.23, -0.40, 0.83)
+cf.curve([mc, (1.30, -0.48, 0.80), (1.34, -0.53, 0.78)], 0.0035, M['acero'])
+cf.curve([(1.34, -0.53, 0.73), (1.30, -0.60, 0.70), (XF + 0.05, -0.60, 0.60), (XF - 0.02, -0.58, 0.55)], 0.0035, M['acero'])
+cf.curve([(1.34, -0.53, 0.73), (1.30, -0.30, 0.86), (1.25, 0.30, 0.86), (XF + 0.05, 0.58, 0.62), (XF - 0.02, 0.58, 0.55)],
+         0.0035, M['acero'])
+for dy in (-0.01, 0.01):
+    cf.curve([(1.34, -0.53, 0.73), (1.10, -0.20, 0.30), (0.90, -0.02 + dy, 0.24), (-0.60, -0.02 + dy, 0.24),
+              (XR + 0.35, 0.10 * (1 if dy > 0 else -1), 0.27)], 0.0032, M['acero'])
+for s in (1, -1):
+    cf.curve([(XR + 0.35, s * 0.10, 0.27), (XR + 0.25, s * 0.40, 0.30), (XR + 0.05, s * (YR - 0.20), 0.32),
+              (XR, s * (YR - 0.11), ZA + 0.09)], 0.0032, M['acero'])
+    cf.barra((XR + 0.25, s * 0.40, 0.30), (XR + 0.25, s * 0.40, 0.36), 0.008, M['goma'])            # flexible trasero
+make('canerias_freno', 'Cañerías de freno (bomba → ABS → 4 ruedas)', 'Frenos', cf, (0.0, 0.0, -0.5))
+
+# ================================================================ CAJA POR DENTRO (5A: unidad del transeje automático)
+CJ = 'Caja por dentro'
+YC = 0.0   # referencia
+cbo = P().lathe((XC, 0.125, ZC), [(0.03, 0.0), (0.105, 0.0), (0.105, 0.02), (0.03, 0.02)], M['aluminio'], segs=40)
+cbo.gear('Y', (XC, 0.135, ZC - 0.012), 0.045, 11, 0.012, M['acero'])
+cbo.tube('Y', (XC, 0.135, ZC - 0.012), 0.046, 0.056, 0.012, M['acero_osc'])
+make('caja_bomba_aceite', 'Bomba de aceite de la caja (impulsada por el convertidor)', CJ, cbo, (0.0, 0.55, 0.65))
+ce2 = P()
+for y0, r0 in ((0.165, 0.085), (0.205, 0.08), (0.245, 0.075)):                                     # embragues de directa, avance y reversa
+    ce2.tube('Y', (XC, y0, ZC), r0 - 0.012, r0, 0.03, M['acero_osc'], segs=40)
+    for k in range(5):
+        ce2.tube('Y', (XC, y0 - 0.012 + k * 0.006, ZC), 0.04, r0 - 0.013, 0.003,
+                 M['friccion'] if k % 2 else M['acero'], segs=32)
+make('caja_embragues', 'Embragues de directa, avance y reversa (paquetes de discos)', CJ, ce2, (0.0, 0.70, 0.85))
+pl_ = P()
+yp = 0.30
+pl_.gear('Y', (XC, yp - 0.012, ZC), 0.024, 24, 0.016, M['acero'])                                   # solar delantero (24 d)
+pl_.gear('Y', (XC, yp + 0.012, ZC), 0.030, 30, 0.016, M['acero'])                                   # solar trasero (30 d)
+for k in range(3):
+    a = 2 * math.pi * k / 3
+    pl_.gear('Y', (XC + 0.047 * math.cos(a), yp, ZC + 0.047 * math.sin(a)), 0.020, 20, 0.04, M['acero_osc'])   # piñón largo (20 d)
+    a2 = a + math.pi / 3
+    pl_.gear('Y', (XC + 0.042 * math.cos(a2), yp + 0.012, ZC + 0.042 * math.sin(a2)), 0.016, 19, 0.016, M['acero_osc'])  # corto (19 d)
+pl_.tube('Y', (XC, yp, ZC), 0.068, 0.078, 0.045, M['acero'], segs=69)                                # corona (69 d)
+pl_.tube('Y', (XC, yp - 0.03, ZC), 0.02, 0.07, 0.006, M['aluminio'])                                  # portasatélites
+make('caja_planetario', 'Tren planetario Ravigneaux (solares 24 y 30, piñones 20 y 19, corona 69)', CJ, pl_, (0.0, 0.85, 1.05))
+cvb = P().rbox((1.29, 0.26, 0.245), (0.22, 0.20, 0.035), 0.006, M['aluminio'])
+for k in range(5):
+    cvb.cyl('X', (1.29, 0.18 + k * 0.035, 0.27), 0.007, 0.18, M['acero'])                            # válvulas de carrete
+for k in range(4):
+    cvb.cyl('Y', (1.22 + k * 0.045, 0.37, 0.25), 0.012, 0.04, M['negro'])                            # solenoides
+    conector(cvb, (1.22 + k * 0.045, 0.395, 0.25), d=(0.012, 0.012, 0.012), color='BLK')
+make('caja_cuerpo_valvulas', 'Cuerpo de válvulas y solenoides de cambio y presión', CJ, cvb, (0.0, 0.55, -0.5))
+eng = P()
+eng.gear('Y', (XC, 0.35, ZC), 0.05, 32, 0.02, M['acero'])                                           # engranaje de salida
+eng.gear('Y', (1.27, 0.35, 0.33), 0.065, 42, 0.02, M['acero_osc'])                                  # intermedio
+eng.cyl('Y', (1.27, 0.30, 0.33), 0.012, 0.12, M['acero'])
+eng.gear('Y', (1.27, 0.27, 0.33), 0.026, 15, 0.025, M['acero'])                                     # piñón de ataque
+make('caja_engranajes', 'Engranajes de salida e intermedio (reducción 1,023)', CJ, eng, (0.0, 0.95, 0.4))
+dif = P()
+dif.gear('Y', (1.20, 0.27, 0.27), 0.095, 61, 0.022, M['acero_osc'])                                 # corona (final 4,052)
+dif.ellip((1.20, 0.27, 0.27), (0.05, 0.05, 0.05), M['fundicion'])                                   # caja de satélites
+for s in (1, -1):
+    dif.cyl('Y', (1.20, 0.27 + s * 0.035, 0.27), 0.025, 0.02, M['acero'], r2=0.015)                  # planetarios
+    dif.cyl('Z', (1.20, 0.27, 0.27 + s * 0.03), 0.018, 0.02, M['acero'], r2=0.012)                   # satélites
+make('caja_diferencial', 'Diferencial (corona, satélites y planetarios)', CJ, dif, (0.0, 0.80, -0.35))
 # ---------------------------------------------------------------- limpieza
 for ob in list(CUT_COLL.objects):
     bpy.data.objects.remove(ob)
@@ -1815,36 +2165,63 @@ for ob in list(scene.collection.objects):     # restos sueltos (la carrocería y
         bpy.data.objects.remove(ob)
 
 # ---------------------------------------------------------------- guardar y exportar
+# ---------------------------------------------------------------- capas (un archivo por capa, se cargan a demanda en el visor)
+CAPAS = {
+    'exterior': ('Exterior', ['Carrocería', 'Puertas y cristales', 'Iluminación']),
+    'chasis': ('Chasis', ['Ruedas', 'Frenos', 'Suspensión y dirección', 'Combustible y escape']),
+    'motor': ('Motor y caja', ['Motor M15A', 'Transmisión', 'Refrigeración', 'Eléctrico']),
+    'interior': ('Interior', ['Interior', 'Airbag y cinturones', 'Aire acondicionado y calefacción']),
+    'electrico': ('Electricidad', ['Sensores y actuadores', 'Módulos de control', 'Cableado', 'Accesorios eléctricos']),
+    'mecanismos': ('Por dentro', ['Motor por dentro', 'Caja por dentro']),
+}
+CAPA_DE = {cj: k for k, (_, cjs) in CAPAS.items() for cj in cjs}
 for ob in scene.objects:
-    ob.select_set(True)
+    if 'pid' in ob:
+        ob['capa'] = CAPA_DE.get(ob['conjunto'], 'motor')
 blend = os.path.join(OUT, 'suzuki_swift.blend')
-glb = os.path.join(OUT, 'suzuki_swift.glb')
-gltf_json = os.path.join(OUT, 'visor', 'suzuki_swift.json')
 bpy.ops.wm.save_as_mainfile(filepath=blend)
-bpy.ops.export_scene.gltf(filepath=glb, export_format='GLB', export_apply=True,
-                          export_extras=True, export_yup=True, export_materials='EXPORT',
-                          use_selection=False)
-
-n = sum(1 for o in scene.objects if o.type == 'MESH')
-tris = 0
+import json, struct, base64
+DIR_CAPAS = os.path.join(OUT, 'visor', 'capas')
+os.makedirs(DIR_CAPAS, exist_ok=True)
+for f in os.listdir(DIR_CAPAS):
+    os.remove(os.path.join(DIR_CAPAS, f))
 dg = bpy.context.evaluated_depsgraph_get()
-for o in scene.objects:
-    if o.type == 'MESH':
+manifiesto, total_tris, total_n = {'capas': []}, 0, 0
+for clave, (titulo, cjs) in CAPAS.items():
+    obs = [o for o in scene.objects if o.get('capa') == clave]
+    if not obs:
+        continue
+    for o in scene.objects:
+        o.select_set(o in obs)
+    glb = os.path.join(DIR_CAPAS, clave + '.glb')
+    bpy.ops.export_scene.gltf(filepath=glb, export_format='GLB', export_apply=True, export_extras=True, export_yup=True,
+                              export_materials='EXPORT', use_selection=True)
+    tris = 0
+    for o in obs:
         me = o.evaluated_get(dg).to_mesh()
         me.calc_loop_triangles()
         tris += len(me.loop_triangles)
         o.evaluated_get(dg).to_mesh_clear()
-# copia como glTF con el binario embebido y extensión .json (los Artifacts no sirven .glb)
-import json, struct, base64
-raw = open(glb, 'rb').read()
-jlen, = struct.unpack_from('<I', raw, 12)
-doc = json.loads(raw[20:20 + jlen])
-blen, = struct.unpack_from('<I', raw, 20 + jlen)
-binc = raw[28 + jlen:28 + jlen + blen]
-doc['buffers'][0]['uri'] = 'data:application/octet-stream;base64,' + base64.b64encode(binc).decode()
-with open(gltf_json, 'w') as fh:
-    json.dump(doc, fh, separators=(',', ':'))
-print(f'OK piezas={n} triangulos={tris} glb={os.path.getsize(glb) / 1e6:.2f} MB')
+    # misma capa como glTF con el binario embebido (.json): para los Artifacts, que no sirven .glb
+    raw = open(glb, 'rb').read()
+    jlen, = struct.unpack_from('<I', raw, 12)
+    doc = json.loads(raw[20:20 + jlen])
+    blen, = struct.unpack_from('<I', raw, 20 + jlen)
+    doc['buffers'][0]['uri'] = 'data:application/octet-stream;base64,' + base64.b64encode(raw[28 + jlen:28 + jlen + blen]).decode()
+    js = os.path.join(DIR_CAPAS, clave + '.json')
+    with open(js, 'w') as fh:
+        json.dump(doc, fh, separators=(',', ':'))
+    manifiesto['capas'].append({'id': clave, 'titulo': titulo, 'conjuntos': cjs, 'piezas': len(obs), 'triangulos': tris,
+                                'glb': os.path.getsize(glb), 'json': os.path.getsize(js)})
+    total_tris += tris
+    total_n += len(obs)
+    print(f'  capa {clave}: {len(obs)} piezas, {tris} triángulos, glb {os.path.getsize(glb) / 1e6:.2f} MB, '
+          f'json {os.path.getsize(js) / 1e6:.2f} MB')
+with open(os.path.join(OUT, 'visor', 'capas.json'), 'w') as fh:
+    json.dump(manifiesto, fh, ensure_ascii=False, indent=1)
+for o in scene.objects:
+    o.select_set(False)
+print(f'OK piezas={total_n} triangulos={total_tris}')
 for c, coll in COLL.items():
     print(' ', c, ':', ', '.join(o.name for o in coll.objects))
 
@@ -1891,7 +2268,7 @@ if LAM:
     foto('swift_despiece', (7.4, 6.6, 4.6), (0.2, 0, 1.0), lens=40, despiece=1.0)
     foto('swift_frente_detalle', (3.7, 1.9, 1.15), (1.55, 0.05, 0.62), lens=50)
     foto('swift_cola_detalle', (-3.7, -1.9, 1.5), (-1.55, -0.05, 0.85), lens=50)
-    mec = ['Motor M15A', 'Motor por dentro', 'Aire acondicionado y calefacción', 'Transmisión', 'Refrigeración', 'Eléctrico', 'Suspensión y dirección', 'Frenos', 'Ruedas',
+    mec = ['Motor M15A', 'Aire acondicionado y calefacción', 'Transmisión', 'Cableado', 'Sensores y actuadores', 'Módulos de control', 'Refrigeración', 'Eléctrico', 'Suspensión y dirección', 'Frenos', 'Ruedas',
            'Combustible y escape', 'Interior']
     foto('swift_mecanica', (4.6, 4.0, 2.6), (0.0, 0, 0.45), solo=mec)
     lam = {
@@ -1905,6 +2282,11 @@ if LAM:
         'lamina_vano_motor': (['Motor M15A', 'Transmisión', 'Refrigeración', 'Eléctrico', 'Aire acondicionado y calefacción',
                                'Frenos'], (3.0, 1.6, 1.9), (1.35, -0.02, 0.45), 0.0),
         'lamina_motor_dentro': (['Motor por dentro'], (2.3, -1.3, 1.1), (1.37, -0.18, 0.55), 0.0),
+        'lamina_caja_dentro': (['Caja por dentro'], (2.0, 1.4, 0.9), (1.30, 0.26, 0.36), 0.0),
+        'lamina_electrico': (['Sensores y actuadores', 'Módulos de control', 'Cableado', 'Eléctrico'], (3.4, 3.0, 2.8),
+                             (0.6, 0.0, 0.55), 0.0),
+        'lamina_electrico_motor': (['Sensores y actuadores', 'Cableado', 'Módulos de control', 'Eléctrico', 'Motor M15A'],
+                                   (2.4, -1.4, 1.7), (1.35, 0.0, 0.62), 0.0),
     }
     for nombre, (solo, loc, tgt, de) in lam.items():
         foto(nombre, loc, tgt, solo=solo, despiece=de)
