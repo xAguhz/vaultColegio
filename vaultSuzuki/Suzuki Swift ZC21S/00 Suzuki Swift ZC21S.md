@@ -25,6 +25,7 @@ actualizado: 2026-11-14
 | Combustible           | Nafta sin plomo regular · tanque de 43 L               |
 
 ## Mapas y 3D
+- 📘 [[00 Índice del manual de taller|Manual de taller completo]]: los 59 capítulos del manual de taller en castellano (resumen, temas, despieces, valores, pares de apriete, códigos de falla, herramientas), los [[Circuitos eléctricos|37 circuitos eléctricos]] y los [[Conectores del cableado|193 conectores]].
 - 🧊 [[Despiece 3D interactivo]]: modelo 3D con 89 piezas en 14 conjuntos (incluye el motor por dentro), despiece animado y una ficha por pieza.
 - 🖼️ [[Galería Gemini]]: vistas de referencia (frente, cola, planta y 3/4) usadas para modelar la carrocería.
 - 🗺️ [[Mapa Suzuki Swift.canvas|Mapa del auto]]: los sistemas del auto y en qué nota está cada uno.

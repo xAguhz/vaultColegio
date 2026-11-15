@@ -528,6 +528,9 @@ def main(origen, destino):
                 + urllib.parse.quote(f"{vault}/{m.group(1)}") + ")",
                 nuevo,
             )
+            # Links a PDFs que no se publican (manual de taller original, solo local) → texto plano
+            nuevo = re.sub(r"!?\[\[([^\]|]+?\.pdf)(?:#[^\]|]*)?\|([^\]]+)\]\]", r"\2", nuevo)
+            nuevo = re.sub(r"!?\[\[([^\]|]+?\.pdf)(?:#[^\]|]*)?\]\]", lambda m: posixpath.basename(m.group(1)), nuevo)
             for viejo, sitio in ARTIFACTS.items():
                 nuevo = nuevo.replace(viejo, sitio)
             nuevo = nuevo.replace("(privado; se comparte desde el menú *Compartir* de la página)", "")

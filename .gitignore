@@ -16,3 +16,6 @@ __pycache__/
 .DS_Store
 *.blend1
 
+
+# Manual de taller original (PDF del usuario): solo local, nunca al repo público
+vaultSuzuki/Manual de taller/PDF/

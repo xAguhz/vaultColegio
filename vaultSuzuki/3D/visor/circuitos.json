@@ -1,0 +1,390 @@
+{
+"A-1": {
+"nombre": "Diagrama del circuito del sistema de arranque",
+"piezas": [
+"bateria",
+"cable_bateria",
+"fusibles",
+"arranque",
+"sensor_rango_caja",
+"ecu",
+"mazo_motor"
+],
+"explicacion": "La llave en START (o el botón, con arranque sin llave) alimenta el relé de arranque a través del fusible ST SIG; el ECM solo lo deja cerrar con la caja en P o N (sensor de rango). El relé conecta el solenoide del motor de arranque, que toma corriente directa de la batería por el cable grueso."
+},
+"A-2": {
+"nombre": "Diagrama del circuito del sistema de carga",
+"piezas": [
+"accesorios",
+"bateria",
+"cable_bateria",
+"ecu",
+"cuadro_instrumentos",
+"mazo_motor"
+],
+"explicacion": "El alternador carga la batería; el ECM decide la tensión de regulación (alta o baja) según el consumo y avisa con el testigo de carga en el cuadro."
+},
+"A-3": {
+"nombre": "Diagrama del circuito del sistema de encendido",
+"piezas": [
+"bobinas",
+"sensor_ckp",
+"sensor_cmp",
+"ecu",
+"tapa_valvulas",
+"mazo_motor",
+"fusibles"
+],
+"explicacion": "Encendido de chispa perdida: el ECM, con la señal de los sensores de cigüeñal y levas, corta la corriente de cada bobina (1-4 y 2-3) en el momento justo; cada bobina dispara dos bujías a la vez."
+},
+"A-4": {
+"nombre": "Diagrama del circuito del sistema de refrigeración",
+"piezas": [
+"electroventilador",
+"sensor_ect",
+"sensor_presion_ac",
+"ecu",
+"fusibles",
+"mazo_motor"
+],
+"explicacion": "Ventilador del radiador: el ECM lee la temperatura del refrigerante (ECT) y la presión del aire acondicionado y activa los relés del ventilador (en baja o alta velocidad)."
+},
+"A-5": {
+"nombre": "Diagrama del circuito del sistema de control del A/C y del motor",
+"piezas": [
+"ecu",
+"sensor_maf",
+"sensor_tp",
+"sensor_map",
+"sensor_ect",
+"sensor_ckp",
+"sensor_cmp",
+"sensor_detonacion",
+"sonda_o2_1",
+"sonda_o2_2",
+"sensor_vss",
+"inyectores",
+"bobinas",
+"valvula_iac",
+"solenoide_vvt",
+"valvula_purga",
+"tanque",
+"accesorios",
+"mazo_motor",
+"mazo_principal",
+"fusibles"
+],
+"explicacion": "Control del motor: el ECM recibe aire (MAF), mariposa (TP), presión del colector (MAP), temperaturas, cigüeñal y levas, detonación, sondas de oxígeno y velocidad; y maneja inyectores, bobinas, válvula de ralentí, VVT, purga del canister, relé de la bomba de nafta y el embrague del compresor del A/C."
+},
+"A-6": {
+"nombre": "Diagrama del circuito del sistema de control del A/T",
+"piezas": [
+"tcm",
+"sensor_rango_caja",
+"caja_4at",
+"caja_cuerpo_valvulas",
+"ecu",
+"mazo_motor",
+"palanca"
+],
+"explicacion": "Caja automática: el TCM lee el sensor de rango, las velocidades de entrada y salida, la temperatura del fluido y la mariposa (vía ECM) y maneja los solenoides de cambio y de presión."
+},
+"A-7": {
+"nombre": "Diagrama del circuito del sistema del inmovilizador",
+"piezas": [
+"antena_inmovilizador",
+"ecu",
+"cuadro_instrumentos",
+"mazo_tablero"
+],
+"explicacion": "Inmovilizador: la antena del tambor de la llave lee el código del transpondedor; si coincide con el registrado, el ECM habilita la inyección y el encendido."
+},
+"A-8": {
+"nombre": "Diagrama del circuito del sistema de control de la carrocería",
+"piezas": [
+"bloque_empalmes",
+"cerraduras",
+"desempanador",
+"techo_interior",
+"ecu",
+"cuadro_instrumentos",
+"mazo_principal",
+"mazo_puertas"
+],
+"explicacion": "Control de la carrocería: el BCM, integrado en el bloque de empalmes, recibe los interruptores (puertas, luces, llave) y maneja cierre, luces de cortesía, desempañador y avisos; habla con el ECM y el cuadro por CAN."
+},
+"B-1": {
+"nombre": "Diagrama del circuito del limpiaparabrisas y lavaparabrisas",
+"piezas": [
+"motor_limpiaparabrisas",
+"limpiaparabrisas",
+"lavador",
+"columna_eps",
+"mazo_principal"
+],
+"explicacion": "Limpiaparabrisas: la palanca elige intermitente, baja o alta; el motor tiene un contacto de parada para que las escobillas queden abajo. El lavador es una bomba en el depósito."
+},
+"B-2": {
+"nombre": "Diagrama del circuito del limpialunetas y lavalunetas",
+"piezas": [
+"motor_limpialuneta",
+"porton",
+"lavador",
+"mazo_porton"
+],
+"explicacion": "Limpialuneta: motor en el portón con su propia bomba de lavado."
+},
+"B-3": {
+"nombre": "Diagrama de circuito del desempañador trasero",
+"piezas": [
+"desempanador",
+"bloque_empalmes",
+"porton",
+"mazo_porton"
+],
+"explicacion": "Desempañador: un relé (comandado por el BCM y el botón) alimenta las resistencias de la luneta; se corta solo a los pocos minutos."
+},
+"B-4": {
+"nombre": "Diagrama del circuito del elevalunas eléctrico",
+"piezas": [
+"levantavidrios_izq",
+"levantavidrios_der",
+"mazo_puertas"
+],
+"explicacion": "Levantavidrios eléctricos: la botonera del conductor alimenta cada motor invirtiendo la polaridad para subir o bajar."
+},
+"B-5": {
+"nombre": "Diagrama del circuito del cierre centralizado",
+"piezas": [
+"cerraduras",
+"bloque_empalmes",
+"mazo_puertas"
+],
+"explicacion": "Cierre centralizado: el BCM recibe la cerradura del conductor o el control remoto y mueve los actuadores de las cuatro puertas y el portón."
+},
+"B-6": {
+"nombre": "Diagrama del circuito de los retrovisores eléctricos",
+"piezas": [
+"puerta_del_izq",
+"puerta_del_der",
+"mazo_puertas"
+],
+"explicacion": "Espejos eléctricos: un selector y una palanca mueven dos motorcitos por espejo."
+},
+"B-7": {
+"nombre": "Diagrama del circuito de la bocina",
+"piezas": [
+"bocina",
+"volante",
+"mazo_principal"
+],
+"explicacion": "Bocina: el botón del volante cierra a masa el relé de la bocina."
+},
+"B-8": {
+"nombre": "Diagrama del circuito de la calefacción de los asientos",
+"piezas": [
+"asiento_izq",
+"asiento_der"
+],
+"explicacion": "Calefacción de asientos (si el auto la trae)."
+},
+"B-9": {
+"nombre": "Diagrama del circuito del sistema de arranque sin llave",
+"piezas": [
+"modulo_keyless",
+"ecu",
+"bloque_empalmes"
+],
+"explicacion": "Arranque sin llave (si el auto lo trae): antenas en el habitáculo, módulo de control y comunicación con el ECM y el BCM."
+},
+"C-1": {
+"nombre": "Diagrama de circuito del juego de instrumentos (medidor)",
+"piezas": [
+"cuadro_instrumentos",
+"ecu",
+"tanque",
+"mazo_tablero"
+],
+"explicacion": "Relojes del cuadro: velocidad (por CAN desde el ECM), vueltas, nafta (aforador del tanque) y temperatura."
+},
+"C-2": {
+"nombre": "Diagrama de circuito del juego de instrumentos (indicador)",
+"piezas": [
+"cuadro_instrumentos",
+"tcm"
+],
+"explicacion": "Indicadores del cuadro: giros, luz alta, marcha seleccionada."
+},
+"C-3": {
+"nombre": "Diagrama de circuito del juego de instrumentos (indicador de advertencia)",
+"piezas": [
+"cuadro_instrumentos",
+"sensor_presion_aceite",
+"interruptor_nivel_freno",
+"abs",
+"sdm",
+"modulo_eps"
+],
+"explicacion": "Testigos de advertencia: aceite, carga, frenos, ABS, airbag, EPS, motor, cinturón, puertas."
+},
+"D-1": {
+"nombre": "Diagrama del circuito del sistema de faros",
+"piezas": [
+"faro_izq",
+"faro_der",
+"fusibles",
+"mazo_principal"
+],
+"explicacion": "Faros: la palanca de luces activa los relés de luz alta y baja; cada faro tiene su fusible."
+},
+"D-2": {
+"nombre": "Diagrama del circuito del sistema de las luces de la matrícula, posteriores y de posición",
+"piezas": [
+"faro_izq",
+"faro_der",
+"calavera_izq",
+"calavera_der",
+"mazo_piso"
+],
+"explicacion": "Luces de posición, traseras y de patente."
+},
+"D-3": {
+"nombre": "Diagrama del circuito del sistema de los faros antiniebla delanteros",
+"piezas": [
+"antiniebla_izq",
+"antiniebla_der",
+"fusibles"
+],
+"explicacion": "Faros antiniebla delanteros con su relé y fusible FR FOG."
+},
+"D-4": {
+"nombre": "Diagrama del circuito del sistema de las luces de iluminación",
+"piezas": [
+"tablero",
+"cuadro_instrumentos"
+],
+"explicacion": "Iluminación del tablero y los mandos, con regulador de intensidad."
+},
+"D-5": {
+"nombre": "Diagrama del circuito del sistema de las luces interiores",
+"piezas": [
+"techo_interior",
+"bloque_empalmes"
+],
+"explicacion": "Luces interiores: techo y baúl, encendidas por las puertas a través del BCM."
+},
+"D-6": {
+"nombre": "Diagrama del circuito del sistema de luces de señal de giro y de advertencia de riesgo",
+"piezas": [
+"faro_izq",
+"faro_der",
+"calavera_izq",
+"calavera_der",
+"casco"
+],
+"explicacion": "Giros y balizas: el destellador (relé de giros) alimenta los faros de giro, los repetidores y las calaveras."
+},
+"D-7": {
+"nombre": "Diagrama del circuito del sistema de las luces de freno",
+"piezas": [
+"interruptor_freno",
+"calavera_izq",
+"calavera_der",
+"porton",
+"abs"
+],
+"explicacion": "Luces de freno: el interruptor del pedal alimenta las calaveras y la tercera luz; la señal también va al ECM, al TCM y al ABS."
+},
+"D-8": {
+"nombre": "Diagrama del circuito del sistema de las luces de marcha atrás",
+"piezas": [
+"sensor_rango_caja",
+"calavera_izq",
+"calavera_der"
+],
+"explicacion": "Marcha atrás: el sensor de rango de la caja enciende las luces al pasar a R."
+},
+"D-9": {
+"nombre": "Diagrama del circuito del sistema de nivelación de los faros",
+"piezas": [
+"faro_izq",
+"faro_der"
+],
+"explicacion": "Nivelación de faros (si la trae): ruedita en el tablero y motores en los faros."
+},
+"D-10": {
+"nombre": "Diagrama de circuito del sistema de los faros antiniebla traseros",
+"piezas": [
+"paragolpes_tra"
+],
+"explicacion": "Antiniebla trasero (según mercado)."
+},
+"E-1": {
+"nombre": "Diagrama del circuito del sistema de calefacción",
+"piezas": [
+"unidad_hvac",
+"tablero",
+"fusibles"
+],
+"explicacion": "Calefacción y ventilación: el soplador tiene un resistor de velocidades; las compuertas se mueven con cables o motores."
+},
+"E-2": {
+"nombre": "Diagrama del circuito del sistema de A/C automático",
+"piezas": [
+"unidad_hvac",
+"ecu"
+],
+"explicacion": "Aire acondicionado automático (otras versiones): módulo HVAC con sensores de temperatura y motores de compuertas."
+},
+"F-1": {
+"nombre": "Diagrama del circuito del sistema del airbag",
+"piezas": [
+"sdm",
+"volante",
+"airbag_acompanante",
+"pretensores",
+"cuadro_instrumentos",
+"mazo_tablero"
+],
+"explicacion": "Airbags: el SDM (con su sensor de impacto) dispara los airbags del conductor y del acompañante y los pretensores; el testigo SRS avisa fallas."
+},
+"F-2": {
+"nombre": "Diagrama del circuito del sistema de frenos antibloqueo",
+"piezas": [
+"abs",
+"sensores_abs",
+"interruptor_freno",
+"canerias_freno",
+"fusibles"
+],
+"explicacion": "ABS: el módulo lee los cuatro sensores de rueda y la luz de freno y modula la presión de cada freno con su bomba y válvulas."
+},
+"F-3": {
+"nombre": "Diagrama del circuito del sistema de la servodirección",
+"piezas": [
+"modulo_eps",
+"columna_eps",
+"cable_eps",
+"ecu"
+],
+"explicacion": "Dirección eléctrica: el módulo EPS lee el sensor de par de la columna y la velocidad del auto, y le pide más o menos fuerza al motor de asistencia."
+},
+"G-1": {
+"nombre": "Diagrama del circuito del sistema de sonido",
+"piezas": [
+"tablero",
+"tapizado_izq",
+"tapizado_der",
+"casco"
+],
+"explicacion": "Sistema de sonido: radio, parlantes de puertas y antena."
+},
+"G-2": {
+"nombre": "Diagrama del circuito del sistema de zócalo de accesorios / pantalla de información múltiple",
+"piezas": [
+"palanca",
+"tablero"
+],
+"explicacion": "Tomacorriente de accesorios y pantalla de información."
+}
+}
