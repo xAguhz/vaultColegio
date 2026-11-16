@@ -22,14 +22,14 @@ Toda la demo se hace en **[claude.ai](https://claude.ai), desde el navegador de 
 - [ ] **Imprimir el guion.** Si el proyector duplica la pantalla, las notas de las diapositivas no se ven.
 - [ ] Dejar en el celular, en las notas, los textos de esta página, para copiar y pegar rápido. Pasátelos por WhatsApp o mail para abrirlos en la compu de la escuela.
 - [ ] Revisar que tu cuenta de Claude tenga **uso disponible**: no hacer trabajos pesados con Claude Code esa mañana.
-- [ ] Tener las **diapositivas** descargadas en PDF en el pendrive.
+- [ ] Tener las **diapositivas** descargadas en PDF en el pendrive, por si no hay internet.
 
 ### En la escuela, 15 minutos antes
 - [ ] Prender la compu y conectar el proyector.
 - [ ] Probar internet. Si anda mal: **datos del celular** compartidos (zona Wi-Fi).
 - [ ] Abrir una **ventana de incógnito** del navegador (`Ctrl + Shift + N`) y hacer todo ahí: al cerrarla no queda ninguna sesión guardada en la compu.
 - [ ] Abrir en pestañas, en este orden:
-  1. las diapositivas;
+  1. las diapositivas: **[xaguhz.github.io/vaultColegio/vaultClaseProfes/diapositivas/](https://xaguhz.github.io/vaultColegio/vaultClaseProfes/diapositivas/)** (no hace falta iniciar sesión; `F` para pantalla completa);
   2. [xaguhz.github.io/vaultColegio](https://xaguhz.github.io/vaultColegio/), con el visor 3D del torno abierto;
   3. [claude.ai](https://claude.ai), con **tu sesión iniciada** y un **chat nuevo**.
 - [ ] **Cerrar la barra lateral** de claude.ai: si no, en el proyector se ven los títulos de todos tus chats.

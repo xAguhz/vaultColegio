@@ -52,7 +52,7 @@ jobs:
         working-directory: quartz
         run: npx quartz build
 
-      - name: Copiar las páginas propias (visores 3D, web de AutoLID y hoja de la charla)
+      - name: Copiar las páginas propias (visores 3D, web de AutoLID, hoja y diapositivas de la charla)
         # Quartz no publica los .html sueltos; se copian tal cual sobre el sitio armado.
         run: |
           mkdir -p quartz/public/vaultTorno/3D/visor/laminas quartz/public/vaultAutoLID/AutoLID/Web
@@ -65,6 +65,9 @@ jobs:
           # Hoja para imprimir de la charla de IA (busca el QR en ../Adjuntos/, que Quartz sí publica)
           mkdir -p quartz/public/vaultClaseProfes/hoja
           cp "vault/vaultClaseProfes/Exposición/Hoja para imprimir.html" quartz/public/vaultClaseProfes/hoja/index.html
+          # Diapositivas de la charla (las arma herramientas/armar_diapositivas.py)
+          mkdir -p quartz/public/vaultClaseProfes/diapositivas
+          cp "vault/vaultClaseProfes/Exposición/Diapositivas.html" quartz/public/vaultClaseProfes/diapositivas/index.html
 
       - uses: actions/upload-pages-artifact@v4
         with:

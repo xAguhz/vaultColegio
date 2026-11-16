@@ -9,7 +9,7 @@ tags: [exposición, guion]
 
 **Jueves 19/11/2026**, en la Expo Técnica. Público: profes de materias técnicas y teóricas. Duración: **50 minutos de exposición y 10 de preguntas**.
 
-Todo corre en la **compu de la escuela, desde el navegador**, sin instalar nada. Lo que hay que preparar antes está en [[Demo en vivo]]. Cada bloque tiene su diapositiva.
+Todo corre en la **compu de la escuela, desde el navegador**, sin instalar nada. Lo que hay que preparar antes está en [[Demo en vivo]]. Cada bloque tiene su diapositiva; la presentación está en [xaguhz.github.io/vaultColegio/vaultClaseProfes/diapositivas/](https://xaguhz.github.io/vaultColegio/vaultClaseProfes/diapositivas/): flechas o clic para avanzar, `F` pantalla completa, `N` notas del orador.
 
 > [!tip] Si el tiempo se achica
 > Los bloques marcados con ✂️ se pueden cortar sin que se pierda el hilo. La versión mínima dura unos **35 minutos**: bloques 1, 2 (en 2 min), 3, 4A (sin la versión B), 4C (jugando 3 preguntas), 5, 6 y 7. **El bloque 5 (Cuidados) no se corta nunca.**

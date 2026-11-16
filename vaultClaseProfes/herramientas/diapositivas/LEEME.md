@@ -1,10 +1,13 @@
-# Diapositivas de la charla (respaldo)
+# Diapositivas de la charla
 
-Copia de los archivos fuente de las diapositivas, que viven como Artifact privado en Claude:
-https://claude.ai/artifact/QvCiGeS3oEQ3hX4JiLZ5sr
+Fuente de las 15 diapositivas. **Esta carpeta es la versión principal.**
 
-- `project/deck.json`: título, orden de las 15 diapositivas, secciones y tipografías.
+- `project/deck.json`: título, orden, secciones y tipografías.
 - `project/deck.css`: estilos compartidos (paleta pizarrón, papel y naranja).
 - `project/slides/<id>.html`: una diapositiva por archivo; el `<aside>` final son las notas del orador.
 
-La imagen del QR del Artifact es `Adjuntos/qr_guia.png`. Para cambiar una diapositiva, pedile a Claude que edite el archivo y lo vuelva a publicar en el Artifact.
+Se publican en dos lugares:
+1. **Página pública** (para proyectar sin iniciar sesión): `python3 herramientas/armar_diapositivas.py` arma `Exposición/Diapositivas.html`, y el workflow la publica en https://xaguhz.github.io/vaultColegio/vaultClaseProfes/diapositivas/
+2. **Artifact privado de Claude** (para editar y exportar a PDF o PowerPoint): https://claude.ai/artifact/QvCiGeS3oEQ3hX4JiLZ5sr. Para actualizarlo, se publican los archivos cambiados con `root` en esta carpeta.
+
+Si cambiás una diapositiva, actualizá los dos.
