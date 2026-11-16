@@ -71,6 +71,14 @@ Mostrar la diferencia. Después, en el mismo chat, para que vean que se puede co
 El ejercicio 3 está muy difícil para 4.° año. Simplificalo.
 ```
 
+✂️ **Controlar una cuenta (1 min, si hay tiempo; si no, se cuenta).** En el mismo chat:
+
+```
+Resolvé el ejercicio 2 ejecutando código y mostrame el código y la cuenta.
+```
+
+Pedirle a un profe del público que haga la misma cuenta con la calculadora del celular. *"Si coincide, bien. Si no coincide, mejor: esa es la lección. Los resultados que arma la IA se controlan siempre."*
+
 ✂️ Si sobra tiempo (si no, se cuenta): *"Agregá una versión B de toda la evaluación con otros valores, para que no se copien."* Genera mucho texto y tarda.
 
 ## 4B. Una materia que elijan ellos (6 min) ✂️
@@ -82,7 +90,7 @@ Soy profe de [MATERIA] de [AÑO] año en una escuela técnica de la provincia de
 Estoy dando [TEMA]. Necesito:
 1. Una consigna de trabajo práctico para hacer en grupos en 2 clases, que obligue
    a los alumnos a aplicar el tema a algo de su vida o de la escuela
-   (para que no se pueda resolver solo con IA).
+   (para que resolverla exija ir, mirar o medir algo que la IA no conoce).
 2. Una rúbrica de corrección con 4 criterios y 4 niveles.
 3. Tres preguntas para hacerles en una defensa oral corta del trabajo.
 Escribí en castellano rioplatense, con "vos".
@@ -111,13 +119,15 @@ Si sobra tiempo: *"Agregale un temporizador de 20 segundos por pregunta"*, para 
 
 **Chat nuevo e incógnito, con la búsqueda web desactivada** (en el ícono de herramientas). Si busca en internet puede encontrar el dato real y no inventar nada.
 
+Antes de enviar, aclarar: *"Lo que aparezca ahora puede ser inventado. No es la historia de la escuela: no lo anoten."*
+
 ```
 ¿En qué año se fundó la EEST N.° 3 de San Antonio de Padua, quién fue su primer
 director y cuántos alumnos tuvo en su primera promoción?
 ```
 
 Pueden pasar dos cosas, y las dos sirven:
-- **Inventa datos** → *"¿De dónde sacaste eso? Dame la fuente con link."* Mostrar que no puede respaldarlo. **Lección: siempre pedir la fuente.**
+- **Inventa datos** → *"¿De dónde sacaste eso? Dame la fuente con link."* Mostrar que no puede respaldarlo. Decir: *"Ojo: sin internet, la fuente que te da también la escribe él. No sabe de dónde sacó el dato. Por eso lo que vale es abrir la fuente vos."* **Lección: siempre pedir la fuente y abrirla.**
 - **Dice que no sabe** → *"Bien: los modelos buenos ya admiten cuando no saben. Pero no siempre: por eso hay que verificar igual."*
 
 Variante si responde muy prudente: *"Dame tres citas textuales del Diseño Curricular de la Provincia de Buenos Aires sobre [materia], con número de página."*

@@ -1,28 +1,29 @@
 # Estado de la segunda simulación
 
-Estado general: **PENDIENTE** (programada para el lunes 16/11/2026 a las 5:15, después del reinicio del límite semanal)
+Estado general: **EN CURSO** (corrida del lunes 16/11/2026, empezó 5:15)
 
 | # | Personaje | Informe |
 |---|---|---|
-| 01 | Valentina (alumna, 2.°) | pendiente |
-| 02 | Lucas (alumno, 6.°) | pendiente |
-| 03 | Norma (profe de Matemática) | pendiente |
-| 04 | Graciela (directora) | pendiente |
-| 05 | Diego (profe de Historia) | pendiente |
-| 06 | Mónica (madre) | pendiente |
-| 07 | Carlos (padre, depósito) | pendiente |
-| 08 | Ricardo (empresario PyME) | pendiente |
-| 09 | Sofía (emprendedora) | pendiente |
-| 10 | Dra. Laura Ferreyra (especialista en IA) | pendiente |
-| 11 | Pablo Iturbe (educación y tecnología) | pendiente |
+| 01 | Valentina (alumna, 2.°) | listo |
+| 02 | Lucas (alumno, 6.°) | listo |
+| 03 | Norma (profe de Matemática) | listo |
+| 04 | Graciela (directora) | listo |
+| 05 | Diego (profe de Historia) | listo |
+| 06 | Mónica (madre) | listo |
+| 07 | Carlos (padre, depósito) | listo |
+| 08 | Ricardo (empresario PyME) | listo |
+| 09 | Sofía (emprendedora) | listo |
+| 10 | Dra. Laura Ferreyra (especialista en IA) | listo |
+| 11 | Pablo Iturbe (educación y tecnología) | listo |
 
 Pasos posteriores:
-- [ ] Informes analizados
-- [ ] Datos discutidos verificados
-- [ ] Correcciones aplicadas (guía, guion, demo, hoja, diapositivas y Artifact)
-- [ ] `Simulación 2 de la exposición.md` escrita y enlazada
+- [x] Informes analizados
+- [x] Datos discutidos verificados
+- [x] Correcciones aplicadas (guía, guion, demo, hoja, diapositivas y Artifact)
+- [x] `Simulación 2 de la exposición.md` escrita y enlazada
 - [ ] Publicado y links revisados (0 rotos)
 - [ ] Memoria actualizada
 
 ## Notas de avance
 (cada corrida agrega acá lo que hizo y dónde quedó)
+- 16/11 (corrida de las 5:15): los 11 informes están en `informes/`. Se empezaron las correcciones de la guía (1.1, 1.2, 1.4, 1.5, 0.3, 0.4, glosario).

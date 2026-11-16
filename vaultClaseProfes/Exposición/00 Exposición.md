@@ -15,6 +15,7 @@ Charla para profes en la Expo Técnica 2026: **50 minutos y 10 de preguntas**, e
 | **Diapositivas** | 15 diapositivas, con notas para el que expone | [▶️ Abrir la presentación](https://xaguhz.github.io/vaultColegio/vaultClaseProfes/diapositivas/) (pública, sin iniciar sesión) · [Editar en Claude](https://claude.ai/artifact/QvCiGeS3oEQ3hX4JiLZ5sr) *(privado)* |
 | **Hoja para repartir** | Una carilla A4 con el QR de la guía | [[Hoja para repartir]] · [🖨️ Abrir para imprimir](https://xaguhz.github.io/vaultColegio/vaultClaseProfes/hoja/) |
 | **Simulación** | Cinco asistentes simulados (profes y alumnos) y lo que se corrigió | [[Simulación de la exposición]] |
+| **Simulación 2** | Once asistentes simulados: alumnos, profes, público de paso y especialistas | [[Simulación 2 de la exposición]] |
 
 ## Checklist de la semana
 - [x] **Publicar la guía** en la página. (Ojo: el guion y la demo también quedan públicos; los profes los pueden leer.)
@@ -26,4 +27,5 @@ Charla para profes en la Expo Técnica 2026: **50 minutos y 10 de preguntas**, e
 - [ ] Ensayar la demo una vez, cronometrada, y sacar capturas para el plan B (también de los dos temas de reserva).
 - [ ] Descargar el **juego** del ensayo como `.html` al pendrive y **imprimir el guion**.
 - [ ] Leer [[Simulación de la exposición]]: lo que dijeron cinco asistentes simulados y lo que se corrigió.
+- [ ] Leer [[Simulación 2 de la exposición]] y resolver lo que queda para decidir (permisos, nombres en el sitio, dos anécdotas).
 - [ ] El jueves: llegar 15 minutos antes y seguir la preparación de [[Demo en vivo]].

@@ -25,10 +25,10 @@ Una carilla A4 que resume la charla, con el QR de la guía.
 > Se puede imprimir en blanco y negro: los colores son de fondo suave y se lee igual.
 
 ## Qué dice
-1. **Para empezar hoy mismo**: entrar a claude.ai y pedir como a un practicante.
+1. **Para empezar hoy mismo**: entrar a claude.ai y pedir como a un practicante; gratis para empezar, Pro a USD 20 por mes; edades mínimas (Claude 18; ChatGPT y Gemini, 13 con permiso de la familia).
 2. **Las cinco partes de un buen pedido**: contexto, tarea, material, formato y criterios. Ver [[1.3 Cómo pedir bien]].
 3. **Tres pedidos para copiar**: rúbrica, variantes de un ejercicio, "haceme las preguntas que necesites". Ver [[1.4 Recetas para docentes]].
-4. **Tres reglas**: nada de datos de alumnos, verificar lo duro y "vos firmás". Ver [[0.4 Lo que la IA hace bien y lo que hace mal]].
+4. **Tres reglas**: nada de datos privados (de alumnos, clientes o la empresa), verificar lo duro y rehacer una cuenta, y "vos firmás". Ver [[0.4 Lo que la IA hace bien y lo que hace mal]].
 5. **Consignas que obligan a pensar**: ver [[04 Cómo usamos la IA los alumnos]].
 6. **Los niveles de la guía.**
 

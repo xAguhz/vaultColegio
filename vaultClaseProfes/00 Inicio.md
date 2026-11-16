@@ -15,6 +15,12 @@ Esta guía explica **cómo llegar a trabajar así, empezando de cero**. No hace 
 > Está dividida en **niveles**. Cada nivel sirve por sí solo: si llegás al nivel 1 y no seguís, ya sacaste algo útil.
 > Cada nota termina con un **"Para practicar"**: un ejercicio corto para hacer en la compu.
 
+> [!warning] Para quién es
+> - Esta guía es para **docentes y adultos**. Claude pide **18 años**. Si sos alumno o alumna: ChatGPT permite desde los 13 con permiso de los padres y Gemini pide 13 años con cuenta de Google propia. Pedile permiso a tu familia y nunca le creas un dato sin fuente.
+> - **Si sos madre o padre**: lo que más sirve en casa es pedirle a tu hijo que te explique **con sus palabras** lo que entregó. Si no lo puede explicar, no lo aprendió, con IA o sin ella.
+> - **Si no sos docente**: el nivel 1 sirve igual para mails, pedidos y planillas ([[1.2 El primer chat]]).
+> - Es un **trabajo personal** de un alumno, no una postura oficial de la escuela.
+
 ## Los niveles
 
 | Nivel | Qué vas a poder hacer | Qué necesitás | Tiempo aproximado |
@@ -42,6 +48,7 @@ Esta guía explica **cómo llegar a trabajar así, empezando de cero**. No hace 
   - [[1.4 Recetas para docentes|1.4 Recetas para docentes]]
   - [[1.5 Revisar lo que responde|1.5 Revisar lo que responde]]
   - [[1.6 Usar la IA desde el celular]]
+  - [[1.7 Tu primera clase con IA]]
 - **Nivel 2 — Archivos, proyectos y Drive**
   - [[2.1 Darle tus archivos]]
   - [[2.2 El proyecto de tu materia]]

@@ -67,15 +67,15 @@ La IA hace la parte pesada (ordenar, redactar, armar las diapositivas), pero com
 
 ## Lo que no funciona (desde mi lado de alumno)
 - **Prohibirla en las tareas para casa.** Se usa igual, en el celular, y el que la usa a escondidas no aprende a usarla bien. Prohibirla **en ciertos momentos** (escribir en el aula, una evaluación presencial) sí funciona.
-- **Los "detectores de IA".** Se equivocan muchísimo: marcan textos humanos como IA y al revés. No sirven como prueba.
+- **Los "detectores de IA".** No son confiables como prueba: pueden marcar como IA un texto escrito por una persona, y al revés. Nunca habría que sancionar a alguien solo por lo que diga un detector.
 - **Las consignas de "investigá y resumí".** Investigar y resumir es justo lo que la IA hace mejor.
 
 ## Normas y reglas claras
-- **Edad mínima**: Claude pide **18 años**; ChatGPT permite desde los 13 con permiso de los padres; Gemini tiene opciones para adolescentes con otras reglas. Antes de pedirle a un curso que use una IA, conviene revisarlo.
+- **Edad mínima**: Claude pide **18 años**; ChatGPT permite desde los 13 con permiso de los padres; Gemini pide 13 años y una cuenta de Google propia (con una cuenta supervisada, los padres lo pueden habilitar). Las reglas cambian: antes de pedirle a un curso que use una IA, conviene revisarlas. Una alternativa que no necesita cuentas: que el profe **proyecte** la IA y el curso trabaje sobre lo que responde (ver [[1.7 Tu primera clase con IA]]).
 - **Lo que diga la escuela**: el acuerdo institucional de convivencia y la normativa vigente de la Provincia (DGCyE) están por encima de cualquier consejo de esta guía.
-- **Que cada consigna diga si se puede usar IA y cómo declararla** (por ejemplo: "si usaste IA, agregá al final para qué y qué pedidos hiciste"). Así deja de ser algo escondido.
+- **Que cada consigna diga si se puede usar IA y cómo declararla** (por ejemplo: "si usaste IA, agregá al final para qué y qué pedidos hiciste"). Así deja de ser algo escondido. Ayuda tener una escala fija, por ejemplo: **sin IA**, **IA solo para ideas**, **IA con declaración**, **IA libre**.
 - **Ante un trabajo hecho con IA sin entender**: lo mismo que con un trabajo copiado. Hablar con el alumno, pedirle que lo explique y aplicar lo que diga el acuerdo de la escuela.
 - **Coherencia**: si el profe usa IA para armar evaluaciones, conviene decirlo y explicar la diferencia. El profe ya sabe el tema y revisa lo que sale; el alumno lo está aprendiendo.
 
 ## Una propuesta
-Enseñar a usar la IA **como se enseña a usar la calculadora**: hay momentos en que se permite y momentos en que no. Se muestra cómo usarla bien y se evalúa lo que la calculadora no puede hacer por vos, que es **entender, aplicar y defender**.
+Enseñar a usar la IA **como se enseña a usar la calculadora**: hay momentos en que se permite y momentos en que no. Se muestra cómo usarla bien y se evalúa lo que la calculadora no puede hacer por vos, que es **entender, aplicar y defender**. La calculadora se da después de aprender a hacer la cuenta a mano; con la IA, igual: primero el oficio, después la herramienta. Con una diferencia: **la calculadora no se equivoca y la IA sí**, así que además hay que enseñar a verificar.

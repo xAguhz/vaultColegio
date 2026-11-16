@@ -20,7 +20,7 @@ Le pasé los tres documentos y le pedí el manual de mantenimiento y repuestos d
 
 ## Qué hizo Claude
 - **Tradujo completo** el manual en inglés y lo integró con el de Femar, nota por nota.
-- Encontró las **equivalencias**: el mismo torno se vende con otras marcas (Hafco, Grizzly, Lüsqtoff), y eso sirve para conseguir repuestos y manuales.
+- Encontró las **equivalencias**: según el despiece, el mismo torno parece venderse con otras marcas (Hafco, Grizzly, Lüsqtoff), y eso sirve para buscar repuestos y manuales. Antes de comprar un repuesto, hay que confirmarlo medida por medida contra la máquina.
 - **Relevó precios** de repuestos en Mercado Libre desde el navegador.
 - Armó un **mapa** del torno y un **dibujo de la cadena cinemática**, del motor a la herramienta.
 - Escribió un programa que genera el **Word de la entrega** desde las notas.

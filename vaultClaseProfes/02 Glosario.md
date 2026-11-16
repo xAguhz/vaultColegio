@@ -47,12 +47,14 @@ Todas las palabras raras de la guía, en orden alfabético. Si encontrás una qu
 | **Prompt** | El pedido que le escribís a la IA. |
 | **Proyecto** | En Claude, un espacio con archivos e instrucciones fijas que se usan en todas las conversaciones de ese proyecto. |
 | **Quartz** | Programa que convierte un vault de Obsidian en una página web. |
+| **Rúbrica** | Tabla que dice qué se evalúa en un trabajo y qué hace falta para cada nota (por ejemplo: excelente, bien, a mejorar). |
+| **Sesgo** | Cuando la IA repite siempre la misma mirada (la que más aparece en lo que leyó) como si fuera la única. |
 | **Repositorio** | Carpeta guardada con Git, por ejemplo en GitHub, con todo su historial de cambios. |
 | **Ruta** | La "dirección" de un archivo: `C:\Users\Marta\Documents\IA\nota.md`. |
 | **Sistema operativo** | El programa principal de la compu: Windows, macOS, Ubuntu. |
 | **Skill** | Receta guardada que Claude sigue para hacer siempre igual una tarea. |
 | **Syncthing** | Programa gratuito que mantiene una carpeta igual en varios dispositivos (compu y celular), sin pasar por una nube. |
 | **Terminal** | Ventana donde se le dan órdenes a la compu escribiendo comandos, en vez de hacer clic. |
-| **Token** | Pedacito de texto (unas 3 o 4 letras) con el que la IA cuenta lo que lee y escribe. |
+| **Token** | Pedacito de texto (aproximadamente 3 o 4 letras) con el que la IA cuenta lo que lee y escribe. |
 | **Ubuntu** | Sistema operativo gratuito, una versión de Linux. |
 | **Vault** | En Obsidian, la carpeta donde están todas tus notas. Esta guía es un vault. |
