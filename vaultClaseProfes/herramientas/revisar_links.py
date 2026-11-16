@@ -23,7 +23,8 @@ def estado(u):
 
 
 paginas = [str(p.relative_to(RAIZ).with_suffix("")).replace(" ", "-")
-           for p in pathlib.Path(RAIZ, VAULT).rglob("*.md") if ".obsidian" not in p.parts]
+           for p in pathlib.Path(RAIZ, VAULT).rglob("*.md")
+           if not {".obsidian", "herramientas", "Plantillas"} & set(p.parts)]  # carpetas que no se publican
 rotos = 0
 for pg in paginas:
     html = urllib.request.urlopen(urllib.parse.quote(B + pg, safe=":/") + "?v=6").read().decode()
