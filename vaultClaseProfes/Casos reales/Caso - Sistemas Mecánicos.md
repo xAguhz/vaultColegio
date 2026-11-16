@@ -21,7 +21,7 @@ Le pedí a Claude Code que leyera la carpeta de la materia en mi Drive y armara 
 - Leyó todo el Drive y entendió la **lógica de la materia**: cada TP agrega una capa sobre los mismos procesos (aire comprimido, bombeo y calentamiento de agua).
 - Armó la tabla de los 9 TP con fechas y estado, y detectó que las entregas del TP6 eran **PDF escaneados** sin texto, así que armó esa guía desde la teoría.
 - Con el grupo fuimos armando un **[método de trabajo](https://xaguhz.github.io/vaultColegio/vaultCharrute/03-M%C3%A9todo-de-trabajo-del-grupo)**: tres parejas, cada una dueña de un tramo del sistema, revisión cruzada, fuentes reales de fabricantes, libreto de exposición y preguntas trampa.
-- En el TP8 (compresores) generó la entrega completa: **Google Docs** con carátula, **PDF** y **presentación de 13 diapositivas** con ilustraciones de Gemini, todo en la carpeta del Drive.
+- En el TP8 (compresores) armó los documentos de la entrega a partir de lo que el grupo trabajó y revisó con el método: **Google Docs** con carátula, **PDF** y **presentación de 13 diapositivas** con ilustraciones de Gemini, todo en la carpeta del Drive. Después, **cada pareja defendió su parte en el oral**.
 
 ## Qué hice yo
 - Decidí la estructura y el método.

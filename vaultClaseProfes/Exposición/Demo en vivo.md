@@ -10,9 +10,16 @@ Toda la demo se hace en **[claude.ai](https://claude.ai), desde el navegador de 
 
 ## Preparación
 
+### Unos días antes, en la escuela
+- [ ] Entrar a **claude.ai** desde una compu de la escuela, con su red. Si el filtro de contenidos la bloquea, hay tiempo para pedir que la habiliten o para llevar datos del celular.
+- [ ] Probar que esa compu **lea el pendrive** y abra un PDF.
+
 ### El día antes (en casa)
 - [ ] **Ensayar la demo completa una vez** en tu compu, con los mismos textos. Cronometrala: tiene que entrar en 20 minutos.
 - [ ] **Sacar capturas** de cada resultado del ensayo (`Win + Shift + S` o la herramienta de Ubuntu) y guardarlas en el celular y en un pendrive. Son el **plan B** si se corta internet: se muestran las capturas y se cuenta lo que pasó.
+- [ ] Hacer en el ensayo **los dos temas de reserva** del 4B y guardar sus capturas: del tema que elija el público no puede haber plan B.
+- [ ] **Descargar el juego** del ensayo (botón de descarga del panel) como archivo `.html` y guardarlo en el pendrive: se abre con doble clic y **se juega sin internet**.
+- [ ] **Imprimir el guion.** Si el proyector duplica la pantalla, las notas de las diapositivas no se ven.
 - [ ] Dejar en el celular, en las notas, los textos de esta página, para copiar y pegar rápido. Pasátelos por WhatsApp o mail para abrirlos en la compu de la escuela.
 - [ ] Revisar que tu cuenta de Claude tenga **uso disponible**: no hacer trabajos pesados con Claude Code esa mañana.
 - [ ] Tener las **diapositivas** descargadas en PDF en el pendrive.
@@ -20,16 +27,19 @@ Toda la demo se hace en **[claude.ai](https://claude.ai), desde el navegador de 
 ### En la escuela, 15 minutos antes
 - [ ] Prender la compu y conectar el proyector.
 - [ ] Probar internet. Si anda mal: **datos del celular** compartidos (zona Wi-Fi).
+- [ ] Abrir una **ventana de incógnito** del navegador (`Ctrl + Shift + N`) y hacer todo ahí: al cerrarla no queda ninguna sesión guardada en la compu.
 - [ ] Abrir en pestañas, en este orden:
   1. las diapositivas;
   2. [xaguhz.github.io/vaultColegio](https://xaguhz.github.io/vaultColegio/), con el visor 3D del torno abierto;
   3. [claude.ai](https://claude.ai), con **tu sesión iniciada** y un **chat nuevo**.
+- [ ] **Cerrar la barra lateral** de claude.ai: si no, en el proyector se ven los títulos de todos tus chats.
+- [ ] Usar **chats incógnito** de Claude (el ícono del fantasmita o del antifaz, arriba): no usan la memoria. Si la memoria está activa, Claude puede responder sabiendo quién sos, a qué escuela vas o en qué andás, y eso arruina la demo y muestra cosas personales en pantalla.
 - [ ] Elegir el modelo **Sonnet** (es rápido; Opus tarda más frente al público).
 - [ ] Hacer `Ctrl + +` dos o tres veces en la pestaña de Claude para **agrandar la letra** del proyector.
 - [ ] Desactivar las notificaciones del celular si lo usás como zona Wi-Fi.
 
 > [!warning] Compu compartida
-> Al iniciar sesión, si el navegador pregunta **"¿Guardar contraseña?"**, respondé **Nunca**. Al terminar, **cerrá sesión** (ver el final de esta nota).
+> Con la ventana de incógnito, el navegador no guarda nada. Igual, si pregunta **"¿Guardar contraseña?"**, respondé **Nunca**. Al terminar, **cerrá sesión** (ver el final de esta nota).
 
 ## 4A. Pedido vago contra pedido completo (6 min)
 
@@ -58,9 +68,10 @@ con puntaje total de 10.
 Mostrar la diferencia. Después, en el mismo chat, para que vean que se puede corregir:
 
 ```
-El ejercicio 3 está muy difícil para 4.° año. Simplificalo. Y agregá una versión B
-de toda la evaluación con otros valores, para que no se copien.
+El ejercicio 3 está muy difícil para 4.° año. Simplificalo.
 ```
+
+✂️ Si sobra tiempo (si no, se cuenta): *"Agregá una versión B de toda la evaluación con otros valores, para que no se copien."* Genera mucho texto y tarda.
 
 ## 4B. Una materia que elijan ellos (6 min) ✂️
 
@@ -92,13 +103,13 @@ Que muestre si la respuesta es correcta, explique por qué en una línea, lleve 
 y al final muestre un mensaje según el resultado. Que se vea bien y con colores.
 ```
 
-Claude lo arma en el **panel de la derecha** (un *Artifact*). Se puede jugar ahí mismo: **invitar a un profe a pasar y jugarlo**.
+Claude lo arma en el **panel de la derecha** (un *Artifact*). Se puede jugar ahí mismo: **invitar a un profe a pasar y jugar 3 preguntas**, no las 10.
 
 Si sobra tiempo: *"Agregale un temporizador de 20 segundos por pregunta"*, para que vean que se modifica hablando.
 
 ## 4D. Cazar una alucinación (3 min) ✂️
 
-**Chat nuevo**:
+**Chat nuevo e incógnito, con la búsqueda web desactivada** (en el ícono de herramientas). Si busca en internet puede encontrar el dato real y no inventar nada.
 
 ```
 ¿En qué año se fundó la EEST N.° 3 de San Antonio de Padua, quién fue su primer
@@ -115,13 +126,13 @@ Variante si responde muy prudente: *"Dame tres citas textuales del Diseño Curri
 
 | Problema | Qué hago |
 |---|---|
-| Internet lento o cortado | Datos del celular. Si tampoco anda: **capturas del ensayo** en el pendrive o el celular |
-| Claude tarda mucho | Mientras escribe, explicar lo que se está viendo. Si pasan más de 2 minutos: cambiar a Haiku o seguir con las capturas |
+| Internet lento o cortado | Datos del celular. Si tampoco anda: **capturas del ensayo** y **el juego descargado** en el pendrive, y las diapositivas en PDF |
+| Claude tarda mucho | Mientras escribe, explicar lo que se está viendo. Si lo lento es Claude, cambiar a Haiku; si lo lento es internet, cambiar de modelo no sirve: pasar a las capturas |
 | "Límite de uso alcanzado" | Pasar a las capturas. (Por eso no usar Claude Code esa mañana.) |
 | La respuesta sale mal | **¡Mejor!** Es el ejemplo perfecto de que hay que revisar. Corregirla en vivo |
 | Letra chica en el proyector | `Ctrl + +` |
 
 ## Al terminar (importante)
 1. En claude.ai: tu nombre (abajo a la izquierda) → **Cerrar sesión**.
-2. Cerrar el navegador.
-3. Si el navegador había guardado algo: menú **⋮ → Configuración → Privacidad → Borrar datos de navegación** → "Contraseñas" y "Cookies" → Borrar.
+2. **Cerrar la ventana de incógnito.** Si entraste con Google, cerrar sesión en Claude no te saca de Google, pero la ventana de incógnito sí borra todo al cerrarse.
+3. Si por error trabajaste en una ventana normal: menú **⋮ → Configuración → Privacidad → Borrar datos de navegación** → "Contraseñas" y "Cookies" → Borrar.
