@@ -5,12 +5,15 @@ tags: [exposición, imprimir]
 
 # Hoja para repartir
 
-Una carilla A4 que resume la charla, con el QR de la guía. Está en `Exposición/Hoja para imprimir.html`, junto a esta nota.
+Una carilla A4 que resume la charla, con el QR de la guía.
+
+> [!tip] [🖨️ Abrir la hoja para imprimir](https://xaguhz.github.io/vaultColegio/vaultClaseProfes/hoja/)
+> Se abre en el navegador, lista para imprimir. El archivo original está en el vault, en `Exposición/Hoja para imprimir.html`, junto a esta nota.
 
 ![[qr_guia.png|220]]
 
 ## Cómo imprimirla
-1. Abrí `Hoja para imprimir.html` con Chrome o Edge (doble clic).
+1. Abrí [la hoja](https://xaguhz.github.io/vaultColegio/vaultClaseProfes/hoja/) en Chrome o Edge (o, en la compu, el archivo `Hoja para imprimir.html` con doble clic).
 2. `Ctrl + P`.
 3. Tamaño **A4**, márgenes **Predeterminados** y activá **Gráficos de fondo** (si no, salen sin los recuadros de color).
 4. **Imprimir**, o **Guardar como PDF** para llevarla en el pendrive.

@@ -13,7 +13,7 @@ Charla para profes en la Expo Técnica 2026: **50 minutos y 10 de preguntas**, e
 | **Guion** | Qué decir en cada bloque, tiempos y preguntas probables | [[Guion de la exposición]] |
 | **Demo en vivo** | Pedidos exactos para copiar, preparación y plan B | [[Demo en vivo]] |
 | **Diapositivas** | 15 diapositivas, con notas para el que expone | [Abrir en Claude](https://claude.ai/artifact/QvCiGeS3oEQ3hX4JiLZ5sr) *(privado: solo con mi cuenta)* |
-| **Hoja para repartir** | Una carilla A4 con el QR de la guía | [[Hoja para repartir]] |
+| **Hoja para repartir** | Una carilla A4 con el QR de la guía | [[Hoja para repartir]] · [🖨️ Abrir para imprimir](https://xaguhz.github.io/vaultColegio/vaultClaseProfes/hoja/) |
 | **Simulación** | Cinco asistentes simulados (profes y alumnos) y lo que se corrigió | [[Simulación de la exposición]] |
 
 ## Checklist de la semana
