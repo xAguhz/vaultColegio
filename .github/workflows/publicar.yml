@@ -59,6 +59,8 @@ jobs:
           cp -r vault/vaultTorno/3D/visor/. quartz/public/vaultTorno/3D/visor/
           cp "vault/vaultTorno/Adjuntos/Torno TM300/"*.png quartz/public/vaultTorno/3D/visor/laminas/
           cp -r vault/vaultAutoLID/AutoLID/Web/. quartz/public/vaultAutoLID/AutoLID/Web/
+          mkdir -p quartz/public/vaultAutoLID/AutoLID/3D/visor
+          cp -r vault/vaultAutoLID/AutoLID/3D/visor/. quartz/public/vaultAutoLID/AutoLID/3D/visor/
           mkdir -p quartz/public/vaultSuzuki/3D/visor/laminas
           cp -r vault/vaultSuzuki/3D/visor/. quartz/public/vaultSuzuki/3D/visor/
           cp "vault/vaultSuzuki/Adjuntos/Suzuki Swift/"*.jpg quartz/public/vaultSuzuki/3D/visor/laminas/

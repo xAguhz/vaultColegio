@@ -22,6 +22,7 @@ actualizado: 2026-11-12
 
 ## Notas
 - 🌐 **Página web de demostración:** [AutoLID en Claude](https://claude.ai/artifact/H3ZKnU41iqELZVsaQRg9zc) (privada hasta que la compartas). Archivos en `AutoLID/Web/` (`index.html` + `img/`). Diseño propuesto por Gemini, imágenes de Gemini, simulador con la lógica del firmware.
+- 🧩 [[Despiece 3D AutoLID]]: modelo 3D en Blender con vista explotada (25 piezas, 7 conjuntos) y visor con fichas.
 - 🎬 [[Publicidad]]: spot de 42 s con relator, música y efectos (`AutoLID/Diseño/Video/AutoLID_publicidad.mp4`).
 - 🗺️ [[Mapa AutoLID.canvas|Mapa AutoLID]] (Advanced Canvas): historia, cómo funciona, hardware y pendientes en un solo tablero.
 - ✏️ [[Arquitectura AutoLID.excalidraw|Arquitectura del hardware]] (Excalidraw): diagrama de bloques editable.

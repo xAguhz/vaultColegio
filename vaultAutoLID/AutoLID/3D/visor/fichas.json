@@ -1,0 +1,201 @@
+{
+  "conjuntos": {
+    "Gabinete y carcasa": {
+      "color": "#7d8a92",
+      "nota": "Informe final - resumen › Hardware",
+      "resumen": "Caja única de 150×150×100 mm que aloja toda la electrónica, el servo y las baterías. Adentro, un gabinete estanco IP65 con junta y tapa atornillada; afuera, una carcasa de acero inoxidable AISI 304 que resiste la lavandina y el amoníaco. Reemplazó al primer diseño de doble caja con vástago telescópico.",
+      "laminas": [
+        ["autolid_3d_gabinete.png", "Render del gabinete despiezado: carcasa, tapa, junta, módulos, placa, servo y celdas"],
+        ["autolid_3d_despiece.png", "Vista explotada completa"]
+      ]
+    },
+    "Actuador": {
+      "color": "#c0623b",
+      "nota": "Informe final - resumen › Cómo funciona",
+      "resumen": "Servomotor digital DS3218 de 20 kg·cm con engranajes metálicos. Su eje queda alineado con la bisagra de la tapa y la mueve a 3 RPM: 1° cada 55 ms, 90° en 5 segundos, sin golpes contra la loza.",
+      "laminas": []
+    },
+    "Electrónica": {
+      "color": "#2f8f4e",
+      "nota": "Informe final - resumen › Hardware",
+      "resumen": "Placa PCB doble faz con el Arduino Nano, el cargador TP4056 y el elevador MT3608. El firmware no usa delay(): todo se mide con millis(), así el servo se mueve mientras se siguen leyendo los sensores.",
+      "laminas": []
+    },
+    "Energía": {
+      "color": "#2c7a7a",
+      "nota": "Informe final - resumen › Hardware",
+      "resumen": "Dos celdas Li-Ion 18650 de 3000 mAh en paralelo (1S2P): 6000 mAh a 3,7 V, unos 22,2 Wh. Con el modo sleep del microcontrolador, rinden de 30 a 60 días por carga. Sin cables de 220 V en una zona húmeda.",
+      "laminas": []
+    },
+    "Sensores": {
+      "color": "#1d5fa8",
+      "nota": "Informe final - resumen › Cómo funciona",
+      "resumen": "El ultrasonido HC-SR04, en el frente del inodoro, detecta a la persona a menos de 60 cm durante 3 segundos. El sensor de fuerza FSR 402, bajo el asiento, detecta si alguien está sentado y bloquea el cierre.",
+      "laminas": []
+    },
+    "Montaje y transmisión": {
+      "color": "#8a6fb0",
+      "nota": "Historia del proyecto › Cómo cambió el diseño",
+      "resumen": "Lo que une AutoLID con el inodoro sin obra: un adaptador universal impreso en PETG que toma la bisagra existente y una pletina de inoxidable que lleva el giro del servo a la tapa. Se instala en menos de 10 minutos.",
+      "laminas": []
+    },
+    "Inodoro (referencia)": {
+      "color": "#c9c3b4",
+      "nota": "00 AutoLID",
+      "resumen": "Inodoro genérico, solo para mostrar dónde va cada pieza. AutoLID es un retrofit: se instala sobre cualquier inodoro existente, sin cambiarlo ni romper paredes.",
+      "laminas": []
+    }
+  },
+  "piezas": {
+    "caja_ip65": {
+      "que": "Gabinete estanco de polímero técnico que aísla la placa y las baterías de los vapores y las salpicaduras del baño. Tiene torretas en las esquinas para los tornillos de la tapa y un retén de goma donde sale el eje del servo.",
+      "datos": [["Medidas", "150 × 150 × 100 mm"], ["Protección", "IP65 (IEC 60529 / IRAM 2444)"], ["Costo prototipo", "$11.500"], ["Costo en serie (lote 100)", "$8.500"], ["Estado", "Adquirido"]],
+      "mant": ["Revisar que la junta no esté cortada ni aplastada cada vez que se abre la caja.", "Cerrar la tapa apretando los tornillos en cruz para que la junta asiente pareja.", "No perforar la caja: los cables salen solo por el prensacables."],
+      "ver": "Informe final - resumen › Hardware"
+    },
+    "junta": {
+      "que": "Burlete elastomérico entre la caja y la tapa. Es lo que hace estanco al gabinete: con la tapa atornillada, no deja pasar polvo ni chorros de agua.",
+      "datos": [["Material", "Goma (EPDM o similar)"], ["Función", "Sello de la tapa (IP65)"]],
+      "mant": ["Cambiarla si quedó deformada o se pegó a la tapa.", "No usar solventes: resecan la goma."],
+      "ver": "Informe final - resumen › Hardware"
+    },
+    "tapa_ip65": {
+      "que": "Tapa del gabinete estanco, atornillada sobre la junta. En el modelo se ve translúcida para mostrar la electrónica de adentro.",
+      "datos": [["Fijación", "4 tornillos M3 inoxidables"], ["Parte de", "Gabinete IP65 150×150×100 mm"]],
+      "mant": ["Abrirla con la batería desconectada si se va a tocar la placa."],
+      "ver": "Informe final - resumen › Hardware"
+    },
+    "bulones": {
+      "que": "Tornillería M3 de acero inoxidable que cierra la tapa del gabinete y fija el adaptador.",
+      "datos": [["Medida", "M3"], ["Material", "Acero inoxidable"], ["Kit", "Adaptador PETG + bulonería + goma: $10.500 prototipo / $8.000 en serie"]],
+      "mant": ["No ajustar de más: las torretas son de plástico y se pasan de rosca."],
+      "ver": "Informe final - resumen › Costos"
+    },
+    "carcasa_inox": {
+      "que": "Cubierta exterior de acero inoxidable AISI 304 plegada por láser. Protege al gabinete de golpes y es fácil de limpiar: es inerte a la lavandina, al amoníaco y a la humedad salina. Tiene un testigo LED.",
+      "datos": [["Material", "Acero inoxidable AISI 304"], ["Fabricación", "Chapa cortada y plegada por láser"], ["Costo prototipo", "$32.000"], ["Costo en serie (lote 100)", "$24.000"], ["Estado", "Por adquirir"]],
+      "mant": ["Limpiar con los productos de siempre del baño, incluida lavandina.", "Evitar esponjas de acero: rayan el acabado."],
+      "ver": "Informe final - resumen › Hardware"
+    },
+    "prensacables": {
+      "que": "Pasacables estanco por donde salen los cables hacia el ultrasonido y el sensor de fuerza, sin romper la protección IP65 del gabinete.",
+      "datos": [["Función", "Salida estanca de cables"], ["Ubicación", "Cara frontal del gabinete"]],
+      "mant": ["Ajustar la tuerca hasta que el cable no se deslice, sin aplastarlo."],
+      "ver": "Informe final - resumen › Hardware"
+    },
+    "servo_ds3218": {
+      "que": "Servomotor digital que levanta y baja la tapa. Su eje queda en línea con la bisagra. El firmware lo mueve de a 1° cada 55 ms (3 RPM), así la tapa nunca golpea la loza.",
+      "datos": [["Torque", "20 kg·cm a 5 V"], ["Engranajes", "Metálicos"], ["Medidas", "40 × 20 × 40,5 mm"], ["Velocidad usada", "3 RPM (90° en 5 s)"], ["Consumo", "500 a 900 mA en movimiento"], ["Señal", "PWM 50 Hz en el pin D6"], ["Costo prototipo / serie", "$55.000 / $42.000"], ["Estado", "Por adquirir"]],
+      "mant": ["Alimentarlo siempre desde el MT3608, nunca desde el pin 5 V del Arduino: sus picos de 900 mA lo reiniciarían.", "No forzar la tapa con la mano mientras se mueve: el informe lo marca como riesgo de falla."],
+      "ver": "Informe final - resumen › Hardware"
+    },
+    "brazo_servo": {
+      "que": "Brazo (horn) de aluminio que va en el eje estriado del servo, del lado de afuera del gabinete, y empuja la pletina.",
+      "datos": [["Material", "Aluminio"], ["Viene con", "El servo DS3218"]],
+      "mant": ["Revisar que el tornillo central no se afloje con el uso."],
+      "ver": "Informe final - resumen › Hardware"
+    },
+    "pletina": {
+      "que": "Planchuela de acero inoxidable que transmite el giro del servo a la tapa del inodoro. Reemplazó al vástago telescópico de aluminio del primer diseño: menos piezas, menos holguras y la mitad del costo.",
+      "datos": [["Material", "Acero inoxidable"], ["Reemplaza a", "Vástago telescópico con buje de goma (V1)"]],
+      "mant": ["Si la tapa queda torcida al cerrar, reajustar el clip sobre la tapa."],
+      "ver": "Historia del proyecto › Cómo cambió el diseño"
+    },
+    "adaptador_petg": {
+      "que": "Pieza impresa en 3D que se monta sobre la bisagra existente del inodoro y sostiene el gabinete. Es lo que hace que AutoLID entre en cualquier inodoro sin obra.",
+      "datos": [["Material", "PETG (impresión FDM)"], ["Bisagras compatibles", "Pasos de 38 a 43 mm"], ["Por qué PETG", "Tenaz bajo cargas cíclicas, aguanta hasta 75 °C y no absorbe humedad"], ["Instalación", "Menos de 10 minutos"], ["Estado", "Por imprimir"]],
+      "mant": ["Revisar cada tanto que no tenga fisuras cerca del collar.", "No reemplazarlo por PLA: se deforma con el calor y la humedad."],
+      "ver": "Informe final - resumen › Hardware"
+    },
+    "pcb": {
+      "que": "Placa de circuito impreso propia donde van montados el Arduino Nano y los módulos de energía, con conectores JST para el servo, las celdas y los sensores. Se diseña en EasyEDA y se fabrica en JLCPCB.",
+      "datos": [["Tipo", "Doble faz, cobre de 2 oz"], ["Pistas de potencia", "1,0 mm (40 mil) para picos de 900 mA"], ["Pistas de señal", "0,254 mm (10 mil)"], ["Blindaje", "Plano de masa en las dos caras"], ["Norma", "IPC-2221A"], ["Costo prototipo / serie", "$11.700 / $6.500"], ["Estado", "Planificada (el prototipo usa protoboard)"]],
+      "mant": ["Desconectar la batería antes de tocarla.", "Mantenerla seca: si entra humedad, revisar la junta del gabinete."],
+      "ver": "Informe final - resumen › Hardware"
+    },
+    "arduino_nano": {
+      "que": "El cerebro de AutoLID: lee el ultrasonido y el sensor de fuerza, decide cuándo abrir o cerrar y le marca el ángulo al servo.",
+      "datos": [["Microcontrolador", "ATmega328P a 16 MHz, 5 V"], ["Medidas", "18 × 43 mm"], ["HC-SR04", "D9 (Trig) / D10 (Echo)"], ["FSR 402", "A0"], ["Servo", "D6 (PWM)"], ["Consumo en sleep", "Unos 20 µA"], ["Costo prototipo / serie", "$8.500 / $6.200"], ["Estado", "Adquirido"]],
+      "mant": ["El firmware se carga por el USB de la placa.", "Usar el modo sleep con watchdog: sin él la batería dura unos 4 días en vez de 60."],
+      "ver": "Informe final - resumen › Hardware"
+    },
+    "tp4056": {
+      "que": "Módulo que carga las celdas 18650 por USB-C y las protege de sobrecarga y descarga profunda.",
+      "datos": [["Carga", "1 A, celdas Li-Ion de 3,7 V"], ["Entrada", "USB-C"], ["Con el MT3608", "$5.800 prototipo / $4.100 en serie"], ["Estado", "En evaluación"]],
+      "mant": ["Cargar con un cargador de celular común de 5 V."],
+      "ver": "Informe final - resumen › Hardware"
+    },
+    "mt3608": {
+      "que": "Elevador de tensión (step-up) que convierte los 3,7 V de las celdas en los 5 V que necesitan el servo y el Arduino.",
+      "datos": [["Salida", "5,0 V regulados"], ["Eficiencia", "85 a 92 %"], ["Corriente", "Hasta 2 A"], ["Ajuste", "Preset azul"]],
+      "mant": ["Si se cambia el módulo, ajustar el preset hasta medir 5,0 V antes de conectar el servo."],
+      "ver": "Informe final - resumen › Hardware"
+    },
+    "cableado": {
+      "que": "Cables que salen del gabinete por el prensacables y bajan hasta el ultrasonido, en el frente, y hasta el sensor de fuerza, bajo el asiento.",
+      "datos": [["Conectores", "JST en la placa"], ["Salida", "Prensacables estanco"]],
+      "mant": ["Fijarlos al costado de la loza para que no se enganchen al limpiar."],
+      "ver": "Informe final - resumen › Hardware"
+    },
+    "portapilas": {
+      "que": "Soporte de las dos celdas 18650 conectadas en paralelo, con sus contactos de resorte.",
+      "datos": [["Configuración", "1S2P (2 celdas en paralelo)"]],
+      "mant": ["Revisar que los contactos no estén sulfatados."],
+      "ver": "Informe final - resumen › Hardware"
+    },
+    "celdas_18650": {
+      "que": "Las dos baterías recargables de litio que alimentan todo AutoLID, sin enchufe.",
+      "datos": [["Celdas", "2 × 3000 mAh, 3,7 V"], ["Total", "6000 mAh · 22,2 Wh"], ["Autonomía", "30 a 60 días por carga"], ["Consumo medio", "Unos 100 mAh por día con 12 usos"], ["Medidas", "Ø 18,4 × 65 mm cada una"], ["Costo prototipo / serie", "$18.000 / $14.000"], ["Estado", "En evaluación"]],
+      "mant": ["Usar celdas de marca reconocida: el informe marca las de baja calidad como debilidad del proyecto.", "Cambiar las dos juntas, nunca una sola."],
+      "ver": "Informe final - resumen › Hardware"
+    },
+    "hc_sr04": {
+      "que": "Sensor ultrasónico que mide a qué distancia está la persona. Si está a menos de 60 cm durante 3 segundos, la tapa se abre. No le afecta el color de la ropa ni la luz del sol, a diferencia del infrarrojo que probaron antes.",
+      "datos": [["Frecuencia", "40 kHz"], ["Rango", "2 a 400 cm"], ["Umbral", "< 60 cm durante 3 s"], ["Medidas", "45 × 20 mm"], ["Pines", "D9 Trig / D10 Echo"], ["Costo prototipo / serie", "$4.800 / $3.200"], ["Estado", "Adquirido"]],
+      "mant": ["No taparlo ni apoyarle cosas delante.", "En baños muy angostos el cono de 15–30° puede rebotar en las paredes: ajustar el umbral si abre solo."],
+      "ver": "Informe final - resumen › Cómo funciona"
+    },
+    "membrana": {
+      "que": "Membrana hidrofóbica que tapa los transductores del ultrasonido: deja pasar el sonido pero no el agua. Va con sellado perimetral de silicona RTV.",
+      "datos": [["Material", "Tipo Gore-Tex"], ["Sellado", "Silicona RTV en el borde"]],
+      "mant": ["Limpiarla con un paño húmedo, sin productos abrasivos."],
+      "ver": "Informe final - resumen › Hardware"
+    },
+    "fsr402": {
+      "que": "Sensor de fuerza que va bajo el asiento. Cuando alguien se sienta, su resistencia baja y el Arduino lee más de 200: el cierre queda bloqueado. Solo se lee con la tapa abierta, para ahorrar energía.",
+      "datos": [["Modelo", "Interlink FSR 402"], ["Rango", "0,1 a 100 N"], ["Conexión", "Divisor con resistencia de 10 kΩ en A0"], ["Umbral", "Lectura > 200 (escala 0–1023)"], ["Costo prototipo / serie", "$28.000 / $21.500"], ["Estado", "Por adquirir"]],
+      "mant": ["Si deja de detectar, revisar la cola: es delicada y no se debe doblar en ángulo.", "Probar el bloqueo de vez en cuando sentándose con la tapa abierta."],
+      "ver": "Informe final - resumen › Cómo funciona"
+    },
+    "goma_fsr": {
+      "que": "Lámina de goma de 2 mm sobre el sensor de fuerza: reparte el peso de la persona y protege la superficie del sensor.",
+      "datos": [["Espesor", "2 mm"]],
+      "mant": ["Cambiarla si se endurece o se agrieta."],
+      "ver": "Informe final - resumen › Hardware"
+    },
+    "taza": {
+      "que": "Taza de un inodoro genérico, solo como referencia. AutoLID no la modifica.",
+      "datos": [["Modelo", "Genérico"]],
+      "mant": [],
+      "ver": "00 AutoLID"
+    },
+    "mochila": {
+      "que": "Mochila (depósito) del inodoro de referencia. En el primer diseño, la caja de control iba debajo de ella.",
+      "datos": [["Modelo", "Genérico"]],
+      "mant": [],
+      "ver": "Historia del proyecto"
+    },
+    "asiento": {
+      "que": "Asiento del inodoro. Debajo va el sensor de fuerza FSR 402, que detecta si hay alguien sentado.",
+      "datos": [["Sensor", "FSR 402 bajo el asiento"]],
+      "mant": [],
+      "ver": "00 AutoLID"
+    },
+    "tapa": {
+      "que": "La tapa que AutoLID abre y cierra sola. Pesa entre 0,5 y 1 kg: levantarla es lo que les cuesta a los adultos mayores y a las personas con movilidad reducida.",
+      "datos": [["Peso típico", "0,5 a 1 kg"], ["Recorrido", "0° a 90° en 5 s"]],
+      "mant": [],
+      "ver": "Informe final - resumen › Público y problema"
+    }
+  }
+}

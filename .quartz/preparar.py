@@ -38,6 +38,7 @@ ARTIFACTS = {
     "https://claude.ai/artifact/6k1uizayAvXsBWRHKa3caD": f"{SITIO}/vaultTorno/3D/visor/index.html",
     "https://claude.ai/artifact/5inUBYy9btJ8hJyYv1jBd9": f"{SITIO}/vaultSuzuki/3D/visor/index.html",
     "https://claude.ai/artifact/H3ZKnU41iqELZVsaQRg9zc": f"{SITIO}/vaultAutoLID/AutoLID/Web/index.html",
+    "https://claude.ai/artifact/U6PzRwKaJ2MU91Rp4tUbsT": f"{SITIO}/vaultAutoLID/AutoLID/3D/visor/index.html",
 }
 COLORES = {"1": "#e93147", "2": "#ec7500", "3": "#e0ac00", "4": "#08b94e", "5": "#00bfbc", "6": "#7852ee"}
 IMAGENES = {".png", ".jpg", ".jpeg", ".gif", ".svg", ".webp"}
