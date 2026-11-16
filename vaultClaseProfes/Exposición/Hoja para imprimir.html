@@ -14,7 +14,7 @@
   html { background: #d9d3c6; }
   body { font-family: 'Nunito Sans', Arial, sans-serif; color: var(--ink); background: #d9d3c6; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .hoja { width: 210mm; height: 296mm; margin: 12px auto; background: #fff; padding: 10mm; box-sizing: border-box; overflow: hidden; box-shadow: 0 2px 12px #0002; }
-  #contenido { width: 190mm; min-height: 276mm; display: flex; flex-direction: column; gap: 4mm; transform-origin: top left; }
+  #contenido { width: 190mm; min-height: 276mm; display: flex; flex-direction: column; gap: 3mm; transform-origin: top left; }
   @media print {
     html, body { background: #fff; margin: 0; }
     .hoja { margin: 0; box-shadow: none; break-after: avoid; page-break-after: avoid; }
@@ -23,7 +23,7 @@
   .aviso { max-width: 210mm; margin: 12px auto 0; font-size: 14px; color: var(--suave); }
   h1, h2 { font-family: 'Bricolage Grotesque', Georgia, serif; line-height: 1.05; }
   .cabecera { display: flex; gap: 7mm; align-items: stretch; }
-  .titulo { flex: 1; background: var(--ink); color: var(--papel); border-radius: 5mm; padding: 7mm; display: flex; flex-direction: column; gap: 3mm; }
+  .titulo { flex: 1; background: var(--ink); color: var(--papel); border-radius: 5mm; padding: 6mm 7mm; display: flex; flex-direction: column; gap: 3mm; }
   .ceja { font-size: 9pt; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--naranja-claro); }
   .titulo h1 { font-size: 25pt; font-weight: 800; }
   .mano { font-family: 'Caveat', 'Brush Script MT', cursive; font-size: 16pt; color: #F2C94C; line-height: 1.1; }
@@ -32,7 +32,7 @@
   .qr p { font-size: 7.5pt; text-align: center; word-break: break-all; line-height: 1.25; }
   h2 { font-size: 13.5pt; font-weight: 700; margin-bottom: 2mm; }
   h2 .n { color: var(--naranja); }
-  .bloque { background: var(--papel); border-radius: 4mm; padding: 4mm 5mm; }
+  .bloque { background: var(--papel); border-radius: 4mm; padding: 3.2mm 5mm; }
   p, li { font-size: 9.2pt; line-height: 1.34; }
   .partes { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2.5mm; }
   .parte { background: #fff; border-radius: 3mm; padding: 2.5mm 3mm; }
@@ -54,8 +54,8 @@
     <div class="titulo">
       <p class="ceja">Expo Técnica 2026 · Charla para profes</p>
       <h1>La IA en el aula: por dónde empezar</h1>
-      <p style="color:#C9D6D3;">Lo que vimos hoy, en una hoja. La guía completa, gratis y desde cero, está en el QR: desde qué es un archivo hasta tener un entorno de trabajo con IA.</p>
-      <p class="mano">Con el nivel 1 solo ya te ahorrás tiempo, en el aula y fuera de ella.</p>
+      <p style="color:#C9D6D3;">Lo que vimos hoy, en una hoja. La guía completa, gratis y desde cero, está en el QR.</p>
+      <p class="mano">Con el nivel 1 solo ya te ahorrás tiempo.</p>
     </div>
     <div class="qr">
       <img src="../Adjuntos/qr_guia.png" alt="Código QR a la guía">
@@ -65,7 +65,7 @@
 
   <section class="bloque">
     <h2><span class="n">1.</span> Para empezar hoy mismo</h2>
-    <p>Entrá a <b>claude.ai</b> (o gemini.google.com, o chatgpt.com) → <b>Continuar con Google</b> → escribí tu pedido como se lo pedirías a un practicante que no conoce tu escuela ni tu trabajo. Gratis para empezar; el plan Pro, USD 20 por mes. También desde el celular. <b>Claude pide 18 años</b> (ChatGPT y Gemini, desde 13, con permiso de la familia). Ojo: <b>Enter envía</b>; para bajar de renglón, <b>Shift</b> (la flecha de las mayúsculas) <b>+ Enter</b>. Si la respuesta no sirve, no empieces de cero: <b>decile qué cambiar</b> ("más corto", "para 2.° año", "sin palabras en inglés").</p>
+    <p>Entrá a <b>claude.ai</b> (o gemini.google.com, o chatgpt.com), también desde el celular → <b>Continuar con Google</b> → pedí como a un practicante que no conoce tu escuela. Gratis para empezar (Pro: USD 20 por mes). <b>Claude pide 18 años</b>; ChatGPT y Gemini, 13 con permiso de la familia. <b>Enter envía</b>; <b>Shift</b> (flecha de mayúsculas) <b>+ Enter</b> baja de renglón. Si no sirve, <b>decile qué cambiar</b> ("más corto", "para 2.° año").</p>
   </section>
 
   <section class="bloque">
@@ -83,14 +83,14 @@
     <div class="bloque">
       <h2><span class="n">3.</span> Tres pedidos para copiar</h2>
       <p class="receta">Armá una rúbrica para evaluar [trabajo] de [año] con 4 criterios y 4 niveles, con descripciones concretas y puntaje total de 10. En tabla.</p>
-      <p class="receta">Armá 3 versiones del mismo ejercicio sobre [tema], con distintos valores y la misma dificultad. Calculá los resultados ejecutando código y poné las resoluciones al final.</p>
+      <p class="receta">Armá 3 versiones del mismo ejercicio sobre [tema], con otros valores y la misma dificultad. Calculá los resultados con código y poné las resoluciones al final.</p>
       <p class="receta">Antes de armarlo, haceme las preguntas que necesites para que salga bien.</p>
     </div>
     <div class="bloque">
       <h2><span class="n">4.</span> Tres reglas</h2>
       <ul>
-        <li><b>Nada de datos privados:</b> de alumnos (nombres con notas, DNI, informes; para corregir, "Alumno A"), de clientes ni de la empresa.</li>
-        <li><b>Verificar lo duro:</b> fechas, valores, normas y citas. Pedí la fuente y abrila: si no existe o no dice eso, era inventado. Rehacé una cuenta.</li>
+        <li><b>Nada de datos privados</b> de alumnos (para corregir, "Alumno A"), de clientes ni de la empresa.</li>
+        <li><b>Verificar lo duro:</b> fechas, valores, normas y citas. Abrí la fuente: si no existe o no dice eso, era inventado. Rehacé una cuenta.</li>
         <li><b>Vos firmás:</b> lo que entregás es tuyo, con los errores incluidos.</li>
       </ul>
     </div>
@@ -100,24 +100,23 @@
     <h2><span class="n">5.</span> Consignas que obligan a pensar, aunque se use IA</h2>
     <div class="dos" style="gap:4mm;">
       <ul>
-        <li><b>Defensa oral</b> del trabajo, con preguntas: lo que no se entendió, se nota.</li>
+        <li><b>Defensa oral</b> corta, con preguntas: lo que no se entendió, se nota.</li>
         <li><b>Preguntar por lo que sobra:</b> el dato que nadie pidió suele ser el que puso la IA.</li>
       </ul>
       <ul>
-        <li><b>Un caso local:</b> el taller de la escuela, la casa del alumno. La IA no los conoce.</li>
-        <li><b>El proceso y las fuentes,</b> no solo el resultado. (Los detectores de IA no son prueba: se equivocan. Y todo se esquiva si nadie lo sigue de cerca.)</li>
+        <li><b>Un caso local</b> (el taller, la casa del alumno): la IA no lo conoce.</li>
+        <li><b>El proceso y las fuentes</b>, no solo el resultado. Los detectores de IA no son prueba, y todo se esquiva si nadie lo sigue de cerca.</li>
       </ul>
     </div>
   </section>
 
   <section class="bloque" style="background:var(--ink); color:var(--papel);">
     <h2 style="color:var(--papel);"><span class="n" style="color:var(--naranja-claro);">6.</span> La guía, por niveles</h2>
-    <p style="color:#C9D6D3;"><b style="color:var(--papel);">0</b> Lo básico · <b style="color:var(--papel);">1</b> Chatear bien con la IA · <b style="color:var(--papel);">2</b> Sus archivos y su Drive · <b style="color:var(--papel);">3</b> Notas en Obsidian · <b style="color:var(--papel);">4</b> Claude trabajando en la compu · <b style="color:var(--papel);">5</b> Página web, imágenes y 3D. Cada uno llega hasta donde quiera.</p>
+    <p style="color:#C9D6D3;"><b style="color:var(--papel);">0</b> Lo básico · <b style="color:var(--papel);">1</b> Chatear bien con la IA · <b style="color:var(--papel);">2</b> Sus archivos y su Drive · <b style="color:var(--papel);">3</b> Notas en Obsidian · <b style="color:var(--papel);">4</b> Claude trabajando en la compu · <b style="color:var(--papel);">5</b> Página web, imágenes y 3D.</p>
   </section>
 
   <footer class="pie">
     <span>Hecha por un alumno de 7.° año, con IA y revisada a mano. Trabajo personal, no oficial de la escuela.</span>
-    <span>xaguhz.github.io/vaultColegio/vaultClaseProfes/00-Inicio</span>
   </footer>
 </div></main>
 <script>
