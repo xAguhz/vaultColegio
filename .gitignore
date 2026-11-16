@@ -19,3 +19,6 @@ __pycache__/
 
 # Manual de taller original (PDF del usuario): solo local, nunca al repo público
 vaultSuzuki/Manual de taller/PDF/
+
+# vaultSuzukiPablo: transcripción completa del manual de taller (copyright Suzuki): solo local + Syncthing, nunca al repo público
+vaultSuzukiPablo/

@@ -1,0 +1,77 @@
+:root {
+  --ink: #1B2A2F;
+  --ink2: #24373D;
+  --paper: #F6F1E6;
+  --paper2: #EDE4D0;
+  --orange: #E8743B;
+  --orange-deep: #B9481A;
+  --chalk: #F2C94C;
+  --body-dark: #4A5258;
+  --body-light: #C9D6D3;
+  --line-light: #D8CDB5;
+  --line-dark: #3A5058;
+}
+
+body {
+  font-family: 'Nunito Sans', Arial, sans-serif;
+  color: var(--ink);
+}
+
+section {
+  padding: 128px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+section.oscuro { background: var(--ink); color: var(--paper); }
+section.papel2 { background: var(--paper2); color: var(--ink); }
+section.acento { background: var(--orange); color: var(--ink); }
+
+h1, h2, h3 { font-family: 'Bricolage Grotesque', Georgia, serif; }
+h1 { font-size: 120px; font-weight: 800; line-height: 1.0; letter-spacing: -2px; }
+h2 { font-size: 72px; font-weight: 700; line-height: 1.05; letter-spacing: -1px; }
+h3 { font-size: 44px; font-weight: 700; line-height: 1.1; }
+p { font-size: 32px; line-height: 1.35; }
+
+.ceja { font-size: 26px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--orange-deep); }
+section.oscuro .ceja { color: var(--orange); }
+
+.mano { font-family: 'Caveat', 'Brush Script MT', cursive; font-size: 56px; font-weight: 700; line-height: 1.1; color: var(--orange-deep); }
+section.oscuro .mano { color: var(--chalk); }
+section.acento .mano { color: var(--ink); }
+
+.suave { color: var(--body-dark); }
+section.oscuro .suave { color: var(--body-light); }
+
+.chico { font-size: 26px; line-height: 1.35; }
+
+/* Tarjetas */
+.fila { display: flex; gap: 24px; }
+.grilla2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.tarjeta { background: var(--paper2); border-radius: 24px; padding: 32px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+section.papel2 .tarjeta { background: var(--paper); }
+section.oscuro .tarjeta { background: var(--ink2); }
+.tarjeta h3 { font-size: 36px; }
+.tarjeta p { font-size: 26px; line-height: 1.35; }
+.tarjeta .icono { width: 56px; height: 56px; color: var(--orange-deep); }
+section.oscuro .tarjeta .icono { color: var(--orange); }
+.num { font-family: 'Bricolage Grotesque', Georgia, serif; font-size: 72px; font-weight: 800; line-height: 1; color: var(--orange-deep); }
+section.oscuro .num { color: var(--orange); }
+
+.pastilla { font-size: 28px; font-weight: 700; background: var(--ink); color: var(--paper); padding: 12px 28px; border-radius: 999px; }
+section.oscuro .pastilla { background: var(--chalk); color: var(--ink); }
+
+.espaciador { flex: 1; }
+
+/* Movimiento: aparece al llegar, escalonado con --i */
+.sube { animation: sube 700ms cubic-bezier(.2,.7,.2,1) both; animation-delay: calc(var(--i, 0) * 120ms); }
+@keyframes sube { from { opacity: 0; transform: translateY(28px); } }
+.aparece { animation: aparece 900ms ease-out both; animation-delay: calc(var(--i, 0) * 120ms); }
+@keyframes aparece { from { opacity: 0; } }
+
+/* Pasos que marca el que expone */
+.fragment { opacity: 0; transform: translateY(20px); transition: opacity 500ms ease, transform 500ms ease; }
+.fragment.visible { opacity: 1; transform: translateY(0); }
