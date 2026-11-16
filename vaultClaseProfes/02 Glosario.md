@@ -20,13 +20,13 @@ Todas las palabras raras de la guía, en orden alfabético. Si encontrás una qu
 | **CLAUDE.md** | Archivo de texto con instrucciones que Claude Code lee cada vez que trabaja en una carpeta. |
 | **Conector** | Permiso para que Claude use otro servicio: Google Drive, Gmail, el navegador, Blender. |
 | **Contexto** | Todo lo que la IA tiene a la vista en una conversación. Tiene un tamaño máximo. |
-| **Extensión** | Las letras después del punto en el nombre de un archivo (`.pdf`, `.md`) que dicen qué tipo de archivo es. |
 | **Excalidraw** | Plugin de Obsidian para hacer dibujos y diagramas a mano alzada. |
+| **Extensión** | Las letras después del punto en el nombre de un archivo (`.pdf`, `.md`) que dicen qué tipo de archivo es. |
 | **Fecha de corte** | Hasta cuándo llega lo que la IA "leyó" al entrenarse. |
-| **Grafo** | En Obsidian, el mapa de puntos y líneas que muestra cómo se conectan todas las notas. |
 | **Gemini** | La IA de Google. La uso para generar imágenes. |
 | **Git** | Programa que guarda el historial de cambios de una carpeta, como un "control de versiones". |
 | **GitHub** | Página donde se guardan carpetas con Git en internet. Ahí está mi vault. |
+| **Grafo** | En Obsidian, el mapa de puntos y líneas que muestra cómo se conectan todas las notas. |
 | **Instalador** | Archivo (`.exe` o `.msi` en Windows) que pone un programa en la compu. |
 | **Link (enlace)** | En Obsidian, una conexión entre dos notas. Se escribe `[[Nombre de la nota]]`. |
 | **Links entrantes** | En Obsidian, la lista de notas que apuntan a la que estás leyendo. |
