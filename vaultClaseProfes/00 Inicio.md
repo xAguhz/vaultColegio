@@ -11,6 +11,25 @@ Soy alumno de 7.° año de una escuela técnica. Durante 2026 armé con intelige
 
 Esta guía explica **cómo llegar a trabajar así, empezando de cero**. No hace falta saber nada de computación ni de IA: si alguna palabra no se entiende, está en el [[02 Glosario]].
 
+> [!info]+ Cómo moverte por esta página
+> Tocá el título de este recuadro para abrirlo o cerrarlo.
+>
+> | Para… | En la compu | En el celular |
+> |---|---|---|
+> | **Ir a otra nota** | Clic en las palabras en **violeta**. Si pasás el mouse por encima sin hacer clic, aparece una **vista previa** | Tocá las palabras en violeta |
+> | **Ver todas las notas** | Panel **Archivos**, a la izquierda. Las carpetas se abren con un clic | Botón **☰**, arriba a la izquierda |
+> | **Buscar una palabra** | Cuadro **Buscar**, arriba a la izquierda, o `Ctrl + K` | Cuadro **Buscar**, arriba |
+> | **Saber dónde estás y volver** | La línea de arriba del título (**Home ❯ Clase para profes: IA ❯ …**): tocá cualquier parte para volver ahí. También sirve el botón **Atrás** del navegador | Igual |
+> | **Saltar a una sección** de la nota | **Tabla de contenidos**, a la derecha | Desplazá hacia abajo |
+> | **Ver cómo se conecta** la nota | **Vista gráfica**, arriba a la derecha (con el ícono de agrandar se ve el mapa de todo el sitio) y **Retroenlaces**, debajo: qué notas mencionan esta | Al final de cada nota |
+> | **Leer más cómodo** | 🌙 cambia entre modo claro y oscuro; 📖 (modo lectura) oculta los costados | Los mismos íconos, arriba a la derecha |
+>
+> **Esta guía está en la carpeta "Clase para profes: IA".** Las otras carpetas del panel Archivos son mis otros trabajos (AutoLID, el torno, Sistemas Mecánicos, El Profe Juanito y el Suzuki Swift): se pueden recorrer como ejemplo.
+>
+> **Material de la charla**: [▶️ diapositivas](https://xaguhz.github.io/vaultColegio/vaultClaseProfes/diapositivas/) (flechas para avanzar, `F` pantalla completa) · [🖨️ hoja para imprimir](https://xaguhz.github.io/vaultColegio/vaultClaseProfes/hoja/) · [[00 Exposición|todo lo de la exposición]].
+>
+> **Por dónde arrancar**: seguí la tabla de niveles de acá abajo, en orden. Para volver a esta portada desde cualquier nota, tocá **Clase para profes: IA** en la línea de arriba del título y después **00 Inicio**, o buscá "Inicio" con el buscador.
+
 > [!tip] Cómo leer esta guía
 > Está dividida en **niveles**. Cada nivel sirve por sí solo: si llegás al nivel 1 y no seguís, ya sacaste algo útil.
 > Cada nota termina con un **"Para practicar"**: un ejercicio corto para hacer en la compu.
