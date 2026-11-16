@@ -21,12 +21,15 @@ Todas las palabras raras de la guía, en orden alfabético. Si encontrás una qu
 | **Conector** | Permiso para que Claude use otro servicio: Google Drive, Gmail, el navegador, Blender. |
 | **Contexto** | Todo lo que la IA tiene a la vista en una conversación. Tiene un tamaño máximo. |
 | **Extensión** | Las letras después del punto en el nombre de un archivo (`.pdf`, `.md`) que dicen qué tipo de archivo es. |
+| **Excalidraw** | Plugin de Obsidian para hacer dibujos y diagramas a mano alzada. |
 | **Fecha de corte** | Hasta cuándo llega lo que la IA "leyó" al entrenarse. |
+| **Grafo** | En Obsidian, el mapa de puntos y líneas que muestra cómo se conectan todas las notas. |
 | **Gemini** | La IA de Google. La uso para generar imágenes. |
 | **Git** | Programa que guarda el historial de cambios de una carpeta, como un "control de versiones". |
 | **GitHub** | Página donde se guardan carpetas con Git en internet. Ahí está mi vault. |
 | **Instalador** | Archivo (`.exe` o `.msi` en Windows) que pone un programa en la compu. |
 | **Link (enlace)** | En Obsidian, una conexión entre dos notas. Se escribe `[[Nombre de la nota]]`. |
+| **Links entrantes** | En Obsidian, la lista de notas que apuntan a la que estás leyendo. |
 | **Markdown** | Forma de escribir texto con formato usando símbolos simples: `# Título`, `**negrita**`, `- lista`. Los archivos `.md`. |
 | **MCP** | La forma técnica en que se conectan los conectores a Claude (*Model Context Protocol*). |
 | **Memoria** | Notas que Claude guarda sobre vos y tu forma de trabajar, para no repetírselas cada vez. |
@@ -35,7 +38,9 @@ Todas las palabras raras de la guía, en orden alfabético. Si encontrás una qu
 | **Navegador** | Programa para entrar a páginas web: Chrome, Edge, Firefox. |
 | **Obsidian** | Programa gratuito de notas en Markdown, conectadas entre sí. |
 | **Plan** | El tipo de suscripción de Claude: Free, Pro, Max, Ultra. |
+| **Plugin (complemento)** | Agregado que suma funciones a un programa, como Obsidian Git o Excalidraw en Obsidian. |
 | **PowerShell** | La terminal de Windows. |
+| **Propiedades** | Datos ordenados arriba de una nota de Obsidian (tipo, unidad, etiquetas), entre dos líneas `---`. |
 | **Prompt** | El pedido que le escribís a la IA. |
 | **Proyecto** | En Claude, un espacio con archivos e instrucciones fijas que se usan en todas las conversaciones de ese proyecto. |
 | **Quartz** | Programa que convierte un vault de Obsidian en una página web. |

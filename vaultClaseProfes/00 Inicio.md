@@ -22,7 +22,7 @@ Esta guía explica **cómo llegar a trabajar así, empezando de cero**. No hace 
 | [[0.1 La computadora por dentro (lo mínimo)\|0 · Lo básico]] | Entender qué es la IA y manejar archivos y carpetas sin miedo | Nada | 1 hora de lectura |
 | [[1.1 Crear la cuenta y elegir el plan\|1 · Chatear con la IA]] | Pedirle a la IA consignas, rúbricas, ejercicios, explicaciones | Una cuenta de Claude | 1 o 2 tardes |
 | [[2.1 Darle tus archivos\|2 · Archivos, proyectos y Drive]] | Darle a la IA tus PDF, planificaciones y apuntes para que trabaje sobre ellos | Plan Pro | 1 tarde |
-| 3 · Obsidian *(en preparación)* | Tener tus apuntes en notas conectadas, como esta página | Obsidian (gratis) | 1 tarde |
+| [[3.1 Qué es Obsidian y por qué lo uso\|3 · Obsidian]] | Tener tus apuntes en notas conectadas, como esta página | Obsidian (gratis) | 1 tarde |
 | 4 · Claude Code *(en preparación)* | Que la IA cree y ordene archivos en tu compu por vos | Plan Pro + la app de Claude | 1 fin de semana |
 | 5 · Extras *(en preparación)* | Publicar tu vault como página web, generar imágenes, modelos 3D | GitHub, Gemini, Blender | A gusto |
 
@@ -47,9 +47,15 @@ Esta guía explica **cómo llegar a trabajar así, empezando de cero**. No hace 
   - [[2.3 Conectar Google Drive]]
   - [[2.4 Crear documentos y juegos]]
   - [[2.5 Memoria, búsqueda e investigación]]
+- **Nivel 3 — Obsidian**
+  - [[3.1 Qué es Obsidian y por qué lo uso]]
+  - [[3.2 Instalar Obsidian y crear tu vault]]
+  - [[3.3 Escribir en Markdown]]
+  - [[3.4 Links, grafo y Canvas]]
+  - [[3.5 Ordenar el vault de tu materia]]
 - **[[04 Cómo usamos la IA los alumnos]]**: mi mirada de alumno, y qué consignas obligan a pensar aunque se use IA.
 - **[[02 Glosario]]**: todas las palabras raras, explicadas.
 - **[[00 Exposición|Exposición del 19/11]]**: guion, demo en vivo, diapositivas y hoja para repartir.
 
 > [!info] En construcción
-> La guía se está escribiendo de a partes. Faltan los niveles 3 a 5 y los casos reales (cómo se hizo cada vault).
+> La guía se está escribiendo de a partes. Faltan los niveles 4 y 5 y los casos reales (cómo se hizo cada vault).
