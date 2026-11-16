@@ -33,6 +33,7 @@ Todas las palabras raras de la guía, en orden alfabético. Si encontrás una qu
 | **Markdown** | Forma de escribir texto con formato usando símbolos simples: `# Título`, `**negrita**`, `- lista`. Los archivos `.md`. |
 | **MCP** | La forma técnica en que se conectan los conectores a Claude (*Model Context Protocol*). |
 | **Memoria** | Notas que Claude guarda sobre vos y tu forma de trabajar, para no repetírselas cada vez. |
+| **Modo de permisos** | En Claude Code, cuánto puede hacer Claude sin preguntarte: Manual, Aceptar ediciones, Plan o Auto. |
 | **Modelo** | El "cerebro" entrenado de la IA. Opus, Sonnet y Haiku son modelos de Claude. |
 | **Modelo de lenguaje (LLM)** | Programa entrenado con muchísimo texto que predice cómo sigue un texto. Claude, ChatGPT y Gemini lo son. |
 | **Navegador** | Programa para entrar a páginas web: Chrome, Edge, Firefox. |
