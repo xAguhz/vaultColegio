@@ -8,12 +8,18 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600..800&family=Nunito+Sans:wght@400;700&family=Caveat:wght@700&display=swap">
 <style>
   :root { --ink:#1B2A2F; --naranja:#B9481A; --naranja-claro:#E8743B; --papel:#F6F1E6; --papel2:#EDE4D0; --suave:#4A5258; }
-  @page { size: A4; margin: 11mm; }
+  /* Hoja A4 fija: el margen lo da el padding de .hoja, no la impresora */
+  @page { size: A4 portrait; margin: 0; }
   * { box-sizing: border-box; margin: 0; }
   html { background: #d9d3c6; }
   body { font-family: 'Nunito Sans', Arial, sans-serif; color: var(--ink); background: #d9d3c6; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .hoja { width: 210mm; min-height: 297mm; margin: 12px auto; background: #fff; padding: 10mm; display: flex; flex-direction: column; gap: 4mm; }
-  @media print { html, body { background: #fff; } .hoja { margin: 0; width: auto; min-height: 0; padding: 0; } .aviso { display: none; } }
+  .hoja { width: 210mm; height: 296mm; margin: 12px auto; background: #fff; padding: 10mm; box-sizing: border-box; overflow: hidden; box-shadow: 0 2px 12px #0002; }
+  #contenido { width: 190mm; min-height: 276mm; display: flex; flex-direction: column; gap: 4mm; transform-origin: top left; }
+  @media print {
+    html, body { background: #fff; margin: 0; }
+    .hoja { margin: 0; box-shadow: none; break-after: avoid; page-break-after: avoid; }
+    .aviso { display: none; }
+  }
   .aviso { max-width: 210mm; margin: 12px auto 0; font-size: 14px; color: var(--suave); }
   h1, h2 { font-family: 'Bricolage Grotesque', Georgia, serif; line-height: 1.05; }
   .cabecera { display: flex; gap: 7mm; align-items: stretch; }
@@ -41,8 +47,8 @@
 </style>
 </head>
 <body>
-<p class="aviso">Para imprimir: <b>Ctrl + P</b> → tamaño A4 → márgenes "Predeterminados" → activar "Gráficos de fondo". También se puede elegir "Guardar como PDF".</p>
-<main class="hoja">
+<p class="aviso">Para imprimir: <b>Ctrl + P</b> → papel <b>A4</b> → escala <b>100 %</b> (o "Ajustar a la página") → márgenes <b>Ninguno</b> o "Predeterminados" → activar <b>Gráficos de fondo</b> (en Firefox: "Imprimir fondos") y desactivar encabezados y pies de página. También se puede elegir "Guardar como PDF". La hoja ya trae sus propios márgenes de 1 cm.</p>
+<main class="hoja"><div id="contenido">
 
   <section class="cabecera">
     <div class="titulo">
@@ -113,6 +119,27 @@
     <span>Hecha por un alumno de 7.° año, con IA y revisada a mano.</span>
     <span>xaguhz.github.io/vaultColegio/vaultClaseProfes/00-Inicio</span>
   </footer>
-</main>
+</div></main>
+<script>
+  // Si el contenido no entra en 190 × 276 mm (por la tipografía o el navegador), se achica lo justo.
+  function ajustar() {
+    const c = document.getElementById('contenido');
+    const mm = document.createElement('div'); mm.style.height = '100mm'; document.body.appendChild(mm);
+    const px = mm.getBoundingClientRect().height / 100; mm.remove();
+    let k = 1;
+    for (let n = 0; n < 4; n++) {
+      c.style.transform = 'none'; c.style.width = (190 / k) + 'mm'; c.style.minHeight = (276 / k) + 'mm';
+      const alto = c.scrollHeight / px;
+      const nuevo = Math.min(1, 276 / alto);
+      if (Math.abs(nuevo - k) < 0.002) break;
+      k = nuevo;
+    }
+    c.style.transform = k < 1 ? `scale(${k})` : 'none';
+    document.documentElement.dataset.escala = k.toFixed(3);
+  }
+  addEventListener('load', ajustar);
+  if (document.fonts) document.fonts.ready.then(ajustar);
+  addEventListener('beforeprint', ajustar);
+</script>
 </body>
 </html>

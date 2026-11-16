@@ -15,7 +15,10 @@ Una carilla A4 que resume la charla, con el QR de la guía.
 ## Cómo imprimirla
 1. Abrí [la hoja](https://xaguhz.github.io/vaultColegio/vaultClaseProfes/hoja/) en Chrome o Edge (o, en la compu, el archivo `Hoja para imprimir.html` con doble clic).
 2. `Ctrl + P`.
-3. Tamaño **A4**, márgenes **Predeterminados** y activá **Gráficos de fondo** (si no, salen sin los recuadros de color).
+3. Papel **A4**, escala **100 %** (o "Ajustar a la página"), márgenes **Ninguno** o "Predeterminados", activá **Gráficos de fondo** (en Firefox: "Imprimir fondos"; si no, salen sin los recuadros de color) y desactivá **encabezados y pies de página**.
+
+> [!note] Siempre entra en una carilla
+> La hoja es una A4 fija con sus propios márgenes de 1 cm. Si en tu compu el texto ocupa más (por la tipografía o el navegador), se achica sola lo justo para entrar. Probada en Chrome en Ubuntu.
 4. **Imprimir**, o **Guardar como PDF** para llevarla en el pendrive.
 
 > [!tip] Para ahorrar tinta
