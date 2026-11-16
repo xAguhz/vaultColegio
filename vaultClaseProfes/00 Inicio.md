@@ -14,15 +14,13 @@ Esta guía explica **cómo llegar a trabajar así, empezando de cero**. No hace 
 > [!info]+ Cómo moverte por esta página
 > Tocá el título de este recuadro para abrirlo o cerrarlo.
 >
-> | Para… | En la compu | En el celular |
-> |---|---|---|
-> | **Ir a otra nota** | Clic en las palabras en **violeta**. Si pasás el mouse por encima sin hacer clic, aparece una **vista previa** | Tocá las palabras en violeta |
-> | **Ver todas las notas** | Panel **Archivos**, a la izquierda. Las carpetas se abren con un clic | Botón **☰**, arriba a la izquierda |
-> | **Buscar una palabra** | Cuadro **Buscar**, arriba a la izquierda, o `Ctrl + K` | Cuadro **Buscar**, arriba |
-> | **Saber dónde estás y volver** | La línea de arriba del título (**Home ❯ Clase para profes: IA ❯ …**): tocá cualquier parte para volver ahí. También sirve el botón **Atrás** del navegador | Igual |
-> | **Saltar a una sección** de la nota | **Tabla de contenidos**, a la derecha | Desplazá hacia abajo |
-> | **Ver cómo se conecta** la nota | **Vista gráfica**, arriba a la derecha (con el ícono de agrandar se ve el mapa de todo el sitio) y **Retroenlaces**, debajo: qué notas mencionan esta | Al final de cada nota |
-> | **Leer más cómodo** | 🌙 cambia entre modo claro y oscuro; 📖 (modo lectura) oculta los costados | Los mismos íconos, arriba a la derecha |
+> - **Ir a otra nota**: tocá las palabras en **violeta**. En la compu, si pasás el mouse por encima sin hacer clic, aparece una vista previa.
+> - **Ver todas las notas**: panel **Archivos**, a la izquierda (en el celular, botón **☰** arriba a la izquierda). Las carpetas se abren tocándolas.
+> - **Buscar una palabra**: cuadro **Buscar**, arriba (en la compu, también `Ctrl + K`).
+> - **Saber dónde estás y volver**: la línea de arriba del título (**Home ❯ Clase para profes: IA ❯ …**); tocá cualquier parte para volver ahí. También sirve el botón **Atrás** del navegador.
+> - **Saltar a una sección**: **Tabla de contenidos**, a la derecha (solo en la compu).
+> - **Ver cómo se conecta la nota**: **Vista gráfica** (un mapa de notas; con el ícono de agrandar se ve todo el sitio) y **Retroenlaces** (qué notas mencionan esta). En la compu están a la derecha; en el celular, al final de cada nota.
+> - **Leer más cómodo**: 🌙 cambia entre modo claro y oscuro; 📖 (modo lectura) oculta los costados.
 >
 > **Esta guía está en la carpeta "Clase para profes: IA".** Las otras carpetas del panel Archivos son mis otros trabajos (AutoLID, el torno, Sistemas Mecánicos, El Profe Juanito y el Suzuki Swift): se pueden recorrer como ejemplo.
 >
