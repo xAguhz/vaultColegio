@@ -67,9 +67,11 @@ Esta guía explica **cómo llegar a trabajar así, empezando de cero**. No hace 
   - [[5.3 Imágenes con Gemini]]
   - [[5.4 Modelos 3D con Blender]]
   - [[5.5 Del vault a la entrega]]
+- **[[00 Casos reales|Casos reales]]**: cómo se hizo cada vault de la página, de punta a punta.
+  - [[Caso - Sistemas Mecánicos]] · [[Caso - El Profe Juanito]] · [[Caso - Torno TM300]] · [[Caso - AutoLID]] · [[Caso - Suzuki Swift]] · [[Caso - Esta guía]]
 - **[[04 Cómo usamos la IA los alumnos]]**: mi mirada de alumno, y qué consignas obligan a pensar aunque se use IA.
 - **[[02 Glosario]]**: todas las palabras raras, explicadas.
 - **[[00 Exposición|Exposición del 19/11]]**: guion, demo en vivo, diapositivas y hoja para repartir.
 
 > [!info] Estado de la guía
-> Los cinco niveles están completos. Falta una sección de casos reales: cómo se hizo cada vault de la página, de punta a punta.
+> La guía está completa: cinco niveles, casos reales y el material de la charla. Si encontrás algo que no se entiende o que cambió (los programas se actualizan seguido), avisame.
