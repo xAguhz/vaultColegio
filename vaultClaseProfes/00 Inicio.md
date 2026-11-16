@@ -24,7 +24,7 @@ Esta guía explica **cómo llegar a trabajar así, empezando de cero**. No hace 
 | [[2.1 Darle tus archivos\|2 · Archivos, proyectos y Drive]] | Darle a la IA tus PDF, planificaciones y apuntes para que trabaje sobre ellos | Plan Pro | 1 tarde |
 | [[3.1 Qué es Obsidian y por qué lo uso\|3 · Obsidian]] | Tener tus apuntes en notas conectadas, como esta página | Obsidian (gratis) | 1 tarde |
 | [[4.1 Del chat al agente\|4 · Claude Code]] | Que la IA cree y ordene archivos en tu compu por vos | Plan Pro + la app de Claude | 1 fin de semana |
-| 5 · Extras *(en preparación)* | Publicar tu vault como página web, generar imágenes, modelos 3D | GitHub, Gemini, Blender | A gusto |
+| [[5.1 Sincronizar compu y celular\|5 · Extras]] | Publicar tu vault como página web, generar imágenes, modelos 3D | GitHub, Gemini, Blender | A gusto |
 
 ## Partes de la guía
 - **[[01 Mi entorno en una imagen]]**: qué uso yo y cómo se conecta todo. Conviene leerla primero para saber a dónde vamos.
@@ -61,9 +61,15 @@ Esta guía explica **cómo llegar a trabajar así, empezando de cero**. No hace 
   - [[4.5 Memoria e instrucciones]]
   - [[4.6 Skills y conectores]]
   - [[4.7 Anexo - Claude Code en la terminal]]
+- **Nivel 5 — Extras**
+  - [[5.1 Sincronizar compu y celular]]
+  - [[5.2 Publicar el vault como página]]
+  - [[5.3 Imágenes con Gemini]]
+  - [[5.4 Modelos 3D con Blender]]
+  - [[5.5 Del vault a la entrega]]
 - **[[04 Cómo usamos la IA los alumnos]]**: mi mirada de alumno, y qué consignas obligan a pensar aunque se use IA.
 - **[[02 Glosario]]**: todas las palabras raras, explicadas.
 - **[[00 Exposición|Exposición del 19/11]]**: guion, demo en vivo, diapositivas y hoja para repartir.
 
-> [!info] En construcción
-> La guía se está escribiendo de a partes. Falta el nivel 5 y los casos reales (cómo se hizo cada vault).
+> [!info] Estado de la guía
+> Los cinco niveles están completos. Falta una sección de casos reales: cómo se hizo cada vault de la página, de punta a punta.

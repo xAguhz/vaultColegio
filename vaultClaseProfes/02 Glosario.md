@@ -13,6 +13,7 @@ Todas las palabras raras de la guía, en orden alfabético. Si encontrás una qu
 | **Alucinación** | Cuando la IA inventa un dato y lo dice como si fuera cierto. |
 | **Anthropic** | La empresa que hace Claude. |
 | **Artifact** | Panel aparte donde Claude muestra un documento, una página o un programa que creó en el chat. |
+| **Blender** | Programa gratuito de modelado 3D. Claude lo maneja escribiendo programas que arman las piezas. |
 | **Canvas** | En Obsidian, una pizarra donde se ubican notas y flechas libremente, como un mapa conceptual. |
 | **Carpeta** | Caja donde se guardan archivos y otras carpetas. |
 | **Claude** | La IA de Anthropic que uso para todo. |
@@ -26,6 +27,7 @@ Todas las palabras raras de la guía, en orden alfabético. Si encontrás una qu
 | **Gemini** | La IA de Google. La uso para generar imágenes. |
 | **Git** | Programa que guarda el historial de cambios de una carpeta, como un "control de versiones". |
 | **GitHub** | Página donde se guardan carpetas con Git en internet. Ahí está mi vault. |
+| **glTF / GLB** | Formato de archivo para modelos 3D que se pueden ver en una página web. |
 | **Grafo** | En Obsidian, el mapa de puntos y líneas que muestra cómo se conectan todas las notas. |
 | **Instalador** | Archivo (`.exe` o `.msi` en Windows) que pone un programa en la compu. |
 | **Link (enlace)** | En Obsidian, una conexión entre dos notas. Se escribe `[[Nombre de la nota]]`. |
@@ -45,9 +47,11 @@ Todas las palabras raras de la guía, en orden alfabético. Si encontrás una qu
 | **Prompt** | El pedido que le escribís a la IA. |
 | **Proyecto** | En Claude, un espacio con archivos e instrucciones fijas que se usan en todas las conversaciones de ese proyecto. |
 | **Quartz** | Programa que convierte un vault de Obsidian en una página web. |
+| **Repositorio** | Carpeta guardada con Git, por ejemplo en GitHub, con todo su historial de cambios. |
 | **Ruta** | La "dirección" de un archivo: `C:\Users\Marta\Documents\IA\nota.md`. |
-| **Skill** | Receta guardada que Claude sigue para hacer siempre igual una tarea. |
 | **Sistema operativo** | El programa principal de la compu: Windows, macOS, Ubuntu. |
+| **Skill** | Receta guardada que Claude sigue para hacer siempre igual una tarea. |
+| **Syncthing** | Programa gratuito que mantiene una carpeta igual en varios dispositivos (compu y celular), sin pasar por una nube. |
 | **Terminal** | Ventana donde se le dan órdenes a la compu escribiendo comandos, en vez de hacer clic. |
 | **Token** | Pedacito de texto (unas 3 o 4 letras) con el que la IA cuenta lo que lee y escribe. |
 | **Ubuntu** | Sistema operativo gratuito, una versión de Linux. |
