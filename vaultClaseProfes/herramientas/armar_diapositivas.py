@@ -69,13 +69,24 @@ function mostrar(n, todos) {
   document.getElementById('notas').textContent = nota ? nota.textContent : '(Sin notas)';
   document.getElementById('cont').textContent = `${i + 1} / ${slides.length}`;
   history.replaceState(null, '', '#' + (i + 1));
+  programarFin();
 }
+// Las animaciones de entrada arrancan transparentes: si el navegador las frena (pestaña en segundo plano,
+// compu lenta), el texto queda a medio aparecer. Se fuerzan al estado final al rato y al tocar cualquier cosa.
+let tFin = null;
+function terminarAnimaciones() {
+  const s = slides[i];
+  if (s.getAnimations) s.getAnimations({ subtree: true }).forEach(a => { try { a.finish(); } catch (e) {} });
+}
+function programarFin() { clearTimeout(tFin); tFin = setTimeout(terminarAnimaciones, 1500); }
 function avanzar() {
   const f = frags(slides[i]).find(f => !f.classList.contains('visible'));
   if (f) f.classList.add('visible'); else if (i < slides.length - 1) mostrar(i + 1);
 }
 function volver() { if (i > 0) mostrar(i - 1, true); }
 function pantalla() { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); }
+addEventListener('keydown', () => terminarAnimaciones(), true);
+addEventListener('pointerdown', () => terminarAnimaciones(), true);
 addEventListener('keydown', e => {
   if (['ArrowRight', 'PageDown', ' ', 'Enter'].includes(e.key)) { e.preventDefault(); avanzar(); }
   else if (['ArrowLeft', 'PageUp', 'Backspace'].includes(e.key)) { e.preventDefault(); volver(); }
@@ -103,9 +114,9 @@ escalar();
 const h = parseInt(location.hash.slice(1), 10);
 mostrar(Number.isFinite(h) ? h - 1 : 0);
 // Si la página cargó en segundo plano o antes que las tipografías, la animación de entrada puede no verse: se repite
-function reanimar() { const s = slides[i]; s.classList.remove('activa'); void s.offsetWidth; s.classList.add('activa'); }
+function reanimar() { const s = slides[i]; s.classList.remove('activa'); void s.offsetWidth; s.classList.add('activa'); programarFin(); }
 document.fonts && document.fonts.ready.then(reanimar);
-document.addEventListener('visibilitychange', () => { if (!document.hidden) reanimar(); });
+document.addEventListener('visibilitychange', () => { if (!document.hidden) terminarAnimaciones(); });
 document.body.classList.add('mostrar-barra');
 setTimeout(() => document.body.classList.remove('mostrar-barra'), 3000);
 """
