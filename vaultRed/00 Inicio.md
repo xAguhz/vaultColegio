@@ -18,8 +18,9 @@ Este vault explica **el método** con el que se construyeron los demás vaults d
 2. [[02 El método paso a paso]]: de un PDF, un video o una carpeta de Drive a un vault publicado.
 3. [[03 Guion para la presentación]]: cómo mostrar la página de la red durante la charla.
 4. [[04 Cómo empezar una red propia]]: lo mínimo para que cualquier alumno o profe arranque.
-5. [[05 Preguntas frecuentes]]: lo que seguramente van a preguntar (¿lo hizo la IA?, ¿es plagio?, ¿cuánto cuesta?).
-6. [[Mapa de la red.canvas|Mapa de la red]]: todo esto en un tablero.
+5. [[06 Plan para la expo técnica]]: el stand de la expo técnica para público de todo tipo: recorrido de 30 s, 2 min y 5-7 min, plan B sin internet y checklist.
+6. [[05 Preguntas frecuentes]]: lo que seguramente van a preguntar (¿lo hizo la IA?, ¿es plagio?, ¿cuánto cuesta?).
+7. [[Mapa de la red.canvas|Mapa de la red]]: todo esto en un tablero.
 
 ## Los vaults
 | Vault | De dónde sale | Nota |
