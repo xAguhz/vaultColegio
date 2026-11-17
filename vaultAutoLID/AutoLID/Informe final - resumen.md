@@ -17,7 +17,6 @@ actualizado: 2026-11-12
 |---|---|
 | Escuela | E.E.S.T. N° 3 de San Antonio de Padua, Electromecánica / Electrónica |
 | Equipo | Agustín Calderón, Thiago Iglesias y Luciano Romero (7° 1°) |
-| Contacto | contacto.autolid@gmail.com |
 | Estado | Hardware definido, firmware validado en Tinkercad, plan industrial PYME |
 
 ## Público y problema

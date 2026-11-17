@@ -15,7 +15,7 @@ actualizado: 2026-11-12
 | 6-17 s | Tres datos con íconos: 1 de cada 10 personas (una se ilumina), 1 de cada 4 hogares, +5,5 millones (contador). | *Uno de cada diez argentinos vive con alguna discapacidad. En uno de cada cuatro hogares, hay alguien que la tiene. Y más de cinco millones y medio tienen sesenta y cinco años o más.* |
 | 17-23 s | Inodoro abierto: una nube de gérmenes se expande y una regla marca 2 m. | *Además, cada vez que tiramos la cadena con la tapa abierta, los gérmenes viajan hasta dos metros.* |
 | 23-36 s | Baño claro con AutoLID. Aparece el logo, se ilumina la caja; una persona se acerca (ondas del sensor), la tapa sube, se sienta (el sensor de peso se ilumina), se va y la tapa baja. | *Por eso creamos AutoLID. Se instala en tu inodoro, en minutos. Te acercás, y la tapa se abre sola. Te sentás, y no se cierra. Te vas, y se cierra.* |
-| 36-42 s | Logo AutoLID con anillos de "ultrasonido", lema, escuela y correo. | *AutoLID. Higiene y autonomía, sin tocar nada.* |
+| 36-42 s | Logo AutoLID con anillos de "ultrasonido", lema y escuela. | *AutoLID. Higiene y autonomía, sin tocar nada.* |
 
 ## Datos usados (verificados)
 - **10,2 %** de la población (6 años o más, zonas urbanas) tiene alguna dificultad, y en el **25,3 %** de los hogares vive al menos una persona con discapacidad. INDEC, *Estudio Nacional sobre el Perfil de las Personas con Discapacidad*, 2018.

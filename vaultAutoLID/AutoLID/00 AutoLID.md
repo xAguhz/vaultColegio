@@ -14,7 +14,6 @@ actualizado: 2026-11-12
 | Escuela               | E.E.S.T. N° 3 de San Antonio de Padua, Electromecánica / Electrónica                                                                                       |
 | Curso                 | 7° 1°                                                                                                                                                      |
 | Integrantes           | Agustín Calderón, Thiago Iglesias, Luciano Romero                                                                                                          |
-| Contacto del proyecto | contacto.autolid@gmail.com                                                                                                                                 |
 | Documento principal   | ⭐ [AutoLID INFORME FINAL](https://docs.google.com/document/d/1OecoL8DSYKZxiSlKSvtnaXOIvBBHetvMpxqblyg_-EE/edit) (10/11/2026) · [[Informe final - resumen]] |
 | Carpeta en Drive      | [AutoLID](https://drive.google.com/drive/folders/17AnoDAqwl5mVtQK4whX7vXpTux24UAem) (casi todo está suelto en la raíz de Drive: ver [[Archivos en Drive]]) |
 | Simulación            | [Tinkercad](https://www.tinkercad.com/things/c7mtaCNG56a-autolid)                                                                                          |

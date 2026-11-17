@@ -900,8 +900,6 @@ ob_kf(tag, "location", 37.0, E + Vector((0, 0, 0.62)), "EXPO", "EASE_OUT")
 ob_kf(tag, "location", 37.6, E + Vector((0, 0, 0.72)))
 esc, mesc = text3d("E_esc", "Proyecto de 7° 1° · EEST N° 3 de San Antonio de Padua", E + Vector((0, 0, 0.3)), 0.1, hexc("8aa0ab"), FONT_R)
 fade_in_out(mesc, 37.6)
-mail, mmail = text3d("E_mail", "contacto.autolid@gmail.com", E + Vector((0, 0, 0.12)), 0.1, C_ECO, FONT_B)
-fade_in_out(mmail, 37.9)
 # anillos de "ultrasonido" detrás del logo
 for k in range(3):
     bpy.ops.mesh.primitive_torus_add(major_radius=1.0, minor_radius=0.006, major_segments=96, minor_segments=6)
