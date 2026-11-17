@@ -10,6 +10,7 @@ Notas del colegio en Obsidian, publicadas como página web: **https://xaguhz.git
 | `vaultCharrute/` | Sistemas Mecánicos 2026 (profe Charrute): trabajos prácticos, equipos y guía de estudio |
 | `vaultSuzuki/` | Manual del Suzuki Swift 1.5XS japonés (ZC21S, 2008): uso, mantenimiento y despiece 3D |
 | `vaultClaseProfes/` | Guía para profes: cómo usar la IA y armar un entorno como este, desde cero |
+| `vaultOficinaIA/` | Oficina de agentes de IA: un orquestador (Opus) que reparte trabajo a cinco agentes (Sonnet); costos, uso y errores. No se publica en la página todavía |
 
 Cada vault se abre por separado en Obsidian con *Abrir carpeta como vault*.
 
