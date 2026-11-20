@@ -5,7 +5,7 @@ profesor: Charrute
 numero: 9
 tema: Calderas industriales y sistemas de generación de vapor
 consigna: 2026-11-06
-entrega: pendiente
+entrega: armada 2026-11-20 (falta fecha oficial)
 modalidad: grupal (investigación + caso integrador)
 tags: [tp, calderas, vapor, combustión, tratamiento-de-agua, seguridad]
 ---
@@ -13,7 +13,7 @@ tags: [tp, calderas, vapor, combustión, tratamiento-de-agua, seguridad]
 # TP9 · Calderas industriales y generación de vapor
 
 > [!info] Fuera de la numeración habitual
-> Los TP suelen llegar hasta el 8. Este trabajo de investigación sobre calderas lo compartió el profe el **06/11/2026** y cierra el recorrido de equipos (tanque → bomba → intercambiador → compresor → **caldera**). Al 13/11/2026 no hay una entrega en Drive.
+> Los TP suelen llegar hasta el 8. Este trabajo de investigación sobre calderas lo compartió el profe el **06/11/2026** y cierra el recorrido de equipos (tanque → bomba → intercambiador → compresor → **caldera**). El 20/11/2026 se armó la entrega: informe en PDF y presentación en Google Slides.
 
 Anterior: [[TP8 Compresores de aire]] · Siguiente: —
 
@@ -81,6 +81,14 @@ Anterior: [[TP8 Compresores de aire]] · Siguiente: —
 
 ## Archivos en Drive
 - Consigna: `Cald ind tpinv_26.docx` (compartida el 06/11/2026)
+- Informe: `TP N° 9 - Calderas industriales.pdf`, en la carpeta Charrute. Tiene 12 páginas: carátula, reparto por integrante, partes 1 a 7 con ejemplos cotidianos, conclusión, guía de exposición, preguntas, fuentes y una **carilla de repaso** al final.
+- Presentación: `TP N° 9 - Calderas industriales (presentación)` en Google Slides. Son 14 diapositivas de guía, en el mismo orden que el informe.
+
+## Decisiones de la entrega
+- **Reparto:** Pareja 1, caldera y combustión (partes 1, 2 y 4). Pareja 2, sistema y agua (partes 3 y 5). Pareja 3, control y diagnóstico (partes 6 y 7). Cada integrante se encarga de una parte.
+- **Caldera real:** Bosch Industrial Universal UL-S. Es pirotubular de 3 pasos, produce de 1.250 a 28.000 kg/h, trabaja hasta 30 bar y el economizador ahorra hasta 7 % de combustible. Los datos salen de la página oficial. La potencia es una estimación propia: 1 kg/h de vapor ≈ 0,75 kW.
+- **Cifras de DOE:** ≈ 1 % de eficiencia por cada 22 °C (40 °F) de chimenea (Steam Tip Sheet #4). +2 % de combustible con 0,8 mm de sarro (Steam Tip Sheet #7).
+- **Analogías:** termotanque y calefón, la pava con sarro, la olla a presión (control y seguridad) y el auto que gasta más nafta (caso integrador).
 
 ## Ver también
 [[Caldera]] · [[Intercambiador de calor]] · [[Recipiente a presión]] · [[Bomba]] · [[Variables de proceso]] · [[00 Inicio]]
