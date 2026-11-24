@@ -45,3 +45,13 @@ El orquestador bajó del Drive los .zip de WinUnisoft, confirmó que son texto p
   - Los radios grandes (R25, R40) van como texto con una línea corta, porque la cota de radio trazaba la línea desde un centro que caía fuera de la hoja.
   - Dos arcos seguidos del mismo radio (collarín) llevan una sola cota.
 - La mitra del alfil primero tenía dos arcos R6 con una muesca entre ellos. Se cambió por un solo arco R6 tangente.
+
+## 2026-11-24 (noche): capturas del catálogo Kennametal en los informes
+- Agentes (Sonnet, encargos en ASD-STE100):
+  - Un analista estudió el TP original. Las herramientas se marcan con resaltador amarillo sobre el código, con una página por herramienta (portaherramienta arriba, inserto abajo), más las tiras de velocidad A5 y A71 y el gráfico A70.
+  - Un extractor ubicó cada herramienta en el catálogo (página PDF = etiqueta + 6) y armó las capturas resaltadas.
+  - Un verificador independiente revisó cada captura y cada dato contra el catálogo: todo correcto.
+  - Un programador las integró a `informe_tp.py` (`--capturas`).
+- **Decisión de coherencia:** el SAE 4140 es acero aleado, grupo P. Los programas pasaron a usar las Vc del grupo P: T0101 150 m/min (KU30T, el grado del CNMG-RP), T0303, T0909 y T1010 200 m/min (KU10T) y ranurado 120 m/min (A71). Los TP anteriores usaban el grupo M (180 y 105). Las Vc van en el JSON (`"vc"`) y `generar_winunisoft.py` las lee.
+- **Nota abierta:** los insertos de ranurado A4G…GMP son para inoxidable; A70 recomienda GMN para acero. Se mantuvo GMP porque era la selección aprobada en el TP anterior. Consultar con el profe.
+- Los informes se subieron a Drive como Google Docs, en la carpeta CNC/TP 7°1, junto con los PDF de los planos. Las capturas del catálogo quedan solo locales, porque son material de Kennametal.

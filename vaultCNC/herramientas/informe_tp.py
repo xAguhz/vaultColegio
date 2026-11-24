@@ -4,7 +4,7 @@
 Uso:
   python3 informe_tp.py <pieza.json> <carpeta_winunisoft> <carpeta_plano> <salida.docx>
          [--alumno "Nombre Apellido"] [--curso "7°1 Electromecánica"] [--fecha dd/mm/aaaa]
-         [--profesor "Apellido Nombre"]
+         [--profesor "Apellido Nombre"] [--capturas <carpeta con las imágenes del catálogo>]
 
 Solo biblioteca estándar (OOXML a mano). Necesita pdftoppm para pasar el plano a PNG.
 La operación se arma a partir del programa .nc: una operación por bloque de herramienta (T).
@@ -21,15 +21,21 @@ HERR = {  # T: (portaherramienta, pág, inserto, pág)
     'T1010': ('SVJB R/L 1212N11 (4)', 'A36', 'VBMT110304LF', 'A19'),
     'T1111': ('A4SM R/L 3225P0626', 'A75', 'A4G0605M06U08GMP', 'A73'),
 }
-# nombre de operación, nombre de la herramienta, velocidad, avance, prof. máx. de corte
+# operación, nombre, grado, sfm de catálogo, pág. de velocidad, rango de avance, prof. máx., tira de avance
+# (grupo P = acero aleado, SAE 4140; datos de Kennametal Universal, ver capturas/indice.json)
 INFO = {
-    'T0101': ('DESBASTE EXTERIOR', 'DESBASTE', '180 m/min o 600 sfm (100 m/min - 250 m/min o 320 sfm - 800 sfm)', '0.3 (0.2 - 0.6)', '6.4 mm'),
-    'T0303': ('TERMINACIÓN: DIAGONALES Y RADIOS BRUTOS', 'TERMINACIÓN', '180 m/min o 600 sfm (100 m/min - 250 m/min o 320 sfm - 800 sfm)', '0.2 (0.1 - 0.3)', '2.5 mm'),
-    'T0505': ('RANURADO', 'RANURADO ∅3', '105 m/min (70 m/min - 150 m/min)', '0.1', '17 mm'),
-    'T0909': ('RADIOS Y DIAGONALES LADO DERECHO', 'ACABADO ULTRAFINO', '180 m/min o 600 sfm (100 m/min - 250 m/min o 320 sfm - 800 sfm)', '0.2 (0.2 - 0.4)', '2.5 mm'),
-    'T1010': ('RADIOS Y DIAGONALES LADO IZQUIERDO', 'ACABADO ULTRAFINO', '180 m/min o 600 sfm (100 m/min - 250 m/min o 320 sfm - 800 sfm)', '0.2 (0.2 - 0.4)', '2.5 mm'),
-    'T1111': ('TRONZADO', 'RANURADO-TRONZADO ∅6', '105 m/min (70 m/min - 150 m/min)', '0.19', '26 mm'),
+    'T0101': ('DESBASTE EXTERIOR', 'DESBASTE', 'KU30T', 500, 'A5', '0,2 - 0,6', '6,4 mm', 'tira_T0101_RP.png'),
+    'T0303': ('TERMINACIÓN: DIAGONALES Y RADIOS BRUTOS', 'TERMINACIÓN', 'KU10T', 650, 'A5', '0,1 - 0,3', '2,5 mm', 'tira_T0303_FP.png'),
+    'T0505': ('RANURADO', 'RANURADO ∅3', 'KU30T', 400, 'A71', None, 'aprox. 1,6 - 2,0 mm (según gráfico A70)\n(17 mm = profundidad de la ranura del portaherramienta, CD)', None),
+    'T0909': ('RADIOS Y DIAGONALES LADO DERECHO', 'ACABADO ULTRAFINO', 'KU10T', 650, 'A5', '0,2 - 0,4', '2,3 mm', 'tira_T0909_LF.png'),
+    'T1010': ('RADIOS Y DIAGONALES LADO IZQUIERDO', 'ACABADO ULTRAFINO', 'KU10T', 650, 'A5', '0,2 - 0,4', '2,3 mm', None),
+    'T1111': ('TRONZADO', 'RANURADO-TRONZADO ∅6', 'KU30T', 400, 'A71', None, 'aprox. 4 mm (según gráfico A70)\n(26 mm = profundidad de la ranura del portaherramienta, CD)', None),
 }
+TAMANO = {'T0505': 3, 'T1111': 6}  # tamaño de inserto (gráfico A70)
+# página de catálogo: (título rojo, imagen, herramientas que la usan)
+PAGINAS_CAT = [('T0101', 'T0101.png', ('T0101',)), ('T0303', 'T0303.png', ('T0303',)),
+               ('T0505', 'T0505.png', ('T0505',)), ('T1111', 'T1111.png', ('T1111',)),
+               ('T0909 (3) / T1010 (4)', 'T0909_T1010.png', ('T0909', 'T1010'))]
 TITULOS = {'PEON': 'PEÓN'}
 CICLOS = ['G90', 'G94', 'G01', 'G02', 'G03']
 
@@ -42,10 +48,10 @@ NS = ('xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" '
 W_TEXTO = 9026  # A4 con márgenes de 2,54 cm
 
 
-def run(t, font='Calibri', sz=22, b=False, i=False, color='000000'):
+def run(t, font='Calibri', sz=22, b=False, i=False, color='000000', hl=False):
     rp = (f'<w:rFonts w:ascii="{font}" w:hAnsi="{font}" w:cs="{font}" w:eastAsia="{font}"/>'
           + ('<w:b/><w:bCs/>' if b else '') + ('<w:i/><w:iCs/>' if i else '')
-          + f'<w:color w:val="{color}"/><w:sz w:val="{sz}"/><w:szCs w:val="{sz}"/>')
+          + f'<w:color w:val="{color}"/>' + ('<w:highlight w:val="yellow"/>' if hl else '') + f'<w:sz w:val="{sz}"/><w:szCs w:val="{sz}"/>')
     return f'<w:r><w:rPr>{rp}</w:rPr><w:t xml:space="preserve">{escape(t)}</w:t></w:r>'
 
 
@@ -53,9 +59,10 @@ def brk():
     return '<w:r><w:br/></w:r>'
 
 
-def para(runs, jc='left', after=0, line=240, keep=False, pb=False):
+def para(runs, jc='left', after=0, line=240, keep=False, pb=False, ind=0):
     pp = (('<w:pageBreakBefore/>' if pb else '') + ('<w:keepNext/>' if keep else '')
-          + f'<w:spacing w:before="0" w:after="{after}" w:line="{line}" w:lineRule="auto"/><w:jc w:val="{jc}"/>')
+          + f'<w:spacing w:before="0" w:after="{after}" w:line="{line}" w:lineRule="auto"/>'
+          + (f'<w:ind w:left="{ind}"/>' if ind else '') + f'<w:jc w:val="{jc}"/>')
     return f'<w:p><w:pPr>{pp}</w:pPr>{"".join(runs)}</w:p>'
 
 
@@ -240,7 +247,7 @@ def construir(args):
         t = b['t']
         hold, hp, ins, ip = HERR[t]
         op = INFO[t][0]
-        par = f'VC: {b["vc"]} m/min\nAVANCE: ' + ' / '.join(fmt(v) for v in b['f']) + ' mm/vuelta\nCICLO: ' + '-'.join(b['ciclos'])
+        par = f'VC: {b["vc"]} m/min\n(grupo P, {INFO[t][2]}, pág. {INFO[t][4]})\nAVANCE: ' + ' / '.join(fmt(v) for v in b['f']) + ' mm/vuelta\nCICLO: ' + '-'.join(b['ciclos'])
         her = f'{t}\nINSERTO: {ins} (pág. {ip})\nPORTAHERRAMIENTA: {hold} (pág. {hp})'
         if b['xs'] and b['zs']:
             m5 = lambda v: fmt(round(v * 2) / 2)  # a 0,5 mm
@@ -268,41 +275,99 @@ def construir(args):
     cw = [W_TEXTO // 2, W_TEXTO - W_TEXTO // 2]
     cuerpo.append(table([row([cell(col(prog[:mitad]), cw[0], 'top'), cell(col(prog[mitad:]), cw[1], 'top')], 300, split=True)], cw))
 
+    def img(nombre):
+        p = os.path.join(args.capturas, nombre) if args.capturas else ''
+        return p if p and os.path.exists(p) else None
+
+    def roja(t, sz=40, pb=False):
+        return para([run(t, sz=sz, color='C00000')], 'left', 120, pb=pb, keep=True)
+
+    def vcs(t):
+        return next((b['vc'] for b in bloques if b['t'] == t), None)
+
     # 6. aclaraciones
     cuerpo.append(para([run('ACLARACIONES:', sz=48, b=True, color='ff0000')], 'left', 200, pb=True, keep=True))
     cuerpo.append(para([run('Cuando una herramienta esté señalizada con un número entre paréntesis al lado [(3) o (4)] se refiere a su '
                             'código de forma. Solo se emplea en las herramientas en las que este fue cambiado, de lo contrario, el '
                             'código de forma es 3 siempre.'), brk(), run('EJ: T0909 (3)')], 'left', 300))
+    cuerpo.append(para([run('Las velocidades de corte se toman del catálogo Kennametal Universal con el grupo P, porque el '
+                            + pieza['material'] + ' es un acero aleado. En los TP anteriores se usó el grupo M (acero inoxidable).')], 'left', 200))
+    cuerpo.append(para([run('Los insertos de ranurado A4G...GMP (T0505, T1111) son los del TP original. La página A70 del catálogo '
+                            'recomienda la geometría GMN para acero y GMP para acero inoxidable. Se mantiene el inserto GMP porque es la '
+                            'selección aprobada en el TP anterior. Consultar con el profesor.')], 'left', 200))
+    for nom, pg in (('vel_A5_P.png', 'A5'), ('vel_A71_P.png', 'A71')):
+        if img(nom):
+            cuerpo.append(para([run(f'Velocidad de las herramientas de {"torneado" if pg == "A5" else "ranurado"} ', sz=22),
+                                run(f'(P) (PÁG {pg})', hl=True)], 'left', 60, keep=True))
+            cuerpo.append(para([im.inline(img(nom), 15.5)], 'left', 200))
 
     # 7. características de la pieza
     cuerpo.append(para([run('CARACTERÍSTICAS PIEZA:', sz=48, b=True)], 'left', 200, keep=True))
-    carac = [('Nombre', nombre), ('Material', pieza['material']),
+    carac = [('Nombre', nombre), ('Material', pieza['material'] + ' (grupo P, acero aleado)'),
              ('Bruto', f'Ø = {bruto["d"]} mm, L = {bruto["l"]} mm'),
              ('Largo de la pieza', f'{pieza["largo"]} mm'),
              ('Punto cero', f'G54, Z = {fmt(bruto["l"] - 1)} mm'),
              ('Torno', 'Apolo, control Fanuc 16i-TA (simulador WinUnisoft)'),
-             ('Catálogo de herramientas', 'Kennametal Universal'),
-             ('Velocidad de torneado (pág. A5)', '180 m/min (100 m/min - 250 m/min)'),
-             ('Velocidad de ranurado (pág. A71)', '105 m/min (70 m/min - 150 m/min)')]
+             ('Catálogo de herramientas', 'Kennametal Universal')]
+    for t in dict.fromkeys(b['t'] for b in bloques):
+        _, _, gr, sfm, pg, _, _, _ = INFO[t]
+        carac.append((f'Velocidad {t}', f'{vcs(t)} m/min (grupo P, {gr}, pág. {pg})'))
     wc = [3400, W_TEXTO - 3400]
     cuerpo.append(table([row([tc(a, wc[0], b=True, jc='left'), tc(v, wc[1], jc='left')], 400) for a, v in carac], wc))
 
-    # 8. una sección por herramienta
-    for t in dict.fromkeys(b['t'] for b in bloques):
-        hold, hp, ins, ip = HERR[t]
-        op, nom, vel, av, prof = INFO[t]
+    # 8. una sección por herramienta, en el estilo del informe original
+    for k, t in enumerate(dict.fromkeys(b['t'] for b in bloques)):
+        op, nom, gr, sfm, pg, rango, prof, tira = INFO[t]
         forma = formas.get(t, 4 if t in ('T1010',) else 3)
         bl = next(b for b in bloques if b['t'] == t)
-        cuerpo.append(para([run(f'HERRAMIENTA {nom} ({t})', sz=28, b=True, color='ff0000')], 'left', 120, pb=True, keep=True))
-        filas = [('Operación', op), ('Portaherramienta', f'{hold} (pág. {hp})'), ('Inserto', f'{ins} (pág. {ip})'),
-                 ('Velocidad de corte', vel), ('Avance (mm/vuelta)', av),
-                 ('Profundidad de corte máxima', prof), ('Código de forma', str(forma)),
-                 ('Programa', f'G96 S{bl["vc"]}, F ' + ' / '.join(fmt(v) for v in bl['f']) + ', ciclos ' + '-'.join(bl['ciclos']))]
-        cuerpo.append(table([row([tc(a, wc[0], b=True, jc='left'), tc(v, wc[1], jc='left')], 400) for a, v in filas], wc))
-    cuerpo.append(para([], after=200))
-    cuerpo.append(para([run('MANUAL USADO: “Kennametal Universal”', b=True)], 'left', 100, pb=False))
+        f_usado = ' / '.join(fmt(v) for v in bl['f'])
+        cuerpo.append(roja(f'CARACTERÍSTICAS {t}:', pb=(k == 0)))  # seguidas, como en el original
+        vel = f'Velocidad: {bl["vc"]} m/min o {sfm}sfm (grupo P, grado {gr}, pág. {pg})'
+        if rango:
+            av = f'Avance: {f_usado} ({rango})'
+        else:
+            av = f'Avance: según gráfico A70 (en el programa: {f_usado})'
+        pl = prof.split('\n')
+        for l in (vel, av, f'Profundidad de corte máxima: {pl[0]}', *pl[1:], f'Codigo de forma: {forma}'):
+            cuerpo.append(para([run(l)], 'left', 60))
+        if tira and img(tira):
+            cuerpo.append(para([im.inline(img(tira), 15.5)], 'left', 100))
+
+    # 9. herramientas usadas (texto plano)
+    cuerpo.append(para([run('HERRAMIENTAS USADAS', sz=48, b=True)], 'left', 200, pb=True, keep=True))
     if alumno:
-        cuerpo.append(para([run('ALUMNO: ' + alumno, b=True)]))
+        cuerpo.append(para([run('ALUMNO: ' + alumno)]))
+    cuerpo.append(para([run('MANUAL USADO: “Kennametal Universal”')], 'left', 200))
+    cuerpo.append(para([run('HERRAMIENTAS USADAS:')], 'left', 100))
+    base = lambda t: (HERR[t][0].split(' (')[0], HERR[t][2])
+    ordenadas = list(dict.fromkeys(b['t'] for b in bloques))
+    vistos = []
+    for t in ordenadas:
+        if base(t) in vistos:
+            continue
+        vistos.append(base(t))
+        hold, hp, ins, ip = HERR[t]
+        grupo = [x for x in ordenadas if base(x) == base(t)]
+        uso = 'RÓMBICA ULTRAFINA' if len(grupo) > 1 else INFO[t][1]
+        cuerpo.append(para([run(f'PORTAHERRAMIENTA {uso} ({", ".join(grupo)}): {base(t)[0]} (PÁG {hp})'.upper())], 'left', 0, ind=567))
+        cuerpo.append(para([run(f'INSERTO {uso}: {ins} (PÁG {ip})'.upper())], 'left', 160, ind=567))
+
+    # 10. avance de ranurado (A70)
+    ran = [t for t in ('T1111', 'T0505') if t in {b['t'] for b in bloques}]
+    if ran:
+        cuerpo.append(para([run('AVANCE ' + ' / '.join(ran) + ':', sz=40, color='C00000')], 'left', 120, keep=True))
+        if img('avance_A70.png'):
+            cuerpo.append(para([im.inline(img('avance_A70.png'), 11.0, 11.5)], 'left', 120))
+        for t in ran:
+            f = ' / '.join(fmt(v) for v in next(b for b in bloques if b['t'] == t)['f'])
+            cuerpo.append(para([run(f'El tamaño del inserto de {t} es {TAMANO[t]}, por eso la herramienta se usa con un avance de {f} mm/vuelta (PÁG A70).')], 'left', 100))
+
+    # 11. páginas de catálogo: una por herramienta, al final
+    usadas = {b['t'] for b in bloques}
+    for titulo_p, nombre_img, ts in PAGINAS_CAT:
+        if img(nombre_img) and usadas & set(ts):
+            cuerpo.append(roja(titulo_p, sz=56, pb=True))
+            cuerpo.append(para([im.inline(img(nombre_img), 15.9, 22.5)], 'center'))
 
     sect = ('<w:sectPr><w:headerReference w:type="default" r:id="rIdH1"/><w:headerReference w:type="first" r:id="rIdH2"/>'
             '<w:footerReference w:type="default" r:id="rIdF1"/><w:footerReference w:type="first" r:id="rIdF2"/>'
@@ -372,6 +437,7 @@ def main():
     ap.add_argument('--curso', default='')
     ap.add_argument('--fecha', default='')
     ap.add_argument('--profesor', default='')
+    ap.add_argument('--capturas', default='')
     construir(ap.parse_args())
 
 

@@ -258,6 +258,8 @@ class Prog:
         self.l.append(t)
 
     def herramienta(self, num, vc, ancho=0.0, porta=None):
+        # la Vc del JSON ("vc": {"1": 150, ...}) manda sobre la de por defecto
+        vc = VC_PIEZA.get(num, vc)
         self.linea("T%02d%02d" % (num, num))
         self.linea("G96 S%d M3" % vc)
         self.tool, self.ancho, self.porta, self.f = num, ancho, porta, None
@@ -436,7 +438,12 @@ def zona_base(per, largo):
     return {"x": x_fin, "z": zf}
 
 
+VC_PIEZA = {}  # Vc (m/min) por herramienta, leída del JSON de la pieza
+
+
 def generar(d, avisos):
+    VC_PIEZA.clear()
+    VC_PIEZA.update({int(k): float(v) for k, v in d.get("vc", {}).items()})
     bd, bl = float(d["bruto"]["d"]), float(d["bruto"]["l"])
     largo = float(d["largo"])
     per = d["perfil"]
