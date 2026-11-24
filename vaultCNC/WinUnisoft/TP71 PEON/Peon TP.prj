@@ -1,0 +1,76 @@
+[MAQUINA]
+Maquina = C:\Program Files (x86)\Winunisoft multicnc\LIB\Apolo.mch
+TipoMaquina = Torno
+Tipo = 1
+ControlText = Fanuc16iTA
+Unidad = 0
+LimiteMaquina = -8.5,0.00,0.00,85.5,0.00,287
+CeroMaquina = 85.5,0.00,287
+OrigenPref = 0,0,0
+VerCero = 1
+VerOrigen = 0
+PosicionCambioHta = 70.00,0.00,230.00
+TiempoCambio = 5
+PosTorreta = 0
+VelocidadMaxima = 4000
+VelocidadMinima = 10
+AvanceMaximo = 1500
+AvanceG00 = 1500
+GiroCabezal = 0
+Trayectoria = 0
+CotaX = 0
+[BRUTO]
+Forma=0
+CodForma=55
+Fijacion=0
+CodFijacion=80
+XMax/Zmin=0
+YMax/ZMax=130
+ZMax/DExt=30
+XMin/Long=0
+YMin/D=0
+ZMin/Nada=0
+[TOOLS]
+Tool=T0^0:^Sin^Correctores _NumHta=0 _Corrector=0 _Descrip=Sin^Correctores Quadrant=1 Type=DIAMOND Part_number= NTGNAME=<USER> Orient.=5.00000 _Orient.=95.00000 IC=9.00000 _IC=9.00000 Alpha=80.00000 _DesgR=0.00000 _DesgL=0.00000 _DiametroDesg=0.00000 _LongitudDesg=0.00000 r=0.00000 _CodForma=0 P.Pnt=[0.0,0.0] H_Type=SIMPLEBAR H_Width=12.00000 H_Hght=70.00000 H_Clr_X=1.00000 H_Clr_Z=2.00000 H_Ang=5.00000 H_minD=0 Home_Name=<NONE> Rot_mode=CW color=0 
+Tool=T1^1:^DCLN^R/L^2020K12KC04 _NumHta=1 _Corrector=1 _Descrip=DCLN^R/L^2020K12KC04 Quadrant=1 Type=DIAMOND Part_number= NTGNAME=<USER> Orient.=5.00000 _Orient.=95.00000 IC=12.70000 _IC=12.70000 Alpha=80.00000 _DesgR=0.00000 _DesgL=0.00000 _DiametroDesg=0.00000 _LongitudDesg=0.00000 r=0.20000 _CodForma=3 P.Pnt=[0.0,0.0] H_Type=SIMPLEBAR H_Width=20.00000 H_Hght=125.00000 H_Clr_X=11.00000 H_Clr_Z=6.00000 H_Ang=5.00000 H_minD=0 Home_Name=<NONE> Rot_mode=CW color=0 
+Tool=T2^2:^SCLCL^Desbastar^Interiores _NumHta=2 _Corrector=2 _Descrip=SCLCL^Desbastar^Interiores Quadrant=7 Type=DIAMOND Part_number= NTGNAME=<USER> Orient.=5.00000 _Orient.=95.00000 IC=6.00000 _IC=6.00000 Alpha=80.00000 _DesgR=0.00000 _DesgL=0.00000 _DiametroDesg=0.00000 _LongitudDesg=0.00000 r=0.40000 _CodForma=2 P.Pnt=[0.0,0.0] H_Type=SIMPLEBAR H_Width=10.00000 H_Hght=70.00000 H_Clr_X=1.00000 H_Clr_Z=1.00000 H_Ang=5.00000 H_minD=0 Home_Name=<NONE> Rot_mode=CW color=0 
+Tool=T3^3:^DVJN^R/L^2020K16KC04 _NumHta=3 _Corrector=3 _Descrip=DVJN^R/L^2020K16KC04 Quadrant=1 Type=DIAMOND Part_number= NTGNAME=<USER> Orient.=52.00000 _Orient.=93.00000 IC=9.53000 _IC=9.53000 Alpha=35.00000 _DesgR=0.00000 _DesgL=0.00000 _DiametroDesg=0.00000 _LongitudDesg=0.00000 r=0.20000 _CodForma=3 P.Pnt=[0.0,0.0] H_Type=SIMPLEBAR H_Width=20.00000 H_Hght=125.00000 H_Clr_X=8.00000 H_Clr_Z=2.50000 H_Ang=30.00000 H_minD=0 Home_Name=<NONE> Rot_mode=CW color=0 
+Tool=T4^4:^SDUCL^Acabar^Interiores _NumHta=4 _Corrector=4 _Descrip=SDUCL^Acabar^Interiores Quadrant=7 Type=DIAMOND Part_number= NTGNAME=<USER> Orient.=32.00000 _Orient.=93.00000 IC=7.00000 _IC=7.00000 Alpha=55.00000 _DesgR=0.00000 _DesgL=0.00000 _DiametroDesg=0.00000 _LongitudDesg=0.00000 r=0.00000 _CodForma=2 P.Pnt=[0.0,0.0] H_Type=SIMPLEBAR H_Width=10.00000 H_Hght=70.00000 H_Clr_X=1.00000 H_Clr_Z=1.00000 H_Ang=30.00000 H_minD=0 Home_Name=<NONE> Rot_mode=CW color=0 
+Tool=T5^5:^^A4SM^R/L^2016K0317 _NumHta=5 _Corrector=5 _Descrip=^A4SM^R/L^2016K0317 Quadrant=1 Type=GROOVING Part_number= NTGNAME=<USER> Orient.=0.00000 _Orient.=90.00000 IC=3.00000 _IC=3.00000 Alpha=0.20000 Height=17.00000 _DesgR=0.00000 _DesgL=0.00000 _DiametroDesg=0.00000 _LongitudDesg=0.00000 r=0.00000 _CodForma=3 P.Pnt=[0.0,0.0] H_Type=SIMPLEBAR H_Width=20.00000 H_Hght=125.00000 H_Clr_X=16.00000 H_Clr_Z=0.00000 H_Ang=0.00000 H_minD=0 Home_Name=<NONE> Rot_mode=CW color=0 
+Tool=T6^6:^STIL^Ranurado^Interiores _NumHta=6 _Corrector=6 _Descrip=STIL^Ranurado^Interiores Quadrant=7 Type=GROOVING Part_number= NTGNAME=<USER> Orient.=0.00000 _Orient.=90.00000 IC=6.00000 _IC=6.00000 Alpha=0.00000 Height=2.00000 _DesgR=0.00000 _DesgL=0.00000 _DiametroDesg=0.00000 _LongitudDesg=0.00000 r=0.00000 _CodForma=2 P.Pnt=[0.0,0.0] H_Type=SIMPLEBAR H_Width=10.00000 H_Hght=70.00000 H_Clr_X=6.00000 H_Clr_Z=0.00000 H_Ang=0.00000 H_minD=0 Home_Name=<NONE> Rot_mode=CW color=0 
+Tool=T7^7:^NLL^Roscar^Exteriores _NumHta=7 _Corrector=7 _Descrip=NLL^Roscar^Exteriores Quadrant=1 Type=THREAD Part_number= NTGNAME=<USER> IC=0.00000 Orient.=0.00000 _Orient.=60.00000 Alpha=60.00000 Height=1.50000 _DesgR=0.00000 _DesgL=0.00000 _DiametroDesg=0.00000 _LongitudDesg=0.00000 r=0.00000 _CodForma=3 P.Pnt=[0.0,0.0] H_Type=SIMPLEBAR H_Width=12.00000 H_Hght=70.00000 H_Clr_X=1.50000 H_Clr_Z=-1.00000 H_Ang=0.00000 H_minD=0 Home_Name=<NONE> Rot_mode=CW color=0 
+Tool=T8^8:^NVRL^Roscado^Interiores _NumHta=8 _Corrector=8 _Descrip=NVRL^Roscado^Interiores Quadrant=7 Type=THREAD Part_number= NTGNAME=<USER> IC=0.00000 Orient.=-90.00000 _Orient.=150.00000 Alpha=60.00000 Height=2.50000 _DesgR=0.00000 _DesgL=0.00000 _DiametroDesg=0.00000 _LongitudDesg=0.00000 r=0.00000 _CodForma=2 P.Pnt=[0.0,0.0] H_Type=SIMPLEBAR H_Width=10.00000 H_Hght=70.00000 H_Clr_X=1.50000 H_Clr_Z=-1.00000 H_Ang=0.00000 H_minD=0 Home_Name=<NONE> Rot_mode=CW color=0 
+Tool=T9^9:^SVJB^R/L^1212N11^(3) _NumHta=9 _Corrector=9 _Descrip=SVJB^R/L^1212N11^(3) Quadrant=1 Type=DIAMOND Part_number= NTGNAME=<USER> Orient.=55.00000 _Orient.=90.00000 IC=6.35000 _IC=6.35000 Alpha=35.00000 _DesgR=0.00000 _DesgL=0.00000 _DiametroDesg=0.00000 _LongitudDesg=0.00000 r=0.00000 _CodForma=3 P.Pnt=[0.0,0.0] H_Type=SIMPLEBAR H_Width=12.00000 H_Hght=160.00000 H_Clr_X=4.00000 H_Clr_Z=0.00000 H_Ang=52.00000 H_minD=0 Home_Name=<NONE> Rot_mode=CW color=0 
+Tool=T10^10:^SVJB^R/L^1212N11^(4) _NumHta=10 _Corrector=10 _Descrip=SVJB^R/L^1212N11^(4) Quadrant=2 Type=DIAMOND Part_number= NTGNAME=<USER> Orient.=55.00000 _Orient.=90.00000 IC=6.35000 _IC=6.35000 Alpha=35.00000 _DesgR=0.00000 _DesgL=0.00000 _DiametroDesg=0.00000 _LongitudDesg=0.00000 r=0.00000 _CodForma=4 P.Pnt=[0.0,0.0] H_Type=SIMPLEBAR H_Width=12.00000 H_Hght=160.00000 H_Clr_X=4.00000 H_Clr_Z=0.00000 H_Ang=52.00000 H_minD=0 Home_Name=<NONE> Rot_mode=CW color=0 
+Tool=T11^11:^A4SM^R/L^3225P0626 _NumHta=11 _Corrector=11 _Descrip=A4SM^R/L^3225P0626 Quadrant=2 Type=GROOVING Part_number= NTGNAME=<USER> Orient.=0.00000 _Orient.=90.00000 IC=6.00000 _IC=6.00000 Alpha=0.00000 Height=26.00000 _DesgR=0.00000 _DesgL=0.00000 _DiametroDesg=0.00000 _LongitudDesg=0.00000 r=0.00000 _CodForma=4 P.Pnt=[0.0,0.0] H_Type=SIMPLEBAR H_Width=25.00000 H_Hght=170.00000 H_Clr_X=26.00000 H_Clr_Z=0.00000 H_Ang=0.00000 H_minD=0 Home_Name=<NONE> Rot_mode=CW color=0 
+[ORIGEN]
+G53=0.00,0.00,0.00
+G54=0.00,0.00,129
+G55=0.00,0.00,0.00
+G56=0.00,0.00,0.00
+G57=0.00,0.00,0.00
+G58=0.00,0.00,0.00
+G59=0.00,0.00,0.00
+[NOTAS]
+
+[General]
+Gama=3000
+PosX=16000
+PosZ=51000
+SCabezal=1000
+FAvance=400
+G9495=95
+G9697=97
+THerramienta=1.1
+HtaCorrecX=45000
+HtaCorrecZ=30000
+HolguraX=0
+HolguraY=0
+HolguraZ=0
+TipoTorno=$33
+OrigenY=0
+HtaCorrecY=0
+PosY=0
+PosCarrusel=1
+OrigenX=0
+OrigenZ=0

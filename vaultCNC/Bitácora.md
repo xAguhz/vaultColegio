@@ -34,4 +34,14 @@ El orquestador bajó del Drive los .zip de WinUnisoft, confirmó que son texto p
 6. **Páginas finales de la carpeta.** La lectura cortó en la página 80; faltan el seteo de herramienta y los parámetros del simulador.
 
 **Pendiente**
-- Terminar `plano_freecad.py` y `generar_winunisoft.py` (ver [[00 Inicio]]).
+- ~~Terminar `plano_freecad.py` y `generar_winunisoft.py`~~: hecho (ver [[00 Inicio]]).
+
+## 2026-11-24 (tarde): TP 7°1 de Peón, Alfil y Torre
+- El alumno pasó un dibujo con tres piezas y medidas aproximadas. Se armó un JSON por pieza (`Piezas/tp71_*.json`, solo local) y se generaron el plano, el proyecto WinUnisoft y el informe de cada una. Ver [[TP 7°1 - Peón, Alfil y Torre]].
+- **Errores corregidos en `plano_freecad.py`:**
+  - FreeCAD 1.1 proyecta las vistas en segundo plano, así que el script ahora espera a que tengan geometría (`esperar_geometria`).
+  - La torre tiene la cara de arriba plana y no hay vértice en el eje: la cadena de cotas arranca de cualquier vértice en Z0.
+  - Las cotas muestran el valor del JSON (antes salía 2,99 en vez de 3).
+  - Los radios grandes (R25, R40) van como texto con una línea corta, porque la cota de radio trazaba la línea desde un centro que caía fuera de la hoja.
+  - Dos arcos seguidos del mismo radio (collarín) llevan una sola cota.
+- La mitra del alfil primero tenía dos arcos R6 con una muesca entre ellos. Se cambió por un solo arco R6 tangente.

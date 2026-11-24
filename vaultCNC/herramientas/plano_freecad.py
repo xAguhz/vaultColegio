@@ -231,12 +231,44 @@ def main(ruta_json, carpeta):
         except Exception:
             pass
     doc.recompute()
+    esperar_geometria((v1, v2, v3))
     acotar(doc, page, v1, v2, v3, lay, zs, arriba, abajo, tr, L, rmax, s)
     doc.recompute()
     return doc, page, (v1, v2, v3), lay, nombre
 
 
 # ---------------------------------------------------------------- cotas
+def esperar_geometria(vistas, limite=60.0):
+    """TechDraw (FreeCAD 1.x) proyecta las vistas en segundo plano: esperar a que terminen."""
+    import time
+    try:
+        from PySide import QtGui
+        app = QtGui.QApplication.instance()
+    except Exception:
+        app = None
+    t0 = time.time()
+    while time.time() - t0 < limite:
+        listas = True
+        for v in vistas:
+            try:
+                if not v.getVisibleEdges():
+                    listas = False
+            except Exception:
+                listas = False
+        if listas:
+            return
+        if app:
+            app.processEvents()
+        time.sleep(0.1)
+        for v in vistas:
+            try:
+                if not v.getVisibleEdges():
+                    v.recompute()
+            except Exception:
+                pass
+    print("AVISO: alguna vista no tiene geometria despues de %.0f s" % limite)
+
+
 def indice_vertice(vista, x, y, tol=0.05):
     # las coordenadas de los vertices vienen ya multiplicadas por la escala de la vista
     x, y = x * vista.Scale, y * vista.Scale
@@ -256,7 +288,8 @@ def nueva_cota(doc, page, tipo, vista, refs, x, y, formato, valor=None, fuente=3
     d.Type = tipo
     d.References2D = [(vista, r) for r in refs]
     d.FormatSpec = formato
-    if valor is not None and abs(valor - round(valor)) > 1e-9:
+    if valor is not None:
+        # el texto sale del JSON (evita 2,99 por redondeos de la proyección)
         # coma decimal (34,5): el texto queda fijo, la geometria sigue siendo la misma
         d.Arbitrary = True
         d.FormatSpec = formato.split("%")[0] + fmt(valor)
@@ -320,6 +353,7 @@ def acotar(doc, page, v1, v2, v3, lay, zs, arriba, abajo, tr, L, rmax, s):
 
     # ---- vista 1: radios de los arcos (se toma el arco del lado izquierdo)
     bordes = list(v1.getVisibleEdges())
+    ultimo_R, ultimo_z = None, None
     for z0, r0, z1, r1, arco in tr:
         if not arco:
             continue
@@ -336,8 +370,32 @@ def acotar(doc, page, v1, v2, v3, lay, zs, arriba, abajo, tr, L, rmax, s):
                 break
         if hallado is None:
             continue
+        # dos arcos seguidos del mismo radio (collarín) llevan una sola cota
+        if ultimo_R is not None and abs(ultimo_R - arco["R"]) < 1e-9 and abs(ultimo_z - z0) < 1e-9:
+            ultimo_R, ultimo_z = arco["R"], z1
+            continue
+        ultimo_R, ultimo_z = arco["R"], z1
         lx = -(rmax * s + 14)
         ly = -y1(arco["pz"]) * s + 7
+        if arco["R"] * s > 25:
+            # radio grande (cóncavo): el centro cae fuera de la hoja y la cota de radio
+            # trazaría la línea desde ahí; se pone texto + línea de referencia corta
+            nota = doc.addObject("TechDraw::DrawViewAnnotation", "RadioGrande")
+            page.addView(nota)
+            nota.Text = ["R" + fmt(arco["R"])]
+            nota.TextSize = 3.5
+            try:
+                nota.Font = FUENTE
+            except Exception:
+                pass
+            nota.X = float(getattr(v1.X, "Value", v1.X)) + lx + 3
+            nota.Y = float(getattr(v1.Y, "Value", v1.Y)) + ly + 1.5
+            q = (-arco["pr"], y1(arco["pz"]))
+            fin = ((lx + 8) / s, y1(arco["pz"]) - 7 / s)
+            tag = v1.makeCosmeticLine(V(q[0], q[1], 0), V(fin[0], fin[1], 0))
+            ce = v1.getCosmeticEdge(tag)
+            ce.Format = {'style': 1, 'weight': 0.25, 'color': (0.0, 0.0, 0.0, 1.0), 'visible': True}
+            continue
         nueva_cota(doc, page, "Radius", v1, ["Edge%d" % hallado], lx, ly, "R%.2w", arco["R"])
 
     # ---- vista 3: cadena de longitudes desde la punta (x = z - zc, hacia la derecha la punta)
@@ -352,7 +410,10 @@ def acotar(doc, page, v1, v2, v3, lay, zs, arriba, abajo, tr, L, rmax, s):
         if not cands:
             continue
         i_z = max(cands)[1]
-        itip = indice_vertice(v3, x3(0), 0)
+        # vertice de la punta: sobre el eje si es una bola; si la cara es plana (torre) no hay
+        # vertice en el eje, se toma cualquiera en Z0 (la cota DistanceX solo mira la X)
+        tips = [(q.y, i) for i, q in enumerate(v3.getVisibleVertexes()) if abs(q.x - x3(0) * s) < 0.05]
+        itip = max(tips)[1] if tips else indice_vertice(v3, x3(0), 0)
         # radio visible hasta z: sobre el eje hay que pasar la silueta
         r_hasta = max(max(t[1], t[3]) for t in tr if t[2] >= z - 1e-9) * s
         prev = max(r_hasta + 6, prev + DIM_PASO)
