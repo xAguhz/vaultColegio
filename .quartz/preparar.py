@@ -31,6 +31,7 @@ VAULTS = {
     "vaultSuzuki": ("Suzuki Swift ZC21S", "Suzuki Swift ZC21S/00 Suzuki Swift ZC21S", "Manual del Suzuki Swift 1.5XS japonés (ZC21S, 2008): uso, mantenimiento y despiece 3D."),
     "vaultClaseProfes": ("Clase para profes: IA", "00 Inicio", "Guía desde cero para que los profes usen la IA y armen un entorno de trabajo como este."),
     "vaultMHS": ("MHS: IA y hardware", "00 Inicio", "Model Hardware Standard de Anthropic, investigado a partir de un video de IoT Lab: cada dato enlazado al segundo del video."),
+    "vaultPedro": ("Taller de Metrología", "00 Inicio", "Taller de Metrología y Control de Calidad 2026 (profe Pedro Azuaga): Ley 19.511, SIMELA y patrones de medición."),
     "vaultRed": ("Cómo se armó la red", "00 Inicio", "El método detrás de todos los vaults: notas, enlaces, herramientas, conectores y trabajo con IA."),
 }
 IGNORAR_CARPETAS = {".obsidian", "herramientas", "Plantillas", "logs", ".trash"}
