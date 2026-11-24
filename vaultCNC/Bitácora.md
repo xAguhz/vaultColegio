@@ -55,3 +55,18 @@ El orquestador bajó del Drive los .zip de WinUnisoft, confirmó que son texto p
 - **Decisión de coherencia:** el SAE 4140 es acero aleado, grupo P. Los programas pasaron a usar las Vc del grupo P: T0101 150 m/min (KU30T, el grado del CNMG-RP), T0303, T0909 y T1010 200 m/min (KU10T) y ranurado 120 m/min (A71). Los TP anteriores usaban el grupo M (180 y 105). Las Vc van en el JSON (`"vc"`) y `generar_winunisoft.py` las lee.
 - **Nota abierta:** los insertos de ranurado A4G…GMP son para inoxidable; A70 recomienda GMN para acero. Se mantuvo GMP porque era la selección aprobada en el TP anterior. Consultar con el profe.
 - Los informes se subieron a Drive como Google Docs, en la carpeta CNC/TP 7°1, junto con los PDF de los planos. Las capturas del catálogo quedan solo locales, porque son material de Kennametal.
+
+## 2026-11-24 (noche): revisión de los informes en Google Docs
+- Tres revisores (Sonnet, uno por informe) exportaron cada Google Doc a PDF y lo revisaron página por página. El plano, el programa y los datos estaban bien. Encontraron problemas de maquetación:
+  - la tabla del rótulo ocupaba media hoja;
+  - la trayectoria salía chica y sin epígrafe;
+  - la tabla de la pieza se partía;
+  - había tiras de avance huérfanas;
+  - una captura cortaba una fila de la tabla;
+  - faltaban acentos.
+- Un programador corrigió `informe_tp.py` y volvió a recortar las capturas:
+  - tablas con ancho fijo en dxa y celdas combinadas;
+  - imágenes ajustadas al área útil y centradas;
+  - salto de página antes de "Características pieza";
+  - las tiras quedan al 75 % del ancho.
+- Aprendido: Google Docs no respeta "mantener con el siguiente" en bloques largos. Hay que dejar margen de alto en lugar de confiar en keepNext.

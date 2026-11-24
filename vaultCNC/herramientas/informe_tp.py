@@ -28,7 +28,7 @@ INFO = {
     'T0303': ('TERMINACIÓN: DIAGONALES Y RADIOS BRUTOS', 'TERMINACIÓN', 'KU10T', 650, 'A5', '0,1 - 0,3', '2,5 mm', 'tira_T0303_FP.png'),
     'T0505': ('RANURADO', 'RANURADO ∅3', 'KU30T', 400, 'A71', None, 'aprox. 1,6 - 2,0 mm (según gráfico A70)\n(17 mm = profundidad de la ranura del portaherramienta, CD)', None),
     'T0909': ('RADIOS Y DIAGONALES LADO DERECHO', 'ACABADO ULTRAFINO', 'KU10T', 650, 'A5', '0,2 - 0,4', '2,3 mm', 'tira_T0909_LF.png'),
-    'T1010': ('RADIOS Y DIAGONALES LADO IZQUIERDO', 'ACABADO ULTRAFINO', 'KU10T', 650, 'A5', '0,2 - 0,4', '2,3 mm', None),
+    'T1010': ('RADIOS Y DIAGONALES LADO IZQUIERDO', 'ACABADO ULTRAFINO', 'KU10T', 650, 'A5', '0,2 - 0,4', '2,3 mm', 'tira_T0909_LF.png'),
     'T1111': ('TRONZADO', 'RANURADO-TRONZADO ∅6', 'KU30T', 400, 'A71', None, 'aprox. 4 mm (según gráfico A70)\n(26 mm = profundidad de la ranura del portaherramienta, CD)', None),
 }
 TAMANO = {'T0505': 3, 'T1111': 6}  # tamaño de inserto (gráfico A70)
@@ -46,6 +46,7 @@ NS = ('xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" '
       'xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" '
       'xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"')
 W_TEXTO = 9026  # A4 con márgenes de 2,54 cm
+ANCHO_CM = 15.9  # ancho útil en cm (9026 dxa = 15,92 cm)
 
 
 def run(t, font='Calibri', sz=22, b=False, i=False, color='000000', hl=False):
@@ -228,20 +229,21 @@ def construir(args):
         cuerpo.append(linea('FECHA:', args.fecha))
 
     # 2. rótulo + 3. hoja de proceso
-    wt = [W_TEXTO]
+    # una sola tabla de 4 columnas a todo el ancho útil; las 3 filas de arriba van combinadas (gridSpan=4)
+    w4 = [1700, 2800, 2100, 2426]
+    assert sum(w4) == W_TEXTO
+    def tc4(t, sz=22):
+        ps = ''.join(para([run(l, sz=sz)], jc='center') for l in t.split('\n'))
+        return cell(ps, W_TEXTO, 'center', span=4)
     cuerpo.append(para([], pb=True))
     cuerpo.append(table([
-        row([tc('ESCUELA DE EDUCACION SECUNDARIA TECNICA N°3', W_TEXTO, sz=24)]),
-        row([tc('DISEÑO Y PROCESAMIENTO MECANICO', W_TEXTO, sz=24)]),
-        row([tc('MATERIAL ' + pieza['material'], W_TEXTO)]),
-    ], wt))
-    w4 = [1900, 2400, 2300, 2426]
-    info = table([
+        row([tc4('ESCUELA DE EDUCACIÓN SECUNDARIA TÉCNICA N°3', 24)]),
+        row([tc4('DISEÑO Y PROCESAMIENTO MECÁNICO', 24)]),
+        row([tc4('MATERIAL ' + pieza['material'])]),
         row([tc('ESTUDIANTE', w4[0]), tc(args.alumno, w4[1]), tc('REVISADO POR', w4[2]), tc('', w4[3])]),
-        row([tc('TEMA', w4[0]), tc('TRABAJO PRACTICO: ' + nombre, w4[1]), tc('FECHA PRESENTACION', w4[2]), tc(args.fecha, w4[3])]),
-    ], w4)
-    cuerpo.append(info)
-    filas = [row([tc('OPERACIÓN N°', w4[0], b=True), tc('PARAMETROS', w4[1], b=True),
+        row([tc('TEMA', w4[0]), tc('TRABAJO PRÁCTICO: ' + nombre, w4[1]), tc('FECHA PRESENTACIÓN', w4[2]), tc(args.fecha, w4[3])]),
+    ], w4))
+    filas = [row([tc('OPERACIÓN N°', w4[0], b=True), tc('PARÁMETROS', w4[1], b=True),
                   tc('HERRAMIENTAS', w4[2], b=True), tc('ESQUEMA DE PROCESO', w4[3], b=True)], 400)]
     for n, b in enumerate(bloques, 1):
         t = b['t']
@@ -260,12 +262,14 @@ def construir(args):
     cuerpo.append(table(filas, w4))
     if tray:
         cuerpo.append(para([run('TRAYECTORIA DE LAS HERRAMIENTAS (WinUnisoft)', sz=22, b=True)], 'center', 60, keep=True))
-        cuerpo.append(para([im.inline(tray, 15.5)], 'center'))
+        cuerpo.append(para([im.inline(tray, ANCHO_CM, 20.0)], 'center', 60, keep=True))
+        cuerpo.append(para([run('Trayectoria de las herramientas generada desde el programa (cada color es una herramienta; '
+                                'las líneas punteadas son movimientos rápidos G00).', sz=20, i=True)], 'center', 120))
 
     # 4. plano
     cuerpo.append(para([run('PLANO', sz=48, b=True)], 'left', 120, pb=True, keep=True))
     if plano:
-        cuerpo.append(para([im.inline(plano, 14.5, 22.0)], 'center'))
+        cuerpo.append(para([im.inline(plano, ANCHO_CM, 23.3)], 'center'))
 
     # 5. programación CNC
     cuerpo.append(para([run('PROGRAMACIÓN CNC', sz=48, b=True)], 'left', 200, pb=True, keep=True))
@@ -302,7 +306,7 @@ def construir(args):
             cuerpo.append(para([im.inline(img(nom), 15.5)], 'left', 200))
 
     # 7. características de la pieza
-    cuerpo.append(para([run('CARACTERÍSTICAS PIEZA:', sz=48, b=True)], 'left', 200, keep=True))
+    cuerpo.append(para([run('CARACTERÍSTICAS PIEZA:', sz=48, b=True)], 'left', 200, pb=True, keep=True))
     carac = [('Nombre', nombre), ('Material', pieza['material'] + ' (grupo P, acero aleado)'),
              ('Bruto', f'Ø = {bruto["d"]} mm, L = {bruto["l"]} mm'),
              ('Largo de la pieza', f'{pieza["largo"]} mm'),
@@ -321,17 +325,19 @@ def construir(args):
         forma = formas.get(t, 4 if t in ('T1010',) else 3)
         bl = next(b for b in bloques if b['t'] == t)
         f_usado = ' / '.join(fmt(v) for v in bl['f'])
-        cuerpo.append(roja(f'CARACTERÍSTICAS {t}:', pb=(k == 0)))  # seguidas, como en el original
+        cuerpo.append(roja(f'CARACTERÍSTICAS {t}:', pb=False))  # siguen a la tabla de la pieza
         vel = f'Velocidad: {bl["vc"]} m/min o {sfm}sfm (grupo P, grado {gr}, pág. {pg})'
         if rango:
             av = f'Avance: {f_usado} ({rango})'
         else:
             av = f'Avance: según gráfico A70 (en el programa: {f_usado})'
         pl = prof.split('\n')
-        for l in (vel, av, f'Profundidad de corte máxima: {pl[0]}', *pl[1:], f'Codigo de forma: {forma}'):
-            cuerpo.append(para([run(l)], 'left', 60))
-        if tira and img(tira):
-            cuerpo.append(para([im.inline(img(tira), 15.5)], 'left', 100))
+        extra = ['Ver gráfico de avance A70.'] if not tira else []
+        con_tira = bool(tira and img(tira))
+        for l in (vel, av, f'Profundidad de corte máxima: {pl[0]}', *pl[1:], f'Código de forma: {forma}', *extra):
+            cuerpo.append(para([run(l)], 'left', 60, keep=con_tira))  # con tira: título, líneas y tira juntos
+        if con_tira:
+            cuerpo.append(para([im.inline(img(tira), ANCHO_CM * 0.75)], 'left', 100))
 
     # 9. herramientas usadas (texto plano)
     cuerpo.append(para([run('HERRAMIENTAS USADAS', sz=48, b=True)], 'left', 200, pb=True, keep=True))
@@ -367,7 +373,7 @@ def construir(args):
     for titulo_p, nombre_img, ts in PAGINAS_CAT:
         if img(nombre_img) and usadas & set(ts):
             cuerpo.append(roja(titulo_p, sz=56, pb=True))
-            cuerpo.append(para([im.inline(img(nombre_img), 15.9, 22.5)], 'center'))
+            cuerpo.append(para([im.inline(img(nombre_img), ANCHO_CM, 23.2)], 'center'))
 
     sect = ('<w:sectPr><w:headerReference w:type="default" r:id="rIdH1"/><w:headerReference w:type="first" r:id="rIdH2"/>'
             '<w:footerReference w:type="default" r:id="rIdF1"/><w:footerReference w:type="first" r:id="rIdF2"/>'
