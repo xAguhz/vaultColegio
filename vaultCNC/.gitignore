@@ -1,0 +1,7 @@
+# Datos del rótulo (nombres) y salidas con nombres: solo locales
+Piezas/*.json
+Planos/*/
+Informes/
+*.FCBak
+__pycache__/
+.obsidian/workspace*.json

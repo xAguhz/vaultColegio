@@ -13,6 +13,7 @@ Notas del colegio en Obsidian, publicadas como página web: **https://xaguhz.git
 | `vaultClaseProfes/` | Guía para profes: cómo usar la IA y armar un entorno como este, desde cero |
 | `vaultOficinaIA/` | Oficina de agentes de IA: un orquestador (Opus) que reparte trabajo a cinco agentes (Sonnet); costos, uso y errores. No se publica en la página todavía |
 | `vaultMHS/` | Model Hardware Standard (IA y hardware), investigado a partir de un video |
+| `vaultCNC/` | Torno CNC (Diseño y Procesamiento Mecánico): códigos G/M, ciclos, TP de piezas de ajedrez y generadores de plano FreeCAD y proyecto WinUnisoft |
 | `vaultRed/` | El método detrás de todos los vaults: notas, enlaces, herramientas, conectores y trabajo con IA |
 
 **Toda la red en una página:** https://xaguhz.github.io/vaultColegio/red/ (grafo interactivo de todos los vaults, con modo presentación).
