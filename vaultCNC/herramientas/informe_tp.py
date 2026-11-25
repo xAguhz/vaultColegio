@@ -282,11 +282,11 @@ def construir(args):
             from PIL import Image as _I
             rec = os.path.join(tmp, f'esq{n}.png')
             _I.open(op_img).convert('RGB').crop((400, 290, 885, 640)).save(rec)
-            celda = cell(para([im.inline(rec, 4.0)], 'center') +
+            celda = cell(para([im.inline(rec, 3.1)], 'center') +
                          ''.join(para([run(l, sz=16)], 'center') for l in esq.split('\n')[1:]), w4[3], 'center')
         else:
             celda = tc(esq, w4[3], sz=18)
-        filas.append(row([tc(f'{n}\n{op}', w4[0]), tc(par, w4[1]), tc(her, w4[2], sz=18), celda], 1500))
+        filas.append(row([tc(f'{n}\n{op}', w4[0]), tc(par, w4[1], sz=20), tc(her, w4[2], sz=16), celda], 1300))
     cuerpo.append(para([], after=0))
     cuerpo.append(table(filas, w4))
     if tray:
@@ -297,7 +297,10 @@ def construir(args):
         fin = sorted(glob.glob(os.path.join(args.esquemas, 'op*.png')), key=lambda f: int(re.findall(r'\d+', os.path.basename(f))[0])) if args.esquemas else []
         if fin:
             cuerpo.append(para([run('SIMULACIÓN EN WINUNISOFT (PIEZA TERMINADA, SIN COLISIONES)', sz=22, b=True)], 'center', 60, keep=True))
-            cuerpo.append(para([im.inline(fin[-1], 12.0, 11.0)], 'center', 60))
+            from PIL import Image as _I
+            rec = os.path.join(tmp, 'final.png')
+            _I.open(fin[-1]).convert('RGB').crop((250, 250, 885, 680)).save(rec)
+            cuerpo.append(para([im.inline(rec, ANCHO_CM, 10.5)], 'center', 60))
 
     # 4. plano
     cuerpo.append(para([run('PLANO', sz=48, b=True)], 'left', 120, pb=True, keep=True))
@@ -395,7 +398,7 @@ def construir(args):
         if ficha and os.path.exists(ficha):
             # como el TP original: página propia con la ficha de la herramienta en WinUnisoft
             cuerpo.append(para([run(f'HERRAMIENTA {nom} ({t})', sz=40, color='C00000')], 'center', 120, pb=True, keep=True))
-            cuerpo.append(para([im.inline(ficha, 14.5, 11.5)], 'center', 160))
+            cuerpo.append(para([im.inline(ficha, ANCHO_CM, 14.0)], 'center', 160))
         cuerpo.append(roja(f'CARACTERÍSTICAS {t}:', pb=False))
         vel = f'Velocidad: {bl["vc"]} m/min o {sfm}sfm (grupo P, grado {gr}, pág. {pg})'
         if rango:
