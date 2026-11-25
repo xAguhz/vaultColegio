@@ -131,7 +131,7 @@ El orquestador bajó del Drive los .zip de WinUnisoft, confirmó que son texto p
 - **Simulación en la pantalla oculta:** los 3 programas llegan a M30 sin colisiones. Los tiempos bajaron: Peón 25:35, Alfil 29:32 y Torre 18:23.
 - **Informes:** se regeneraron con una aclaración sobre las profundidades de pasada y se subieron a Drive como Google Docs nuevos. Los anteriores quedaron renombrados "(versión anterior)".
 
-## 2026-11-25: TP 7°1 (2), herramientas en par
+## 2026-11-25: TP Completacarrera, herramientas en par
 - **Pedido del alumno:**
   - Pasó dos croquis (peón y alfil) para ponerles medidas y corregir la simetría.
   - Pidió que la IA inventara una torre.
@@ -140,7 +140,7 @@ El orquestador bajó del Drive los .zip de WinUnisoft, confirmó que son texto p
 - **Decisiones del orquestador:**
   - La base es Ø26 y el resto se escala en proporción.
   - El collarín del alfil tiene una cara socavada en el croquis: se hizo radial porque ninguna herramienta del catálogo la alcanza.
-  - Herramientas: T0101 (DCLN R), T0505 (A4SM 2020K0317, de 20×20), T0303 (DVJN R) y T0404 (DVJN L). No se usan T0202 ni T0606. Ver [[TP 7°1 - herramientas en par]].
+  - Herramientas: T0101 (DCLN R), T0505 (A4SM 2020K0317, de 20×20), T0303 (DVJN R) y T0404 (DVJN L). No se usan T0202 ni T0606. Ver [[TP Completacarrera - herramientas en par]].
 - **Generador (`generar_par`):**
   - G90 de 6 mm en diámetro con F0,4, seguido de una pasada de contorno.
   - En los valles, la T0505 entra en el punto más hondo y hace G90 en los dos sentidos.
@@ -152,10 +152,11 @@ El orquestador bajó del Drive los .zip de WinUnisoft, confirmó que son texto p
   - El arco de la bola, desplazado solo en X, no quedaba paralelo.
   - En el plano, la cadena de cotas de la torre pisaba el rótulo (`distribuir` ahora calcula el lugar con la misma cuenta que la cadena).
 - **Resultado:** los 3 programas se simulan sin colisiones y tardan unos 10–11 minutos, contra 18–30 del TP anterior.
-- **Drive:** los informes están en la carpeta "TP 7°1 - Peón, Alfil y Torre (herramientas en par)".
+- **Drive:** los informes están en la carpeta "TP Completacarrera - Peón, Alfil y Torre (herramientas en par)".
 - **Papelera:** a pedido del alumno se mandaron a la papelera las 12 versiones anteriores de los informes del primer TP.
 - **Revisión de los informes contra el PDF del TP original** (agente Sonnet): faltaban los esquemas de la hoja de proceso y las páginas por herramienta con la ficha de WinUnisoft. Se agregaron con capturas del simulador en la pantalla oculta (`esquemas_wus.py` y Gestor → Herramientas). También se corrigieron estas cosas:
   - el gráfico A70 era chico;
   - la T0404 se nombraba en el alfil, que no la usa;
   - los títulos quedaban pegados a las tablas;
   - las cotas encadenadas se pisaban (`DIM_PASO` pasó de 4,6 a 5,5).
+- El TP es de otra alumna, del curso **Completacarrera**, no de 7°1. Se corrigieron el rótulo de los planos y los datos de los informes, y se renombraron la carpeta de Drive y esta nota.

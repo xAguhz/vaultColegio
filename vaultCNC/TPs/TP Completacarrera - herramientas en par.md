@@ -2,9 +2,9 @@
 tags: [cnc, tp, ajedrez]
 fecha: 2026-11-25
 ---
-# TP 7°1 (2): Peón, Alfil y Torre con herramientas en par
+# TP Completacarrera: Peón, Alfil y Torre con herramientas en par
 
-Segundo TP de piezas de ajedrez. El alumno pasó dos croquis sin medidas: un peón y un alfil. La torre la inventó la IA, con el mismo estilo de líneas rectas. El flujo es el mismo de [[00 Inicio]]: **JSON → plano en FreeCAD → proyecto WinUnisoft → simulación → informe**. La diferencia está en que las herramientas se usan en los dos sentidos.
+Segundo TP de piezas de ajedrez, de otra alumna (curso **Completacarrera**). El alumno pasó dos croquis sin medidas: un peón y un alfil. La torre la inventó la IA, con el mismo estilo de líneas rectas. El flujo es el mismo de [[00 Inicio]]: **JSON → plano en FreeCAD → proyecto WinUnisoft → simulación → informe**. La diferencia está en que las herramientas se usan en los dos sentidos.
 
 ## Medidas (corregidas y simétricas)
 El croquis no es simétrico respecto del eje. Para cada diámetro se promediaron la mitad de arriba y la de abajo. Se tomó **Ø26** para la base y se escaló el resto con esa proporción, redondeando a 0,5 mm.
