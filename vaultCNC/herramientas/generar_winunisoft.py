@@ -37,6 +37,8 @@ PASO_T5 = 2.5        # paso de T0505 al limpiar la base (menor que el ancho: sol
 # con ella. T0909 es neutro (DVVNN, acercamiento 72.5): mismo angulo a los dos lados.
 ANG_PORTA = {3: 46.0, 9: 72.5}
 TOL_PORTA = {3: 0.8, 9: 0.4}   # holgura del modelo de porta (sobremetal de acabado)
+LIM_NEUTRO = 62.0    # pendiente maxima (respecto del eje Z) que sigue el porta neutro sin que el flanco
+                     # del inserto de 35 grados (17,5 grados a cada lado de -X) muerda la pieza
 LIM_FLANCO = 70.0    # flanco que baja de diametro mas empinado que esto: T0909 lo corta desde la base
 
 
@@ -290,6 +292,11 @@ class Prog:
             self.g00(z=z1)
             self.g00(x=x1)
             return
+        # bajar en X con la herramienta ya dentro de la pieza (Z<0): WinUnisoft lo cuenta como
+        # colision si el rapido roza material; se baja con avance, como en los programas del curso
+        if x is not None and x1 < self.x - 1e-9 and min(self.z, z1) < 0:
+            self.g01(x=x, z=z, feed=self.f or (".1" if self.tool == 5 else ".2"))
+            return
         self._revisar_rapido(self.x, self.z, x1, z1)
         self.linea("G00 " + " ".join(p))
         self.camino.append(("R", self.tool, [(self.z, self.x / 2), (z1, x1 / 2)]))
@@ -494,6 +501,54 @@ def generar(d, avisos):
             if s.dx < -1e-9 and abs(s.dz) > 1e-9 and s.angulo_bajada() > LIM_FLANCO:
                 s.rev = True
 
+    # el porta neutro no puede seguir paredes empinadas (refrentados, paredes de escalones,
+    # extremos de arcos con tangente vertical): esos pedazos se sacan de la T0909.
+    #  - pared de frente (sube de diametro hacia la base): la termina la T0303 sin sobremetal
+    #  - pared de atras (baja de diametro hacia la base): la sigue la T0909 desde la base
+    #  - refrentado en Z0: ya lo hizo la T0101
+    def pendiente(sg, t):
+        a, b = sg.pt(max(0.0, t - 0.004)), sg.pt(min(1.0, t + 0.004))
+        dr, dz = (b[0] - a[0]) / 2.0, b[1] - a[1]
+        return math.degrees(math.atan2(abs(dr), abs(dz))), dr
+
+    nuevos = []
+    for sg in segs:
+        if sg.herr != 9:
+            nuevos.append(sg)
+            continue
+        n = 40 if sg.R else 1
+        marcas = []
+        for k in range(n):
+            t = (k + 0.5) / n
+            ang, dr = pendiente(sg, t)
+            marcas.append(ang > LIM_NEUTRO)
+        if not any(marcas):
+            nuevos.append(sg)
+            continue
+        if all(marcas) or not sg.R:
+            trozos = [(sg, True)]
+        else:
+            trozos, resto, t_ant = [], sg, 0.0
+            for k in range(1, n):
+                if marcas[k] != marcas[k - 1]:
+                    t = k / n
+                    tl = (t - t_ant) / (1.0 - t_ant)
+                    a, b = resto.cortar(tl)
+                    trozos.append((a, marcas[k - 1]))
+                    resto, t_ant = b, t
+            trozos.append((resto, marcas[-1]))
+        for tr, emp in trozos:
+            tr.herr, tr.rev, tr.en_base = 9, sg.rev, sg.en_base
+            if emp:
+                _, dr = pendiente(tr, 0.5)
+                if abs(tr.dz) < 1e-9 and abs(tr.p0[1]) < 1e-6 and abs(tr.p1[1]) < 1e-6:
+                    tr.herr = "frente"          # cara en Z0: la refrentó la T0101
+                elif dr > 0:
+                    tr.herr = "e3"              # pared de frente: T0303 sin sobremetal
+                # pared de atrás: la sigue la T0909 desde la base (s.rev), como antes
+            nuevos.append(tr)
+    segs = nuevos
+
     P = Prog(mapa, xseg, bd, avisos)
     P.linea("%")
     P.linea("O2222")
@@ -502,8 +557,11 @@ def generar(d, avisos):
     # ------------------------------------------------ T0101 frenteado y G90
     P.herramienta(1, 150)
     P.g00(xseg, 5.0)
-    P.g00(z=0.0)
-    P.g01(0.0, feed=".3")
+    # refrentado desde el centro hacia afuera, como en los programas del curso: WinUnisoft
+    # marca colision del DCLN si se refrenta hacia el centro (lado que no corta)
+    P.g00(0.0)
+    P.g01(z=0.0, feed=".3")
+    P.g01(xseg)
     for i in mapa.celdas(0.0 + DZ, mapa.ztop):
         mapa.R[i] = 0.0
     P.g00(z=5.0)
@@ -672,10 +730,10 @@ def generar(d, avisos):
 
     def ok3(s):
         # T0303 corta lo que sube de diametro y las bajadas que su porta aguanta
-        return s.herr == 9 and (s.dx > -1e-9 or s.angulo_bajada() <= ANG_PORTA[3] + 1e-6)
+        return s.herr in (9, "e3") and (s.dx > -1e-9 or s.angulo_bajada() <= ANG_PORTA[3] + 1e-6)
 
     g3 = grupos(ok3)
-    if g3:
+    if g3 or any(s.herr == "e3" for s in segs):
         P.herramienta(3, 200, 0.0, ANG_PORTA[3])
         for g in g3:
             tm = recortar_inicio(g, tang3, SOBRE_SEMI, True, TOL_PORTA[3])
@@ -687,6 +745,8 @@ def generar(d, avisos):
             if tm > 0:
                 g = [g[0].cortar(tm)[1]] + g[1:]
             recorrer(g, SOBRE_SEMI, ".2", False, 3)
+        for g in grupos(lambda s: s.herr == "e3"):
+            recorrer(g, 0.0, ".2", False, 3)
         P.fin_herramienta()
 
     # ------------------------------------------------ T0909 acabado neutro (todo el perfil)
@@ -909,7 +969,7 @@ def herramientas_nuevas(l):
     if l.startswith(b"Tool=T9^"):
         l = re.sub(rb"^Tool=T9\^9:\^\S*", b"Tool=T9^9:^DVVNN^2020K16KC04", l)
         for k, v in ((b"_Descrip", b"DVVNN^2020K16KC04"), (b"Quadrant", b"1"),
-                     (b"Orient.", b"72.50000"), (b"_Orient.", b"107.50000"),
+                     (b"Orient.", b"72.50000"), (b"_Orient.", b"72.50000"),
                      (b"IC", b"9.53000"), (b"_IC", b"9.53000"), (b"Alpha", b"35.00000"),
                      (b"r", b"0.40000"), (b"_CodForma", b"8"), (b"H_Width", b"20.00000"),
                      (b"H_Hght", b"125.00000"), (b"H_Clr_X", b"8.00000"),
