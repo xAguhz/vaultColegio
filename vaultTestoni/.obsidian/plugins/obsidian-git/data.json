@@ -1,0 +1,13 @@
+{
+  "commitMessage": "{{hostname}}: cambios del {{date}}",
+  "autoCommitMessage": "{{hostname}}: copia automática del {{date}}",
+  "commitDateFormat": "YYYY-MM-DD HH:mm",
+  "autoSaveInterval": 10,
+  "autoPullInterval": 10,
+  "autoPullOnBoot": true,
+  "pullBeforePush": true,
+  "syncMethod": "merge",
+  "disablePopupsForNoChanges": true,
+  "autoBackupAfterFileChange": false,
+  "showStatusBar": true
+}
