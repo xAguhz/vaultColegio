@@ -93,3 +93,33 @@ El orquestador bajó del Drive los .zip de WinUnisoft, confirmó que son texto p
 
   El catálogo no cambia la velocidad según la dureza, el desbaste o el rompevirutas. Solo imprime el valor de arranque; el rango sale de la barra del gráfico.
 - WinUnisoft: los 3 proyectos se simulan sin colisiones ni errores. `wusctl.py` ahora cierra sola la ventana de bienvenida.
+
+## 2026-11-25: radios de punta y simulación pausada
+- Los radios de punta de T1 y T3 venían de la plantilla (0,2). `generar_winunisoft.py` ahora escribe los de los insertos elegidos: **0,8** (CNMG120408) y **0,4** (VNMG160404). Los `.nc` no cambian porque no hay compensación de radio.
+- **Error encontrado en `wusctl.py`:** al arrancar, WinUnisoft escribe un `.LOG` con `Ttime=0.00`, y el script lo tomaba como final. Si en "Control parada" está tildado **Cambio Hta.**, la simulación se pausa en el primer cambio de herramienta y el script daba "sin colisiones" sin haber terminado. Ahora espera un `Ttime` mayor que 0 y, si no llega, avisa que la simulación quedó pausada.
+- **Pantalla oculta (Xvfb).** El alumno instaló xvfb. WinUnisoft corre en Xvfb :99 dentro del escritorio virtual de Wine, así las simulaciones no aparecen en el escritorio. Sin gestor de ventanas Wine ignoraba los clics, y dentro del escritorio virtual sí funcionan con XTest. Lanzador: `herramientas/winunisoft_oculto.sh`. `wusctl.py` detecta el fin de la simulación mirando el botón Abortar, porque el `.LOG` queda en `Ttime=0.00`.
+- Los 3 TP, con los radios nuevos, se simularon en la pantalla oculta: llegan a M30 sin colisiones y con la forma correcta.
+
+## 2026-11-25: transcripción del catálogo Kennametal
+- **Pedido del alumno:** transcribir el catálogo completo al vault, con imágenes donde hagan falta, y clasificar cada herramienta por comando: T0101 desbaste, T0303 definición, T0505 ranurado, y un sector aparte para el resto. También filtrar las más útiles para las piezas de ajedrez.
+- **Agentes:** 9 agentes Sonnet, uno por sección, con los encargos en ASD-STE100 y un formato común (`Kennametal/_FORMATO agentes.md`):
+  - insertos de torneado
+  - portaherramientas exteriores
+  - barras de mandrilar
+  - Top Notch
+  - A4/A2
+  - roscado
+  - brocas
+  - fresado
+  - sistemas de sujeción
+
+  Lanzados los 9 juntos, fallaron sin dar el motivo. De a 3 o 4 anduvieron. Dos se cortaron por el límite de 5 horas de Sonnet y se retomaron después.
+- **Método:** el texto extraído del PDF desarma las tablas, así que cada tabla se comparó con la imagen de la página. Los datos que no se leían bien quedaron marcados con `(?)`. Los textos explicativos se resumieron; las tablas se transcribieron completas.
+- **Resultado:** más de 110 notas y unas 85 imágenes en `Kennametal/`. La carpeta queda **solo local**, excluida en `.gitignore`, porque es material de Kennametal. El índice por comando se arma con `herramientas/indice_kennametal.py`. Las elegidas para ajedrez están en la nota "Herramientas para piezas de ajedrez".
+- **Hallazgos para el TP:**
+  - El rompevirutas RP pide pasadas de 1,1 mm o más por lado, y el programa desbasta con 1 mm.
+  - El rompevirutas FP pide 0,3 mm o más, y el semiacabado corta 0,2 mm.
+  - El inserto A4G0305 mide 3,05 mm de ancho y tiene radio 0,2.
+  - El portaherramientas A4SM 2016K0317 tiene mango de 20×16. Existe el 2020K0317, de 20×20.
+
+  Todavía no se cambió nada en el programa.

@@ -40,8 +40,12 @@ Por qué se cambió respecto de los TP anteriores:
 
 Validación con `simular_nc.py`: **0 errores** en los tres programas. Los rápidos diagonales que pasaban cerca de la pieza ahora salen primero a Z5 y después bajan en X.
 
-> [!warning] Verificar en WinUnisoft
-> La línea de la T9 en el `.prj` (portaherramienta neutro) se escribió por analogía con las otras herramientas: `Orient.` 72,5, `_Orient.` 107,5, `Quadrant` 1 y `_CodForma` 8. Al abrir el proyecto, mirá que la plaquita se dibuje apuntando hacia −X y que no choque en las gargantas.
+> [!note] Tabla de herramientas del `.prj`
+> El generador la escribe directo en el `.prj`; en la pantalla de WinUnisoft no se edita nada.
+> - T1: radio de punta 0,8 (CNMG120408). T3: radio 0,4 (VNMG160404). La plantilla traía 0,2 en las dos.
+> - T5: cuchilla de 3 mm (GMN). T9: neutra DVVNN, `Orient.` y `_Orient.` 72,5, `_CodForma` 8, radio 0,4.
+> - Los programas no usan compensación de radio (G41/G42): el radio solo cambia cómo se dibuja la plaquita y cuánto material deja en los rincones.
+> - T2, T4, T6, T7, T8, T10 y T11 vienen de la plantilla y no se usan.
 
 ## Archivos
 - Proyectos WinUnisoft: `WinUnisoft/TP71 PEON/`, `TP71 ALFIL/` y `TP71 TORRE/`.

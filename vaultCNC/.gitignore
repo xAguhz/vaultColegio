@@ -5,3 +5,6 @@ Informes/
 *.FCBak
 __pycache__/
 .obsidian/workspace*.json
+
+# Transcripción del catálogo Kennametal (material de Kennametal): solo local
+Kennametal/

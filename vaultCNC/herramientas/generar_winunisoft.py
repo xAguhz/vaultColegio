@@ -983,7 +983,12 @@ def _campo(l, nombre, valor):
 
 
 def herramientas_nuevas(l):
-    """T5 pasa a canales y tronzado (A4SM ... GMN); T9 pasa a porta neutro DVVNN."""
+    """T5 pasa a canales y tronzado (A4SM ... GMN); T9 pasa a porta neutro DVVNN.
+    T1 y T3: radio de punta del inserto elegido (CNMG120408 = 0,8; VNMG160404 = 0,4)."""
+    if l.startswith(b"Tool=T1^"):
+        return _campo(l, b"r", b"0.80000")
+    if l.startswith(b"Tool=T3^"):
+        return _campo(l, b"r", b"0.40000")
     if l.startswith(b"Tool=T5^"):
         return l.replace(b"A4SM^R/L^2016K0317", b"A4SM^R/L^2016K0317^GMN")
     if l.startswith(b"Tool=T9^"):

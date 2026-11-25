@@ -18,6 +18,7 @@ en GNOME sin sesión de escritorio remoto). La captura es de la ventana, no de l
 import ctypes
 import ctypes.util
 import os
+import re
 import sys
 import time
 
@@ -151,6 +152,27 @@ def buscar(texto):
     if not cand:
         sys.exit("No hay ventana visible con '%s' en el título" % texto)
     return max(cand, key=lambda v: v[3] * v[4])
+
+
+def imagen(w):
+    """Contenido de una ventana como imagen PIL (XGetImage: no mueve ni activa nada)."""
+    from PIL import Image
+    img = x11.XGetImage(d, w[0], 0, 0, w[3], w[4], 0xFFFFFFFF, 2)
+    if not img:
+        return None
+    im = img.contents
+    datos = ctypes.string_at(im.data, im.bytes_per_line * im.height)
+    return Image.frombuffer("RGBX", (im.width, im.height), datos, "raw", "BGRX", im.bytes_per_line, 1)
+
+
+def abortar_activo():
+    """True mientras corre una simulación: el ícono de Abortar tiene píxeles oscuros (apagado = gris)."""
+    im = imagen(cliente("WinUnisoft - Simulador"))
+    if im is None:
+        return True
+    x, y = BOTON["abortar"]
+    zona = im.convert("L").crop((x - 10, y - 16, x + 12, y + 6))
+    return sum(1 for p in zona.tobytes() if p < 90) > 10
 
 
 def captura(salida, w=None):
@@ -332,10 +354,61 @@ def tecla_segura(v, combo_txt):
         pass
 
 
+# --- modo pantalla oculta ------------------------------------------------------------
+# En Xvfb (winunisoft_oculto.sh) WinUnisoft corre dentro del escritorio virtual de Wine:
+# sus ventanas no son ventanas X, así que se maneja con XTest (en Xvfb sí anda y no toca
+# el escritorio del usuario) y coordenadas de pantalla. La barra de título de Wine corre
+# todo (+4, +34) respecto de las coordenadas cliente de BOTON.
+DESP = (4, 34)
+
+
+def en_escritorio():
+    return any("Wine Desktop" in v[5] for v in ventanas())
+
+
+def abortar_activo_escritorio():
+    im = imagen(buscar("Wine Desktop"))
+    if im is None:
+        return True
+    x, y = BOTON["abortar"][0] + DESP[0], BOTON["abortar"][1] + DESP[1]
+    zona = im.convert("L").crop((x - 10, y - 16, x + 12, y + 6))
+    return sum(1 for p in zona.tobytes() if p < 90) > 10
+
+
+def simular_escritorio(subcarpeta, archivo, carpeta, base, espera_max):
+    def boton(nombre):
+        clic(BOTON[nombre][0] + DESP[0], BOTON[nombre][1] + DESP[1])
+    boton("abortar")
+    time.sleep(1.0)
+    combo("Escape")                           # cierra un aviso o la bienvenida, si quedó alguno
+    time.sleep(0.5)
+    boton("abrir")
+    time.sleep(2.5)
+    escribir((subcarpeta + "\\" + archivo).lower())
+    combo("Return")
+    time.sleep(4.0)
+    boton("marcha")
+    t0 = time.time()
+    time.sleep(3.0)
+    while abortar_activo_escritorio():
+        if time.time() - t0 > espera_max:
+            sys.exit("La simulación no terminó: ¿está pausada? (Control parada: destildar Cambio Hta.)")
+        time.sleep(3.0)
+    for f in os.listdir(carpeta):
+        if f.lower() == base + ".err":
+            return open(os.path.join(carpeta, f), encoding="latin-1").read().replace("\r", "")
+    return ""
+
+
 def simular(subcarpeta, archivo, espera_max=300.0):
     """Abre Proyectos/<subcarpeta>/<archivo> y lo simula; devuelve el texto del .ERR ('' si no hubo)."""
     base = os.path.splitext(archivo)[0].lower()
     carpeta = os.path.join(WUS, "Proyectos", subcarpeta)
+    if en_escritorio():
+        for f in os.listdir(carpeta):
+            if f.lower() in (base + ".err", base + ".log"):
+                os.remove(os.path.join(carpeta, f))
+        return simular_escritorio(subcarpeta, archivo, carpeta, base, espera_max)
     for ext in (".ERR", ".LOG"):
         for f in os.listdir(carpeta):
             if f.lower() == base + ext.lower():
@@ -363,15 +436,15 @@ def simular(subcarpeta, archivo, espera_max=300.0):
         if v[5] == "Aviso":
             sys.exit("WinUnisoft mostró un aviso al abrir el proyecto")
     enviar_clic(cliente("WinUnisoft - Simulador"), *BOTON["marcha"])
-    log = None
+    # Los archivos no avisan el final: el .LOG queda con Ttime=0.00 y no se reescribe.
+    # Se mira la pantalla: mientras simula, el botón Abortar está activo (ícono oscuro); al terminar se apaga.
+    # Si "Control parada" tiene tildado Cambio Hta., la simulación se pausa y Abortar sigue activo.
     t0 = time.time()
-    while time.time() - t0 < espera_max:      # la simulación termina cuando el .LOG deja de crecer
+    time.sleep(3.0)
+    while abortar_activo():
+        if time.time() - t0 > espera_max:
+            sys.exit("La simulación no terminó: ¿está pausada? (Control parada: destildar Cambio Hta.)")
         time.sleep(3.0)
-        for f in os.listdir(carpeta):
-            if f.lower() == base + ".log":
-                log = os.path.join(carpeta, f)
-        if log and "Ttime" in open(log, encoding="latin-1").read() and time.time() - os.path.getmtime(log) > 6:
-            break
     err = ""
     for f in os.listdir(carpeta):
         if f.lower() == base + ".err":

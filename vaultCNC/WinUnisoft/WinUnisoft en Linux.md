@@ -41,7 +41,19 @@ Lo que costó y conviene saber:
 - **Diálogos.** Dentro del diálogo "Abrir..." los clics lo cierran, así que se maneja solo con teclado: carpeta + Enter, archivo + Enter.
 - **Mayúsculas y barra invertida.** Con eventos sintéticos y teclado en español no salen, pero Windows no distingue mayúsculas en las rutas.
 - **Capturas.** Se saca la ventana, no la pantalla: XGetImage sobre la raíz falla en XWayland.
-- **Errores.** WinUnisoft escribe los resultados en archivos de texto junto al proyecto: `<proyecto>.ERR` (colisiones, con línea y herramienta) y `<proyecto>.LOG`. En pantalla, el listado sale con cuadraditos porque a Wine le falta una fuente.
+- **Errores.** WinUnisoft escribe los resultados en archivos de texto junto al proyecto: `<proyecto>.ERR` (colisiones, con línea y herramienta) y `<proyecto>.LOG`. En pantalla, el listado sale con cuadraditos porque a Wine le falta una fuente. El `.LOG` queda con `Ttime=0.00` y no avisa cuándo termina la simulación. Por eso `simular` mira la pantalla: mientras simula, el botón **Abortar** está activo; cuando termina, se apaga. En "Control parada" tiene que estar destildado **Cambio Hta.**: si no, la simulación se pausa en cada cambio de herramienta.
+
+## Simular en segundo plano (pantalla oculta)
+Para que WinUnisoft no aparezca en el escritorio, se lo corre en una pantalla virtual **Xvfb** (hay que instalarla una vez: `sudo apt install xvfb`):
+```bash
+vaultCNC/herramientas/winunisoft_oculto.sh                                   # Xvfb :99 + WinUnisoft
+DISPLAY=:99 python3 vaultCNC/herramientas/wusctl.py simular "TP 7-1" "Peon TP.prj"
+DISPLAY=:99 python3 vaultCNC/herramientas/wusctl.py captura fin.png --ventana "Wine Desktop"
+```
+- WinUnisoft admite **una sola copia abierta**. Si está abierto en la pantalla normal, hay que cerrarlo antes.
+- **En Xvfb no hay gestor de ventanas y Wine ignora los clics.** Por eso corre dentro del *escritorio virtual* de Wine (`wine explorer /desktop=wus,1920x1080 …`), donde se maximiza solo.
+- **Ahí sí funciona XTest**, sin tocar el escritorio del usuario. `wusctl` detecta el escritorio virtual y usa coordenadas de pantalla: la barra de título de Wine corre todo (+4, +34). Las teclas con Shift y la barra invertida también salen, así que la ruta se escribe completa en el diálogo Abrir.
+- **Es mucho más rápido:** una pieza tarda unos 12 s, contra varios minutos en pantalla.
 
 ## Lo que encontró la simulación real (2026-11-24)
 | Problema en WinUnisoft | Causa | Arreglo en `generar_winunisoft.py` |
