@@ -332,10 +332,11 @@ def construir(args):
                             'código de forma es 3 siempre.'), brk(),
                         run('EJ: T0404 (4) = herramienta izquierda' if par else 'EJ: T0909 (8) = herramienta neutra')], 'left', 300))
     cuerpo.append(para([run('Las velocidades de corte se toman del catálogo Kennametal Universal con el grupo P, porque el '
-                            + pieza['material'] + ' es un acero aleado. En los TP anteriores se usó el grupo M (acero inoxidable).')], 'left', 200))
+                            + pieza['material'] + ' es un acero aleado.'
+                            + ('' if par else ' En los TP anteriores se usó el grupo M (acero inoxidable).'))], 'left', 200))
     if par:
-        cuerpo.append(para([run('Selección de herramientas: se usan las mismas herramientas en los dos sentidos, como la T0909 y la '
-                                'T1010 de los TP originales. La T0303 es un portaherramientas DVJN R/L 2020K16KC04 (93°, página A27) '
+        cuerpo.append(para([run('Selección de herramientas: se usan las mismas herramientas en los dos sentidos (derecha e '
+                                'izquierda). La T0303 es un portaherramientas DVJN R/L 2020K16KC04 (93°, página A27) '
                                 'con inserto VNMG160404FP (página A14). La T0404 es el mismo portaherramientas en su versión izquierda '
                                 '(código de forma 4): termina las paredes que bajan de diámetro hacia la base cortando hacia +Z, donde la '
                                 'T0303 no llega porque su ángulo libre es de unos 52°. La T0101 (DCLN R/L 2020K12KC04 con CNMG120408RP) '
@@ -352,8 +353,8 @@ def construir(args):
                                 + ('La T0303 y la T0404 sacan' if usa4 else 'La T0303 saca') +
                                 ' los 0,3 mm finales, dentro del rango de 0,3 a 2,5 mm del rompevirutas FP. '
                                 'El inserto de ranurado mide 3,05 mm de ancho y tiene radio 0,2; el programa usa ese ancho para las '
-                                'ranuras y el tronzado. Solo se usan los códigos de los TP originales (G00, G01, G02, G03 y G90), sin '
-                                'ciclos automáticos como G71 o G72.')], 'left', 200))
+                                'ranuras y el tronzado. El programa usa solo G00, G01, G02, G03 y G90, sin ciclos automáticos '
+                                'como G71 o G72.')], 'left', 200))
     if not par:
       cuerpo.append(para([run('Selección de herramientas: la T0909 es un portaherramientas neutro DVVNN (72,5°) con el mismo inserto '
                             'VNMG160404FP de la T0303; copia el perfil en los dos sentidos, así que reemplaza a las dos herramientas '
