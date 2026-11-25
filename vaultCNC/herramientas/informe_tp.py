@@ -16,8 +16,8 @@ from xml.sax.saxutils import escape
 HERR = {  # T: (portaherramienta, pág, inserto, pág)
     'T0101': ('DCLN R/L 2020K12KC04', 'A22', 'CNMG120408RP', 'A10'),
     'T0303': ('DVJN R/L 2020K16KC04', 'A27', 'VNMG160404FP', 'A14'),
-    'T0505': ('A4SM R/L 2016K0317', 'A75', 'A4G0305M03U02GMP', 'A73'),
-    'T0909': ('SVJB R/L 1212N11 (3)', 'A36', 'VBMT110304LF', 'A19'),
+    'T0505': ('A4SM R/L 2016K0317', 'A75', 'A4G0305M03U02GMN', 'A73'),
+    'T0909': ('DVVNN 2020K16KC04 (8)', 'A28', 'VNMG160404FP', 'A14'),
     'T1010': ('SVJB R/L 1212N11 (4)', 'A36', 'VBMT110304LF', 'A19'),
     'T1111': ('A4SM R/L 3225P0626', 'A75', 'A4G0605M06U08GMP', 'A73'),
 }
@@ -26,16 +26,17 @@ HERR = {  # T: (portaherramienta, pág, inserto, pág)
 INFO = {
     'T0101': ('DESBASTE EXTERIOR', 'DESBASTE', 'KU30T', 500, 'A5', '0,2 - 0,6', '6,4 mm', 'tira_T0101_RP.png'),
     'T0303': ('TERMINACIÓN: DIAGONALES Y RADIOS BRUTOS', 'TERMINACIÓN', 'KU10T', 650, 'A5', '0,1 - 0,3', '2,5 mm', 'tira_T0303_FP.png'),
-    'T0505': ('RANURADO', 'RANURADO ∅3', 'KU30T', 400, 'A71', None, 'aprox. 1,6 - 2,0 mm (según gráfico A70)\n(17 mm = profundidad de la ranura del portaherramienta, CD)', None),
-    'T0909': ('RADIOS Y DIAGONALES LADO DERECHO', 'ACABADO ULTRAFINO', 'KU10T', 650, 'A5', '0,2 - 0,4', '2,3 mm', 'tira_T0909_LF.png'),
+    'T0505': ('RANURADO Y TRONZADO', 'RANURADO-TRONZADO ∅3', 'KU30T', 400, 'A71', None, 'aprox. 1,6 - 2,0 mm (según gráfico A70)\n(17 mm = profundidad de la ranura del portaherramienta, CD)', None),
+    'T0909': ('ACABADO DEL PERFIL (NEUTRA, EN LOS DOS SENTIDOS)', 'ACABADO NEUTRO', 'KU10T', 650, 'A5', '0,1 - 0,3', '2,5 mm', 'tira_T0303_FP.png'),
     'T1010': ('RADIOS Y DIAGONALES LADO IZQUIERDO', 'ACABADO ULTRAFINO', 'KU10T', 650, 'A5', '0,2 - 0,4', '2,3 mm', 'tira_T0909_LF.png'),
     'T1111': ('TRONZADO', 'RANURADO-TRONZADO ∅6', 'KU30T', 400, 'A71', None, 'aprox. 4 mm (según gráfico A70)\n(26 mm = profundidad de la ranura del portaherramienta, CD)', None),
 }
 TAMANO = {'T0505': 3, 'T1111': 6}  # tamaño de inserto (gráfico A70)
 # página de catálogo: (título rojo, imagen, herramientas que la usan)
 PAGINAS_CAT = [('T0101', 'T0101.png', ('T0101',)), ('T0303', 'T0303.png', ('T0303',)),
-               ('T0505', 'T0505.png', ('T0505',)), ('T1111', 'T1111.png', ('T1111',)),
-               ('T0909 (3) / T1010 (4)', 'T0909_T1010.png', ('T0909', 'T1010'))]
+               ('T0505', 'T0505_GMN.png', ('T0505',)), ('T1111', 'T1111.png', ('T1111',)),
+               ('T0909 (8)', 'T0909_DVVNN.png', ('T0909',)),
+               ('T0909 (3) / T1010 (4)', 'T0909_T1010.png', ('T1010',))]
 TITULOS = {'PEON': 'PEÓN'}
 CICLOS = ['G90', 'G94', 'G01', 'G02', 'G03']
 
@@ -214,7 +215,12 @@ def construir(args):
 
     # 1. carátula
     cuerpo.append(para([run('TRABAJO PRÁCTICO:', 'Cambria', 100, b=True), brk(), run(titulo, 'Cambria', 100, b=True)], 'center', 80))
-    cuerpo.append(para([], after=1800))
+    vista = recorte_vista_lateral(plano, tmp) if plano else None
+    if vista:
+        cuerpo.append(para([im.inline(vista, 12.0, 7.5)], 'center', 120))
+        cuerpo.append(para([run('Vista lateral de la pieza (recorte del plano en FreeCAD)', sz=18, i=True, color='595959')], 'center', 600))
+    else:
+        cuerpo.append(para([], after=1800))
     def linea(et, val):
         return para([run(et + ' ', sz=40, b=True, i=True, color='262626'), run(val, sz=40, i=True, color='262626')], 'left', 200, 276)
     cuerpo.append(linea('TALLER:', 'DISEÑO Y PROCESAMIENTO MECÁNICO (CNC)'))
@@ -293,12 +299,15 @@ def construir(args):
     cuerpo.append(para([run('ACLARACIONES:', sz=48, b=True, color='ff0000')], 'left', 200, pb=True, keep=True))
     cuerpo.append(para([run('Cuando una herramienta esté señalizada con un número entre paréntesis al lado [(3) o (4)] se refiere a su '
                             'código de forma. Solo se emplea en las herramientas en las que este fue cambiado, de lo contrario, el '
-                            'código de forma es 3 siempre.'), brk(), run('EJ: T0909 (3)')], 'left', 300))
+                            'código de forma es 3 siempre.'), brk(), run('EJ: T0909 (8) = herramienta neutra')], 'left', 300))
     cuerpo.append(para([run('Las velocidades de corte se toman del catálogo Kennametal Universal con el grupo P, porque el '
                             + pieza['material'] + ' es un acero aleado. En los TP anteriores se usó el grupo M (acero inoxidable).')], 'left', 200))
-    cuerpo.append(para([run('Los insertos de ranurado A4G...GMP (T0505, T1111) son los del TP original. La página A70 del catálogo '
-                            'recomienda la geometría GMN para acero y GMP para acero inoxidable. Se mantiene el inserto GMP porque es la '
-                            'selección aprobada en el TP anterior. Consultar con el profesor.')], 'left', 200))
+    cuerpo.append(para([run('Selección de herramientas: la T0909 es un portaherramientas neutro DVVNN (72,5°) con el mismo inserto '
+                            'VNMG160404FP de la T0303; copia el perfil en los dos sentidos, así que reemplaza a las dos herramientas '
+                            'de acabado (derecha e izquierda) y tiene más despeje en cuellos y gargantas. La T0505 (3 mm) ranura y '
+                            'también tronza: alcanza para piezas de hasta Ø26 y se pierde menos material que con una cuchilla de 6 mm. '
+                            'El inserto de ranurado es A4G...GMN, porque la página A70 del catálogo recomienda GMN para acero '
+                            '(GMP es para acero inoxidable).')], 'left', 200))
     for nom, pg in (('vel_A5_P.png', 'A5'), ('vel_A71_P.png', 'A71')):
         if img(nom):
             cuerpo.append(para([run(f'Velocidad de las herramientas de {"torneado" if pg == "A5" else "ranurado"} ', sz=22),
@@ -362,8 +371,9 @@ def construir(args):
     ran = [t for t in ('T1111', 'T0505') if t in {b['t'] for b in bloques}]
     if ran:
         cuerpo.append(para([run('AVANCE ' + ' / '.join(ran) + ':', sz=40, color='C00000')], 'left', 120, keep=True))
-        if img('avance_A70.png'):
-            cuerpo.append(para([im.inline(img('avance_A70.png'), 11.0, 11.5)], 'left', 120))
+        a70 = 'avance_A70_GMN.png' if img('avance_A70_GMN.png') else 'avance_A70.png'
+        if img(a70):
+            cuerpo.append(para([im.inline(img(a70), 11.0, 11.5)], 'left', 120))
         for t in ran:
             f = ' / '.join(fmt(v) for v in next(b for b in bloques if b['t'] == t)['f'])
             cuerpo.append(para([run(f'El tamaño del inserto de {t} es {TAMANO[t]}, por eso la herramienta se usa con un avance de {f} mm/vuelta (PÁG A70).')], 'left', 100))
@@ -432,6 +442,26 @@ def construir(args):
             z.write(p, f'word/media/img{k}.png')
     print('Informe generado:', args.salida, f'({len(bloques)} operaciones)')
 
+
+
+def recorte_vista_lateral(png_plano, carpeta):
+    """Recorta del plano (A4 a 150 dpi) la vista lateral horizontal con sus cotas: zona abajo a la derecha,
+    sobre el rótulo; después ajusta el recorte a lo dibujado."""
+    try:
+        from PIL import Image, ImageOps
+    except ImportError:
+        return None
+    im = Image.open(png_plano).convert('L')
+    k = im.width / 210.0                       # px por mm
+    caja = im.crop((int(103 * k), int(112 * k), int(197 * k), int(224 * k)))
+    bb = ImageOps.invert(caja).point(lambda v: 255 if v > 40 else 0).getbbox()
+    if not bb:
+        return None
+    m = int(2 * k)
+    bb = (max(0, bb[0] - m), max(0, bb[1] - m), min(caja.width, bb[2] + m), min(caja.height, bb[3] + m))
+    salida = os.path.join(carpeta, 'vista_lateral.png')
+    caja.crop(bb).convert('RGB').save(salida)
+    return salida
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)

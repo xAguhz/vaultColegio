@@ -7,12 +7,13 @@ Uso:  generar_winunisoft.py <pieza.json> <carpeta_salida> [--plantilla DIR]
 Solo libreria estandar. Formato del .json: ver Piezas/FORMATO.md.
 Maquina Apolo, control Fanuc16iTA. Mismo estilo que "Peon TP.nc" y "Alfil TP.nc".
 
-Orden del programa:
-  T0101 desbaste (frenteado + G90)   T0505 canales (solo si hay valles)
-  T0303 semiacabado                  T1111 zona de base con G94 (solo si hace falta)
-  T0909 acabado derecha (punta -> base)
-  T1010 acabado izquierda (base -> punta, tramos que bajan de diametro)
-  T1111 tronzado
+Orden del programa (SAE 4140):
+  T0101 desbaste (frenteado + G90)
+  T0505 canales (solo si hay valles) y zona de base con G94 (solo si hace falta)
+  T0303 semiacabado
+  T0909 acabado neutro (DVVNN, 72.5 grados) de TODO el perfil; los flancos muy empinados
+        que bajan de diametro se cortan aparte, acercandose desde la base (hacia +Z)
+  T0505 tronzado en Z-(largo+3)
 """
 import argparse
 import json
@@ -30,12 +31,13 @@ SOBRE_DESB = 0.5     # sobremetal radial que deja el desbaste (mm)
 SOBRE_SEMI = 0.6     # sobremetal en diametro que deja el semiacabado (mm)
 MARGEN_Z = 0.5       # el desbaste frena antes de las paredes (mm)
 UMBRAL_VALLE = 1.6   # sobremetal radial a partir del cual hay un valle que limpiar (mm)
-ANCHO_T5 = 3.0       # ancho de la herramienta de canales T0505
-ANCHO_T11 = 6.0      # ancho de la herramienta de tronzado T1111
-# angulo trasero libre del porta. T0303: el prj dice 30 pero los originales bajan 45 grados con ella
-ANG_PORTA = {3: 46.0, 9: 52.0, 10: 52.0}
-TOL_PORTA = {3: 0.8, 9: 0.4, 10: 0.4}   # holgura del modelo de porta (sobremetal de acabado)
-EXTRA_Z_BASE = 6.0   # el original tronza en Z-(largo+6)
+ANCHO_T5 = 3.0       # ancho de T0505 (canales, zona de base y tronzado)
+PASO_T5 = 2.5        # paso de T0505 al limpiar la base (menor que el ancho: solapa)
+# angulo libre del porta respecto de Z. T0303: el prj dice 30 pero los originales bajan 45 grados
+# con ella. T0909 es neutro (DVVNN, acercamiento 72.5): mismo angulo a los dos lados.
+ANG_PORTA = {3: 46.0, 9: 72.5}
+TOL_PORTA = {3: 0.8, 9: 0.4}   # holgura del modelo de porta (sobremetal de acabado)
+LIM_FLANCO = 70.0    # flanco que baja de diametro mas empinado que esto: T0909 lo corta desde la base
 
 
 # ----------------------------------------------------------------- utilidades
@@ -280,6 +282,14 @@ class Prog:
         # el rapido no puede entrar en el material
         x1 = self.x if x is None else x
         z1 = self.z if z is None else z
+        # rapido diagonal que baja en X y sale hacia +Z por encima de la pieza
+        # (p. ej. X33 Z-17 -> X0 Z5): primero se va a Z y despues baja en X,
+        # como en los programas del curso, para que el porta no pase cerca
+        if (x is not None and z is not None and x1 < self.x - 1e-9
+                and z1 > self.z + 1e-9 and self.z < 0):
+            self.g00(z=z1)
+            self.g00(x=x1)
+            return
         self._revisar_rapido(self.x, self.z, x1, z1)
         self.linea("G00 " + " ".join(p))
         self.camino.append(("R", self.tool, [(self.z, self.x / 2), (z1, x1 / 2)]))
@@ -320,9 +330,15 @@ class Prog:
         if self.porta is None:
             return
         # herramienta que avanza hacia -Z: el porta queda hacia +Z, y al reves
-        hacia_mas_z = self.tool in (3, 9)
-        if not self.m.porta_libre(p[1], p[0] / 2, hacia_mas_z, math.tan(math.radians(self.porta)),
-                                  TOL_PORTA.get(self.tool, 0.4)):
+        tg = math.tan(math.radians(self.porta))
+        tol = TOL_PORTA.get(self.tool, 0.4)
+        if self.tool == 9:
+            # porta neutro: simetrico, el cuerpo sale por los dos lados de la punta
+            libre = (self.m.porta_libre(p[1], p[0] / 2, True, tg, tol)
+                     and self.m.porta_libre(p[1], p[0] / 2, False, tg, tol))
+        else:
+            libre = self.m.porta_libre(p[1], p[0] / 2, self.tool == 3, tg, tol)
+        if not libre:
             aviso(self.av, "Posible choque del porta T%d cerca de X%s Z%s"
                   % (self.tool, fmt(p[0]), fmt(p[1])))
 
@@ -447,7 +463,7 @@ def generar(d, avisos):
     bd, bl = float(d["bruto"]["d"]), float(d["bruto"]["l"])
     largo = float(d["largo"])
     per = d["perfil"]
-    z_parte = -(largo + EXTRA_Z_BASE)
+    z_parte = -(largo + ANCHO_T5)   # regla: -(largo + ancho de la herramienta)
     xseg = bd + 3.0
 
     prims0 = prims_del_perfil(per)
@@ -466,16 +482,17 @@ def generar(d, avisos):
     z_base = base["z"] if base else None
     for s in segs:
         s.herr = None
+        s.rev = False
         s.en_base = bool(base and s.p1[1] < z_base - 1e-9 + 1e-9 and s.p0[1] <= z_base + 1e-9
                          and s.p1[1] <= z_base + 1e-9)
         if s.en_base:
             s.herr = "base"
-        elif s.dx > 1e-9 or (abs(s.dx) <= 1e-9 and s.dz < 0):
-            s.herr = 9
-        elif s.dx < -1e-9:
-            # bajada de diametro hacia la base: T0909 si el porta la aguanta (como los
-            # originales), si es mas empinada solo la alcanza T1010 desde la base
-            s.herr = 9 if s.angulo_bajada() <= ANG_PORTA[9] - 2 else 10
+        else:
+            s.herr = 9     # T0909 neutro termina todo el perfil
+            # flanco que baja de diametro y es mas empinado que el limite: se corta
+            # desde la base (hacia +Z), donde el porta neutro tiene holgura
+            if s.dx < -1e-9 and abs(s.dz) > 1e-9 and s.angulo_bajada() > LIM_FLANCO:
+                s.rev = True
 
     P = Prog(mapa, xseg, bd, avisos)
     P.linea("%")
@@ -483,7 +500,7 @@ def generar(d, avisos):
     P.linea("G54")
 
     # ------------------------------------------------ T0101 frenteado y G90
-    P.herramienta(1, 180)
+    P.herramienta(1, 150)
     P.g00(xseg, 5.0)
     P.g00(z=0.0)
     P.g01(0.0, feed=".3")
@@ -550,8 +567,8 @@ def generar(d, avisos):
     if en is not None:
         valles.append(en)
     valles = [v for v in valles if v[0] - v[1] > 0.4]
-    if valles:
-        P.herramienta(5, 105, ANCHO_T5)
+    if valles or base:
+        P.herramienta(5, 120, ANCHO_T5)
         for za, zb in valles:
             zr = []
             z0 = za - ANCHO_T5
@@ -579,6 +596,24 @@ def generar(d, avisos):
                 P.g01(xret)
             if not primera:
                 P.g00(xseg)
+        # zona de base con G94 (T0505, pasos de PASO_T5)
+        if base:
+            zs = base["z"] - ANCHO_T5
+            P.g00(xseg, zs)
+            zc = zs - PASO_T5
+            primero = True
+            while True:
+                zc = max(zc, z_parte)
+                mapa.corte_ancho(zc, base["z"], base["x"] / 2)
+                P.linea(("G94 X%s Z%s F.1" if primero else "Z%s") %
+                        ((fmt(base["x"]), fmt(zc)) if primero else (fmt(zc),)))
+                P.camino.append(("F", 5, [(zs, xseg / 2), (zs, base["x"] / 2),
+                                          (zc, base["x"] / 2), (zc, xseg / 2)]))
+                primero = False
+                if zc <= z_parte + 1e-9:
+                    break
+                zc -= PASO_T5
+            P.f = ".1"
         P.fin_herramienta()
 
     # ------------------------------------------------ rutina de contorno
@@ -636,15 +671,12 @@ def generar(d, avisos):
     tang3 = math.tan(math.radians(ANG_PORTA[3]))
 
     def ok3(s):
-        if s.herr in (9,):
-            return True
-        if s.herr == 10 and s.angulo_bajada() <= ANG_PORTA[3] + 1e-6:
-            return True
-        return False
+        # T0303 corta lo que sube de diametro y las bajadas que su porta aguanta
+        return s.herr == 9 and (s.dx > -1e-9 or s.angulo_bajada() <= ANG_PORTA[3] + 1e-6)
 
     g3 = grupos(ok3)
     if g3:
-        P.herramienta(3, 180, 0.0, ANG_PORTA[3])
+        P.herramienta(3, 200, 0.0, ANG_PORTA[3])
         for g in g3:
             tm = recortar_inicio(g, tang3, SOBRE_SEMI, True, TOL_PORTA[3])
             if tm is None:
@@ -657,85 +689,24 @@ def generar(d, avisos):
             recorrer(g, SOBRE_SEMI, ".2", False, 3)
         P.fin_herramienta()
 
-    # ------------------------------------------------ T1111 zona de base (G94)
-    if base:
-        P.herramienta(11, 105, ANCHO_T11)
-        zs = base["z"] - ANCHO_T11
-        P.g00(xseg, zs)
-        zc = zs - 2.0
-        primero = True
-        while True:
-            zc = max(zc, z_parte)
-            mapa.corte_ancho(zc, base["z"], base["x"] / 2)
-            P.linea(("G94 X%s Z%s F.19" if primero else "Z%s") %
-                    ((fmt(base["x"]), fmt(zc)) if primero else (fmt(zc),)))
-            P.camino.append(("F", 11, [(zs, xseg / 2), (zs, base["x"] / 2),
-                                       (zc, base["x"] / 2), (zc, xseg / 2)]))
-            primero = False
-            if zc <= z_parte + 1e-9:
-                break
-            zc -= 2.0
-        P.f = ".19"
-        P.fin_herramienta()
-
-    # ------------------------------------------------ reparto T0909 / T1010
-    # Mapa supuesto con las paredes ya terminadas por T1010: sirve para saber desde donde
-    # puede arrancar T0909 despues de una pared sin que el porta la toque.
-    tang9 = math.tan(math.radians(ANG_PORTA[9]))
-    hip = Mapa(6.0, -(largo + 14.0), 0.0, 0.0)
-    hip.R = [v + SOBRE_SEMI / 2 if v > 0 else 0.0 for v in pmax]
-    j = 0
-    while j < len(segs):
-        s = segs[j]
-        if s.herr == 9 and j > 0 and segs[j - 1].herr == 10 and s.p0[1] < -1e-6:
-            L = s.largo()
-            t = 0.0
-            while t < 0.999 and not hip.porta_libre(s.pt(t)[1], s.pt(t)[0] / 2, True, tang9, TOL_PORTA[9]):
-                t += 0.1 / max(L, 1e-9)
-            if t >= 0.999:
-                aviso(avisos, "T0909 no puede arrancar tras la pared en Z%s: el tramo X%s Z%s -> X%s Z%s "
-                      "se deja a T1010" % (fmt(s.p0[1]), fmt(s.p0[0]), fmt(s.p0[1]),
-                                           fmt(s.p1[0]), fmt(s.p1[1])))
-                s.herr = 10
-            elif t > 1e-9:
-                a, c = s.cortar(t)
-                a.herr, c.herr = 10, 9
-                segs[j:j + 1] = [a, c]
-                if a.dx > 1e-9 and a.angulo_bajada() == 0:
-                    pass
-                j += 1
-        j += 1
-    # un tramo que sube de diametro (de la punta a la base) solo lo alcanza T1010 si no es
-    # mas empinado que el angulo libre del porta cuando se recorre al reves
-    for s in segs:
-        if s.herr == 10 and s.dx > 1e-9:
-            inv = s.invertido()
-            if inv.angulo_bajada() > ANG_PORTA[10]:
-                aviso(avisos, "Tramo X%s Z%s -> X%s Z%s: demasiado empinado para T1010"
-                      % (fmt(s.p0[0]), fmt(s.p0[1]), fmt(s.p1[0]), fmt(s.p1[1])))
-
-    # ------------------------------------------------ T1010 acabado izquierda (base -> punta)
-    g10 = grupos(lambda s: s.herr == 10)
-    if g10:
-        P.herramienta(10, 180, 0.0, ANG_PORTA[10])
-        for g in reversed(g10):
-            recorrer(g, 0.0, ".2", True, 10)
-        P.fin_herramienta()
-
-    # ------------------------------------------------ T0909 acabado derecha (punta -> base)
-    P.herramienta(9, 180, 0.0, ANG_PORTA[9])
-    for g in grupos(lambda s: s.herr == 9):
+    # ------------------------------------------------ T0909 acabado neutro (todo el perfil)
+    P.herramienta(9, 200, 0.0, ANG_PORTA[9])
+    # primero los flancos empinados que bajan de diametro: desde la base hacia +Z
+    for g in reversed(grupos(lambda s: s.herr == 9 and s.rev)):
+        recorrer(g, 0.0, ".2", True, 9)
+    # despues el resto de la punta hacia la base, en pasadas continuas
+    for g in grupos(lambda s: s.herr == 9 and not s.rev):
         if g[0].p0[1] >= -1e-6 and abs(g[0].p0[0]) < 1e-6:
             P.aproximar(0.0, 5.0, ".2")
             P.x, P.z = 0.0, 5.0
         recorrer(g, 0.0, ".2", False, 9)
     P.fin_herramienta()
 
-    # ------------------------------------------------ T1111 tronzado
-    P.herramienta(11, 105, ANCHO_T11)
+    # ------------------------------------------------ T0505 tronzado
+    P.herramienta(5, 120, ANCHO_T5)
     P.g00(xseg, z_parte)
-    P.g01(-1.0, feed=".19")
-    mapa.corte_ancho(z_parte, z_parte + ANCHO_T11, 0.0)
+    P.g01(-1.0, feed=".08")
+    mapa.corte_ancho(z_parte, z_parte + ANCHO_T5, 0.0)
     P.g01(xseg)
     P.fin_herramienta()
     P.linea("M30")
@@ -755,7 +726,7 @@ def interpretar_nc(lineas, mapa, bruto_d, largo):
     err, camino = [], []
     st = {"x": 100.0, "z": 100.0, "tool": None, "modo": None, "cx": None, "cz": None,
           "ancho": 0.0}
-    ancho_de = {5: ANCHO_T5, 11: ANCHO_T11}
+    ancho_de = {5: ANCHO_T5}
 
     def corte(x0, z0, x1, z1, rapido, n):
         r0, r1 = x0 / 2, x1 / 2
@@ -885,7 +856,7 @@ def dibujar_png(ruta, camino, prims, bruto_d, largo, ancho=1200, alto=560):
             punto(int(round(x0 + (x1 - x0) * k / n)), int(round(y0 + (y1 - y0) * k / n)), c)
 
     paleta = {1: (31, 119, 180), 3: (44, 160, 44), 5: (148, 103, 189), 9: (255, 127, 14),
-              10: (214, 39, 40), 11: (23, 190, 207)}
+              10: (214, 39, 40)}
     # bruto
     for a, b in (((zmin + 12.0 - 0, 0), (zmin + 12.0, 0)),):
         pass
@@ -923,6 +894,30 @@ def dibujar_png(ruta, camino, prims, bruto_d, largo, ancho=1200, alto=560):
 
 
 # ------------------------------------------------------------------ proyecto
+def _campo(l, nombre, valor):
+    """Cambia un campo 'nombre=valor' de una linea Tool= (separado por espacios)."""
+    n = len(re.findall(rb"(?:(?<= )|^)" + re.escape(nombre) + rb"=", l))
+    assert n == 1, (nombre, n)
+    return re.sub(rb"((?:(?<= )|^)" + re.escape(nombre) + rb"=)[^ ]*",
+                  lambda m: m.group(1) + valor, l)
+
+
+def herramientas_nuevas(l):
+    """T5 pasa a canales y tronzado (A4SM ... GMN); T9 pasa a porta neutro DVVNN."""
+    if l.startswith(b"Tool=T5^"):
+        return l.replace(b"A4SM^R/L^2016K0317", b"A4SM^R/L^2016K0317^GMN")
+    if l.startswith(b"Tool=T9^"):
+        l = re.sub(rb"^Tool=T9\^9:\^\S*", b"Tool=T9^9:^DVVNN^2020K16KC04", l)
+        for k, v in ((b"_Descrip", b"DVVNN^2020K16KC04"), (b"Quadrant", b"1"),
+                     (b"Orient.", b"72.50000"), (b"_Orient.", b"107.50000"),
+                     (b"IC", b"9.53000"), (b"_IC", b"9.53000"), (b"Alpha", b"35.00000"),
+                     (b"r", b"0.40000"), (b"_CodForma", b"8"), (b"H_Width", b"20.00000"),
+                     (b"H_Hght", b"125.00000"), (b"H_Clr_X", b"8.00000"),
+                     (b"H_Clr_Z", b"2.50000"), (b"H_Ang", b"72.50000")):
+            l = _campo(l, k, v)
+    return l
+
+
 def escribir_prj(plantilla, destino, bruto_d, bruto_l):
     with open(plantilla, "rb") as f:
         datos = f.read()
@@ -932,7 +927,9 @@ def escribir_prj(plantilla, destino, bruto_d, bruto_l):
         if l.startswith(b"[") and l.endswith(b"]"):
             sec = l
             continue
-        if sec == b"[BRUTO]":
+        if sec == b"[TOOLS]":
+            lineas[i] = herramientas_nuevas(l)
+        elif sec == b"[BRUTO]":
             if l.startswith(b"ZMax/DExt="):
                 lineas[i] = b"ZMax/DExt=" + fmt(bruto_d).encode()
             elif l.startswith(b"YMax/ZMax="):

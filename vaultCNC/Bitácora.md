@@ -70,3 +70,12 @@ El orquestador bajó del Drive los .zip de WinUnisoft, confirmó que son texto p
   - salto de página antes de "Características pieza";
   - las tiras quedan al 75 % del ancho.
 - Aprendido: Google Docs no respeta "mantener con el siguiente" en bloques largos. Hay que dejar margen de alto en lugar de confiar en keepNext.
+
+## 2026-11-24 (noche): herramientas elegidas por el orquestador y vista lateral
+- El alumno pidió que las herramientas las elija la IA. Cambios:
+  - T0909 pasa a ser el portaherramienta neutro DVVNN 2020K16KC04 (código de forma 8) y termina el perfil en los dos sentidos.
+  - T0505 usa el inserto A4G…GMN, el de acero, y también tronza (3 mm).
+  - Se dejan de usar T1010 y T1111.
+- Un agente hizo las capturas nuevas (A28 DVVNN, A73 GMN, A70 GMN). El agente del generador se cortó por el límite de uso de Sonnet a mitad de la tarea. El orquestador revisó lo que dejó, que andaba, y le agregó la salida en dos pasos de los rápidos diagonales.
+- Informe: la carátula muestra un recorte de la vista lateral del plano (`recorte_vista_lateral`).
+- WinUnisoft en Linux: hay Wine 10 instalado. El instalador está en un pendrive, junto a una carpeta "Crack". El orquestador no ejecuta instaladores de origen desconocido ni cracks: lo instala el alumno con la licencia de la escuela.

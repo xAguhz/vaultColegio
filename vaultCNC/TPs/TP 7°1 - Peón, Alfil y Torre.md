@@ -24,26 +24,24 @@ El resto de las medidas (cuello, collarín, corona, curva del cuerpo) se **midi�
 - Las curvas cóncavas del cuerpo se hicieron con un solo arco: R20 (peón), R25 (alfil) y R40 (torre).
 
 ## Programas
-Los tres siguen el estilo de los TP aprobados (ver [[TP Peón]] y [[TP Alfil]]):
+Herramientas elegidas para estas piezas (SAE 4140, grupo P), con datos del catálogo Kennametal Universal:
 
-| Herramienta | Uso |
-|---|---|
-| T0101 | Desbaste con G90, pasadas de 2 mm en diámetro |
-| T0303 | Semiterminación del contorno |
-| T0505 | Ranurado de las gargantas |
-| T0909 | Terminación de los tramos que crecen hacia la base |
-| T1010 | Terminación de los tramos que bajan hacia la base |
-| T1111 | Tronzado en Z = −(largo + 6) |
+| Herramienta | Portaherramienta + inserto | Uso | Vc |
+|---|---|---|---|
+| T0101 | DCLN 2020K12KC04 + CNMG120408RP (KU30T) | Desbaste G90, pasadas de 2 mm en diámetro | 150 m/min |
+| T0303 | DVJN 2020K16KC04 + VNMG160404FP (KU10T) | Semiterminación del contorno | 200 m/min |
+| T0909 | **DVVNN 2020K16KC04** (neutra, 72,5°, código de forma 8) + VNMG160404FP | Acabado de todo el perfil, en los dos sentidos | 200 m/min |
+| T0505 | A4SM 2016K0317 + **A4G0305M03U02GMN** (KU30T, 3 mm) | Ranurado de gargantas y tronzado en Z = −(largo + 3) | 120 m/min |
 
-Validación con `simular_nc.py`: **0 errores** en los tres.
-- Peón: 5 avisos.
-- Alfil: 6 avisos.
-- Torre: 3 avisos.
+Por qué se cambió respecto de los TP anteriores:
+- La herramienta neutra reemplaza a la pareja T0909/T1010 (mano derecha e izquierda) y tiene más despeje en cuellos y gargantas.
+- GMN es la geometría para acero; GMP es para inoxidable (página A70).
+- La cuchilla de 3 mm alcanza para piezas de Ø26 y desperdicia menos material que la de 6 mm.
 
-Todos los avisos son del tipo "G00 baja X con Z<0", el mismo aviso que dan los programas originales.
+Validación con `simular_nc.py`: **0 errores** en los tres programas. Los rápidos diagonales que pasaban cerca de la pieza ahora salen primero a Z5 y después bajan en X.
 
-> [!warning] Revisar en WinUnisoft
-> En el alfil, el generador marca un posible choque del portaherramientas T1010 cerca de Z−19, debajo del collarín. Mirá esa pasada en la simulación.
+> [!warning] Verificar en WinUnisoft
+> La línea de la T9 en el `.prj` (portaherramienta neutro) se escribió por analogía con las otras herramientas: `Orient.` 72,5, `_Orient.` 107,5, `Quadrant` 1 y `_CodForma` 8. Al abrir el proyecto, mirá que la plaquita se dibuje apuntando hacia −X y que no choque en las gargantas.
 
 ## Archivos
 - Proyectos WinUnisoft: `WinUnisoft/TP71 PEON/`, `TP71 ALFIL/` y `TP71 TORRE/`.
