@@ -154,3 +154,8 @@ El orquestador bajó del Drive los .zip de WinUnisoft, confirmó que son texto p
 - **Resultado:** los 3 programas se simulan sin colisiones y tardan unos 10–11 minutos, contra 18–30 del TP anterior.
 - **Drive:** los informes están en la carpeta "TP 7°1 - Peón, Alfil y Torre (herramientas en par)".
 - **Papelera:** a pedido del alumno se mandaron a la papelera las 12 versiones anteriores de los informes del primer TP.
+- **Revisión de los informes contra el PDF del TP original** (agente Sonnet): faltaban los esquemas de la hoja de proceso y las páginas por herramienta con la ficha de WinUnisoft. Se agregaron con capturas del simulador en la pantalla oculta (`esquemas_wus.py` y Gestor → Herramientas). También se corrigieron estas cosas:
+  - el gráfico A70 era chico;
+  - la T0404 se nombraba en el alfil, que no la usa;
+  - los títulos quedaban pegados a las tablas;
+  - las cotas encadenadas se pisaban (`DIM_PASO` pasó de 4,6 a 5,5).

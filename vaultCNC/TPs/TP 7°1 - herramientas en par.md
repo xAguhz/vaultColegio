@@ -55,3 +55,6 @@ Los tres se simularon en WinUnisoft, en la pantalla oculta: **sin colisiones ni 
 - **Proyectos WinUnisoft:** `WinUnisoft/TP2 PEON/`, `TP2 ALFIL/` y `TP2 TORRE/`.
 - **Generador:** `generar_winunisoft.py`, función `generar_par`. Planos e informes: los mismos scripts; el informe detecta el modo par.
 - **Captura del catálogo:** `T0505_2020_GMN.png` es la misma página A75, con la fila 2020K0317 resaltada.
+- **Imágenes de WinUnisoft para el informe**, como en el TP original:
+  - `esquemas_wus.py` tilda "Cambio Hta.", simula y captura la pieza en cada pausa (`op1.png`…). Esas imágenes van en la columna "Esquema de proceso".
+  - Las fichas de cada herramienta se capturan desde Gestor → Herramientas. Van en una página por herramienta (`--fichas`).

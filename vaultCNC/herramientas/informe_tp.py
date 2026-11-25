@@ -208,6 +208,9 @@ def construir(args):
     nc = ncs[0]
     prj = nc[:-3] + '.prj'
     bloques = parsear_nc(nc)
+    usa4 = any(b['t'] == 'T0404' for b in bloques)
+    if par and not usa4:
+        PAGINAS_CAT[1] = ('T0303', 'T0303.png', ('T0303',))
     formas = forma_desde_prj(prj)
     prog = [l.strip() for l in open(nc, encoding='utf-8', errors='replace').read().splitlines() if l.strip()]
     tray = (glob.glob(os.path.join(args.winunisoft, '*trayectoria.png')) or [None])[0]
@@ -274,7 +277,16 @@ def construir(args):
                    f'Ø {m5(max(0.0, min(b["xs"])))} a {m5(max(b["xs"]))} mm')
         else:
             esq = ''
-        filas.append(row([tc(f'{n}\n{op}', w4[0]), tc(par, w4[1]), tc(her, w4[2], sz=18), tc(esq, w4[3], sz=18)], 1500))
+        op_img = os.path.join(args.esquemas, f'op{n}.png') if args.esquemas else ''
+        if op_img and os.path.exists(op_img):
+            from PIL import Image as _I
+            rec = os.path.join(tmp, f'esq{n}.png')
+            _I.open(op_img).convert('RGB').crop((400, 290, 885, 640)).save(rec)
+            celda = cell(para([im.inline(rec, 4.0)], 'center') +
+                         ''.join(para([run(l, sz=16)], 'center') for l in esq.split('\n')[1:]), w4[3], 'center')
+        else:
+            celda = tc(esq, w4[3], sz=18)
+        filas.append(row([tc(f'{n}\n{op}', w4[0]), tc(par, w4[1]), tc(her, w4[2], sz=18), celda], 1500))
     cuerpo.append(para([], after=0))
     cuerpo.append(table(filas, w4))
     if tray:
@@ -282,6 +294,10 @@ def construir(args):
         cuerpo.append(para([im.inline(tray, ANCHO_CM, 20.0)], 'center', 60, keep=True))
         cuerpo.append(para([run('Trayectoria de las herramientas generada desde el programa (cada color es una herramienta; '
                                 'las líneas punteadas son movimientos rápidos G00).', sz=20, i=True)], 'center', 120))
+        fin = sorted(glob.glob(os.path.join(args.esquemas, 'op*.png')), key=lambda f: int(re.findall(r'\d+', os.path.basename(f))[0])) if args.esquemas else []
+        if fin:
+            cuerpo.append(para([run('SIMULACIÓN EN WINUNISOFT (PIEZA TERMINADA, SIN COLISIONES)', sz=22, b=True)], 'center', 60, keep=True))
+            cuerpo.append(para([im.inline(fin[-1], 12.0, 11.0)], 'center', 60))
 
     # 4. plano
     cuerpo.append(para([run('PLANO', sz=48, b=True)], 'left', 120, pb=True, keep=True))
@@ -323,12 +339,15 @@ def construir(args):
                                 'desbasta; no hace falta su versión izquierda (T0202) porque los valles quedan entre dos paredes y desde la '
                                 'base no se puede entrar. La T0505 es el A4SM R/L 2020K0317 (página A75), con mango de 20×20 como las '
                                 'demás, e inserto A4G0305M03U02GMN (página A73): ranura, desbasta los valles con G90 en los dos sentidos '
-                                '(el sistema A4 ranura y tornea) y tronza. GMN es la geometría para acero (página A70).')], 'left', 200))
+                                '(el sistema A4 ranura y tornea) y tronza. GMN es la geometría para acero (página A70).'
+                                + ('' if usa4 else ' En esta pieza no hace falta la T0404: ninguna pared baja de diámetro hacia '
+                                   'la base más empinada que 46°, así que la T0303 termina todo el perfil.'))], 'left', 200))
         cuerpo.append(para([run('Optimización de pasadas (página A7): el G90 de la T0101 baja 6 mm en diámetro por pasada (3 mm por '
                                 'lado, rango del rompevirutas RP de 1,1 a 6,4 mm) con avance de 0,4 mm/vuelta (rango de 0,2 a 0,6). '
                                 'Después la misma T0101 hace una pasada de contorno que deja 0,3 mm por lado. En los valles, la T0505 '
                                 'entra en el punto más hondo y desbasta con G90 de 3,2 mm en diámetro (1,6 mm por lado, gráfico A70). '
-                                'La T0303 y la T0404 sacan los 0,3 mm finales, dentro del rango de 0,3 a 2,5 mm del rompevirutas FP. '
+                                + ('La T0303 y la T0404 sacan' if usa4 else 'La T0303 saca') +
+                                ' los 0,3 mm finales, dentro del rango de 0,3 a 2,5 mm del rompevirutas FP. '
                                 'El inserto de ranurado mide 3,05 mm de ancho y tiene radio 0,2; el programa usa ese ancho para las '
                                 'ranuras y el tronzado. Solo se usan los códigos de los TP originales (G00, G01, G02, G03 y G90), sin '
                                 'ciclos automáticos como G71 o G72.')], 'left', 200))
@@ -372,7 +391,12 @@ def construir(args):
         forma = formas.get(t, 4 if t in ('T1010', 'T0404') else 3)
         bl = next(b for b in bloques if b['t'] == t)
         f_usado = ' / '.join(fmt(v) for v in bl['f'])
-        cuerpo.append(roja(f'CARACTERÍSTICAS {t}:', pb=False))  # siguen a la tabla de la pieza
+        ficha = os.path.join(args.fichas, f'{t}.png') if args.fichas else ''
+        if ficha and os.path.exists(ficha):
+            # como el TP original: página propia con la ficha de la herramienta en WinUnisoft
+            cuerpo.append(para([run(f'HERRAMIENTA {nom} ({t})', sz=40, color='C00000')], 'center', 120, pb=True, keep=True))
+            cuerpo.append(para([im.inline(ficha, 14.5, 11.5)], 'center', 160))
+        cuerpo.append(roja(f'CARACTERÍSTICAS {t}:', pb=False))
         vel = f'Velocidad: {bl["vc"]} m/min o {sfm}sfm (grupo P, grado {gr}, pág. {pg})'
         if rango:
             av = f'Avance: {f_usado} ({rango})'
@@ -411,7 +435,7 @@ def construir(args):
         cuerpo.append(para([run('AVANCE ' + ' / '.join(ran) + ':', sz=40, color='C00000')], 'left', 120, keep=True))
         a70 = 'avance_A70_GMN.png' if img('avance_A70_GMN.png') else 'avance_A70.png'
         if img(a70):
-            cuerpo.append(para([im.inline(img(a70), 11.0, 11.5)], 'left', 120))
+            cuerpo.append(para([im.inline(img(a70), 15.0, 15.0)], 'left', 120))
         for t in ran:
             f = ' / '.join(fmt(v) for v in next(b for b in bloques if b['t'] == t)['f'])
             cuerpo.append(para([run(f'El tamaño del inserto de {t} es {TAMANO[t]}, por eso la herramienta se usa con un avance de {f} mm/vuelta (PÁG A70).')], 'left', 100))
@@ -512,6 +536,8 @@ def main():
     ap.add_argument('--fecha', default='')
     ap.add_argument('--profesor', default='')
     ap.add_argument('--capturas', default='')
+    ap.add_argument('--esquemas', default='', help='carpeta con op1.png, op2.png... (pieza después de cada operación, WinUnisoft)')
+    ap.add_argument('--fichas', default='', help='carpeta con T0101.png... (ficha de cada herramienta en WinUnisoft)')
     ap.add_argument('--tiempo', default='', help='tiempo de mecanizado de la simulación, p. ej. 10:53 min')
     construir(ap.parse_args())
 

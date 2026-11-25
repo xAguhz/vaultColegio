@@ -122,7 +122,7 @@ def parsear_escala(txt):
 ESCALAS = [(2, "2:1"), (1, "1:1"), (1 / 1.5, "1:1,5"), (0.5, "1:2"), (0.4, "1:2,5"),
            (1 / 3.0, "1:3"), (0.25, "1:4"), (0.2, "1:5")]
 
-DIM_PASO = 4.6        # separación entre cotas encadenadas (mm de hoja)
+DIM_PASO = 5.5        # separación entre cotas encadenadas (mm de hoja)
 MAX_Y = 224.0         # límite inferior del dibujo (rótulo empieza en 227)
 
 
