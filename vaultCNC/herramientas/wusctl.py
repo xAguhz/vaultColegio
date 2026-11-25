@@ -343,9 +343,12 @@ def simular(subcarpeta, archivo, espera_max=300.0):
     main_v = cliente("WinUnisoft - Simulador")
     enviar_clic(main_v, *BOTON["abortar"])
     time.sleep(1.0)
-    for v in ventanas():                      # cerrar un aviso que haya quedado
+    for v in ventanas():                      # cerrar un aviso o la bienvenida que hayan quedado
         if v[5] == "Aviso":
             tecla_segura(v, "Return")
+        elif v[5].startswith("Bienvenido"):
+            tecla_segura(v, "Escape")
+    time.sleep(0.8)
     enviar_clic(cliente("WinUnisoft - Simulador"), *BOTON["abrir"])
     if not esperar_ventana("Abrir..."):
         sys.exit("No se abrió el diálogo Abrir")

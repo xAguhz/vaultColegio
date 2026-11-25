@@ -79,3 +79,17 @@ El orquestador bajó del Drive los .zip de WinUnisoft, confirmó que son texto p
 - Un agente hizo las capturas nuevas (A28 DVVNN, A73 GMN, A70 GMN). El agente del generador se cortó por el límite de uso de Sonnet a mitad de la tarea. El orquestador revisó lo que dejó, que andaba, y le agregó la salida en dos pasos de los rápidos diagonales.
 - Informe: la carátula muestra un recorte de la vista lateral del plano (`recorte_vista_lateral`).
 - WinUnisoft en Linux: hay Wine 10 instalado. El instalador está en un pendrive, junto a una carpeta "Crack". El orquestador no ejecuta instaladores de origen desconocido ni cracks: lo instala el alumno con la licencia de la escuela.
+
+## 2026-11-24 (noche): consigna G90 y velocidades verificadas
+- **Consigna del TP:** la mayor parte del desbaste va con el ciclo **G90**. G01 queda solo donde hace falta o para entrar y salir del bruto. Antes, los valles (cuellos detrás de los collarines) se vaciaban con muchas entradas G01 de la T0505. Ahora la T0505 abre una ranura con G01 junto a la pared y desde ahí vacía el valle con **ciclos G90** hacia −Z. El inserto A4 sirve para ranurar y para tornear (página A75).
+- Pasadas de desbaste con G90: Peón 15, Alfil 14, Torre 8 (T0101 + T0505). Los G01 que quedan son el refrentado y las entradas y salidas de las ranuras.
+- **Velocidades verificadas** en el catálogo, herramienta por herramienta (grupo P):
+
+| Herramienta | Inserto | Grado | Vc | Página |
+|---|---|---|---|---|
+| T0101 | CNMG-RP | KU30T | 150 m/min (500 sfm) | A5 |
+| T0303 y T0909 | VNMG-FP | KU10T | 200 m/min (650 sfm) | A5 |
+| T0505 | A4G-GMN | KU30T | 120 m/min (400 sfm) | A71 |
+
+  El catálogo no cambia la velocidad según la dureza, el desbaste o el rompevirutas. Solo imprime el valor de arranque; el rango sale de la barra del gráfico.
+- WinUnisoft: los 3 proyectos se simulan sin colisiones ni errores. `wusctl.py` ahora cierra sola la ventana de bienvenida.

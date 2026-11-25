@@ -294,7 +294,7 @@ class Prog:
             return
         # bajar en X con la herramienta ya dentro de la pieza (Z<0): WinUnisoft lo cuenta como
         # colision si el rapido roza material; se baja con avance, como en los programas del curso
-        if x is not None and x1 < self.x - 1e-9 and min(self.z, z1) < 0:
+        if x is not None and x1 < self.x - 1e-9 and min(self.z, z1) < 0 and self.x <= self.xseg + 1e-6:
             self.g01(x=x, z=z, feed=self.f or (".1" if self.tool == 5 else ".2"))
             return
         self._revisar_rapido(self.x, self.z, x1, z1)
@@ -628,32 +628,52 @@ def generar(d, avisos):
     if valles or base:
         P.herramienta(5, 120, ANCHO_T5)
         for za, zb in valles:
-            zr = []
-            z0 = za - ANCHO_T5
-            if zb > z0:
-                zr = [round(z0, 3)]
-            else:
-                n = max(1, int(math.ceil((z0 - zb) / 2.5)))
-                paso = (z0 - zb) / n
-                zr = [round(z0 - k * paso, 3) for k in range(n + 1)]
-            xret = min(2 * mapa.maximo(zr[-1], zr[0] + ANCHO_T5) + 1.0, xseg)
-            primera = True
-            for z in zr:
-                prof = max(pmax[i] for i in mapa.celdas(z, z + ANCHO_T5)) + sem_r
-                xd = round(2 * prof + 1e-9, 3)
-                if 2 * mapa.maximo(z, z + ANCHO_T5) - xd < 0.5:
-                    continue
-                if primera:
-                    P.g00(xseg, z)
-                    if xret < xseg - 0.01:
-                        P.g00(xret)
-                    primera = False
-                else:
-                    P.g00(z=z)
-                P.g01(xd, feed=".1")
-                P.g01(xret)
-            if not primera:
-                P.g00(xseg)
+            # consigna del TP: el desbaste se hace con G90; G01 solo para entrar y salir.
+            # 1) ranura de entrada con G01 al lado de la pared (la T0505 ocupa [z0, z0+ancho])
+            # 2) desde esa ranura, ciclos G90 hacia -Z que vacían el valle por escalones
+            z0 = round(za - ANCHO_T5, 3)
+            xtop = 2 * mapa.maximo(min(zb, z0), za)
+            xs = round(min(xtop + 1.0, xseg), 3)
+            prof0 = max(pmax[i] for i in mapa.celdas(z0, z0 + ANCHO_T5)) + sem_r
+            xd0 = round(2 * prof0 + 1e-9, 3)
+            P.g00(xseg, z0)
+            if xs < xseg - 0.01:
+                P.g00(xs)
+            P.g01(xd0, feed=".1")
+            mapa.corte_ancho(z0, z0 + ANCHO_T5, xd0 / 2)
+            P.g01(xs)
+            if zb < z0 - 0.3:
+                D = round(xtop - PASO_G90, 3)
+                primero, zant = True, None
+                while D > xd0 - 1e-9 or primero:
+                    D = max(D, xd0)
+                    zend = None
+                    for k, z in enumerate(mapa.z):
+                        if z > z0 or z < -largo:
+                            continue
+                        if pmax[k] + sem_r > D / 2 + 1e-9:
+                            zend = z + MARGEN_Z * 0.4
+                            break
+                    if zend is None:
+                        zend = zb
+                    zend = round(max(zend, zb), 3)
+                    if zend < z0 - 0.3:
+                        mapa.corte_ancho(zend, z0 + ANCHO_T5, D / 2)
+                        if primero:
+                            txt = "G90 X%s Z%s F.1" % (fmt(D), fmt(zend))
+                        elif zant is not None and abs(zend - zant) < 1e-9:
+                            txt = "X%s" % fmt(D)
+                        else:
+                            txt = "X%s Z%s" % (fmt(D), fmt(zend))
+                        P.linea(txt)
+                        P.camino.append(("F", 5, [(z0, xs / 2), (z0, D / 2), (zend, D / 2), (zend, xs / 2)]))
+                        primero, zant = False, zend
+                        P.f = ".1"
+                    if D <= xd0 + 1e-9:
+                        break
+                    D = round(D - PASO_G90, 3)
+                P.x, P.z = xs, z0
+            P.g00(xseg)
         # zona de base con G94 (T0505, pasos de PASO_T5)
         if base:
             zs = base["z"] - ANCHO_T5
