@@ -20,6 +20,7 @@ HERR = {  # T: (portaherramienta, pág, inserto, pág)
     'T0909': ('DVVNN 2020K16KC04 (8)', 'A28', 'VNMG160404FP', 'A14'),
     'T1010': ('SVJB R/L 1212N11 (4)', 'A36', 'VBMT110304LF', 'A19'),
     'T1111': ('A4SM R/L 3225P0626', 'A75', 'A4G0605M06U08GMP', 'A73'),
+    'T0404': ('DVJN R/L 2020K16KC04 (4)', 'A27', 'VNMG160404FP', 'A14'),
 }
 # operación, nombre, grado, sfm de catálogo, pág. de velocidad, rango de avance, prof. máx., tira de avance
 # (grupo P = acero aleado, SAE 4140; datos de Kennametal Universal, ver capturas/indice.json)
@@ -29,6 +30,7 @@ INFO = {
     'T0505': ('RANURADO Y TRONZADO', 'RANURADO-TRONZADO ∅3', 'KU30T', 400, 'A71', None, 'aprox. 1,6 - 2,0 mm (según gráfico A70)\n(17 mm = profundidad de la ranura del portaherramienta, CD)', None),
     'T0909': ('ACABADO DEL PERFIL (NEUTRA, EN LOS DOS SENTIDOS)', 'ACABADO NEUTRO', 'KU10T', 650, 'A5', '0,1 - 0,3', '2,5 mm', 'tira_T0303_FP.png'),
     'T1010': ('RADIOS Y DIAGONALES LADO IZQUIERDO', 'ACABADO ULTRAFINO', 'KU10T', 650, 'A5', '0,2 - 0,4', '2,3 mm', 'tira_T0909_LF.png'),
+    'T0404': ('TERMINACIÓN LADO IZQUIERDO: PAREDES QUE BAJAN HACIA LA BASE', 'TERMINACIÓN IZQUIERDA', 'KU10T', 650, 'A5', '0,1 - 0,3', '2,5 mm', 'tira_T0303_FP.png'),
     'T1111': ('TRONZADO', 'RANURADO-TRONZADO ∅6', 'KU30T', 400, 'A71', None, 'aprox. 4 mm (según gráfico A70)\n(26 mm = profundidad de la ranura del portaherramienta, CD)', None),
 }
 TAMANO = {'T0505': 3, 'T1111': 6}  # tamaño de inserto (gráfico A70)
@@ -191,6 +193,13 @@ def forma_desde_prj(prj):
 def construir(args):
     pieza = json.load(open(args.pieza, encoding='utf-8'))
     nombre = pieza['nombre'].upper()
+    par = pieza.get('estrategia') == 'par'   # TP con herramientas derecha e izquierda
+    if par:
+        HERR['T0505'] = ('A4SM R/L 2020K0317', 'A75', 'A4G0305M03U02GMN', 'A73')
+        INFO['T0303'] = ('TERMINACIÓN LADO DERECHO: PERFIL HACIA LA BASE',) + INFO['T0303'][1:]
+        PAGINAS_CAT[:] = [('T0101', 'T0101.png', ('T0101',)),
+                          ('T0303 (3) / T0404 (4)', 'T0303.png', ('T0303', 'T0404')),
+                          ('T0505', 'T0505_2020_GMN.png', ('T0505',))]
     titulo = TITULOS.get(nombre, nombre)
     bruto = pieza['bruto']
     ncs = glob.glob(os.path.join(args.winunisoft, '*.nc'))
@@ -255,6 +264,8 @@ def construir(args):
         t = b['t']
         hold, hp, ins, ip = HERR[t]
         op = INFO[t][0]
+        if par and t == 'T0505':
+            op = 'TRONZADO' if any('X-1' in l for l in b['lineas']) else 'RANURADO Y DESBASTE DE VALLES'
         par = f'VC: {b["vc"]} m/min\n(grupo P, {INFO[t][2]}, pág. {INFO[t][4]})\nAVANCE: ' + ' / '.join(fmt(v) for v in b['f']) + ' mm/vuelta\nCICLO: ' + '-'.join(b['ciclos'])
         her = f'{t}\nINSERTO: {ins} (pág. {ip})\nPORTAHERRAMIENTA: {hold} (pág. {hp})'
         if b['xs'] and b['zs']:
@@ -299,16 +310,37 @@ def construir(args):
     cuerpo.append(para([run('ACLARACIONES:', sz=48, b=True, color='ff0000')], 'left', 200, pb=True, keep=True))
     cuerpo.append(para([run('Cuando una herramienta esté señalizada con un número entre paréntesis al lado [(3) o (4)] se refiere a su '
                             'código de forma. Solo se emplea en las herramientas en las que este fue cambiado, de lo contrario, el '
-                            'código de forma es 3 siempre.'), brk(), run('EJ: T0909 (8) = herramienta neutra')], 'left', 300))
+                            'código de forma es 3 siempre.'), brk(),
+                        run('EJ: T0404 (4) = herramienta izquierda' if par else 'EJ: T0909 (8) = herramienta neutra')], 'left', 300))
     cuerpo.append(para([run('Las velocidades de corte se toman del catálogo Kennametal Universal con el grupo P, porque el '
                             + pieza['material'] + ' es un acero aleado. En los TP anteriores se usó el grupo M (acero inoxidable).')], 'left', 200))
-    cuerpo.append(para([run('Selección de herramientas: la T0909 es un portaherramientas neutro DVVNN (72,5°) con el mismo inserto '
+    if par:
+        cuerpo.append(para([run('Selección de herramientas: se usan las mismas herramientas en los dos sentidos, como la T0909 y la '
+                                'T1010 de los TP originales. La T0303 es un portaherramientas DVJN R/L 2020K16KC04 (93°, página A27) '
+                                'con inserto VNMG160404FP (página A14). La T0404 es el mismo portaherramientas en su versión izquierda '
+                                '(código de forma 4): termina las paredes que bajan de diámetro hacia la base cortando hacia +Z, donde la '
+                                'T0303 no llega porque su ángulo libre es de unos 52°. La T0101 (DCLN R/L 2020K12KC04 con CNMG120408RP) '
+                                'desbasta; no hace falta su versión izquierda (T0202) porque los valles quedan entre dos paredes y desde la '
+                                'base no se puede entrar. La T0505 es el A4SM R/L 2020K0317 (página A75), con mango de 20×20 como las '
+                                'demás, e inserto A4G0305M03U02GMN (página A73): ranura, desbasta los valles con G90 en los dos sentidos '
+                                '(el sistema A4 ranura y tornea) y tronza. GMN es la geometría para acero (página A70).')], 'left', 200))
+        cuerpo.append(para([run('Optimización de pasadas (página A7): el G90 de la T0101 baja 6 mm en diámetro por pasada (3 mm por '
+                                'lado, rango del rompevirutas RP de 1,1 a 6,4 mm) con avance de 0,4 mm/vuelta (rango de 0,2 a 0,6). '
+                                'Después la misma T0101 hace una pasada de contorno que deja 0,3 mm por lado. En los valles, la T0505 '
+                                'entra en el punto más hondo y desbasta con G90 de 3,2 mm en diámetro (1,6 mm por lado, gráfico A70). '
+                                'La T0303 y la T0404 sacan los 0,3 mm finales, dentro del rango de 0,3 a 2,5 mm del rompevirutas FP. '
+                                'El inserto de ranurado mide 3,05 mm de ancho y tiene radio 0,2; el programa usa ese ancho para las '
+                                'ranuras y el tronzado. Solo se usan los códigos de los TP originales (G00, G01, G02, G03 y G90), sin '
+                                'ciclos automáticos como G71 o G72.')], 'left', 200))
+    if not par:
+      cuerpo.append(para([run('Selección de herramientas: la T0909 es un portaherramientas neutro DVVNN (72,5°) con el mismo inserto '
                             'VNMG160404FP de la T0303; copia el perfil en los dos sentidos, así que reemplaza a las dos herramientas '
                             'de acabado (derecha e izquierda) y tiene más despeje en cuellos y gargantas. La T0505 (3,05 mm) ranura y '
                             'también tronza: alcanza para piezas de hasta Ø26 y se pierde menos material que con una cuchilla de 6 mm. '
                             'El inserto de ranurado es A4G...GMN, porque la página A70 del catálogo recomienda GMN para acero '
                             '(GMP es para acero inoxidable).')], 'left', 200))
-    cuerpo.append(para([run('Profundidades de pasada (página A7 del catálogo): el desbaste con G90 baja 2,4 mm en diámetro '
+    if not par:
+      cuerpo.append(para([run('Profundidades de pasada (página A7 del catálogo): el desbaste con G90 baja 2,4 mm en diámetro '
                             '(1,2 mm por lado), dentro del rango de 1,1 a 6,4 mm del rompevirutas RP. El desbaste deja 0,6 mm '
                             'por lado: la T0303 saca 0,3 mm y la T0909 los 0,3 mm finales, dentro del rango de 0,3 a 2,5 mm del '
                             'rompevirutas FP. El inserto de ranurado A4G0305M03U02GMN mide 3,05 mm de ancho y tiene radio 0,2 '
@@ -326,6 +358,7 @@ def construir(args):
              ('Largo de la pieza', f'{pieza["largo"]} mm'),
              ('Punto cero', f'G54, Z = {fmt(bruto["l"] - 1)} mm'),
              ('Torno', 'Apolo, control Fanuc 16i-TA (simulador WinUnisoft)'),
+             *([('Tiempo de mecanizado', args.tiempo + ' (simulación en WinUnisoft)')] if args.tiempo else []),
              ('Catálogo de herramientas', 'Kennametal Universal')]
     for t in dict.fromkeys(b['t'] for b in bloques):
         _, _, gr, sfm, pg, _, _, _ = INFO[t]
@@ -336,7 +369,7 @@ def construir(args):
     # 8. una sección por herramienta, en el estilo del informe original
     for k, t in enumerate(dict.fromkeys(b['t'] for b in bloques)):
         op, nom, gr, sfm, pg, rango, prof, tira = INFO[t]
-        forma = formas.get(t, 4 if t in ('T1010',) else 3)
+        forma = formas.get(t, 4 if t in ('T1010', 'T0404') else 3)
         bl = next(b for b in bloques if b['t'] == t)
         f_usado = ' / '.join(fmt(v) for v in bl['f'])
         cuerpo.append(roja(f'CARACTERÍSTICAS {t}:', pb=False))  # siguen a la tabla de la pieza
@@ -479,6 +512,7 @@ def main():
     ap.add_argument('--fecha', default='')
     ap.add_argument('--profesor', default='')
     ap.add_argument('--capturas', default='')
+    ap.add_argument('--tiempo', default='', help='tiempo de mecanizado de la simulación, p. ej. 10:53 min')
     construir(ap.parse_args())
 
 

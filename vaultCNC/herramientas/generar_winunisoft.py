@@ -256,6 +256,7 @@ class Prog:
         self.ancho = 0.0
         self.porta = None
         self.camino = []      # (tipo, herramienta, [(z, r), ...]) para dibujar
+        self.ap = {}          # herramienta -> maxima profundidad radial cortada (mm)
 
     # --- texto
     def linea(self, t):
@@ -324,6 +325,18 @@ class Prog:
     def _barrido(self, p0, p1):
         """Aplica el corte de la herramienta al mapa. p = (x, z)."""
         z0, r0, z1, r1 = p0[1], p0[0] / 2, p1[1], p1[0] / 2
+        if not self.ancho and abs(z1 - z0) > 1e-9:
+            for i in self.m.celdas(z0, z1):
+                if abs(z1 - z0) < 1e-9:
+                    rt = min(r0, r1)
+                else:
+                    t = min(max((self.m.z[i] - z0) / (z1 - z0), 0.0), 1.0)
+                    rt = r0 + t * (r1 - r0)
+                # espesor perpendicular a la pasada (en una pared empinada el radial engaña)
+                cos_t = abs(z1 - z0) / max(math.hypot(z1 - z0, r1 - r0), 1e-9)
+                e = (self.m.R[i] - rt) * cos_t
+                if e > self.ap.get(self.tool, (0.0,))[0] and self.m.z[i] < -1e-6:
+                    self.ap[self.tool] = (e, self.m.z[i])
         if self.ancho:
             n = max(2, int(math.hypot(abs(r1 - r0), abs(z1 - z0)) / 0.1))
             for k in range(n + 1):
@@ -344,7 +357,7 @@ class Prog:
             libre = (self.m.porta_libre(p[1], p[0] / 2, True, tg, tol)
                      and self.m.porta_libre(p[1], p[0] / 2, False, tg, tol))
         else:
-            libre = self.m.porta_libre(p[1], p[0] / 2, self.tool == 3, tg, tol)
+            libre = self.m.porta_libre(p[1], p[0] / 2, self.tool in (1, 3), tg, tol)
         if not libre:
             aviso(self.av, "Posible choque del porta T%d cerca de X%s Z%s"
                   % (self.tool, fmt(p[0]), fmt(p[1])))
@@ -463,8 +476,400 @@ def zona_base(per, largo):
 
 VC_PIEZA = {}  # Vc (m/min) por herramienta, leída del JSON de la pieza
 
+# ------------------------------------------------------------------ estrategia "par"
+# TP con herramientas derecha e izquierda (como T0909/T1010 de los TP originales):
+#   T0101 DCLN R + CNMG120408RP: refrentado, G90 con pasadas grandes y una pasada de contorno
+#   T0505 A4SM 2020K0317 + A4G0305M03U02GMN: ranuras rectas a medida, valles (G90) y tronzado
+#   T0303 DVJN R + VNMG160404FP: acabado de lo que se corta hacia -Z
+#   T0404 DVJN L (misma herramienta invertida: Quadrant 2, codigo de forma 4): acabado de
+#         las paredes que bajan de diametro hacia la base, cortando hacia +Z
+# Datos del catalogo Kennametal (A7): RP ap 1,1-6,4 mm y f 0,2-0,6; FP ap 0,3-2,5 y f 0,1-0,3.
+PAR = {
+    "paso1": 6.0,      # G90 de la T0101: 3 mm por lado (RP admite hasta 6,4)
+    "f1": ".4",        # avance de desbaste (RP 0,2-0,6)
+    "fc": ".3",        # avance de la pasada de contorno de la T0101
+    "sobre_g90": 0.6,  # sobremetal radial que deja el G90
+    "sobre_c": 0.6,    # sobremetal en diametro que deja el contorno (0,3 por lado: FP pide >= 0,3)
+    "paso5": 3.2,      # G90 de la T0505 en valles: 1,6 por lado (grafico A70)
+    "f5p": ".12",      # avance de entrada de la T0505 (ejemplo A71: 0,14 ranurado)
+    "f5": ".2",        # avance de torneado de la T0505 (ejemplo A71: 0,25 torneado)
+    "ff": ".2",        # avance de acabado T0303/T0404 (FP 0,1-0,3)
+}
+ANG_PORTA.setdefault(1, 5.0)     # DCLN: filo secundario a 5 grados de Z (95 + 80)
+ANG_PORTA.setdefault(4, ANG_PORTA[3])
+TOL_PORTA.setdefault(1, 0.3)
+TOL_PORTA.setdefault(4, TOL_PORTA[3])
+
+
+def ranuras_rectas(per):
+    """Ranuras rectangulares del perfil (pared, fondo plano, pared) de ancho >= T0505."""
+    out = []
+    for i in range(len(per) - 3):
+        a, b, c, e = per[i:i + 4]
+        if (abs(a["z"] - b["z"]) < 1e-9 and b["x"] < a["x"] - 1e-9 and abs(b["x"] - c["x"]) < 1e-9
+                and c["z"] < b["z"] - 1e-9 and abs(c["z"] - e["z"]) < 1e-9 and e["x"] > c["x"] + 1e-9
+                and not c.get("arco") and b["z"] - c["z"] >= ANCHO_T5 - 1e-9):
+            out.append({"x": b["x"], "za": b["z"], "zb": c["z"], "xa": a["x"], "xe": e["x"]})
+    return out
+
+
+def generar_par(d, avisos):
+    bd, bl = float(d["bruto"]["d"]), float(d["bruto"]["l"])
+    largo = float(d["largo"])
+    per = d["perfil"]
+    z_parte = -(largo + ANCHO_T5)
+    xseg = bd + 3.0
+    prims0 = prims_del_perfil(per)
+    mapa = Mapa(6.0, -(largo + 14.0), bd / 2, 1.0)
+    pmax, pmin = perfil_en_mapa(mapa, prims0)
+    segs = []
+    for p in prims0:
+        if abs(p.dx) < 1e-9 and abs(p.dz) < 1e-9:
+            continue
+        segs += partir_en_apice(p)
+    ranuras = ranuras_rectas(per)
+    lim3 = ANG_PORTA[3]
+    for s in segs:
+        s.rev = False
+        zlo, zhi = min(s.p0[1], s.p1[1]), max(s.p0[1], s.p1[1])
+        if any(g["zb"] - 1e-9 <= zlo and zhi <= g["za"] + 1e-9 and max(s.p0[0], s.p1[0]) <= max(g["xa"], g["xe"]) + 1e-9
+               for g in ranuras):
+            s.herr = "ranura"
+        elif s.dx < -1e-9 and s.angulo_bajada() > lim3 - 1e-6:
+            s.herr, s.rev = 4, True
+        else:
+            s.herr = 3
+
+    P = Prog(mapa, xseg, bd, avisos)
+    for t in ("%", "O2222", "G54"):
+        P.linea(t)
+
+    # ------------------------------------------------ T0101: refrentado, G90 y contorno
+    P.herramienta(1, 150)
+    P.g00(xseg, 5.0)
+    P.g00(0.0)
+    P.g01(z=0.0, feed=".3")
+    P.g01(xseg)
+    for i in mapa.celdas(0.0 + DZ, mapa.ztop):
+        mapa.R[i] = 0.0
+    P.g00(z=5.0)
+    P.g00(xseg)
+    sg90 = PAR["sobre_g90"]
+    rmax = max(pmax[i] for i, z in enumerate(mapa.z) if -largo - 1e-9 <= z <= 0)
+    D = round(2 * (rmax + sg90), 3)
+    if (bd - D) / 2 < 1.1:          # pasada minima de RP
+        D = bd - 2.2
+    pasadas = []
+    while D > 1.0:
+        zl = None
+        for i, z in enumerate(mapa.z):
+            if z > 0:
+                continue
+            if z < -(largo + 1e-9):
+                break
+            if pmax[i] + sg90 > D / 2 + 1e-9:
+                zl = z
+                break
+        z_fin = z_parte if zl is None else max(zl + MARGEN_Z, z_parte)
+        if z_fin > -0.3:
+            break
+        pasadas.append((D, round(z_fin, 3)))
+        D = round(D - PAR["paso1"], 3)
+    zant = None
+    for k, (D, zf) in enumerate(pasadas):
+        mapa.corte_recta(5.0, D / 2, zf, D / 2)
+        if k == 0:
+            P.linea("G90 X%s Z%s F%s" % (fmt(D), fmt(zf), PAR["f1"]))
+        elif abs(zf - zant) < 1e-9:
+            P.linea("X%s" % fmt(D))
+        else:
+            P.linea("X%s Z%s" % (fmt(D), fmt(zf)))
+        P.camino.append(("F", 1, [(5.0, D / 2), (zf, D / 2)]))
+        zant = zf
+    P.f = PAR["f1"]
+    P.x, P.z = xseg, 5.0
+
+    # contorno: tramos que no bajan de diametro y donde el porta (filo secundario a 5 grados)
+    # no toca material hacia +Z
+    tg1 = math.tan(math.radians(ANG_PORTA[1]))
+    oc = PAR["sobre_c"]
+
+    # obstaculo para el porta: donde el contorno pasa, el material queda en perfil + sobremetal
+    # (la propia pasada lo saca antes de que llegue el porta); en el resto, lo que dejo el G90
+    sube = [False] * len(mapa.R)
+    for s in segs:
+        if s.herr != "ranura" and s.dx >= -1e-9:
+            for i in mapa.celdas(s.p0[1], s.p1[1]):
+                sube[i] = True
+    obst = [min(mapa.R[i], pmax[i] + oc / 2) if sube[i] else mapa.R[i] for i in range(len(mapa.R))]
+
+    def libre1(q):
+        z, r = q[1], (q[0] + oc) / 2
+        i0 = mapa.i(z)
+        for k in range(1, int(25.0 / DZ)):
+            i = i0 - k
+            if i < 0:
+                break
+            if obst[i] > r + tg1 * k * DZ + TOL_PORTA[1]:
+                return False
+        return True
+
+    piezas = []
+    for s in segs:
+        if s.herr == "ranura" or s.dx < -1e-9:
+            piezas.append(None)
+            continue
+        n = max(4, int(s.largo() / 0.25))
+        ts = [k / n for k in range(n + 1)]
+        ok = [libre1(s.pt(t)) for t in ts]
+        k0 = None
+        for k in range(len(ts) - 1, -1, -1):
+            if not ok[k]:
+                break
+            k0 = k
+        if k0 is None or ts[k0] > 0.98:
+            piezas.append(None)
+        elif k0 == 0:
+            piezas.append(s)
+        else:
+            piezas.append(s.cortar(ts[k0])[1])
+    grupos_c, act = [], []
+    for s, pz in zip(segs, piezas):
+        if pz is not None and (not act or (abs(act[-1].p1[0] - pz.p0[0]) < 1e-6 and abs(act[-1].p1[1] - pz.p0[1]) < 1e-6)):
+            act.append(pz)
+        else:
+            if act:
+                grupos_c.append(act)
+            act = [pz] if pz is not None else []
+    if act:
+        grupos_c.append(act)
+    P.porta = ANG_PORTA[1]
+    def paralelo(s, dd):
+        """Tramo corrido dd (en diametro) hacia afuera; los arcos, concentricos."""
+        if not s.R:
+            return s.trasladado(dd)
+        rm = s.pt(0.5)[0] / 2
+        k = (s.R + dd / 2) / s.R if rm >= s.rc else (s.R - dd / 2) / s.R
+        q = [(2 * (s.rc + (pt[0] / 2 - s.rc) * k), s.zc + (pt[1] - s.zc) * k) for pt in (s.p0, s.p1)]
+        q = [(round(max(x, 0.0), 3), round(z, 3)) for x, z in q]
+        return Prim(q[0], q[1], round(s.R * k, 3), s.g)
+
+    for g in grupos_c:
+        orden = [paralelo(s, oc) for s in g]
+        a = orden[0].p0
+        P.aproximar(a[0], a[1], PAR["fc"])
+        for s in orden:
+            if s.R:
+                P.arco(s, PAR["fc"])
+            else:
+                P.g01(None if abs(s.dx) < 1e-9 else s.p1[0], None if abs(s.dz) < 1e-9 else s.p1[1], PAR["fc"])
+        P.salir()
+    P.porta = None
+    P.fin_herramienta()
+
+    # ------------------------------------------------ T0505: ranuras a medida y valles
+    sem_r = oc / 2
+    P.herramienta(5, 120, ANCHO_T5)
+    for g in ranuras:
+        z1 = round(g["za"] - ANCHO_T5, 3)
+        xs = round(min(2 * mapa.maximo(g["zb"], g["za"]) + 1.0, xseg), 3)
+        P.g00(xseg, z1)
+        if xs < xseg - 0.01:
+            P.g00(xs)
+        P.g01(g["x"], feed=PAR["f5p"])
+        if g["zb"] < z1 - 1e-9:
+            P.g01(z=g["zb"], feed=PAR["f5"])
+        P.g01(xs, feed=PAR["f5"])
+        mapa.corte_ancho(g["zb"], g["za"], g["x"] / 2)
+        P.g00(xseg)
+    # valles: material que el acabado no puede sacar en una pasada (FP <= 2,5 mm)
+    valles, en = [], None
+    for i, z in enumerate(mapa.z):
+        if z > 0 or z < -largo:
+            continue
+        if mapa.R[i] - (pmax[i] + sem_r) > UMBRAL_VALLE:
+            if en is None:
+                en = [z, z]
+            en[1] = z
+        elif en is not None:
+            valles.append(en)
+            en = None
+    if en is not None:
+        valles.append(en)
+    valles = [v for v in valles if v[0] - v[1] > 0.4]
+    w = ANCHO_T5
+    mg = MARGEN_Z * 0.4
+
+    def prof(z0):          # radio minimo al que puede bajar la cuchilla en [z0, z0 + w]
+        return max(pmax[i] for i in mapa.celdas(z0, z0 + w)) + sem_r
+
+    for za, zb in valles:
+        # entrada en el punto mas hondo del valle (la cuchilla ocupa [z0, z0 + w])
+        lo, hi = max(zb, -largo), za - w
+        cand = [round(lo + k * 0.05, 3) for k in range(int(max(0.0, hi - lo) / 0.05) + 1)] or [round(za - w, 3)]
+        z0 = min(cand, key=lambda z: (prof(z), -z))
+        xd0 = round(2 * prof(z0) + 1e-9, 3)
+        xtop = 2 * mapa.maximo(min(zb, z0), max(za, z0 + w))
+        xs = round(min(xtop + 1.0, xseg), 3)
+        P.g00(xseg, z0)
+        if xs < xseg - 0.01:
+            P.g00(xs)
+        P.g01(xd0, feed=PAR["f5p"])
+        mapa.corte_ancho(z0, z0 + w, xd0 / 2)
+        P.g01(xs, feed=PAR["f5"])
+        P.x, P.z = xs, z0
+        for sentido in (-1, 1):          # G90 hacia -Z y despues hacia +Z (el A4 tornea en los dos)
+            D = round(xtop - PAR["paso5"], 3)
+            primero, zant = True, None
+            while True:
+                D = max(D, xd0)
+                if sentido < 0:          # avanza hacia -Z hasta que la pieza sube
+                    zend = zb
+                    for k, z in enumerate(mapa.z):
+                        if z >= z0 or z < -largo:
+                            continue
+                        if pmax[k] + sem_r > D / 2 + 1e-9:
+                            zend = z + mg
+                            break
+                    zend = round(max(zend, -largo), 3)
+                    ok = zend < z0 - 0.3
+                    za_c, zb_c = zend, z0 + w
+                else:                    # avanza hacia +Z: el lado derecho de la cuchilla frena antes
+                    zr = za
+                    for k in range(len(mapa.z) - 1, -1, -1):
+                        z = mapa.z[k]
+                        if z <= z0 + w or z > 0:
+                            continue
+                        if pmax[k] + sem_r > D / 2 + 1e-9:
+                            zr = z - mg
+                            break
+                    zend = round(min(zr, 0.0) - w, 3)
+                    ok = zend > z0 + 0.3
+                    za_c, zb_c = z0, zend + w
+                if ok and mapa.maximo(min(za_c, zb_c), max(za_c, zb_c)) > D / 2 + 0.05:
+                    mapa.corte_ancho(za_c, zb_c, D / 2)
+                    if primero:
+                        txt = "G90 X%s Z%s F%s" % (fmt(D), fmt(zend), PAR["f5"])
+                    elif zant is not None and abs(zend - zant) < 1e-9:
+                        txt = "X%s" % fmt(D)
+                    else:
+                        txt = "X%s Z%s" % (fmt(D), fmt(zend))
+                    P.linea(txt)
+                    P.camino.append(("F", 5, [(z0, xs / 2), (z0, D / 2), (zend, D / 2), (zend, xs / 2)]))
+                    primero, zant = False, zend
+                    P.f = PAR["f5"]
+                if D <= xd0 + 1e-9:
+                    break
+                D = round(D - PAR["paso5"], 3)
+        P.g00(xseg)
+    P.fin_herramienta()
+
+    # ------------------------------------------------ grupos de acabado
+    def grupos(pred):
+        res, act = [], []
+        for s in segs:
+            if pred(s):
+                act.append(s)
+            elif act:
+                res.append(act)
+                act = []
+        if act:
+            res.append(act)
+        return res
+
+    def fusionar(orden):
+        fus = []
+        for q in orden:
+            a = fus[-1] if fus else None
+            if (a is not None and a.R and q.R and a.g == q.g and abs(a.R - q.R) < 1e-6
+                    and abs(a.zc - q.zc) < 0.01 and abs(a.rc - q.rc) < 0.01):
+                fus[-1] = Prim(a.p0, q.p1, a.R, a.g)
+            else:
+                fus.append(q)
+        return fus
+
+    def pasada(orden, feed):
+        orden = fusionar(orden)
+        a = orden[0].p0
+        P.aproximar(a[0], a[1], feed)
+        for s in orden:
+            if s.R:
+                P.arco(s, feed)
+            else:
+                P.g01(None if abs(s.dx) < 1e-9 else s.p1[0], None if abs(s.dz) < 1e-9 else s.p1[1], feed)
+        P.salir()
+
+    def inicio_libre(s, hacia_mas_z, tang, tol):
+        """Primer t (0..1) del tramo desde el que el porta no toca la pieza terminada."""
+        L = max(s.largo(), 1e-9)
+        t = 0.0
+        while t < 0.999:
+            q = s.pt(t)
+            if P.m.porta_libre(q[1], q[0] / 2, hacia_mas_z, tang, tol):
+                return t
+            t += 0.1 / L
+        return None
+
+    ff = PAR["ff"]
+    tg3 = math.tan(math.radians(ANG_PORTA[3]))
+    # ------------------------------------------------ T0303 acabado hacia -Z
+    a_cubrir = {}      # indice de tramo -> t hasta donde lo tiene que hacer la T0404
+    P.herramienta(3, 200, 0.0, ANG_PORTA[3])
+    for g in grupos(lambda s: s.herr == 3):
+        g = list(g)
+        t0 = inicio_libre(g[0], True, tg3, TOL_PORTA[3])
+        idx = segs.index(g[0])
+        if t0 is None:
+            a_cubrir[idx] = 1.0
+            g = g[1:]
+            if not g:
+                continue
+        elif t0 > 0:
+            a_cubrir[idx] = t0
+            g[0] = g[0].cortar(t0)[1]
+        pasada(g, ff)
+    P.fin_herramienta()
+
+    # ------------------------------------------------ T0404 acabado hacia +Z
+    tg4 = math.tan(math.radians(ANG_PORTA[4]))
+    trabajos = []
+    for g in grupos(lambda s: s.herr == 4):
+        i_fin = segs.index(g[-1]) + 1
+        orden = []
+        if i_fin in a_cubrir:
+            s = segs[i_fin]
+            t = min(1.0, a_cubrir[i_fin] + 0.5 / max(s.largo(), 1e-9))
+            orden.append(s.cortar(t)[0].invertido() if t < 1.0 else s.invertido())
+            del a_cubrir[i_fin]
+        orden += [s.invertido() for s in reversed(g)]
+        trabajos.append(orden)
+    for i, t in a_cubrir.items():
+        s = segs[i]
+        aviso(avisos, "La T0303 no alcanza el comienzo de X%s Z%s y no hay pared para la T0404"
+              % (fmt(s.p0[0]), fmt(s.p0[1])))
+    if trabajos:
+        P.herramienta(4, 200, 0.0, ANG_PORTA[4])
+        for orden in reversed(trabajos):
+            pasada(orden, ff)
+        P.fin_herramienta()
+
+    # ------------------------------------------------ T0505 tronzado
+    P.herramienta(5, 120, ANCHO_T5)
+    P.g00(xseg, z_parte)
+    P.g01(-1.0, feed=".08")
+    mapa.corte_ancho(z_parte, z_parte + ANCHO_T5, 0.0)
+    P.g01(xseg)
+    P.fin_herramienta()
+    P.linea("M30")
+    P.linea("%")
+    return P, mapa, (pmax, pmin), segs
+
 
 def generar(d, avisos):
+    if d.get("estrategia") == "par":
+        VC_PIEZA.clear()
+        VC_PIEZA.update({int(k): float(v) for k, v in d.get("vc", {}).items()})
+        return generar_par(d, avisos)
     VC_PIEZA.clear()
     VC_PIEZA.update({int(k): float(v) for k, v in d.get("vc", {}).items()})
     bd, bl = float(d["bruto"]["d"]), float(d["bruto"]["l"])
@@ -1006,7 +1411,7 @@ def herramientas_nuevas(l):
     return l
 
 
-def escribir_prj(plantilla, destino, bruto_d, bruto_l):
+def escribir_prj(plantilla, destino, bruto_d, bruto_l, par=False):
     with open(plantilla, "rb") as f:
         datos = f.read()
     lineas = datos.split(b"\r\n")
@@ -1017,6 +1422,9 @@ def escribir_prj(plantilla, destino, bruto_d, bruto_l):
             continue
         if sec == b"[TOOLS]":
             lineas[i] = herramientas_nuevas(l)
+            if par and lineas[i].startswith(b"Tool=T5^"):
+                # porta de 20x20 (A75): encaja en la torreta igual que los demas
+                lineas[i] = lineas[i].replace(b"2016K0317", b"2020K0317")
         elif sec == b"[BRUTO]":
             if l.startswith(b"ZMax/DExt="):
                 lineas[i] = b"ZMax/DExt=" + fmt(bruto_d).encode()
@@ -1024,6 +1432,16 @@ def escribir_prj(plantilla, destino, bruto_d, bruto_l):
                 lineas[i] = b"YMax/ZMax=" + fmt(bruto_l).encode()
         elif sec == b"[ORIGEN]" and l.startswith(b"G54="):
             lineas[i] = b"G54=0.00,0.00," + fmt(bruto_l - 1).encode()
+    if par:
+        # T4 = la T3 invertida (DVJN L): igual que T9/T10 de los TP originales,
+        # cambia solo Quadrant=2 y el codigo de forma 4
+        i3 = next(i for i, l in enumerate(lineas) if l.startswith(b"Tool=T3^"))
+        i4 = next(i for i, l in enumerate(lineas) if l.startswith(b"Tool=T4^"))
+        l4 = lineas[i3].replace(b"Tool=T3^3:^DVJN^R/L^2020K16KC04", b"Tool=T4^4:^DVJN^R/L^2020K16KC04^(4)")
+        for k, v in ((b"_NumHta", b"4"), (b"_Corrector", b"4"), (b"_Descrip", b"DVJN^R/L^2020K16KC04^(4)"),
+                     (b"Quadrant", b"2"), (b"_CodForma", b"4")):
+            l4 = _campo(l4, k, v)
+        lineas[i4] = l4
     with open(destino, "wb") as f:
         f.write(b"\r\n".join(lineas))
 
@@ -1058,7 +1476,7 @@ def main():
     with open(ruta_nc, "wb") as f:
         f.write(texto.encode("ascii"))
     escribir_prj(os.path.join(plant, args.base + ".prj"), os.path.join(args.salida, nombre + ".prj"),
-                 float(d["bruto"]["d"]), float(d["bruto"]["l"]))
+                 float(d["bruto"]["d"]), float(d["bruto"]["l"]), d.get("estrategia") == "par")
     for ext in (".txt", ".wmf"):
         with open(os.path.join(plant, args.base + ext), "rb") as f:
             datos = f.read()
@@ -1078,6 +1496,9 @@ def main():
 
     print("Proyecto generado en: %s" % args.salida)
     print("  %s.nc  (%d lineas)" % (nombre, len(P.l)))
+    if P.ap:
+        print("Profundidad radial maxima por herramienta (contorno): " +
+              ", ".join("T%02d%02d %.2f mm (Z%s)" % (t, t, v[0], fmt(v[1])) for t, v in sorted(P.ap.items()) if t))
     print("Verificacion del perfil final:")
     print("  sobrante maximo: %.3f mm de radio%s" % (sob, "" if zs is None else " en Z%s" % fmt(zs)))
     print("  exceso (pieza pasada): %.3f mm de radio%s" % (exc, "" if ze is None else " en Z%s" % fmt(ze)))

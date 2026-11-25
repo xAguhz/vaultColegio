@@ -130,3 +130,27 @@ El orquestador bajó del Drive los .zip de WinUnisoft, confirmó que son texto p
 - **T0505:** el ancho pasó a 3,05 mm, con radio 0,2 en el `.prj` (A73).
 - **Simulación en la pantalla oculta:** los 3 programas llegan a M30 sin colisiones. Los tiempos bajaron: Peón 25:35, Alfil 29:32 y Torre 18:23.
 - **Informes:** se regeneraron con una aclaración sobre las profundidades de pasada y se subieron a Drive como Google Docs nuevos. Los anteriores quedaron renombrados "(versión anterior)".
+
+## 2026-11-25: TP 7°1 (2), herramientas en par
+- **Pedido del alumno:**
+  - Pasó dos croquis (peón y alfil) para ponerles medidas y corregir la simetría.
+  - Pidió que la IA inventara una torre.
+  - Pidió usar las herramientas invertidas (T0202, T0404…) donde el catálogo lo permita, con solo los códigos de los TP originales.
+  - Pidió minimizar pasadas y tiempo.
+- **Decisiones del orquestador:**
+  - La base es Ø26 y el resto se escala en proporción.
+  - El collarín del alfil tiene una cara socavada en el croquis: se hizo radial porque ninguna herramienta del catálogo la alcanza.
+  - Herramientas: T0101 (DCLN R), T0505 (A4SM 2020K0317, de 20×20), T0303 (DVJN R) y T0404 (DVJN L). No se usan T0202 ni T0606. Ver [[TP 7°1 - herramientas en par]].
+- **Generador (`generar_par`):**
+  - G90 de 6 mm en diámetro con F0,4, seguido de una pasada de contorno.
+  - En los valles, la T0505 entra en el punto más hondo y hace G90 en los dos sentidos.
+  - Las ranuras se cortan a medida.
+  - Hay una medición del espesor que corta cada herramienta.
+- **Errores corregidos en el camino:**
+  - El contorno de la T0101 tomaba como obstáculo material que su misma pasada ya sacaba.
+  - El valle se desbastaba desde una entrada pegada a la pared alta, y quedaban 3,8 mm para el acabado.
+  - El arco de la bola, desplazado solo en X, no quedaba paralelo.
+  - En el plano, la cadena de cotas de la torre pisaba el rótulo (`distribuir` ahora calcula el lugar con la misma cuenta que la cadena).
+- **Resultado:** los 3 programas se simulan sin colisiones y tardan unos 10–11 minutos, contra 18–30 del TP anterior.
+- **Drive:** los informes están en la carpeta "TP 7°1 - Peón, Alfil y Torre (herramientas en par)".
+- **Papelera:** a pedido del alumno se mandaron a la papelera las 12 versiones anteriores de los informes del primer TP.

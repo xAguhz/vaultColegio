@@ -126,7 +126,7 @@ DIM_PASO = 4.6        # separación entre cotas encadenadas (mm de hoja)
 MAX_Y = 224.0         # límite inferior del dibujo (rótulo empieza en 227)
 
 
-def distribuir(L, rmax, zs_n, n_top, n_bot, s):
+def distribuir(L, rmax, zs_n, n_top, n_bot, s, rh=None):
     """Calcula posiciones (mm desde arriba-izquierda) para la escala s. Devuelve (ok, dict)."""
     Ls, rs = L * s, rmax * s
     punta_y = 14 + 6 * n_top + 6
@@ -134,7 +134,13 @@ def distribuir(L, rmax, zs_n, n_top, n_bot, s):
     fin_dim1 = base_y + 10 + 5.5 * max(n_bot - 1, 0) + (3 if n_bot else 0)
     cx1 = max(58.0, 25 + rs + 24)
     # vista 3: punta a la derecha
-    cadena = 8 + rs * 0.5 + DIM_PASO * zs_n
+    if rh:     # misma cuenta que la cadena real (vista 3): r_hasta + 6, o la anterior + DIM_PASO
+        prev = 0.0
+        for r in rh:
+            prev = max(r * s + 6, prev + DIM_PASO)
+        cadena = prev + 4.0
+    else:
+        cadena = 8 + rs * 0.5 + DIM_PASO * zs_n
     y3 = MAX_Y - cadena
     y2 = max(y3, fin_dim1 + 8 + rs)
     punta_x3 = 190.0
@@ -168,21 +174,22 @@ def main(ruta_json, carpeta):
     arriba = [d for d in diams if zmin_de(d) < L / 2.0]
     abajo = [d for d in diams if d not in arriba]
 
+    rh = [max(max(t[1], t[3]) for t in tr if t[2] >= -zz - 1e-9) for zz in zs]
     esc = parsear_escala(rot.get("escala", ""))
     esc_txt = rot.get("escala", "")
     if esc:
-        ok, lay = distribuir(L, rmax, len(zs), len(arriba), len(abajo), esc)
+        ok, lay = distribuir(L, rmax, len(zs), len(arriba), len(abajo), esc, rh)
         s = esc
     else:
         s = None
         for cand, txt in ESCALAS:
-            ok, lay = distribuir(L, rmax, len(zs), len(arriba), len(abajo), cand)
+            ok, lay = distribuir(L, rmax, len(zs), len(arriba), len(abajo), cand, rh)
             if ok:
                 s, esc_txt = cand, txt
                 break
         if s is None:
             s, esc_txt = ESCALAS[-1]
-            ok, lay = distribuir(L, rmax, len(zs), len(arriba), len(abajo), s)
+            ok, lay = distribuir(L, rmax, len(zs), len(arriba), len(abajo), s, rh)
         rot["escala"] = esc_txt
     print("Escala %s (%.3f)" % (esc_txt, s))
 
