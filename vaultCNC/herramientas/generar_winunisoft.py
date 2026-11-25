@@ -26,12 +26,12 @@ import sys
 import zlib
 
 DZ = 0.05            # paso del mapa de material (mm)
-PASO_G90 = 2.0       # profundidad maxima por pasada en diametro (mm)
-SOBRE_DESB = 0.5     # sobremetal radial que deja el desbaste (mm)
+PASO_G90 = 2.4       # pasada en diametro (mm): 1,2 por lado. CNMG-RP pide 1,1-6,4 mm por lado (A7)
+SOBRE_DESB = 0.6     # sobremetal radial que deja el desbaste (mm): la T0303 corta 0,3 (FP pide 0,3-2,5, A7)
 SOBRE_SEMI = 0.6     # sobremetal en diametro que deja el semiacabado (mm)
 MARGEN_Z = 0.5       # el desbaste frena antes de las paredes (mm)
 UMBRAL_VALLE = 1.6   # sobremetal radial a partir del cual hay un valle que limpiar (mm)
-ANCHO_T5 = 3.0       # ancho de T0505 (canales, zona de base y tronzado)
+ANCHO_T5 = 3.05      # ancho de T0505: A4G0305M03U02GMN mide W 3,05 (A73)
 PASO_T5 = 2.5        # paso de T0505 al limpiar la base (menor que el ancho: solapa)
 # angulo libre del porta respecto de Z. T0303: el prj dice 30 pero los originales bajan 45 grados
 # con ella. T0909 es neutro (DVVNN, acercamiento 72.5): mismo angulo a los dos lados.
@@ -566,7 +566,7 @@ def generar(d, avisos):
         mapa.R[i] = 0.0
     P.g00(z=5.0)
     P.g00(xseg)
-    D = bd - 1.0
+    D = bd - PASO_G90   # la primera pasada ya saca 1,2 por lado
     pasadas = []
     while D > 1.0:
         zl = None
@@ -990,7 +990,10 @@ def herramientas_nuevas(l):
     if l.startswith(b"Tool=T3^"):
         return _campo(l, b"r", b"0.40000")
     if l.startswith(b"Tool=T5^"):
-        return l.replace(b"A4SM^R/L^2016K0317", b"A4SM^R/L^2016K0317^GMN")
+        l = l.replace(b"A4SM^R/L^2016K0317", b"A4SM^R/L^2016K0317^GMN")
+        for k, v in ((b"IC", b"3.05000"), (b"_IC", b"3.05000"), (b"r", b"0.20000")):
+            l = _campo(l, k, v)   # inserto W 3,05 y radio 0,2 (A73)
+        return l
     if l.startswith(b"Tool=T9^"):
         l = re.sub(rb"^Tool=T9\^9:\^\S*", b"Tool=T9^9:^DVVNN^2020K16KC04", l)
         for k, v in ((b"_Descrip", b"DVVNN^2020K16KC04"), (b"Quadrant", b"1"),

@@ -123,3 +123,10 @@ El orquestador bajó del Drive los .zip de WinUnisoft, confirmó que son texto p
   - El portaherramientas A4SM 2016K0317 tiene mango de 20×16. Existe el 2020K0317, de 20×20.
 
   Todavía no se cambió nada en el programa.
+
+## 2026-11-25: pasadas y cuchilla según el catálogo
+- **Desbaste:** el G90 pasó a 2,4 mm en diámetro (1,2 por lado) desde la primera pasada. Antes arrancaba en Ø29, o sea 0,5 por lado, y RP pide de 1,1 a 6,4 mm.
+- **Sobremetal:** el desbaste deja 0,6 mm por lado. La T0303 corta 0,3 y la T0909 0,3, ambas dentro del rango de 0,3 a 2,5 mm de FP.
+- **T0505:** el ancho pasó a 3,05 mm, con radio 0,2 en el `.prj` (A73).
+- **Simulación en la pantalla oculta:** los 3 programas llegan a M30 sin colisiones. Los tiempos bajaron: Peón 25:35, Alfil 29:32 y Torre 18:23.
+- **Informes:** se regeneraron con una aclaración sobre las profundidades de pasada y se subieron a Drive como Google Docs nuevos. Los anteriores quedaron renombrados "(versión anterior)".

@@ -304,10 +304,15 @@ def construir(args):
                             + pieza['material'] + ' es un acero aleado. En los TP anteriores se usó el grupo M (acero inoxidable).')], 'left', 200))
     cuerpo.append(para([run('Selección de herramientas: la T0909 es un portaherramientas neutro DVVNN (72,5°) con el mismo inserto '
                             'VNMG160404FP de la T0303; copia el perfil en los dos sentidos, así que reemplaza a las dos herramientas '
-                            'de acabado (derecha e izquierda) y tiene más despeje en cuellos y gargantas. La T0505 (3 mm) ranura y '
+                            'de acabado (derecha e izquierda) y tiene más despeje en cuellos y gargantas. La T0505 (3,05 mm) ranura y '
                             'también tronza: alcanza para piezas de hasta Ø26 y se pierde menos material que con una cuchilla de 6 mm. '
                             'El inserto de ranurado es A4G...GMN, porque la página A70 del catálogo recomienda GMN para acero '
                             '(GMP es para acero inoxidable).')], 'left', 200))
+    cuerpo.append(para([run('Profundidades de pasada (página A7 del catálogo): el desbaste con G90 baja 2,4 mm en diámetro '
+                            '(1,2 mm por lado), dentro del rango de 1,1 a 6,4 mm del rompevirutas RP. El desbaste deja 0,6 mm '
+                            'por lado: la T0303 saca 0,3 mm y la T0909 los 0,3 mm finales, dentro del rango de 0,3 a 2,5 mm del '
+                            'rompevirutas FP. El inserto de ranurado A4G0305M03U02GMN mide 3,05 mm de ancho y tiene radio 0,2 '
+                            '(página A73); el programa usa ese ancho para las ranuras y el tronzado.')], 'left', 200))
     for nom, pg in (('vel_A5_P.png', 'A5'), ('vel_A71_P.png', 'A71')):
         if img(nom):
             cuerpo.append(para([run(f'Velocidad de las herramientas de {"torneado" if pg == "A5" else "ranurado"} ', sz=22),
