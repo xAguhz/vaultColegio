@@ -1,0 +1,846 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Simulador neumático: secuencia A+ B+ B− A−</title>
+<meta name="theme-color" content="#1b1f23">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Tokens claros por defecto; oscuros por preferencia del sistema o por botón de tema. */
+:root {
+  --bg: #e9ecee; --panel: #fbfbfa; --stage: #dfe3e6; --ink: #1b2024; --muted: #5a6670; --line: #d3d8dc;
+  --accent: #a85a12; --accent-ink: #ffffff; --accent-bg: #f6e6d2; --grid: #c3c9ce; --chip: #eef0f2;
+  --pr: #1769e0; --pr-soft: #a9c9f7; --off: #8f9aa3; --bad: #c62828; --bad-bg: #fbe3e1; --ok: #2e7d32; --ok-bg: #e0f1e2; --lit: #f5a400;
+  --font-display: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #14171a; --panel: #1b1f23; --stage: #101315; --ink: #e5e8eb; --muted: #9ba5ae; --line: #2d3339;
+    --accent: #f0a24a; --accent-ink: #1b1206; --accent-bg: #3a2a17; --grid: #262c32; --chip: #23292e;
+    --pr: #4da3ff; --pr-soft: #1f4a7a; --off: #5f6b75; --bad: #ff6b5e; --bad-bg: #3d1f1c; --ok: #6fcf7a; --ok-bg: #1d3320; --lit: #ffc233; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #14171a; --panel: #1b1f23; --stage: #101315; --ink: #e5e8eb; --muted: #9ba5ae; --line: #2d3339;
+  --accent: #f0a24a; --accent-ink: #1b1206; --accent-bg: #3a2a17; --grid: #262c32; --chip: #23292e;
+  --pr: #4da3ff; --pr-soft: #1f4a7a; --off: #5f6b75; --bad: #ff6b5e; --bad-bg: #3d1f1c; --ok: #6fcf7a; --ok-bg: #1d3320; --lit: #ffc233; color-scheme: dark;
+}
+[hidden] { display: none !important; }
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 14px; line-height: 1.5; }
+button, input, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.top { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; padding-block: 10px; border-bottom: 1px solid var(--line); background: var(--panel);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.top h1 { font-family: var(--font-display); font-weight: 700; font-size: 26px; margin: 0; line-height: 1.1; text-wrap: balance; }
+.top .sub { color: var(--muted); font-size: 13px; flex: 1 1 260px; }
+.wrap { max-width: 1500px; margin: 0 auto; display: grid; gap: 12px; padding-block: 12px 28px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; min-width: 0; }
+.card h2 { font-family: var(--font-display); font-weight: 700; font-size: 19px; letter-spacing: .03em; text-transform: uppercase; margin: 0 0 8px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.card h2 .btn { margin-left: auto; text-transform: none; font-family: var(--font-body); letter-spacing: 0; }
+.btn { border: 1px solid var(--line); background: var(--panel); border-radius: 6px; padding: 6px 11px; font-size: 13px; font-weight: 500; line-height: 1.2; }
+.btn:hover { border-color: var(--muted); }
+.btn[aria-pressed="true"], .btn.on { background: var(--accent-bg); border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn:disabled { opacity: .5; cursor: default; }
+.bar { display: grid; gap: 10px; }
+.row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; flex-wrap: wrap; }
+.seg button { border: 0; background: var(--panel); padding: 7px 14px; font-weight: 600; border-right: 1px solid var(--line); }
+.seg button:last-child { border-right: 0; }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+.slider { display: flex; align-items: center; gap: 8px; }
+.slider label { font-family: var(--font-display); font-weight: 600; font-size: 16px; letter-spacing: .03em; text-transform: uppercase; }
+.slider input { accent-color: var(--accent); width: 120px; }
+.slider output { font-family: var(--font-data); font-size: 12px; width: 4ch; color: var(--muted); }
+.status { font-family: var(--font-data); font-size: 12.5px; display: flex; flex-wrap: wrap; gap: 6px 16px; color: var(--muted); }
+.status b { color: var(--ink); font-weight: 500; }
+.status .warn { color: var(--bad); font-weight: 500; }
+.grid { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }
+.grid > div { display: grid; gap: 12px; align-content: start; min-width: 0; }
+@media (min-width: 1000px) { .grid:not(.wide) { grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr); } }
+.svgwrap { overflow-x: auto; border-radius: 6px; background: var(--stage); border: 1px solid var(--line); }
+.svgwrap svg { display: block; width: 100%; height: auto; }
+#sch { min-width: 680px; }
+.hint { font-size: 12px; color: var(--muted); margin: 6px 0 0; }
+@media (min-width: 700px) { .hint.m { display: none; } #sch { min-width: 0; } }
+.alert { margin-top: 10px; border: 1px solid var(--bad); background: var(--bad-bg); border-radius: 8px; padding: 10px 12px; font-size: 13px; }
+.alert h3 { margin: 0 0 4px; font-family: var(--font-display); font-size: 18px; color: var(--bad); }
+.alert p { margin: 0 0 6px; max-width: 78ch; }
+.stage3d { position: relative; aspect-ratio: 4 / 3; min-height: 250px; background: var(--stage); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.stage3d canvas { display: block; width: 100%; height: 100%; touch-action: none; }
+.msg3d { position: absolute; inset: 0; display: grid; place-items: center; padding: 16px; text-align: center; color: var(--muted); font-size: 13px; }
+.chk { display: inline-flex; align-items: center; gap: 6px; }
+.chk input { accent-color: var(--accent); }
+.tabs { display: flex; gap: 2px; flex-wrap: wrap; border-bottom: 1px solid var(--line); margin-bottom: 10px; }
+.tab { border: 0; background: none; padding: 8px 10px; font-family: var(--font-display); font-weight: 600; font-size: 17px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+table.data { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.data th, .data td { text-align: left; padding: 5px 6px 5px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+.data th { font-weight: 500; color: var(--muted); white-space: nowrap; }
+.data td { font-family: var(--font-data); }
+.data td.bad { color: var(--bad); font-weight: 500; }
+.log { font-family: var(--font-data); font-size: 12px; margin: 8px 0 0; padding: 8px; background: var(--chip); border-radius: 6px; max-height: 150px; overflow: auto; white-space: pre-wrap; color: var(--muted); }
+select { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 5px 6px; max-width: 100%; }
+.res { margin-top: 10px; padding: 10px 12px; border-radius: 8px; font-size: 13px; border: 1px solid var(--line); }
+.res.ok { background: var(--ok-bg); border-color: var(--ok); }
+.res.bad { background: var(--bad-bg); border-color: var(--bad); }
+.res ul { margin: 6px 0 0; padding-left: 18px; }
+details { border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; margin: 0 0 8px; background: var(--panel); }
+details summary { cursor: pointer; font-weight: 600; }
+details p { margin: 8px 0 0; max-width: 70ch; }
+.guide h3 { font-family: var(--font-display); font-size: 17px; margin: 0 0 4px; }
+.note { font-size: 12.5px; color: var(--muted); background: var(--chip); border-radius: 6px; padding: 8px 10px; margin: 0 0 10px; }
+.faults label { display: flex; gap: 8px; align-items: center; padding: 4px 0; }
+.tip { position: fixed; z-index: 30; pointer-events: none; max-width: 280px; padding: 7px 10px; border-radius: 6px; background: var(--panel); color: var(--ink); border: 1px solid var(--accent); font-size: 12.5px; box-shadow: 0 4px 16px rgb(0 0 0 / .2); }
+.tip b { display: block; font-family: var(--font-display); font-size: 16px; }
+/* Esquema SVG */
+svg text { font-family: var(--font-data); fill: var(--ink); font-size: 13px; }
+svg text.nm { font-family: var(--font-display); font-weight: 700; font-size: 20px; paint-order: stroke; stroke: var(--stage); stroke-width: 4px; }
+svg text.pn { font-size: 11px; fill: var(--muted); }
+svg text.sup { fill: var(--bad); font-weight: 600; font-size: 14px; paint-order: stroke; stroke: var(--stage); stroke-width: 4px; }
+svg .w { fill: none; stroke: var(--off); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round; }
+svg .w.on { stroke: var(--pr); stroke-width: 4; }
+svg .jd { fill: var(--off); } svg .jd.on { fill: var(--pr); }
+svg .box { fill: var(--panel); stroke: var(--ink); stroke-width: 1.5; }
+svg .sym { fill: none; stroke: var(--ink); stroke-width: 1.4; stroke-linejoin: round; }
+svg .fs { fill: var(--ink); stroke: var(--ink); stroke-width: 1; }
+svg .win { fill: none; stroke: var(--accent); stroke-width: 3; }
+svg .win.bad { stroke: var(--bad); stroke-width: 4.5; }
+svg .bd { fill: var(--bad); opacity: .16; }
+svg .inact { opacity: .42; }
+svg .ch { fill: var(--off); opacity: .22; } svg .ch.on { fill: var(--pr); opacity: .5; }
+svg .cb { fill: none; stroke: var(--ink); stroke-width: 1.8; }
+svg .rod { stroke: var(--muted); stroke-width: 6; }
+svg .tag { fill: var(--chip); stroke: var(--ink); stroke-width: 1.2; } svg .tag.lit { fill: var(--lit); }
+svg .clk { cursor: pointer; }
+svg .gm { fill: var(--chip); stroke: var(--line); }
+svg .dim { fill: none; stroke: var(--grid); stroke-width: 1; }
+svg .th1 { fill: none; stroke: var(--pr-soft); stroke-width: 9; stroke-linejoin: round; stroke-linecap: round; }
+svg .re1 { fill: none; stroke: var(--pr); stroke-width: 2.6; stroke-linejoin: round; }
+svg .th2 { fill: none; stroke: color-mix(in srgb, var(--accent) 35%, transparent); stroke-width: 9; stroke-linejoin: round; stroke-linecap: round; }
+svg .re2 { fill: none; stroke: var(--accent); stroke-width: 2.6; stroke-linejoin: round; }
+svg .cur { stroke: var(--bad); stroke-dasharray: 4 3; stroke-width: 1.4; }
+svg .rl { fill: var(--muted); } svg .rl.lit { fill: var(--lit); stroke: var(--ink); stroke-width: .8; }
+svg text.rt.lit { fill: var(--accent); font-weight: 600; }
+svg .g1 { fill: var(--pr); opacity: .22; } svg .g2 { fill: var(--accent); opacity: .25; }
+svg .circ { fill: var(--panel); stroke: var(--ink); stroke-width: 1.2; }
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>Simulador neumático</h1>
+  <span class="sub">Secuencia A+ B+ B− A− (1A1+ 2A1+ 2A1− 1A1−): estación con almacén, empujador y estampadora.</span>
+  <button class="btn" id="bTheme" type="button" aria-label="Cambiar entre tema claro y oscuro">Tema</button>
+</header>
+<main class="wrap">
+  <section class="card bar" aria-label="Controles">
+    <div class="row">
+      <div class="seg" role="group" aria-label="Método del circuito" id="modeSeg">
+        <button type="button" data-mode="intuitivo" aria-pressed="true">Método intuitivo</button>
+        <button type="button" data-mode="cascada" aria-pressed="false">Método cascada</button>
+        <button type="button" data-mode="libre" aria-pressed="false">Armado libre</button>
+      </div>
+    </div>
+    <div class="row">
+      <button class="btn primary" id="bPlay" type="button">Pausa</button>
+      <button class="btn" id="bStep" type="button" title="Avanza hasta el próximo evento y pausa">Paso a paso</button>
+      <button class="btn" id="bReset" type="button">Reiniciar</button>
+      <div class="slider"><label for="speed">Velocidad</label><input id="speed" type="range" min="0.25" max="2" step="0.25" value="1"><output id="speedOut">1×</output></div>
+      <button class="btn" id="bSup" type="button" aria-pressed="true" title="0V0: válvula de cierre">Suministro 0V0: abierto</button>
+      <button class="btn" id="b0S1" type="button" title="Pulsador de arranque 0S1: clic = pulso corto, mantené apretado = señal larga">Pulsar 0S1</button>
+      <button class="btn" id="b0S2" type="button" aria-pressed="false" title="Selector 0S2: ciclo continuo">Ciclo continuo 0S2: apagado</button>
+    </div>
+    <div class="status" id="status" role="status" aria-live="off"></div>
+  </section>
+
+  <div class="grid" id="grid">
+    <div>
+      <section class="card">
+        <h2>Esquema neumático <button class="btn" id="bWide" type="button" aria-pressed="false">Ampliar</button></h2>
+        <div class="svgwrap"><svg id="sch" role="img" aria-label="Esquema neumático ISO 1219 simplificado"></svg></div>
+        <p class="hint">Línea azul gruesa: con presión. Línea gris fina: sin presión. Clic en 0S1 para pulsar y en 0S2 o 0V0 para accionarlos; pasá el cursor (o tocá) cada símbolo para ver qué hace.</p>
+        <p class="hint m">Deslizá el esquema hacia los costados para verlo completo.</p>
+        <div class="alert" id="alert" role="alert" hidden></div>
+      </section>
+      <section class="card">
+        <h2>Diagrama espacio-fase</h2>
+        <div class="svgwrap"><svg id="dia" viewBox="0 0 640 330" role="img" aria-label="Diagrama espacio-fase de 1A1 y 2A1"></svg></div>
+        <p class="hint">Color claro: recorrido teórico. Color fuerte: recorrido real. Línea roja: fase actual.</p>
+      </section>
+    </div>
+    <div>
+      <section class="card">
+        <h2>Vista 3D <label class="chk" style="margin-left:auto;font-family:var(--font-body);text-transform:none;letter-spacing:0;font-size:13px;font-weight:500"><input type="checkbox" id="cCut"> Corte</label></h2>
+        <div class="stage3d" id="c3d"><div class="msg3d" id="msg3d">Cargando vista 3D…</div></div>
+        <p class="hint">Arrastrá para girar, rueda o pellizco para acercar. Con «Corte» ves las cámaras: azul = presión, gris = escape.</p>
+      </section>
+      <section class="card">
+        <div class="tabs" role="tablist" id="tabs">
+          <button class="tab" role="tab" data-tab="estado" aria-selected="true" type="button">Estado</button>
+          <button class="tab" role="tab" data-tab="libre" aria-selected="false" type="button" hidden>Armado</button>
+          <button class="tab" role="tab" data-tab="prof" aria-selected="false" type="button">Profesor</button>
+          <button class="tab" role="tab" data-tab="guia" aria-selected="false" type="button">Guía</button>
+        </div>
+        <div id="p-estado" role="tabpanel">
+          <table class="data"><tbody id="stBody"></tbody></table>
+          <div class="log" id="evLog" aria-label="Últimos eventos"></div>
+        </div>
+        <div id="p-libre" role="tabpanel" hidden>
+          <p class="note">Elegí qué señal alimenta cada piloto. Los rodillos reciben aire de la red (directo) o de las líneas L1/L2 (cascada). Después tocá «Verificar».</p>
+          <div class="row" style="margin-bottom:8px">
+            <label class="chk"><input type="checkbox" id="cMem"> Usar válvula de memoria 0V2 (cascada)</label>
+          </div>
+          <div class="row" style="margin-bottom:8px">
+            <label for="sFeed">Alimentación de los rodillos</label>
+            <select id="sFeed"><option value="direct">Directa (red)</option><option value="cascade">Cascada (1S2 y 2S2 desde L1; 1S1 y 2S1 desde L2)</option></select>
+          </div>
+          <table class="data"><tbody id="wTab"></tbody></table>
+          <div class="row" style="margin-top:10px">
+            <button class="btn primary" id="bVer" type="button">Verificar</button>
+            <button class="btn" id="bPreI" type="button">Cargar intuitivo</button>
+            <button class="btn" id="bPreC" type="button">Cargar cascada</button>
+          </div>
+          <div class="res" id="verRes" hidden></div>
+        </div>
+        <div id="p-prof" role="tabpanel" hidden>
+          <p class="note">Para docentes: activá una falla, ocultá el panel y dejá que el grupo la diagnostique mirando el esquema, el diagrama y la vista 3D.</p>
+          <div class="row"><button class="btn" id="bProf" type="button" aria-pressed="false">Abrir panel de fallas</button></div>
+          <div class="faults" id="profBox" hidden style="margin-top:8px"></div>
+          <div class="row" style="margin-top:10px"><button class="btn" id="bAns" type="button">Mostrar respuesta</button></div>
+          <div class="res" id="ansBox" hidden></div>
+        </div>
+        <div id="p-guia" role="tabpanel" hidden class="guide"></div>
+      </section>
+    </div>
+  </div>
+</main>
+<div class="tip" id="tip" hidden></div>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+<script>
+/* Simulador neumático. Lógica discreta independiente del dibujo; 2D con SVG; 3D opcional (three.js). */
+(function () {
+'use strict';
+const $ = (s, r = document) => r.querySelector(s);
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+const clone = o => JSON.parse(JSON.stringify(o));
+
+/* ============================ 1. MOTOR (sin dibujo) ============================ */
+const TOL = 0.02, STROKE = 0.8, DT = 10;           // tolerancia de rodillo, s por carrera, ms por tick
+const PORTS = ['1V1-14', '1V1-12', '2V1-14', '2V1-12', '0V2-L1', '0V2-L2'];
+const SIGS = ['none', '0S1', '1S1', '1S2', '2S1', '2S2', 'L1', 'L2', 'SERIE'];
+const SIGLBL = { none: '— sin conexión —', '0S1': '0S1 (pulsador, o 0S2)', '1S1': '1S1', '1S2': '1S2', '2S1': '2S1', '2S2': '2S2', L1: 'L1 (grupo I)', L2: 'L2 (grupo II)', SERIE: '0S1 y 1S1 en serie' };
+const PORTLBL = { '1V1-14': '1V1 piloto 14 (1A1 avanza)', '1V1-12': '1V1 piloto 12 (1A1 retrocede)', '2V1-14': '2V1 piloto 14 (2A1 avanza)', '2V1-12': '2V1 piloto 12 (2A1 retrocede)', '0V2-L1': '0V2 → L1 (pasa al grupo I)', '0V2-L2': '0V2 → L2 (pasa al grupo II)' };
+const PRESET = {
+  intuitivo: { memory: false, feed: 'direct', W: { '1V1-14': '0S1', '1V1-12': '2S1', '2V1-14': '1S2', '2V1-12': '2S2', '0V2-L1': 'none', '0V2-L2': 'none' } },
+  cascada: { memory: true, feed: 'cascade', W: { '1V1-14': 'L1', '1V1-12': '2S1', '2V1-14': '1S2', '2V1-12': 'L2', '0V2-L1': 'SERIE', '0V2-L2': '2S2' } }
+};
+const FAULTS = { roller2S2: 'Rodillo 2S2 roto (no conmuta)', leakL2: 'Fuga en línea L2', noSupply: 'Sin presión de suministro', stuck1V1: '1V1 trabada' };
+const FAULTHELP = {
+  roller2S2: 'Rodillo 2S2 roto: el vástago llega al final pero la válvula no conmuta. Síntoma: 2A1 baja y el ciclo se detiene. En el esquema 2S2 no cambia de caja ni da señal, y 0V2 no pasa a L2.',
+  leakL2: 'Fuga en la línea L2 (afecta al método cascada): L2 aguanta en reposo pero pierde la presión apenas se usa con los cilindros fuera de reposo. Síntoma: 0V2 pasa a L2 pero 2V1-12 y 2S1 no reciben aire, entonces 2A1 no retrocede. En el esquema la línea L2 queda gris.',
+  noSupply: 'Sin presión de suministro: no se mueve nada. Todas las líneas están grises. Revisá el compresor y la válvula 0V0 (0Z1).',
+  stuck1V1: '1V1 trabada: recibe señal en el piloto pero no cambia de posición. Síntoma: 1A1 no se mueve (o no vuelve) aunque el piloto tenga presión.'
+};
+const EXPECT = ['A+', 'B+', 'B-', 'A-'];
+const STEPPORT = { 'A+': '1V1-14', 'B+': '2V1-14', 'B-': '2V1-12', 'A-': '1V1-12' };
+const SWMSG = { '1V1:14': '1V1 conmuta a 14: 1A1 avanza', '1V1:12': '1V1 conmuta a 12: 1A1 retrocede', '2V1:14': '2V1 conmuta a 14: 2A1 avanza', '2V1:12': '2V1 conmuta a 12: 2A1 retrocede', '0V2:L1': '0V2 pasa a L1: empieza el grupo I', '0V2:L2': '0V2 pasa a L2: empieza el grupo II' };
+
+function Engine() {
+  const e = { faults: { roller2S2: false, leakL2: false, noSupply: false, stuck1V1: false }, supply: true };
+  e.cfg = Object.assign({ mode: 'intuitivo' }, clone(PRESET.intuitivo));
+  const L = m => { e.log.push({ t: +e.t.toFixed(2), m }); if (e.log.length > 60) e.log.shift(); e.ev++; };
+  function calc() {
+    const f = e.faults, P = e.supply && !f.noSupply, mem = e.cfg.memory, W = e.cfg.W;
+    const act = { '1S1': e.p1 <= TOL, '1S2': e.p1 >= 1 - TOL, '2S1': e.p2 <= TOL, '2S2': e.p2 >= 1 - TOL };
+    const sw = Object.assign({}, act, { '2S2': act['2S2'] && !f.roller2S2 });
+    const L1 = !!(mem && P && e.v['0V2'] === 'L1'), L2 = !!(mem && P && e.v['0V2'] === 'L2' && !(f.leakL2 && (e.p1 > TOL || e.p2 > TOL)));   // la fuga aparece cuando L2 trabaja con carga
+    const c = mem && e.cfg.feed === 'cascade';
+    const feed = { '1S1': c ? L2 : P, '1S2': c ? L1 : P, '2S1': c ? L2 : P, '2S2': c ? L1 : P };
+    const out = {}; for (const n in sw) out[n] = !!(feed[n] && sw[n]);
+    const start = e.btn.down || e.sel;
+    const s = Object.assign({ none: false, '0S1': !!(P && start), SERIE: !!(out['1S1'] && start), L1, L2 }, out);
+    const pil = {}; for (const p of PORTS) pil[p] = !!s[W[p] || 'none'];
+    if (!mem) { pil['0V2-L1'] = false; pil['0V2-L2'] = false; }
+    const ov = { '1V1': pil['1V1-14'] && pil['1V1-12'], '2V1': pil['2V1-14'] && pil['2V1-12'], '0V2': !!(mem && pil['0V2-L1'] && pil['0V2-L2']) };
+    return { P, L1, L2, act, sw, feed, out, s, pil, ov, mem, c };
+  }
+  function settle() {
+    let r;
+    for (let i = 0; i < 8; i++) {
+      r = calc(); let ch = false;
+      for (const n of ['1V1', '2V1', '0V2']) {
+        if (n === '0V2' && !e.cfg.memory) continue;
+        const a = r.pil[n === '0V2' ? '0V2-L1' : n + '-14'], b = r.pil[n === '0V2' ? '0V2-L2' : n + '-12'];
+        const pa = n === '0V2' ? 'L1' : '14', pb = n === '0V2' ? 'L2' : '12';
+        let nv = e.v[n]; if (a && !b) nv = pa; else if (b && !a) nv = pb;
+        if (nv !== e.v[n] && !(n === '1V1' && e.faults.stuck1V1)) { e.v[n] = nv; ch = true; L(SWMSG[n + ':' + nv]); }
+      }
+      if (!ch) break;
+    }
+    e.last = r; return r;
+  }
+  function track() {
+    const ph = e.phase;
+    if (ph === 1 && e.p1 >= 1 - TOL) e.phase = 2;
+    else if (ph === 2 && e.p2 >= 1 - TOL) e.phase = 3;
+    else if (ph === 3 && e.p2 <= TOL) e.phase = 4;
+    else if (ph === 4 && e.p1 <= TOL) { e.phase = 5; e.cycles++; L('Ciclo ' + e.cycles + ' completo (A+ B+ B- A-)'); }
+    else if (ph === 5 && e.p1 > 0.05) { e.phase = 1; e.trace = [[0, e.p1, e.p2]]; }
+    const k = e.phase, phi = (k - 1) + [e.p1, e.p2, 1 - e.p2, 1 - e.p1, 0][k - 1];
+    const l = e.trace[e.trace.length - 1];
+    if (!l || Math.abs(l[0] - phi) > 0.004 || Math.abs(l[1] - e.p1) > 0.004 || Math.abs(l[2] - e.p2) > 0.004) { e.trace.push([phi, e.p1, e.p2]); if (e.trace.length > 3000) e.trace.shift(); }
+  }
+  function tick() {
+    const dt = DT / 1000; e.t += dt;
+    const r = settle();
+    if (r.P) {
+      const d = dt / STROKE;
+      e.p1 = clamp(e.p1 + (e.v['1V1'] === '14' ? d : -d), 0, 1);
+      e.p2 = clamp(e.p2 + (e.v['2V1'] === '14' ? d : -d), 0, 1);
+    }
+    const r2 = calc(); e.last = r2;
+    for (const n in r2.sw) if (r2.sw[n] !== e.po[n]) { L(n + (r2.sw[n] ? ' se acciona' : ' se libera')); e.po[n] = r2.sw[n]; }
+    for (const n in r2.ov) { if (r2.ov[n] && !e.pov[n]) L('Superposición de señales en ' + n); e.pov[n] = r2.ov[n]; }
+    track();
+    if (e.btn.down) { e.btn.seen = true; if (e.btn.rel) { e.btn.down = false; e.btn.rel = false; e.btn.seen = false; L('0S1 suelto'); } }
+  }
+  e.reset = function () {
+    Object.assign(e, { t: 0, acc: 0, p1: 0, p2: 0, v: { '1V1': '12', '2V1': '12', '0V2': 'L2' }, btn: { down: false, seen: false, rel: false }, sel: false, log: [], ev: 0, phase: 1, cycles: 0, trace: [[0, 0, 0]], po: {}, pov: {} });
+    const r = settle(); e.po = clone(r.sw); e.pov = clone(r.ov); e.log = []; e.ev = 0;
+  };
+  e.advance = function (ms) { e.acc += ms; while (e.acc >= DT - 1e-9) { e.acc -= DT; tick(); } };
+  e.step = function () {
+    const n = e.ev; let g = 0; while (e.ev === n && g < 600) { tick(); g++; }
+    const k = e.ev - n; return k > 0 ? e.log.slice(-k).map(x => x.m).join(' · ') : 'Sin eventos nuevos: falta una señal (pulsá 0S1) o algo está bloqueado.';
+  };
+  e.press = function () { if (!e.btn.down) L('0S1 pulsado'); e.btn.down = true; e.btn.seen = false; e.btn.rel = false; };
+  e.release = function () { if (!e.btn.down) return; if (e.btn.seen) { e.btn.down = false; e.btn.seen = false; L('0S1 suelto'); } else e.btn.rel = true; };
+  e.setSel = function (on) { if (e.sel !== !!on) { e.sel = !!on; L('0S2 ' + (on ? 'activado: ciclo continuo' : 'apagado')); } };
+  e.reset();
+  return e;
+}
+
+/* ---- Verificación: corre el cableado actual en un motor aparte, sin fallas ---- */
+function verifyCfg(cfg) {
+  const v = Engine(); v.cfg = clone(cfg); v.supply = true; v.reset();
+  const ovs = new Set(); let end1 = 'R', end2 = 'R';
+  function run(ms, seq) {
+    for (let i = 0; i < ms / DT; i++) {
+      v.advance(DT);
+      const r = v.last; for (const n in r.ov) if (r.ov[n]) ovs.add(n);
+      if (v.p1 >= 1 - TOL && end1 === 'R') { end1 = 'E'; seq.push('A+'); } else if (v.p1 <= TOL && end1 === 'E') { end1 = 'R'; seq.push('A-'); }
+      if (v.p2 >= 1 - TOL && end2 === 'R') { end2 = 'E'; seq.push('B+'); } else if (v.p2 <= TOL && end2 === 'E') { end2 = 'R'; seq.push('B-'); }
+    }
+  }
+  function pulse() { const seq = []; v.press(); v.release(); run(8000, seq); return seq; }
+  const W = cfg.W, msgs = [];
+  const s1 = pulse(), s2 = s1.length ? pulse() : [];
+  const same = (a, b) => a.length === b.length && a.every((x, i) => x === b[i]);
+  const res = { ok: false, secuencia: s1, ciclos: v.cycles, superposicion: Array.from(ovs), mensajes: msgs, mensaje: '' };
+  if (ovs.size) {
+    msgs.push('Hay superposición de señales en ' + res.superposicion.join(', ') + ': un piloto recibe aire en 14 y en 12 al mismo tiempo, la válvula biestable conserva su posición y el ciclo se traba.');
+    msgs.push('Probá que cada señal larga (rodillo accionado) se corte a tiempo: por ejemplo con grupos de cascada (L1 / L2).');
+  }
+  if (!s1.length) {
+    if (!ovs.size) msgs.push('No arranca: al pulsar 0S1 no se mueve nada. Revisá que 1V1-14 reciba una señal que llegue con 0S1.');
+    if (W['1V1-14'] === 'none') msgs.push('1V1-14 no tiene señal conectada: 1A1 nunca avanza.');
+  } else if (same(s1, EXPECT)) {
+    if (!same(s2, EXPECT)) msgs.push('El primer ciclo anda, pero el segundo falla (' + (s2.join(' ') || 'no se mueve nada') + '). Revisá el estado inicial: 0V2 tiene que quedar en L2.');
+  } else {
+    const pre = EXPECT.slice(0, s1.length);
+    if (same(s1, pre)) {
+      const nx = EXPECT[s1.length]; msgs.push('La secuencia se detiene después de ' + s1[s1.length - 1] + '. Falta ' + nx + ': revisá qué señal llega a ' + PORTLBL[STEPPORT[nx]] + ' y si tiene presión en ese momento.');
+      if (W[STEPPORT[nx]] === 'none') msgs.push(STEPPORT[nx] + ' no tiene señal conectada.');
+    } else if (EXPECT.every((x, i) => s1[i] === x)) msgs.push('El ciclo sigue repitiéndose después de soltar 0S1 (' + s1.join(' ') + '): hay una señal permanente. Revisá qué pilotos reciben aire.');
+    else msgs.push('Secuencia obtenida: ' + s1.join(' ') + '. Se esperaba A+ B+ B- A-.');
+  }
+  res.ok = same(s1, EXPECT) && same(s2, EXPECT) && !ovs.size;
+  if (res.ok) { msgs.length = 0; msgs.push('Correcto: A+ B+ B- A- se cumple sin superposición, y se repite en un segundo arranque.'); }
+  res.mensaje = msgs[0];
+  return res;
+}
+
+/* ============================ 2. ESTADO GLOBAL ============================ */
+const E = Engine();
+let running = true, speed = 1, view3d = null;
+const DESC = {
+  '1V1': 'Válvula principal 5/2 biestable de mando neumático de 1A1. Piloto 14: 1A1 avanza. Piloto 12: retrocede. Con una sola señal conmuta y recuerda su posición.',
+  '2V1': 'Válvula principal 5/2 biestable de mando neumático de 2A1. Piloto 14: 2A1 avanza (estampa). Piloto 12: retrocede.',
+  '0V2': 'Válvula de memoria de la cascada, 5/2 biestable. Entrega presión a L1 (grupo I: A+ B+) o a L2 (grupo II: B− A−), nunca a las dos.',
+  '1S1': 'Final de carrera 3/2 NC con rodillo y resorte. Se acciona cuando 1A1 está retraído (atrás).',
+  '1S2': 'Final de carrera 3/2 NC con rodillo y resorte. Se acciona cuando 1A1 está extendido (adelante).',
+  '2S1': 'Final de carrera 3/2 NC con rodillo y resorte. Se acciona cuando 2A1 está retraído (arriba).',
+  '2S2': 'Final de carrera 3/2 NC con rodillo y resorte. Se acciona cuando 2A1 está extendido (abajo, estampando).',
+  '0S1': 'Pulsador de arranque 3/2 NC con resorte. Clic = pulso corto; mantené apretado para una señal larga.',
+  '0S2': 'Selector de ciclo continuo 3/2 con enclavamiento, en paralelo con 0S1. Clic para activar o apagar.',
+  '0V0': 'Válvula de cierre 3/2 manual con enclavamiento. Abierta: pasa el aire. Cerrada: se purga el circuito. Clic para abrir o cerrar.',
+  '0Z1': 'Fuente de aire: compresor con unidad de mantenimiento (filtro, regulador y lubricador).',
+  '1A1': 'Cilindro de doble efecto 1A1: empuja la pieza desde el almacén hasta el tope.',
+  '2A1': 'Cilindro de doble efecto 2A1 (vertical en la estación): estampa la pieza.'
+};
+
+/* ============================ 3. ESQUEMA 2D ============================ */
+const NS = 'http://www.w3.org/2000/svg';
+function el(t, a, p, x) { const n = document.createElementNS(NS, t); for (const k in a) n.setAttribute(k, a[k]); if (x != null) n.textContent = x; if (p) p.appendChild(n); return n; }
+const sch = $('#sch'); sch.setAttribute('viewBox', '-60 0 1070 730');
+const gW = el('g', {}, sch), gR = el('g', {}, sch), gV = el('g', {}, sch), gT = el('g', {}, sch);
+const items = [];
+const pts = a => a.map(q => q.join(',')).join(' ');
+function wire(p, f, vis) { const n = el('polyline', { points: pts(p), class: 'w' }, gW); items.push({ el: n, f, vis }); return n; }
+function dot(x, y, f, vis) { const n = el('circle', { cx: x, cy: y, r: 3.6, class: 'jd' }, gW); items.push({ el: n, f, vis }); }
+function label(x, y, t, cls, p, vis) { const n = el('text', { x, y, class: cls || '' }, p || gT, t); if (vis) items.push({ el: n, vis }); return n; }
+function arrow(p, x1, y1, x2, y2) {
+  el('line', { x1, y1, x2, y2, class: 'sym' }, p);
+  const a = Math.atan2(y2 - y1, x2 - x1), Ln = 7, Wd = 3.5, bx = x2 - Ln * Math.cos(a), by = y2 - Ln * Math.sin(a);
+  el('polygon', { points: `${x2},${y2} ${bx - Wd * Math.sin(a)},${by + Wd * Math.cos(a)} ${bx + Wd * Math.sin(a)},${by - Wd * Math.cos(a)}`, class: 'fs' }, p);
+}
+function exh(x, y, plug, p) {
+  if (plug) { el('path', { d: `M${x},${y}v9m-5,0h10`, class: 'sym' }, p); return; }
+  el('path', { d: `M${x},${y}v6`, class: 'sym' }, p); el('polygon', { points: `${x},${y + 6} ${x - 5},${y + 15} ${x + 5},${y + 15}`, class: 'sym' }, p);
+}
+const BW = 44, H = 48;
+function actuator(p, kind) {
+  const m = H / 2;
+  if (kind === 'roller') { el('path', { d: `M0,${m}h-8`, class: 'sym' }, p); el('circle', { cx: -13, cy: m, r: 5, class: 'sym' }, p); el('circle', { cx: -13, cy: m, r: 1.4, class: 'fs' }, p); }
+  else { el('path', { d: `M0,${m}h-6m0,-9v18m0,-9h-8` + (kind === 'selector' ? `m3,-14v6m0,16v6` : ''), class: 'sym' }, p); }
+}
+function mkValve(id, wx, wy, kind, act, o) {
+  o = o || {};
+  const g = el('g', { 'data-c': id, class: kind === '52' ? '' : 'clk' }, gV), mv = el('g', {}, g);
+  const h0 = el('g', {}, mv), h1 = el('g', {}, mv);
+  el('rect', { x: 0, y: 0, width: BW, height: H, class: 'box' }, h0); el('rect', { x: BW, y: 0, width: BW, height: H, class: 'box' }, h1);
+  const px = f => Math.round(BW * f);
+  if (kind === '52') {
+    arrow(h0, px(.5), H, px(.2), 0); arrow(h0, px(.8), 0, px(.8), H);
+    arrow(h1, BW + px(.5), H, BW + px(.8), 0); arrow(h1, BW + px(.2), 0, BW + px(.2), H);
+    el('polygon', { points: `-12,${H / 2 - 6} -12,${H / 2 + 6} 0,${H / 2}`, class: 'fs' }, mv);
+    el('polygon', { points: `${2 * BW + 12},${H / 2 - 6} ${2 * BW + 12},${H / 2 + 6} ${2 * BW},${H / 2}`, class: 'fs' }, mv);
+    label(-14, H / 2 - 9, '14', 'pn', mv).setAttribute('text-anchor', 'end'); label(2 * BW + 14, H / 2 - 9, '12', 'pn', mv);
+    [['4', .2, 0, -3], ['2', .8, 0, -3], ['5', .2, H, 25], ['1', .5, H, 12], ['3', .8, H, 25]].forEach(q => label(wx + px(q[1]) + 3, wy + q[2] + (q[2] ? 11 : -3), q[0], 'pn', g));
+    exh(wx + px(.2), wy + H, o.plug, g); exh(wx + px(.8), wy + H, o.plug, g);
+  } else {
+    const a = px(.23), c = px(.77);
+    arrow(h0, a, H, a, 0); el('path', { d: `M${c},${H}v-6m-6,0h12`, class: 'sym' }, h0);
+    el('path', { d: `M${BW + a},${H}v-6m-6,0h12`, class: 'sym' }, h1); arrow(h1, BW + a, 0, BW + c, H);
+    actuator(mv, act);
+    el('path', { d: `M${2 * BW},${H / 2}h4l3,-7l6,14l6,-14l3,7h4`, class: 'sym' }, mv);
+    exh(wx + c, wy + H, false, g);
+  }
+  const win = el('rect', { x: wx, y: wy, width: BW, height: H, class: 'win' }, g);
+  const bg = el('rect', { x: wx - 14, y: wy - 3, width: 2 * BW + 26, height: H + 6, class: 'bd', rx: 4 }, g); bg.style.display = 'none';
+  const sup = el('text', { x: wx + BW / 2, y: wy - 34, 'text-anchor': 'middle', class: 'sup' }, g, '¡Superposición!'); sup.style.display = 'none';
+  const v = { g, wx, wy, left: true,
+    set(left) { v.left = left; mv.setAttribute('transform', `translate(${wx + (left ? 0 : -BW)},${wy})`); h0.setAttribute('class', left ? '' : 'inact'); h1.setAttribute('class', left ? 'inact' : ''); },
+    bad(b) { win.setAttribute('class', 'win' + (b ? ' bad' : '')); sup.style.display = b ? '' : 'none'; bg.style.display = b ? '' : 'none'; } };
+  v.set(false); return v;
+}
+function mkCyl(id, bx, n1, n2) {
+  const g = el('g', { 'data-c': id }, gV), w = 120, T = 90, y0 = 50, h = 40;
+  const cap = el('rect', { y: y0 + 2, height: h - 4, class: 'ch' }, g), rch = el('rect', { y: y0 + 2, height: h - 4, class: 'ch' }, g);
+  el('rect', { x: bx, y: y0, width: w, height: h, rx: 3, class: 'cb' }, g);
+  const pis = el('rect', { y: y0 + 3, width: 8, height: h - 6, class: 'fs' }, g), rod = el('line', { y1: y0 + h / 2, y2: y0 + h / 2, class: 'rod' }, g), tip = el('rect', { y: y0 + 11, width: 6, height: 18, class: 'fs' }, g);
+  label(bx + w / 2, 38, id, 'nm', g).setAttribute('text-anchor', 'middle');
+  const t1 = bx + w + 20, t2 = t1 + T, tg = {};
+  [[n1, t1], [n2, t2]].forEach(q => { tg[q[0]] = el('rect', { x: q[1] - 6, y: 100, width: 12, height: 9, rx: 2, class: 'tag' }, g); label(q[1], 124, q[0], '', g).setAttribute('text-anchor', 'middle'); });
+  return { g, tg, set(p, cOn, rOn) {
+    const x = bx + 8 + p * T;
+    cap.setAttribute('x', bx + 2); cap.setAttribute('width', x - bx - 2); cap.setAttribute('class', 'ch' + (cOn ? ' on' : ''));
+    rch.setAttribute('x', x + 8); rch.setAttribute('width', bx + w - 2 - x - 8); rch.setAttribute('class', 'ch' + (rOn ? ' on' : ''));
+    pis.setAttribute('x', x); rod.setAttribute('x1', x + 8); rod.setAttribute('x2', t1 + p * T); tip.setAttribute('x', t1 + p * T);
+  } };
+}
+/* --- Componentes --- */
+const V = { '1V1': mkValve('1V1', 170, 190, '52'), '0V2': mkValve('0V2', 470, 190, '52', null, { plug: true }), '2V1': mkValve('2V1', 790, 190, '52') };
+const S = { '1S1': mkValve('1S1', 140, 410, '32', 'roller'), '1S2': mkValve('1S2', 335, 410, '32', 'roller'), '2S1': mkValve('2S1', 530, 410, '32', 'roller'), '2S2': mkValve('2S2', 725, 410, '32', 'roller') };
+const B1 = mkValve('0S1', 230, 570, '32', 'button'), B2 = mkValve('0S2', 420, 570, '32', 'selector'), B0 = mkValve('0V0', 30, 570, '32', 'selector');
+const C1 = mkCyl('1A1', 110, '1S1', '1S2'), C2 = mkCyl('2A1', 730, '2S1', '2S2');
+for (const n of ['1V1', '2V1']) label(V[n].wx + BW / 2, 270, n, 'nm', gT).setAttribute('text-anchor', 'middle');
+label(V['0V2'].wx + BW / 2, 270, '0V2', 'nm', gT, r => r.mem).setAttribute('text-anchor', 'middle');
+for (const n in S) label(S[n].wx + 16, S[n].wy - 8, n, 'nm');
+label(B1.wx + 16, B1.wy - 8, '0S1', 'nm'); label(B2.wx + 16, B2.wy - 8, '0S2', 'nm'); label(B0.wx + 16, B0.wy - 8, '0V0', 'nm');
+/* alimentación 0Z1 */
+(function () {
+  const g = el('g', { 'data-c': '0Z1' }, gV);
+  el('circle', { cx: 40, cy: 705, r: 14, class: 'circ' }, g); el('polygon', { points: '40,696 34,712 46,712', class: 'fs' }, g);
+  el('polygon', { points: '40,660 48,672 40,684 32,672', class: 'circ' }, g); el('path', { d: 'M34,672h12', class: 'sym' }, g);
+  label(62, 708, '0Z1', 'nm', g);
+})();
+/* líneas de aire */
+const fP = r => r.P, fN = null;
+wire([[40, 691], [40, 618]], r => r.pre);                                         // 0Z1 -> 0V0
+wire([[40, 570], [40, 276], [812, 276]], fP); dot(40, 506, fP); dot(40, 560, fP);
+wire([[40, 560], [-20, 560], [-20, 645], [430, 645]], fP);
+[192, 492, 812].forEach(x => { const vm = x === 492 ? r => r.mem : null; wire([[x, 238], [x, 276]], fP, vm); dot(x, 276, fP, vm); });
+[[240, 'a'], [430, 'b']].forEach(q => { const x = q[0]; wire([[x, 618], [x, 645]], fP, r => !r.serie); dot(x, 645, fP, r => !r.serie);
+  wire([[x, 618], [x, 632]], r => r.out['1S1'], r => r.serie); label(x + 4, 631, '← 1S1', 'pn', gT, r => r.serie); });
+/* líneas a cilindros */
+wire([[179, 190], [179, 150], [120, 150], [120, 90]], r => r.P && r.v['1V1'] === '14');
+wire([[205, 190], [205, 125], [220, 125], [220, 90]], r => r.P && r.v['1V1'] === '12');
+wire([[799, 190], [799, 150], [740, 150], [740, 90]], r => r.P && r.v['2V1'] === '14');
+wire([[825, 190], [825, 125], [840, 125], [840, 90]], r => r.P && r.v['2V1'] === '12');
+/* alimentación de rodillos: directa (P2) o cascada (L1 / L2) */
+const RX = { '1S1': 150, '1S2': 345, '2S1': 540, '2S2': 735 };
+wire([[40, 506], [735, 506]], fP, r => !r.c);
+for (const n in RX) { wire([[RX[n], 458], [RX[n], 506]], r => r.feed[n], r => !r.c); dot(RX[n], 506, r => r.feed[n], r => !r.c); }
+wire([[345, 520], [905, 520]], r => r.L1, r => r.c); wire([[150, 534], [925, 534]], r => r.L2, r => r.c);
+[['1S2', 520, 'L1'], ['2S2', 520, 'L1'], ['1S1', 534, 'L2'], ['2S1', 534, 'L2']].forEach(q => { wire([[RX[q[0]], 458], [RX[q[0]], q[1]]], r => r[q[2]], r => r.c); dot(RX[q[0]], q[1], r => r[q[2]], r => r.c); });
+/* memoria 0V2: salidas L1 / L2 */
+wire([[479, 190], [479, 165], [905, 165], [905, 520]], r => r.L1, r => r.mem); wire([[505, 190], [505, 178], [925, 178], [925, 534]], r => r.L2, r => r.mem);
+label(560, 160, 'L1 (grupo I)', 'pn', gT, r => r.mem); label(560, 172, 'L2 (grupo II)', 'pn', gT, r => r.mem);
+/* salidas de los rodillos y del arranque */
+for (const n in RX) wire([[RX[n], 410], [RX[n], 400]], r => r.out[n]);
+wire([[240, 570], [240, 548], [975, 548]], r => r.s['0S1'] || r.s.SERIE); wire([[430, 570], [430, 548]], r => r.s['0S1'] || r.s.SERIE); dot(430, 548, r => r.s['0S1'] || r.s.SERIE);
+label(480, 543, '0S2 en paralelo con 0S1 (O)', 'pn');
+label(560, 640, 'Azul grueso: con presión · Gris fino: sin presión', 'pn');
+/* cableado de pilotos (se arma según W) */
+const PT = { '1V1-14': { x: 70, v: '1V1', l: 1 }, '1V1-12': { x: 330, v: '1V1', l: 0 }, '0V2-L1': { x: 370, v: '0V2', l: 1 }, '0V2-L2': { x: 640, v: '0V2', l: 0 }, '2V1-14': { x: 700, v: '2V1', l: 1 }, '2V1-12': { x: 940, v: '2V1', l: 0 } };
+const SRC = { '0S1': [975, 548, 300], SERIE: [975, 548, 311], '1S1': [150, 410, 322], '1S2': [345, 410, 333], '2S1': [540, 410, 344], '2S2': [735, 410, 355], L1: [905, 520, 366], L2: [925, 534, 377] };
+let routes = [];
+function buildRoutes() {
+  routes.forEach(q => q.el.remove()); routes = [];
+  const c = E.cfg;
+  PORTS.forEach(p => {
+    const s = c.W[p]; if (!s || s === 'none' || (!c.memory && (p.startsWith('0V2') || s === 'L1' || s === 'L2'))) return;
+    const a = SRC[s], t = PT[p];
+    routes.push({ p, t, base: [[a[0], a[1]], [a[0], a[2]], [t.x, a[2]], [t.x, 214]], el: el('polyline', { class: 'w' }, gR) });
+  });
+}
+function pilotEnd(p) { const t = PT[p], v = V[t.v]; const gx = v.wx + (v.left ? 0 : -BW); return t.l ? gx - 12 : gx + 2 * BW + 12; }
+function render2D(r) {
+  items.forEach(i => {
+    if (i.vis) i.el.style.display = i.vis(r) ? '' : 'none';
+    if (i.f) i.el.classList.toggle('on', !!i.f(r));
+  });
+  routes.forEach(q => { q.el.setAttribute('points', pts(q.base.concat([[pilotEnd(q.p), 214]]))); q.el.classList.toggle('on', !!r.pil[q.p]); });
+  V['1V1'].set(E.v['1V1'] === '14'); V['2V1'].set(E.v['2V1'] === '14'); V['0V2'].set(E.v['0V2'] === 'L1');
+  V['1V1'].bad(r.ov['1V1']); V['2V1'].bad(r.ov['2V1']); V['0V2'].bad(r.ov['0V2']);
+  V['0V2'].g.style.display = r.mem ? '' : 'none';
+  for (const n in S) S[n].set(r.sw[n]);
+  B1.set(E.btn.down); B2.set(E.sel); B0.set(r.supplyOn);
+  C1.set(E.p1, r.P && E.v['1V1'] === '14', r.P && E.v['1V1'] === '12'); C2.set(E.p2, r.P && E.v['2V1'] === '14', r.P && E.v['2V1'] === '12');
+  C1.tg['1S1'].classList.toggle('lit', r.act['1S1']); C1.tg['1S2'].classList.toggle('lit', r.act['1S2']); C2.tg['2S1'].classList.toggle('lit', r.act['2S1']); C2.tg['2S2'].classList.toggle('lit', r.act['2S2']);
+}
+function ext() { const r = E.last; r.pre = !E.faults.noSupply; r.supplyOn = E.supply; r.v = E.v; r.serie = Object.keys(E.cfg.W).some(k => E.cfg.W[k] === 'SERIE' && (E.cfg.memory || !k.startsWith('0V2'))); return r; }
+
+/* ============================ 4. DIAGRAMA ESPACIO-FASE ============================ */
+const dia = $('#dia');
+const DX = f => 90 + f * 125, DY = (row, p) => (row ? 175 : 90) - p * 50;
+const TH = [[0, 0], [1, 1], [3, 1], [4, 0]], TH2 = [[0, 0], [1, 0], [2, 1], [3, 0], [4, 0]];
+const ROLL = [['1S1', [1, 0, 0, 0, 1]], ['1S2', [0, 1, 1, 1, 0]], ['2S1', [1, 1, 0, 1, 1]], ['2S2', [0, 0, 1, 0, 0]]];
+let diaRows = {}, diaTr1, diaTr2, diaCur, diaG, diaGLabel;
+(function () {
+  [0, 1].forEach(row => {
+    el('text', { x: 10, y: DY(row, .5) + 4, class: 'nm' }, dia, row ? '2A1' : '1A1');
+    el('text', { x: 62, y: DY(row, 1) + 4, 'text-anchor': 'end' }, dia, '1'); el('text', { x: 62, y: DY(row, 0) + 4, 'text-anchor': 'end' }, dia, '0');
+    el('line', { x1: 70, x2: 600, y1: DY(row, 1), y2: DY(row, 1), class: 'dim' }, dia); el('line', { x1: 70, x2: 600, y1: DY(row, 0), y2: DY(row, 0), class: 'dim' }, dia);
+    el('polyline', { points: pts((row ? TH2 : TH).map(q => [DX(q[0]), DY(row, q[1])])), class: row ? 'th2' : 'th1' }, dia);
+  });
+  for (let k = 0; k < 5; k++) {
+    el('line', { x1: DX(k), x2: DX(k), y1: 30, y2: 190, class: 'dim' }, dia);
+    el('circle', { cx: DX(k), cy: 16, r: 10, class: 'circ' }, dia); el('text', { x: DX(k), y: 20, 'text-anchor': 'middle' }, dia, String(k + 1));
+  }
+  diaTr1 = el('polyline', { class: 're1' }, dia); diaTr2 = el('polyline', { class: 're2' }, dia);
+  diaCur = el('line', { y1: 28, y2: 262, class: 'cur' }, dia);
+  el('text', { x: 10, y: 214, class: 'nm' }, dia, 'Rodillos');
+  ROLL.forEach((q, i) => {
+    diaRows[q[0]] = el('text', { x: 62, y: 232 + i * 18, 'text-anchor': 'end', class: 'rt' }, dia, q[0]);
+    q[1].forEach((on, k) => { if (on) diaRows[q[0] + k] = el('circle', { cx: DX(k), cy: 228 + i * 18, r: 5, class: 'rl' }, dia); });
+  });
+  diaG = el('g', {}, dia);
+  el('rect', { x: DX(0), y: 306, width: DX(2) - DX(0), height: 16, class: 'g1' }, diaG); el('rect', { x: DX(2), y: 306, width: DX(4) - DX(2), height: 16, class: 'g2' }, diaG);
+  el('text', { x: DX(1), y: 318, 'text-anchor': 'middle' }, diaG, 'Grupo I · L1 (A+ B+)'); el('text', { x: DX(3), y: 318, 'text-anchor': 'middle' }, diaG, 'Grupo II · L2 (B− A−)');
+  el('text', { x: DX(2), y: 300, 'text-anchor': 'middle' }, diaG, '2S2 cambia a L2'); el('text', { x: DX(0) + 8, y: 300 }, diaG, '1S1+0S1 cambia a L1');
+})();
+let lastTrLen = -1, lastTrEnd = null;
+function renderDia(r) {
+  const tr = E.trace, l = tr[tr.length - 1];
+  if (tr.length !== lastTrLen || l !== lastTrEnd || l[1] !== lastTrEnd[1]) {
+    diaTr1.setAttribute('points', pts(tr.map(q => [DX(q[0]), DY(0, q[1])]))); diaTr2.setAttribute('points', pts(tr.map(q => [DX(q[0]), DY(1, q[2])])));
+    lastTrLen = tr.length; lastTrEnd = l;
+  }
+  const f = l[0]; diaCur.setAttribute('x1', DX(f)); diaCur.setAttribute('x2', DX(f));
+  diaG.style.display = r.mem ? '' : 'none';
+  ROLL.forEach(q => { diaRows[q[0]].classList.toggle('lit', !!r.sw[q[0]]); q[1].forEach((on, k) => { if (on) diaRows[q[0] + k].classList.toggle('lit', !!r.sw[q[0]] && E.phase - 1 === k); }); });
+}
+
+/* ============================ 5. INTERFAZ ============================ */
+const yn = (b, a, c) => b ? (a || 'sí') : (c || 'no');
+const ROWS = [
+  ['0V0 / red', s => (s.supply ? 'abierta' : 'cerrada') + ' · ' + (s.pressure ? 'con presión' : 'sin presión')],
+  ['0S1 / 0S2', s => (s.buttons['0S1'] ? 'pulsado' : 'suelto') + ' · ciclo continuo ' + (s.buttons['0S2'] ? 'sí' : 'no')],
+  ['1V1', s => 'pos. ' + s.valves['1V1'] + ' · p14 ' + yn(s.pilots['1V1-14']) + ' · p12 ' + yn(s.pilots['1V1-12']) + (s.overlaps['1V1'] ? ' · SUPERPOSICIÓN' : '')],
+  ['2V1', s => 'pos. ' + s.valves['2V1'] + ' · p14 ' + yn(s.pilots['2V1-14']) + ' · p12 ' + yn(s.pilots['2V1-12']) + (s.overlaps['2V1'] ? ' · SUPERPOSICIÓN' : '')],
+  ['0V2', s => s.valves['0V2'] ? 'en ' + s.valves['0V2'] + ' · →L1 ' + yn(s.pilots['0V2-L1']) + ' · →L2 ' + yn(s.pilots['0V2-L2']) + (s.overlaps['0V2'] ? ' · SUPERPOSICIÓN' : '') : 'no usada'],
+  ['1S1 / 1S2', s => 'accionado: ' + yn(s.rollers['1S1']) + ' / ' + yn(s.rollers['1S2'])],
+  ['2S1 / 2S2', s => 'accionado: ' + yn(s.rollers['2S1']) + ' / ' + yn(s.rollers['2S2'])],
+  ['1A1', s => Math.round(s.pos['1A1'] * 100) + ' % (0 = retraído, 100 = extendido)'],
+  ['2A1', s => Math.round(s.pos['2A1'] * 100) + ' % (0 = retraído, 100 = extendido)'],
+  ['Línea activa', s => s.valves['0V2'] ? s.activeLine + (s.lines[s.activeLine] ? ' (con presión)' : ' (sin presión)') : 'sin cascada'],
+  ['Fase / ciclos', s => 'punto ' + s.phase + ' de 5 · ciclos ' + s.cycles]
+];
+const stRows = ROWS.map(q => { const tr = el('tr', {}, null); const th = document.createElement('th'); th.textContent = q[0]; const td = document.createElement('td'); tr.appendChild(th); tr.appendChild(td); $('#stBody').appendChild(tr); return td; });
+const GUIDE = [
+  ['1. Superposición en el método intuitivo', 'En el método intuitivo, pulsá 0S1 con todo en reposo. ¿Por qué no avanza 1A1?',
+    'En reposo 2A1 está retraído y mantiene accionado 2S1. Entonces 2S1 manda aire al piloto 12 de 1V1 todo el tiempo. Al pulsar 0S1 llega aire también al piloto 14. Con presión en los dos pilotos la válvula biestable no conmuta y se queda donde estaba: es la superposición de señales, y 1A1 no se mueve.'],
+  ['2. Grupos de la cascada', 'En el método cascada, ¿qué rodillos cambian de grupo y por qué?',
+    '2S2 (al final de B+) pasa la memoria 0V2 de L1 a L2: del grupo I (A+ B+) al grupo II (B− A−). 1S1 en serie con 0S1 (o con 0S2) la pasa de L2 a L1 para empezar el ciclo siguiente. Los otros rodillos (1S2 y 2S1) solo comandan las válvulas principales.'],
+  ['3. ¿Por qué la cascada no tiene superposición?', 'Mirá 2S1 al empezar el grupo I: sigue accionado, pero 1V1 no recibe señal en 12. ¿Por qué?',
+    '2S1 se alimenta de L2. Cuando 0V2 pasa a L1, la línea L2 se despresuriza y la señal larga de 2S1 desaparece. Cada señal solo existe mientras está activo su grupo, así que nunca llegan dos señales opuestas al mismo piloto.'],
+  ['4. Armá tu propio circuito', 'En «Armado libre» conectá los pilotos para cumplir A+ B+ B− A− y tocá «Verificar». ¿Cómo lo resolvés?',
+    'Tildá «Usar válvula de memoria 0V2», elegí alimentación «Cascada» y conectá: 1V1-14 = L1, 1V1-12 = 2S1, 2V1-14 = 1S2, 2V1-12 = L2, 0V2 → L1 = «0S1 y 1S1 en serie», 0V2 → L2 = 2S2. Con alimentación directa, en cambio, aparece la superposición.'],
+  ['5. Diagnóstico de fallas', 'El docente activó una falla en cascada: 2A1 baja pero nunca vuelve. ¿Qué mirás para saber la causa?',
+    'Mirá 2S2 y la línea L2. Si 2S2 no conmuta aunque 2A1 esté abajo, el rodillo está roto. Si 0V2 pasó a L2 pero la línea L2 queda gris, hay una fuga en L2. Con «Mostrar respuesta» (panel Profesor) verificás tu diagnóstico.']
+];
+$('#p-guia').innerHTML = '<p class="note">Cinco ejercicios cortos. Intentá responder antes de abrir la respuesta.</p>' + GUIDE.map(g => `<h3>${g[0]}</h3><details><summary>${g[1]}</summary><p>${g[2]}</p></details>`).join('');
+$('#profBox').innerHTML = Object.keys(FAULTS).map(k => `<label><input type="checkbox" data-fault="${k}"> ${FAULTS[k]}</label>`).join('');
+
+function getState() {
+  const r = E.last, mem = E.cfg.memory;
+  const ov = clone(r.ov);
+  return {
+    mode: E.cfg.mode, t: +E.t.toFixed(3), running, speed, supply: E.supply, pressure: r.P,
+    pos: { '1A1': +E.p1.toFixed(4), '2A1': +E.p2.toFixed(4) },
+    valves: { '1V1': E.v['1V1'], '2V1': E.v['2V1'], '0V2': mem ? E.v['0V2'] : null },
+    pilots: clone(r.pil), rollers: clone(r.sw), salidas: clone(r.out), mecanico: clone(r.act),
+    activeLine: mem ? E.v['0V2'] : null, lines: { L1: r.L1, L2: r.L2 },
+    chambers: { '1A1': { cap: r.P && E.v['1V1'] === '14', rod: r.P && E.v['1V1'] === '12' }, '2A1': { cap: r.P && E.v['2V1'] === '14', rod: r.P && E.v['2V1'] === '12' } },
+    phase: E.phase, overlaps: ov, overlapAny: !!(ov['1V1'] || ov['2V1'] || ov['0V2']), cycles: E.cycles,
+    buttons: { '0S1': E.btn.down, '0S2': E.sel }, faults: clone(E.faults), wiring: clone(E.cfg.W), memory: mem, feed: E.cfg.feed
+  };
+}
+/* texto de la superposición */
+const WHY = { '0S1': '0S1 está pulsado (o 0S2 activo)', '1S1': '1S1 está accionado porque 1A1 está retraído', '1S2': '1S2 está accionado porque 1A1 está extendido', '2S1': '2S1 está accionado porque 2A1 está retraído', '2S2': '2S2 está accionado porque 2A1 está extendido', L1: 'la línea L1 tiene presión', L2: 'la línea L2 tiene presión', SERIE: '0S1 está pulsado y 1S1 accionado' };
+function alertHTML(s) {
+  const out = [];
+  for (const n of ['1V1', '2V1', '0V2']) if (s.overlaps[n]) {
+    const p1 = n === '0V2' ? '0V2-L1' : n + '-14', p2 = n === '0V2' ? '0V2-L2' : n + '-12', a = E.cfg.W[p1], b = E.cfg.W[p2];
+    const n1 = n === '0V2' ? 'su entrada hacia L1' : 'el piloto 14', n2 = n === '0V2' ? 'su entrada hacia L2' : 'el piloto 12';
+    out.push(`<h3>Superposición de señales en ${n}</h3><p><b>Qué pasa:</b> ${n} recibe aire en ${n1} (desde ${a}) y en ${n2} (desde ${b}) al mismo tiempo. Las dos fuerzas se oponen: la válvula biestable no conmuta y conserva su posición, entonces el cilindro no se mueve (el ciclo se traba).</p>` +
+      `<p><b>Por qué:</b> ${WHY[a] || a} y ${WHY[b] || b}. Una de las dos es una señal «larga» que todavía no terminó cuando llegó la otra.</p>` +
+      `<p><b>Cómo se resuelve:</b> separar los grupos con el método cascada, de modo que cada señal larga se corte cuando cambia de grupo (también sirven rodillos escamoteables o temporizadores).</p>`);
+  }
+  return out.join('');
+}
+let lastAlert = '';
+function renderUI(s) {
+  const gr = s.valves['0V2'] === 'L1' ? 'I (L1)' : s.valves['0V2'] === 'L2' ? 'II (L2)' : '—';
+  const hid = Object.values(s.faults).some(Boolean);
+  $('#status').innerHTML = `<span>Fase: <b>punto ${s.phase} de 5</b></span><span>Grupo: <b>${gr}</b></span><span>Ciclos: <b>${s.cycles}</b></span><span>${running ? 'en marcha' : 'en pausa'} · ${s.speed === undefined ? '' : speed + '×'} · t = ${s.t.toFixed(1)} s</span>` + (hid ? '<span class="warn">Hay una falla escondida: diagnosticala.</span>' : '');
+  stRows.forEach((td, i) => { const t = ROWS[i][1](s); if (td.textContent !== t) td.textContent = t; td.classList.toggle('bad', t.indexOf('SUPERPOSICIÓN') >= 0); });
+  const lg = E.log.slice(-8).map(x => x.t.toFixed(2) + ' s  ' + x.m).join('\n'); if ($('#evLog').textContent !== lg) $('#evLog').textContent = lg;
+  const ah = alertHTML(s); if (ah !== lastAlert) { lastAlert = ah; const a = $('#alert'); a.innerHTML = ah; a.hidden = !ah; }
+  $('#bPlay').textContent = running ? 'Pausa' : 'Marcha';
+  const b2 = $('#b0S2'); b2.setAttribute('aria-pressed', s.buttons['0S2']); b2.textContent = 'Ciclo continuo 0S2: ' + (s.buttons['0S2'] ? 'activado' : 'apagado');
+  const bs = $('#bSup'); bs.setAttribute('aria-pressed', s.supply); bs.textContent = 'Suministro 0V0: ' + (s.supply ? 'abierto' : 'cerrado');
+  $('#b0S1').classList.toggle('on', s.buttons['0S1']);
+}
+function syncCfg() {
+  const c = E.cfg;
+  document.querySelectorAll('#modeSeg button').forEach(b => b.setAttribute('aria-pressed', b.dataset.mode === c.mode));
+  $('[data-tab="libre"]').hidden = c.mode !== 'libre';
+  if (c.mode === 'libre') showTab('libre'); else if (!$('#p-libre').hidden) showTab('estado');
+  $('#cMem').checked = c.memory; $('#sFeed').value = c.feed; $('#sFeed').disabled = !c.memory;
+  $('#wTab').querySelectorAll('tr').forEach(tr => { const p = tr.dataset.p; tr.hidden = p.startsWith('0V2') && !c.memory; const sel = tr.querySelector('select'); sel.value = c.W[p] || 'none'; Array.from(sel.options).forEach(o => { o.disabled = !c.memory && (o.value === 'L1' || o.value === 'L2'); }); });
+  buildRoutes();
+}
+function buildFree() {
+  const tb = $('#wTab');
+  PORTS.forEach(p => { const tr = document.createElement('tr'); tr.dataset.p = p; const th = document.createElement('th'); th.textContent = PORTLBL[p]; th.style.whiteSpace = 'normal'; const td = document.createElement('td'); const sel = document.createElement('select'); sel.setAttribute('aria-label', PORTLBL[p]);
+    SIGS.forEach(s => { const o = document.createElement('option'); o.value = s; o.textContent = SIGLBL[s]; sel.appendChild(o); });
+    sel.addEventListener('change', () => api.setWiring(p, sel.value)); td.appendChild(sel); tr.appendChild(th); tr.appendChild(td); tb.appendChild(tr); });
+}
+function showTab(n) {
+  document.querySelectorAll('#tabs .tab').forEach(t => t.setAttribute('aria-selected', t.dataset.tab === n));
+  ['estado', 'libre', 'prof', 'guia'].forEach(k => { $('#p-' + k).hidden = k !== n; });
+}
+
+/* ============================ 6. API (window.sim) ============================ */
+const normMode = m => { m = String(m || '').toLowerCase(); return /intu/.test(m) ? 'intuitivo' : /casc/.test(m) ? 'cascada' : /libre/.test(m) ? 'libre' : null; };
+const normSig = s => { s = String(s == null ? 'none' : s).toLowerCase().trim(); if (/serie|\+|\sy\s/.test(s)) return 'SERIE'; const u = s.toUpperCase().split(' ')[0]; return SIGS.indexOf(u) > 0 ? u : 'none'; };
+const normFault = n => { n = String(n).toLowerCase(); return /2s2|rodillo/.test(n) ? 'roller2S2' : /fuga|l2/.test(n) ? 'leakL2' : /presi|suminis/.test(n) ? 'noSupply' : /1v1|trab/.test(n) ? 'stuck1V1' : null; };
+let relTimer = 0;
+const api = {
+  getState,
+  setMode(m) { m = normMode(m); if (!m) return getState(); const o = E.cfg; E.cfg = m === 'libre' ? { mode: 'libre', memory: o.memory, feed: o.feed, W: clone(o.W) } : Object.assign({ mode: m }, clone(PRESET[m])); E.reset(); syncCfg(); return getState(); },
+  press(n) { n = String(n).toUpperCase(); if (n === '0S1') E.press(); else if (n === '0S2') E.setSel(true); else if (n === '0V0') E.supply = true; return getState(); },
+  release(n) { n = String(n).toUpperCase(); if (n === '0S1') E.release(); else if (n === '0S2') E.setSel(false); else if (n === '0V0') E.supply = false; return getState(); },
+  setSupply(b) { E.supply = !!b; },
+  setSpeed(x) { speed = clamp(+x || 1, 0.25, 2); $('#speed').value = speed; $('#speedOut').textContent = speed + '×'; return speed; },
+  step() { const m = E.step(); running = false; return m; },
+  run(ms) { E.advance(Math.max(0, +ms || 0)); return getState(); },
+  reset() { E.reset(); return getState(); },
+  play() { running = true; }, pause() { running = false; },
+  setFault(n, b) { const k = normFault(n); if (k) E.faults[k] = !!b; const c = document.querySelector(`[data-fault="${k}"]`); if (c) c.checked = !!b; return k; },
+  setWiring(p, s) { if (PORTS.indexOf(p) < 0) return false; if (E.cfg.mode !== 'libre') api.setMode('libre'); E.cfg.W[p] = normSig(s); E.reset(); syncCfg(); return true; },
+  setMemory(b) { if (E.cfg.mode !== 'libre') api.setMode('libre'); E.cfg.memory = !!b; if (!b) { E.cfg.feed = 'direct'; PORTS.forEach(p => { if (E.cfg.W[p] === 'L1' || E.cfg.W[p] === 'L2') E.cfg.W[p] = 'none'; }); } E.reset(); syncCfg(); },
+  setFeed(f) { if (E.cfg.mode !== 'libre') api.setMode('libre'); E.cfg.feed = f === 'cascade' ? 'cascade' : 'direct'; E.reset(); syncCfg(); },
+  demoSuperposicion() { E.p1 = 1; E.p2 = 1; E.advance(DT); return getState(); },
+  verify() { return verifyCfg(E.cfg); }
+};
+window.sim = api;
+
+/* ============================ 7. EVENTOS DE INTERFAZ ============================ */
+document.querySelectorAll('#modeSeg button').forEach(b => b.addEventListener('click', () => api.setMode(b.dataset.mode)));
+$('#bPlay').addEventListener('click', () => { running = !running; });
+$('#bStep').addEventListener('click', () => { const m = api.step(); $('#evLog').textContent = m; renderAll(); });
+$('#bReset').addEventListener('click', () => { api.reset(); renderAll(); });
+$('#speed').addEventListener('input', e => api.setSpeed(e.target.value));
+$('#bSup').addEventListener('click', () => { E.supply = !E.supply; });
+$('#b0S2').addEventListener('click', () => E.setSel(!E.sel));
+$('#cMem').addEventListener('change', e => api.setMemory(e.target.checked));
+$('#sFeed').addEventListener('change', e => api.setFeed(e.target.value));
+$('#bPreI').addEventListener('click', () => { api.setMode('intuitivo'); api.setMode('libre'); });
+$('#bPreC').addEventListener('click', () => { api.setMode('cascada'); api.setMode('libre'); });
+$('#bWide').addEventListener('click', e => { const w = $('#grid').classList.toggle('wide'); e.target.setAttribute('aria-pressed', w); });
+$('#bTheme').addEventListener('click', () => { const r = document.documentElement; const dark = r.dataset.theme ? r.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches; r.dataset.theme = dark ? 'light' : 'dark'; });
+document.querySelectorAll('#tabs .tab').forEach(t => t.addEventListener('click', () => showTab(t.dataset.tab)));
+$('#bVer').addEventListener('click', () => {
+  const r = api.verify(), d = $('#verRes'); d.hidden = false; d.className = 'res ' + (r.ok ? 'ok' : 'bad');
+  d.innerHTML = '<b>' + (r.ok ? 'Verificación correcta' : 'Todavía no funciona') + '</b><ul>' + r.mensajes.map(m => '<li>' + m + '</li>').join('') + '</ul>' + (r.secuencia.length ? '<div class="hint">Secuencia observada: ' + r.secuencia.join(' ') + '</div>' : '');
+});
+$('#bProf').addEventListener('click', e => { const b = $('#profBox'); b.hidden = !b.hidden; e.target.setAttribute('aria-pressed', !b.hidden); e.target.textContent = b.hidden ? 'Abrir panel de fallas' : 'Ocultar panel de fallas'; });
+$('#profBox').addEventListener('change', e => { const k = e.target.dataset.fault; if (k) E.faults[k] = e.target.checked; });
+$('#bAns').addEventListener('click', () => {
+  const a = Object.keys(E.faults).filter(k => E.faults[k]), d = $('#ansBox'); d.hidden = false; d.className = 'res';
+  d.innerHTML = a.length ? '<b>Fallas activas</b><ul>' + a.map(k => '<li><b>' + FAULTS[k] + '.</b> ' + FAULTHELP[k] + '</li>').join('') + '</ul>' : 'No hay fallas activas.';
+});
+/* pulsador 0S1: clic = pulso mínimo de 250 ms reales; mantener = señal larga */
+function uiPress() { clearTimeout(relTimer); api.press('0S1'); uiPress.at = performance.now(); }
+function uiRelease() { if (!uiPress.at) return; const d = Math.max(0, 250 - (performance.now() - uiPress.at)); uiPress.at = 0; relTimer = setTimeout(() => api.release('0S1'), d); }
+const b0 = $('#b0S1');
+b0.addEventListener('pointerdown', e => { e.preventDefault(); uiPress(); });
+['pointerup', 'pointerleave', 'pointercancel'].forEach(t => b0.addEventListener(t, uiRelease));
+b0.addEventListener('keydown', e => { if ((e.key === ' ' || e.key === 'Enter') && !e.repeat) { e.preventDefault(); uiPress(); } });
+b0.addEventListener('keyup', e => { if (e.key === ' ' || e.key === 'Enter') uiRelease(); });
+const clkg = c => sch.querySelector(`[data-c="${c}"]`);
+const g0 = clkg('0S1'); g0.addEventListener('pointerdown', e => { e.preventDefault(); uiPress(); }); ['pointerup', 'pointerleave', 'pointercancel'].forEach(t => g0.addEventListener(t, uiRelease));
+clkg('0S2').addEventListener('click', () => E.setSel(!E.sel)); clkg('0V0').addEventListener('click', () => { E.supply = !E.supply; });
+/* tooltips */
+const tip = $('#tip'); let tipT = 0;
+function showTip(id, x, y) {
+  if (!DESC[id]) return; tip.innerHTML = '<b>' + id + '</b>' + DESC[id]; tip.hidden = false;
+  const w = tip.offsetWidth, h = tip.offsetHeight; tip.style.left = clamp(x + 14, 8, innerWidth - w - 8) + 'px'; tip.style.top = clamp(y + 14, 8, innerHeight - h - 8) + 'px';
+}
+sch.addEventListener('pointermove', e => { const t = e.target.closest('[data-c]'); if (t) showTip(t.dataset.c, e.clientX, e.clientY); else tip.hidden = true; });
+sch.addEventListener('pointerleave', () => { tip.hidden = true; });
+sch.addEventListener('pointerdown', e => { const t = e.target.closest('[data-c]'); if (t && e.pointerType !== 'mouse') { showTip(t.dataset.c, e.clientX, e.clientY); clearTimeout(tipT); tipT = setTimeout(() => { tip.hidden = true; }, 3500); } });
+
+/* ============================ 8. VISTA 3D (opcional) ============================ */
+async function init3D() {
+  const host = $('#c3d'), msg = $('#msg3d');
+  const fail = t => { msg.textContent = t; msg.hidden = false; };
+  let THREE, OC;
+  try { THREE = await import('three'); OC = (await import('three/addons/controls/OrbitControls.js')).OrbitControls; }
+  catch (err) { fail('No se pudo cargar la vista 3D (sin conexión con el servidor de three.js). El simulador 2D sigue funcionando.'); return; }
+  let renderer;
+  try { renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true }); } catch (err) { fail('Este navegador no pudo iniciar WebGL. El simulador 2D sigue funcionando.'); return; }
+  try {
+    renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2)); host.appendChild(renderer.domElement); msg.hidden = true;
+    const scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(38, 4 / 3, 0.1, 100); cam.position.set(3.6, 3.1, 6.4);
+    const ctl = new OC(cam, renderer.domElement); ctl.target.set(-0.4, 1.2, 0); ctl.enableDamping = true; ctl.update();
+    scene.add(new THREE.AmbientLight(0xffffff, 0.8)); scene.add(new THREE.HemisphereLight(0xffffff, 0x667788, 0.7));
+    const dl = new THREE.DirectionalLight(0xffffff, 1.3); dl.position.set(3, 6, 5); scene.add(dl);
+    const M = (c, o) => new THREE.MeshStandardMaterial(Object.assign({ color: c, metalness: 0.3, roughness: 0.5 }, o || {}));
+    const metal = M(0xb9c0c8, { metalness: 0.7, roughness: 0.3 });
+    const box = (w, h, d, m, x, y, z) => { const b = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), m); b.position.set(x, y, z); scene.add(b); return b; };
+    const cylG = new THREE.CylinderGeometry(1, 1, 1, 28);
+    const cyl = (r, m, rotZ) => { const c = new THREE.Mesh(cylG, m); c.scale.set(r, 1, r); if (rotZ) c.rotation.z = Math.PI / 2; scene.add(c); return c; };
+    const onX = (m, a, b) => { m.position.x = (a + b) / 2; m.scale.y = Math.max(0.001, b - a); };
+    const onY = (m, a, b) => { m.position.y = (a + b) / 2; m.scale.y = Math.max(0.001, b - a); };
+    const sprite = (t, x, y, z, s) => { const c = document.createElement('canvas'); c.width = 128; c.height = 48; const g = c.getContext('2d'); g.fillStyle = 'rgba(20,23,26,.8)'; g.fillRect(0, 0, 128, 48); g.fillStyle = '#fff'; g.font = 'bold 28px monospace'; g.textAlign = 'center'; g.fillText(t, 64, 34);
+      const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c), depthTest: false })); sp.scale.set(s, s * 0.375, 1); sp.position.set(x, y, z); scene.add(sp); };
+    box(7, 0.2, 3.2, M(0x6f7a84), -0.6, -0.1, 0);
+    /* almacén: 4 postes + pila de piezas */
+    const postM = M(0x8a949e); [[-0.3, -0.3], [0.3, -0.3], [-0.3, 0.3], [0.3, 0.3]].forEach(q => box(0.06, 1.5, 0.06, postM, q[0], 0.75, q[1]));
+    box(0.6, 0.04, 0.04, postM, 0, 1.5, 0.3); box(0.04, 0.04, 0.6, postM, 0.3, 1.5, 0); box(0.04, 0.04, 0.6, postM, -0.3, 1.5, 0); box(0.6, 0.04, 0.04, postM, 0, 1.5, -0.3);
+    box(2.2, 0.25, 0.05, M(0x8a949e), 0.6, 0.125, -0.34);                         // riel trasero de guía
+    box(0.24, 0.5, 0.6, M(0x444b52), 1.57, 0.25, 0);                               // tope
+    const partM = M(0xd9b44a, { metalness: 0.1, roughness: 0.6 });
+    const mkPart = () => { const g = new THREE.Group(); const b = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.25, 0.5), partM); g.add(b); const im = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.02, 0.22), M(0x7a1f1f)); im.position.y = 0.125; im.visible = false; g.add(im); g.userData.im = im; scene.add(g); return g; };
+    const stack = [0, 1, 2].map(() => { const b = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.25, 0.5), partM); scene.add(b); return b; });
+    /* cilindro 1A1 (horizontal) */
+    const bar1M = M(0x2e6fd8, { metalness: 0.4 }), bar2M = M(0xd8782e, { metalness: 0.4 });
+    const barrel1 = cyl(0.14, bar1M, true); onX(barrel1, -2.7, -1.2); barrel1.position.y = 0.17;
+    const rod1 = cyl(0.035, metal, true); rod1.position.y = 0.17;
+    const pis1 = cyl(0.125, M(0x333a40), true); pis1.scale.y = 0.08; pis1.position.y = 0.17; pis1.visible = false;
+    const cap1 = cyl(0.12, M(0x999999, { transparent: true }), true), rch1 = cyl(0.12, M(0x999999, { transparent: true }), true); cap1.position.y = rch1.position.y = 0.17;
+    box(0.2, 0.17, 0.3, M(0x555d65), -2.4, 0.08, 0); box(0.2, 0.17, 0.3, M(0x555d65), -1.5, 0.08, 0);
+    /* cilindro 2A1 (vertical) + pórtico */
+    const barrel2 = cyl(0.14, bar2M); onY(barrel2, 1.4, 2.9); barrel2.position.x = 1.2;
+    const rod2 = cyl(0.035, metal); rod2.position.x = 1.2;
+    const pis2 = cyl(0.125, M(0x333a40)); pis2.scale.y = 0.08; pis2.position.x = 1.2; pis2.visible = false;
+    const cap2 = cyl(0.12, M(0x999999, { transparent: true })), rch2 = cyl(0.12, M(0x999999, { transparent: true })); cap2.position.x = rch2.position.x = 1.2;
+    const head = box(0.3, 0.1, 0.3, M(0x3a3f44), 1.2, 1.4, 0);
+    const pm = M(0x8a949e); box(0.15, 3.1, 0.15, pm, 1.2, 1.55, -0.75); box(0.15, 3.1, 0.15, pm, 1.2, 1.55, 0.75); box(0.2, 0.12, 1.6, pm, 1.2, 3.0, 0);
+    /* finales de carrera con rodillo */
+    const dogM = M(0xaa2222), swOff = new THREE.Color(0x222222), swOn = new THREE.Color(0xffb300);
+    const mkSw = (x, y, z, rx, ry, rz) => { const m = M(0x3b4148, { emissive: 0x000000 }); const b = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.1, 0.1), m); b.position.set(x, y, z); scene.add(b); const r = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 0.05, 14), M(0xdddddd)); r.rotation.x = Math.PI / 2; r.position.set(x + rx, y + ry, z + rz); scene.add(r); return m; };
+    const sw = { '1S1': mkSw(-2.74, 0.17, 0.2, 0.07, 0, 0), '1S2': mkSw(-1.28, 0.17, 0.2, -0.07, 0, 0), '2S1': mkSw(1.4, 2.97, 0, 0, -0.06, 0), '2S2': mkSw(1.4, 1.48, 0, 0, 0.06, 0) };
+    box(1.8, 0.03, 0.04, pm, -2.0, 0.08, 0.2);
+    const dog1 = box(0.1, 0.08, 0.08, dogM, -2.6, 0.17, 0.2), dog2 = box(0.08, 0.1, 0.08, dogM, 1.4, 2.8, 0);
+    sprite('1A1', -2.0, 0.75, 0, 0.55); sprite('2A1', 1.2, 3.4, 0, 0.55); sprite('1S1', -2.74, 0.5, 0.2, 0.4); sprite('1S2', -1.28, 0.5, 0.2, 0.4); sprite('2S1', 1.78, 3.0, 0, 0.4); sprite('2S2', 1.78, 1.48, 0, 0.4); sprite('Almacén', 0, 1.8, 0, 0.7); sprite('Tope', 1.57, 0.75, 0, 0.4);
+    const barrels = [barrel1, barrel2], cham = [cap1, rch1, cap2, rch2];
+    let cut = false;
+    const applyCut = () => { barrels.forEach(b => { b.material.transparent = cut; b.material.opacity = cut ? 0.22 : 1; b.material.depthWrite = !cut; }); [pis1, pis2, cap1, rch1, cap2, rch2].forEach(m => { m.visible = cut; }); };
+    $('#cCut').addEventListener('change', e => { cut = e.target.checked; applyCut(); }); applyCut();
+    const setCh = (m, on) => { m.material.color.set(on ? 0x2f80ff : 0x9aa0a6); m.material.opacity = on ? 0.85 : 0.5; m.material.emissive = new THREE.Color(on ? 0x0a3a99 : 0x000000); };
+    /* piezas */
+    let cur = mkPart(), old = null, partX = 0, stamped = false, lastPh = 1, lastT = 0, lastNow = performance.now();
+    const resetParts = () => { scene.remove(cur); if (old) { scene.remove(old); old = null; } cur = mkPart(); partX = 0; stamped = false; };
+    const resize = () => { const w = host.clientWidth, h = host.clientHeight; if (!w || !h) return; renderer.setSize(w, h, false); cam.aspect = w / h; cam.updateProjectionMatrix(); };
+    new ResizeObserver(resize).observe(host); resize();
+    view3d = {
+      render() {
+        const now = performance.now(), dt = Math.min(0.1, (now - lastNow) / 1000); lastNow = now;
+        const p1 = E.p1, p2 = E.p2, r = E.last, pi1 = -2.6 + 1.2 * p1, pi2 = 2.8 - 1.2 * p2, tp2 = 1.45 - 1.2 * p2;
+        if (E.t < lastT) resetParts(); lastT = E.t;
+        if (lastPh === 5 && E.phase === 1) { old = cur; old.userData.fall = 0; cur = mkPart(); partX = 0; stamped = false; }
+        lastPh = E.phase;
+        onX(rod1, pi1, -0.25 + 1.2 * p1); onX(pis1, pi1 - 0.04, pi1 + 0.04); onX(cap1, -2.66, pi1 - 0.05); onX(rch1, pi1 + 0.05, -1.24); dog1.position.x = pi1;
+        onY(rod2, tp2, pi2); head.position.y = tp2 + 0.05; onY(pis2, pi2 - 0.04, pi2 + 0.04); onY(cap2, pi2 + 0.05, 2.86); onY(rch2, 1.44, pi2 - 0.05); dog2.position.y = pi2;
+        setCh(cap1, r.P && E.v['1V1'] === '14'); setCh(rch1, r.P && E.v['1V1'] === '12'); setCh(cap2, r.P && E.v['2V1'] === '14'); setCh(rch2, r.P && E.v['2V1'] === '12');
+        for (const n in sw) { const on = !!r.sw[n]; sw[n].emissive.copy(on ? swOn : swOff); sw[n].emissiveIntensity = on ? 1 : 0; }
+        partX = Math.max(partX, 1.2 * p1); cur.position.set(partX, 0.125, 0);
+        if (p2 >= 1 - TOL && partX >= 1.15) stamped = true; cur.userData.im.visible = stamped;
+        const dr = clamp((partX - 0.3) / 0.4, 0, 1); stack.forEach((s, i) => s.position.set(0, 0.375 + 0.25 * i - 0.25 * dr, 0));
+        if (old) { old.userData.fall += dt; const f = old.userData.fall; old.position.set(1.2, Math.max(-1.5, 0.125 - 4 * f * f), 0.9 * f * 1.6); if (f > 0.9) { scene.remove(old); old = null; } }
+        ctl.update(); renderer.render(scene, cam);
+      }
+    };
+  } catch (err) { view3d = null; fail('La vista 3D falló al iniciar (' + (err && err.message || err) + '). El simulador 2D sigue funcionando.'); }
+}
+
+/* ============================ 9. BUCLE ============================ */
+function renderAll() {
+  const r = ext(); render2D(r); renderDia(r); renderUI(getState());
+}
+let lastT = performance.now();
+function frame(now) {
+  const dt = Math.min(100, now - lastT); lastT = now;
+  if (running && !document.hidden) E.advance(dt * speed);
+  renderAll();
+  if (view3d) { try { view3d.render(); } catch (e) { view3d = null; } }
+  requestAnimationFrame(frame);
+}
+buildFree(); syncCfg(); renderAll(); showTab('estado');
+requestAnimationFrame(frame);
+init3D();
+})();
+</script>
+</body>
+</html>
