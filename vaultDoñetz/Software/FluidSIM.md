@@ -10,5 +10,8 @@ tags: [software, simulador, neumática]
 - Doble clic en un rodillo para **nombrarlo** (`1S1`). Al nombrarlo, el contacto se dibuja accionado si el vástago lo pisa en la posición inicial.
 - Se puede ajustar el porcentaje de apertura de las [[Válvula estranguladora|estranguladoras]].
 
+## Alternativa en el navegador
+[[Simulador neumático 3D]]: simulador didáctico propio de la secuencia A+ B+ B− A− con cascada, vista 3D y modo profesor.
+
 ## Videos
 [[2020-06-18 Técnica Chopp en FluidSIM]] · [[2021-04-10 Lógica positiva y negativa]] · [[2021-05-21 Cascada con lógica cableada y superposición]] · [[2025-05-04 Método de memorias - relé auxiliar]]

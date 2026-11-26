@@ -41,7 +41,7 @@ Vault de estudio armado a partir de las **transcripciones** de los 27 videos pro
 [[Funciones lógicas]] · [[Minitérminos]] · [[Maxitérminos]]
 
 ### Software que usa
-[[FluidSIM]] · [[Zelio Soft 2]] · [[Multisim]]
+[[FluidSIM]] · [[Zelio Soft 2]] · [[Multisim]] · [[Simulador neumático 3D]] (simulador web de la cascada, hecho para clase)
 
 ## Sobre las fuentes
 - Las notas salen de los **subtítulos automáticos en español** de YouTube. Tienen errores de reconocimiento ("cabo uno" en vez de "K1", "estrangulador as", etc.); acá ya están corregidos según el contexto. Cuando algo era dudoso queda marcado con `(?)`.

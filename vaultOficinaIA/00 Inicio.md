@@ -18,6 +18,7 @@ Cómo trabajar con un **orquestador** (Claude Opus, esfuerzo medio) que reparte 
 4. [[Costo y velocidad]]: cuándo conviene y cuándo no, con números.
 5. [[Errores, contradicciones y mejoras]]: lo que encontré en la idea, en la configuración y en mi propio trabajo anterior.
 6. [[Fuentes]]: los videos de referencia (pendientes de transcripción) y la documentación oficial.
+7. [[Bitácora de la oficina]]: qué hizo la oficina en cada tarea, con errores y correcciones.
 
 ## En una frase
 El orquestador **piensa, reparte y verifica**. Los agentes **leen, programan, prueban, revisan y documentan**. El ahorro viene de que el trabajo pesado (leer mucho, correr pruebas) lo hace un modelo más barato, y la velocidad de hacer en paralelo lo que no depende entre sí.
