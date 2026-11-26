@@ -66,7 +66,7 @@ button { cursor: pointer; }
 .status .warn { color: var(--bad); font-weight: 500; }
 .grid { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }
 .grid > div { display: grid; gap: 12px; align-content: start; min-width: 0; }
-@media (min-width: 1000px) { .grid:not(.wide) { grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr); } }
+@media (min-width: 1000px) { .grid:not(.wide) { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); } }
 .svgwrap { overflow-x: auto; border-radius: 6px; background: var(--stage); border: 1px solid var(--line); }
 .svgwrap svg { display: block; width: 100%; height: auto; }
 #sch { min-width: 680px; }
@@ -76,7 +76,7 @@ button { cursor: pointer; }
 .alert h3 { margin: 0 0 4px; font-family: var(--font-display); font-size: 18px; color: var(--bad); }
 .alert p { margin: 0 0 6px; max-width: 78ch; }
 .stage3d { position: relative; aspect-ratio: 4 / 3; min-height: 250px; background: var(--stage); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
-.stage3d canvas { display: block; width: 100%; height: 100%; touch-action: none; }
+.stage3d canvas { display: block; width: 100%; height: 100%; touch-action: pan-y; }
 .msg3d { position: absolute; inset: 0; display: grid; place-items: center; padding: 16px; text-align: center; color: var(--muted); font-size: 13px; }
 .chk { display: inline-flex; align-items: center; gap: 6px; }
 .chk input { accent-color: var(--accent); }
@@ -103,12 +103,13 @@ details p { margin: 8px 0 0; max-width: 70ch; }
 .tip { position: fixed; z-index: 30; pointer-events: none; max-width: 280px; padding: 7px 10px; border-radius: 6px; background: var(--panel); color: var(--ink); border: 1px solid var(--accent); font-size: 12.5px; box-shadow: 0 4px 16px rgb(0 0 0 / .2); }
 .tip b { display: block; font-family: var(--font-display); font-size: 16px; }
 /* Esquema SVG */
-svg text { font-family: var(--font-data); fill: var(--ink); font-size: 13px; }
-svg text.nm { font-family: var(--font-display); font-weight: 700; font-size: 20px; paint-order: stroke; stroke: var(--stage); stroke-width: 4px; }
-svg text.pn { font-size: 11px; fill: var(--muted); }
-svg text.sup { fill: var(--bad); font-weight: 600; font-size: 14px; paint-order: stroke; stroke: var(--stage); stroke-width: 4px; }
+svg text { font-family: var(--font-data); fill: var(--ink); font-size: 15px; }
+svg text.nm { font-family: var(--font-display); font-weight: 700; font-size: 21px; paint-order: stroke; stroke: var(--stage); stroke-width: 4px; }
+svg text.pn { font-size: 14px; fill: var(--muted); }
+svg text.sup { fill: var(--bad); font-weight: 600; font-size: 15px; paint-order: stroke; stroke: var(--stage); stroke-width: 4px; }
 svg .w { fill: none; stroke: var(--off); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round; }
 svg .w.on { stroke: var(--pr); stroke-width: 4; }
+svg .w.pl { stroke-dasharray: 8 5; stroke-linecap: butt; }
 svg .jd { fill: var(--off); } svg .jd.on { fill: var(--pr); }
 svg .box { fill: var(--panel); stroke: var(--ink); stroke-width: 1.5; }
 svg .sym { fill: none; stroke: var(--ink); stroke-width: 1.4; stroke-linejoin: round; }
@@ -122,6 +123,9 @@ svg .cb { fill: none; stroke: var(--ink); stroke-width: 1.8; }
 svg .rod { stroke: var(--muted); stroke-width: 6; }
 svg .tag { fill: var(--chip); stroke: var(--ink); stroke-width: 1.2; } svg .tag.lit { fill: var(--lit); }
 svg .clk { cursor: pointer; }
+#dia text { font-size: 13px; } #dia text.nm { font-size: 17px; }
+#dia { min-width: 0; }
+@media (max-width: 699px) { #dia { min-width: 620px; } }
 svg .gm { fill: var(--chip); stroke: var(--line); }
 svg .dim { fill: none; stroke: var(--grid); stroke-width: 1; }
 svg .th1 { fill: none; stroke: var(--pr-soft); stroke-width: 9; stroke-linejoin: round; stroke-linecap: round; }
@@ -145,17 +149,18 @@ svg .circ { fill: var(--panel); stroke: var(--ink); stroke-width: 1.2; }
   <section class="card bar" aria-label="Controles">
     <div class="row">
       <div class="seg" role="group" aria-label="Método del circuito" id="modeSeg">
-        <button type="button" data-mode="intuitivo" aria-pressed="true">Método intuitivo</button>
-        <button type="button" data-mode="cascada" aria-pressed="false">Método cascada</button>
+        <button type="button" data-mode="cascada" aria-pressed="true">Método cascada</button>
+        <button type="button" data-mode="intuitivo" aria-pressed="false">Método intuitivo</button>
         <button type="button" data-mode="libre" aria-pressed="false">Armado libre</button>
       </div>
     </div>
     <div class="row">
-      <button class="btn primary" id="bPlay" type="button">Pausa</button>
+      <button class="btn primary" id="bPlay" type="button">⏸ Pausar</button>
       <button class="btn" id="bStep" type="button" title="Avanza hasta el próximo evento y pausa">Paso a paso</button>
       <button class="btn" id="bReset" type="button">Reiniciar</button>
       <div class="slider"><label for="speed">Velocidad</label><input id="speed" type="range" min="0.25" max="2" step="0.25" value="1"><output id="speedOut">1×</output></div>
       <button class="btn" id="bSup" type="button" aria-pressed="true" title="0V0: válvula de cierre">Suministro 0V0: abierto</button>
+      <button class="btn" id="bDemo" type="button" hidden title="Fuerza 1A1 y 2A1 adelante: 1S2 y 2S2 accionan a la vez y 2V1 recibe aire en 14 y 12">Ver superposición en 2V1</button>
       <button class="btn" id="b0S1" type="button" title="Pulsador de arranque 0S1: clic = pulso corto, mantené apretado = señal larga">Pulsar 0S1</button>
       <button class="btn" id="b0S2" type="button" aria-pressed="false" title="Selector 0S2: ciclo continuo">Ciclo continuo 0S2: apagado</button>
     </div>
@@ -168,7 +173,7 @@ svg .circ { fill: var(--panel); stroke: var(--ink); stroke-width: 1.2; }
         <h2>Esquema neumático <button class="btn" id="bWide" type="button" aria-pressed="false">Ampliar</button></h2>
         <div class="svgwrap"><svg id="sch" role="img" aria-label="Esquema neumático ISO 1219 simplificado"></svg></div>
         <p class="hint">Línea azul gruesa: con presión. Línea gris fina: sin presión. Clic en 0S1 para pulsar y en 0S2 o 0V0 para accionarlos; pasá el cursor (o tocá) cada símbolo para ver qué hace.</p>
-        <p class="hint m">Deslizá el esquema hacia los costados para verlo completo.</p>
+        <p class="hint m">Deslizá el esquema y el diagrama hacia los costados para verlos completos.</p>
         <div class="alert" id="alert" role="alert" hidden></div>
       </section>
       <section class="card">
@@ -179,7 +184,7 @@ svg .circ { fill: var(--panel); stroke: var(--ink); stroke-width: 1.2; }
     </div>
     <div>
       <section class="card">
-        <h2>Vista 3D <label class="chk" style="margin-left:auto;font-family:var(--font-body);text-transform:none;letter-spacing:0;font-size:13px;font-weight:500"><input type="checkbox" id="cCut"> Corte</label></h2>
+        <h2>Vista 3D <label class="chk" style="margin-left:auto;font-family:var(--font-body);text-transform:none;letter-spacing:0;font-size:13px;font-weight:500"><input type="checkbox" id="cCut"> Corte</label><label class="chk" style="font-family:var(--font-body);text-transform:none;letter-spacing:0;font-size:13px;font-weight:500"><input type="checkbox" id="cRot"> Rotar con un dedo</label></h2>
         <div class="stage3d" id="c3d"><div class="msg3d" id="msg3d">Cargando vista 3D…</div></div>
         <p class="hint">Arrastrá para girar, rueda o pellizco para acercar. Con «Corte» ves las cámaras: azul = presión, gris = escape.</p>
       </section>
@@ -215,6 +220,7 @@ svg .circ { fill: var(--panel); stroke: var(--ink); stroke-width: 1.2; }
           <p class="note">Para docentes: activá una falla, ocultá el panel y dejá que el grupo la diagnostique mirando el esquema, el diagrama y la vista 3D.</p>
           <div class="row"><button class="btn" id="bProf" type="button" aria-pressed="false">Abrir panel de fallas</button></div>
           <div class="faults" id="profBox" hidden style="margin-top:8px"></div>
+          <p class="note" id="profNote" hidden>En el método intuitivo no existen las líneas L1 y L2: la fuga en L2 no tiene efecto. Pasá a «Método cascada».</p>
           <div class="row" style="margin-top:10px"><button class="btn" id="bAns" type="button">Mostrar respuesta</button></div>
           <div class="res" id="ansBox" hidden></div>
         </div>
@@ -252,7 +258,7 @@ const PRESET = {
 const FAULTS = { roller2S2: 'Rodillo 2S2 roto (no conmuta)', leakL2: 'Fuga en línea L2', noSupply: 'Sin presión de suministro', stuck1V1: '1V1 trabada' };
 const FAULTHELP = {
   roller2S2: 'Rodillo 2S2 roto: el vástago llega al final pero la válvula no conmuta. Síntoma: 2A1 baja y el ciclo se detiene. En el esquema 2S2 no cambia de caja ni da señal, y 0V2 no pasa a L2.',
-  leakL2: 'Fuga en la línea L2 (afecta al método cascada): L2 aguanta en reposo pero pierde la presión apenas se usa con los cilindros fuera de reposo. Síntoma: 0V2 pasa a L2 pero 2V1-12 y 2S1 no reciben aire, entonces 2A1 no retrocede. En el esquema la línea L2 queda gris.',
+  leakL2: 'Fuga en la línea L2 (solo existe en el método cascada): L2 nunca tiene presión. En reposo 0V2 está en L2, así que 1S1 no recibe aire y 0S1 no puede pasar 0V2 a L1: el ciclo no arranca. En el esquema la línea L2 queda gris aunque 0V2 esté en L2.',
   noSupply: 'Sin presión de suministro: no se mueve nada. Todas las líneas están grises. Revisá el compresor y la válvula 0V0 (0Z1).',
   stuck1V1: '1V1 trabada: recibe señal en el piloto pero no cambia de posición. Síntoma: 1A1 no se mueve (o no vuelve) aunque el piloto tenga presión.'
 };
@@ -262,13 +268,13 @@ const SWMSG = { '1V1:14': '1V1 conmuta a 14: 1A1 avanza', '1V1:12': '1V1 conmuta
 
 function Engine() {
   const e = { faults: { roller2S2: false, leakL2: false, noSupply: false, stuck1V1: false }, supply: true };
-  e.cfg = Object.assign({ mode: 'intuitivo' }, clone(PRESET.intuitivo));
+  e.cfg = Object.assign({ mode: 'cascada' }, clone(PRESET.cascada));
   const L = m => { e.log.push({ t: +e.t.toFixed(2), m }); if (e.log.length > 60) e.log.shift(); e.ev++; };
   function calc() {
     const f = e.faults, P = e.supply && !f.noSupply, mem = e.cfg.memory, W = e.cfg.W;
     const act = { '1S1': e.p1 <= TOL, '1S2': e.p1 >= 1 - TOL, '2S1': e.p2 <= TOL, '2S2': e.p2 >= 1 - TOL };
     const sw = Object.assign({}, act, { '2S2': act['2S2'] && !f.roller2S2 });
-    const L1 = !!(mem && P && e.v['0V2'] === 'L1'), L2 = !!(mem && P && e.v['0V2'] === 'L2' && !(f.leakL2 && (e.p1 > TOL || e.p2 > TOL)));   // la fuga aparece cuando L2 trabaja con carga
+    const L1 = !!(mem && P && e.v['0V2'] === 'L1'), L2 = !!(mem && P && e.v['0V2'] === 'L2' && !f.leakL2);
     const c = mem && e.cfg.feed === 'cascade';
     const feed = { '1S1': c ? L2 : P, '1S2': c ? L1 : P, '2S1': c ? L2 : P, '2S2': c ? L1 : P };
     const out = {}; for (const n in sw) out[n] = !!(feed[n] && sw[n]);
@@ -319,6 +325,7 @@ function Engine() {
     track();
     if (e.btn.down) { e.btn.seen = true; if (e.btn.rel) { e.btn.down = false; e.btn.rel = false; e.btn.seen = false; L('0S1 suelto'); } }
   }
+  e.refresh = function () { e.last = calc(); };
   e.reset = function () {
     Object.assign(e, { t: 0, acc: 0, p1: 0, p2: 0, v: { '1V1': '12', '2V1': '12', '0V2': 'L2' }, btn: { down: false, seen: false, rel: false }, sel: false, log: [], ev: 0, phase: 1, cycles: 0, trace: [[0, 0, 0]], po: {}, pov: {} });
     const r = settle(); e.po = clone(r.sw); e.pov = clone(r.ov); e.log = []; e.ev = 0;
@@ -337,42 +344,60 @@ function Engine() {
 
 /* ---- Verificación: corre el cableado actual en un motor aparte, sin fallas ---- */
 function verifyCfg(cfg) {
-  const v = Engine(); v.cfg = clone(cfg); v.supply = true; v.reset();
-  const ovs = new Set(); let end1 = 'R', end2 = 'R';
-  function run(ms, seq) {
-    for (let i = 0; i < ms / DT; i++) {
+  const mk = () => { const v = Engine(); v.cfg = clone(cfg); v.supply = true; v.reset(); return v; };
+  const press = v => v.press(), rel = v => v.release();
+  function scen(acts, ms) {
+    const v = mk(), ovs = new Set(), seq = []; let e1 = 'R', e2 = 'R';
+    for (let t = 0; t < ms; t += DT) {
+      acts.forEach(a => { if (a[0] === t) a[1](v); });
       v.advance(DT);
       const r = v.last; for (const n in r.ov) if (r.ov[n]) ovs.add(n);
-      if (v.p1 >= 1 - TOL && end1 === 'R') { end1 = 'E'; seq.push('A+'); } else if (v.p1 <= TOL && end1 === 'E') { end1 = 'R'; seq.push('A-'); }
-      if (v.p2 >= 1 - TOL && end2 === 'R') { end2 = 'E'; seq.push('B+'); } else if (v.p2 <= TOL && end2 === 'E') { end2 = 'R'; seq.push('B-'); }
+      if (v.p1 >= 1 - TOL && e1 === 'R') { e1 = 'E'; seq.push('A+'); } else if (v.p1 <= TOL && e1 === 'E') { e1 = 'R'; seq.push('A-'); }
+      if (v.p2 >= 1 - TOL && e2 === 'R') { e2 = 'E'; seq.push('B+'); } else if (v.p2 <= TOL && e2 === 'E') { e2 = 'R'; seq.push('B-'); }
     }
+    return { seq, ovs: Array.from(ovs), cyc: v.cycles };
   }
-  function pulse() { const seq = []; v.press(); v.release(); run(8000, seq); return seq; }
-  const W = cfg.W, msgs = [];
-  const s1 = pulse(), s2 = s1.length ? pulse() : [];
+  const W = cfg.W, msgs = [], all = new Set();
+  const rest = scen([], 500);
+  const one = scen([[0, press], [0, rel]], 8000);
+  const two = scen([[0, press], [0, rel], [8000, press], [8000, rel]], 16000);
+  const held = scen([[0, press], [2500, rel]], 9000);
+  const cont = scen([[0, v => v.setSel(true)]], 9000);
+  [rest, one, two, held, cont].forEach(q => q.ovs.forEach(n => all.add(n)));
   const same = (a, b) => a.length === b.length && a.every((x, i) => x === b[i]);
-  const res = { ok: false, secuencia: s1, ciclos: v.cycles, superposicion: Array.from(ovs), mensajes: msgs, mensaje: '' };
-  if (ovs.size) {
-    msgs.push('Hay superposición de señales en ' + res.superposicion.join(', ') + ': un piloto recibe aire en 14 y en 12 al mismo tiempo, la válvula biestable conserva su posición y el ciclo se traba.');
-    msgs.push('Probá que cada señal larga (rodillo accionado) se corte a tiempo: por ejemplo con grupos de cascada (L1 / L2).');
+  const E2 = EXPECT.concat(EXPECT), s1 = one.seq;
+  const hint0V2 = all.has('0V2') ? 'Poné 1S1 en serie con 0S1: así la señal de arranque solo existe cuando 1A1 está atrás y no choca con la señal de 2S2.' : '';
+  let ok = true;
+  if (rest.ovs.length) {
+    ok = false;
+    msgs.push('Hay superposición en reposo en ' + rest.ovs.join(', ') + ': sin pulsar nada ya llegan señales a los dos pilotos. ¿Cambiaste L1 por L2? Revisá qué línea alimenta cada piloto.');
   }
   if (!s1.length) {
-    if (!ovs.size) msgs.push('No arranca: al pulsar 0S1 no se mueve nada. Revisá que 1V1-14 reciba una señal que llegue con 0S1.');
+    ok = false;
+    if (one.ovs.length && !rest.ovs.length) msgs.push('Hay superposición de señales en ' + one.ovs.join(', ') + ': un piloto recibe aire en 14 y en 12 a la vez, la válvula biestable conserva su posición y el ciclo se traba.');
+    else if (!rest.ovs.length) msgs.push('No arranca: al pulsar 0S1 no se mueve nada. Revisá que 1V1-14 reciba una señal que llegue con 0S1.');
     if (W['1V1-14'] === 'none') msgs.push('1V1-14 no tiene señal conectada: 1A1 nunca avanza.');
+    if (one.ovs.length && !rest.ovs.length) msgs.push('Probá que cada señal larga (rodillo accionado) se corte a tiempo: por ejemplo con grupos de cascada (L1 / L2).');
   } else if (same(s1, EXPECT)) {
-    if (!same(s2, EXPECT)) msgs.push('El primer ciclo anda, pero el segundo falla (' + (s2.join(' ') || 'no se mueve nada') + '). Revisá el estado inicial: 0V2 tiene que quedar en L2.');
+    if (one.ovs.length && !rest.ovs.length) { ok = false; msgs.push('El ciclo anda pero hay superposición momentánea en ' + one.ovs.join(', ') + '.'); }
+    if (!same(two.seq, E2)) { ok = false; msgs.push('El primer ciclo anda, pero el segundo falla (' + (two.seq.slice(4).join(' ') || 'no se mueve nada') + '). Revisá el estado inicial: 0V2 tiene que quedar en L2.'); }
+    if (held.ovs.length) { ok = false; msgs.push('Con 0S1 mantenido apretado 2,5 s hay superposición en ' + held.ovs.join(', ') + ': la señal larga de 0S1 llega al mismo tiempo que otra señal opuesta.'); }
+    else if (!same(held.seq, EXPECT)) { ok = false; msgs.push('Con 0S1 mantenido apretado la secuencia fue ' + (held.seq.join(' ') || 'ninguna') + ' y se esperaba una sola vuelta A+ B+ B- A-.'); }
+    if (cont.ovs.length) { ok = false; msgs.push('Con 0S2 (ciclo continuo) hay superposición en ' + cont.ovs.join(', ') + '.'); }
+    else if (!(cont.seq.length >= 8 && cont.seq.every((x, i) => x === EXPECT[i % 4]))) { ok = false; msgs.push('Con 0S2 (ciclo continuo) el ciclo no se repite bien: ' + (cont.seq.join(' ') || 'no se mueve nada') + '.'); }
+    if (hint0V2 && !ok) msgs.push(hint0V2);
   } else {
+    ok = false;
     const pre = EXPECT.slice(0, s1.length);
     if (same(s1, pre)) {
       const nx = EXPECT[s1.length]; msgs.push('La secuencia se detiene después de ' + s1[s1.length - 1] + '. Falta ' + nx + ': revisá qué señal llega a ' + PORTLBL[STEPPORT[nx]] + ' y si tiene presión en ese momento.');
       if (W[STEPPORT[nx]] === 'none') msgs.push(STEPPORT[nx] + ' no tiene señal conectada.');
     } else if (EXPECT.every((x, i) => s1[i] === x)) msgs.push('El ciclo sigue repitiéndose después de soltar 0S1 (' + s1.join(' ') + '): hay una señal permanente. Revisá qué pilotos reciben aire.');
     else msgs.push('Secuencia obtenida: ' + s1.join(' ') + '. Se esperaba A+ B+ B- A-.');
+    if (one.ovs.length) msgs.push('Hay superposición en ' + one.ovs.join(', ') + '.');
   }
-  res.ok = same(s1, EXPECT) && same(s2, EXPECT) && !ovs.size;
-  if (res.ok) { msgs.length = 0; msgs.push('Correcto: A+ B+ B- A- se cumple sin superposición, y se repite en un segundo arranque.'); }
-  res.mensaje = msgs[0];
-  return res;
+  if (ok) msgs.push('Correcto: A+ B+ B- A- se cumple sin superposición con un pulso de 0S1, con 0S1 mantenido 2,5 s y en ciclo continuo (0S2).');
+  return { ok, secuencia: s1, ciclos: cont.cyc, superposicion: Array.from(all), mensajes: msgs, mensaje: msgs[0] };
 }
 
 /* ============================ 2. ESTADO GLOBAL ============================ */
@@ -431,13 +456,14 @@ function mkValve(id, wx, wy, kind, act, o) {
     el('polygon', { points: `-12,${H / 2 - 6} -12,${H / 2 + 6} 0,${H / 2}`, class: 'fs' }, mv);
     el('polygon', { points: `${2 * BW + 12},${H / 2 - 6} ${2 * BW + 12},${H / 2 + 6} ${2 * BW},${H / 2}`, class: 'fs' }, mv);
     label(-14, H / 2 - 9, '14', 'pn', mv).setAttribute('text-anchor', 'end'); label(2 * BW + 14, H / 2 - 9, '12', 'pn', mv);
-    [['4', .2, 0, -3], ['2', .8, 0, -3], ['5', .2, H, 25], ['1', .5, H, 12], ['3', .8, H, 25]].forEach(q => label(wx + px(q[1]) + 3, wy + q[2] + (q[2] ? 11 : -3), q[0], 'pn', g));
+    [['4', .2, 0, 4], ['2', .8, 0, 4], ['5', .2, H, 8], ['1', .5, H, 4], ['3', .8, H, 8]].forEach(q => label(wx + px(q[1]) + q[3], wy + q[2] + (q[2] ? 13 : -4), q[0], 'pn', g));
     exh(wx + px(.2), wy + H, o.plug, g); exh(wx + px(.8), wy + H, o.plug, g);
   } else {
     const a = px(.23), c = px(.77);
     arrow(h0, a, H, a, 0); el('path', { d: `M${c},${H}v-6m-6,0h12`, class: 'sym' }, h0);
     el('path', { d: `M${BW + a},${H}v-6m-6,0h12`, class: 'sym' }, h1); arrow(h1, BW + a, 0, BW + c, H);
     actuator(mv, act);
+    [['2', .23, 0, -4], ['1', .23, H, -4], ['3', .77, H, 8]].forEach(q => { const t = label(wx + px(q[1]) + q[3], wy + q[2] + (q[2] ? 13 : -4), q[0], 'pn', g); if (q[3] < 0) t.setAttribute('text-anchor', 'end'); });
     el('path', { d: `M${2 * BW},${H / 2}h4l3,-7l6,14l6,-14l3,7h4`, class: 'sym' }, mv);
     exh(wx + c, wy + H, false, g);
   }
@@ -465,12 +491,12 @@ function mkCyl(id, bx, n1, n2) {
   } };
 }
 /* --- Componentes --- */
-const V = { '1V1': mkValve('1V1', 170, 190, '52'), '0V2': mkValve('0V2', 470, 190, '52', null, { plug: true }), '2V1': mkValve('2V1', 790, 190, '52') };
+const V = { '1V1': mkValve('1V1', 170, 190, '52'), '0V2': mkValve('0V2', 470, 190, '52'), '2V1': mkValve('2V1', 790, 190, '52') };
 const S = { '1S1': mkValve('1S1', 140, 410, '32', 'roller'), '1S2': mkValve('1S2', 335, 410, '32', 'roller'), '2S1': mkValve('2S1', 530, 410, '32', 'roller'), '2S2': mkValve('2S2', 725, 410, '32', 'roller') };
 const B1 = mkValve('0S1', 230, 570, '32', 'button'), B2 = mkValve('0S2', 420, 570, '32', 'selector'), B0 = mkValve('0V0', 30, 570, '32', 'selector');
 const C1 = mkCyl('1A1', 110, '1S1', '1S2'), C2 = mkCyl('2A1', 730, '2S1', '2S2');
-for (const n of ['1V1', '2V1']) label(V[n].wx + BW / 2, 270, n, 'nm', gT).setAttribute('text-anchor', 'middle');
-label(V['0V2'].wx + BW / 2, 270, '0V2', 'nm', gT, r => r.mem).setAttribute('text-anchor', 'middle');
+for (const n of ['1V1', '2V1']) label(V[n].wx + BW / 2, 276, n, 'nm', gT).setAttribute('text-anchor', 'middle');
+label(V['0V2'].wx + BW / 2, 276, '0V2', 'nm', gT, r => r.mem).setAttribute('text-anchor', 'middle');
 for (const n in S) label(S[n].wx + 16, S[n].wy - 8, n, 'nm');
 label(B1.wx + 16, B1.wy - 8, '0S1', 'nm'); label(B2.wx + 16, B2.wy - 8, '0S2', 'nm'); label(B0.wx + 16, B0.wy - 8, '0V0', 'nm');
 /* alimentación 0Z1 */
@@ -481,13 +507,13 @@ label(B1.wx + 16, B1.wy - 8, '0S1', 'nm'); label(B2.wx + 16, B2.wy - 8, '0S2', '
   label(62, 708, '0Z1', 'nm', g);
 })();
 /* líneas de aire */
-const fP = r => r.P, fN = null;
+const fP = r => r.P;
 wire([[40, 691], [40, 618]], r => r.pre);                                         // 0Z1 -> 0V0
-wire([[40, 570], [40, 276], [812, 276]], fP); dot(40, 506, fP); dot(40, 560, fP);
+wire([[40, 570], [40, 286], [812, 286]], fP); dot(40, 506, fP); dot(40, 560, fP);
 wire([[40, 560], [-20, 560], [-20, 645], [430, 645]], fP);
-[192, 492, 812].forEach(x => { const vm = x === 492 ? r => r.mem : null; wire([[x, 238], [x, 276]], fP, vm); dot(x, 276, fP, vm); });
+[192, 492, 812].forEach(x => { const vm = x === 492 ? r => r.mem : null; wire([[x, 238], [x, 286]], fP, vm); dot(x, 286, fP, vm); });
 [[240, 'a'], [430, 'b']].forEach(q => { const x = q[0]; wire([[x, 618], [x, 645]], fP, r => !r.serie); dot(x, 645, fP, r => !r.serie);
-  wire([[x, 618], [x, 632]], r => r.out['1S1'], r => r.serie); label(x + 4, 631, '← 1S1', 'pn', gT, r => r.serie); });
+  wire([[x, 618], [x, 640]], r => r.out['1S1'], r => r.serie); label(x - 5, 658, 'desde 1S1', 'pn', gT, r => r.serie).setAttribute('text-anchor', 'end'); });
 /* líneas a cilindros */
 wire([[179, 190], [179, 150], [120, 150], [120, 90]], r => r.P && r.v['1V1'] === '14');
 wire([[205, 190], [205, 125], [220, 125], [220, 90]], r => r.P && r.v['1V1'] === '12');
@@ -501,11 +527,11 @@ wire([[345, 520], [905, 520]], r => r.L1, r => r.c); wire([[150, 534], [925, 534
 [['1S2', 520, 'L1'], ['2S2', 520, 'L1'], ['1S1', 534, 'L2'], ['2S1', 534, 'L2']].forEach(q => { wire([[RX[q[0]], 458], [RX[q[0]], q[1]]], r => r[q[2]], r => r.c); dot(RX[q[0]], q[1], r => r[q[2]], r => r.c); });
 /* memoria 0V2: salidas L1 / L2 */
 wire([[479, 190], [479, 165], [905, 165], [905, 520]], r => r.L1, r => r.mem); wire([[505, 190], [505, 178], [925, 178], [925, 534]], r => r.L2, r => r.mem);
-label(560, 160, 'L1 (grupo I)', 'pn', gT, r => r.mem); label(560, 172, 'L2 (grupo II)', 'pn', gT, r => r.mem);
+label(600, 161, 'L1 (grupo I)', 'pn', gT, r => r.mem); label(600, 191, 'L2 (grupo II)', 'pn', gT, r => r.mem);
 /* salidas de los rodillos y del arranque */
 for (const n in RX) wire([[RX[n], 410], [RX[n], 400]], r => r.out[n]);
 wire([[240, 570], [240, 548], [975, 548]], r => r.s['0S1'] || r.s.SERIE); wire([[430, 570], [430, 548]], r => r.s['0S1'] || r.s.SERIE); dot(430, 548, r => r.s['0S1'] || r.s.SERIE);
-label(480, 543, '0S2 en paralelo con 0S1 (O)', 'pn');
+label(560, 565, '0S2 en paralelo con 0S1 (O)', 'pn');
 label(560, 640, 'Azul grueso: con presión · Gris fino: sin presión', 'pn');
 /* cableado de pilotos (se arma según W) */
 const PT = { '1V1-14': { x: 70, v: '1V1', l: 1 }, '1V1-12': { x: 330, v: '1V1', l: 0 }, '0V2-L1': { x: 370, v: '0V2', l: 1 }, '0V2-L2': { x: 640, v: '0V2', l: 0 }, '2V1-14': { x: 700, v: '2V1', l: 1 }, '2V1-12': { x: 940, v: '2V1', l: 0 } };
@@ -517,7 +543,7 @@ function buildRoutes() {
   PORTS.forEach(p => {
     const s = c.W[p]; if (!s || s === 'none' || (!c.memory && (p.startsWith('0V2') || s === 'L1' || s === 'L2'))) return;
     const a = SRC[s], t = PT[p];
-    routes.push({ p, t, base: [[a[0], a[1]], [a[0], a[2]], [t.x, a[2]], [t.x, 214]], el: el('polyline', { class: 'w' }, gR) });
+    routes.push({ p, t, base: [[a[0], a[1]], [a[0], a[2]], [t.x, a[2]], [t.x, 214]], el: el('polyline', { class: 'w pl' }, gR) });
   });
 }
 function pilotEnd(p) { const t = PT[p], v = V[t.v]; const gx = v.wx + (v.left ? 0 : -BW); return t.l ? gx - 12 : gx + 2 * BW + 12; }
@@ -593,7 +619,7 @@ const ROWS = [
   ['Línea activa', s => s.valves['0V2'] ? s.activeLine + (s.lines[s.activeLine] ? ' (con presión)' : ' (sin presión)') : 'sin cascada'],
   ['Fase / ciclos', s => 'punto ' + s.phase + ' de 5 · ciclos ' + s.cycles]
 ];
-const stRows = ROWS.map(q => { const tr = el('tr', {}, null); const th = document.createElement('th'); th.textContent = q[0]; const td = document.createElement('td'); tr.appendChild(th); tr.appendChild(td); $('#stBody').appendChild(tr); return td; });
+const stRows = ROWS.map(q => { const tr = document.createElement('tr'); const th = document.createElement('th'); th.textContent = q[0]; const td = document.createElement('td'); tr.appendChild(th); tr.appendChild(td); $('#stBody').appendChild(tr); return td; });
 const GUIDE = [
   ['1. Superposición en el método intuitivo', 'En el método intuitivo, pulsá 0S1 con todo en reposo. ¿Por qué no avanza 1A1?',
     'En reposo 2A1 está retraído y mantiene accionado 2S1. Entonces 2S1 manda aire al piloto 12 de 1V1 todo el tiempo. Al pulsar 0S1 llega aire también al piloto 14. Con presión en los dos pilotos la válvula biestable no conmuta y se queda donde estaba: es la superposición de señales, y 1A1 no se mueve.'],
@@ -603,8 +629,8 @@ const GUIDE = [
     '2S1 se alimenta de L2. Cuando 0V2 pasa a L1, la línea L2 se despresuriza y la señal larga de 2S1 desaparece. Cada señal solo existe mientras está activo su grupo, así que nunca llegan dos señales opuestas al mismo piloto.'],
   ['4. Armá tu propio circuito', 'En «Armado libre» conectá los pilotos para cumplir A+ B+ B− A− y tocá «Verificar». ¿Cómo lo resolvés?',
     'Tildá «Usar válvula de memoria 0V2», elegí alimentación «Cascada» y conectá: 1V1-14 = L1, 1V1-12 = 2S1, 2V1-14 = 1S2, 2V1-12 = L2, 0V2 → L1 = «0S1 y 1S1 en serie», 0V2 → L2 = 2S2. Con alimentación directa, en cambio, aparece la superposición.'],
-  ['5. Diagnóstico de fallas', 'El docente activó una falla en cascada: 2A1 baja pero nunca vuelve. ¿Qué mirás para saber la causa?',
-    'Mirá 2S2 y la línea L2. Si 2S2 no conmuta aunque 2A1 esté abajo, el rodillo está roto. Si 0V2 pasó a L2 pero la línea L2 queda gris, hay una fuga en L2. Con «Mostrar respuesta» (panel Profesor) verificás tu diagnóstico.']
+  ['5. Diagnóstico de fallas', 'El docente activó una falla en cascada. Caso A: pulsás 0S1 y no se mueve nada. Caso B: 2A1 baja pero nunca vuelve. ¿Qué mirás en cada caso?',
+    'Caso A: mirá la línea L2. Si 0V2 está en L2 pero la línea queda gris, hay una fuga en L2: 1S1 no tiene aire y 0V2 no puede cambiar a L1. Caso B: mirá 2S2: si 2A1 está abajo y 2S2 no conmuta, el rodillo está roto. Con «Mostrar respuesta» (panel Profesor) verificás tu diagnóstico.']
 ];
 $('#p-guia').innerHTML = '<p class="note">Cinco ejercicios cortos. Intentá responder antes de abrir la respuesta.</p>' + GUIDE.map(g => `<h3>${g[0]}</h3><details><summary>${g[1]}</summary><p>${g[2]}</p></details>`).join('');
 $('#profBox').innerHTML = Object.keys(FAULTS).map(k => `<label><input type="checkbox" data-fault="${k}"> ${FAULTS[k]}</label>`).join('');
@@ -644,7 +670,7 @@ function renderUI(s) {
   stRows.forEach((td, i) => { const t = ROWS[i][1](s); if (td.textContent !== t) td.textContent = t; td.classList.toggle('bad', t.indexOf('SUPERPOSICIÓN') >= 0); });
   const lg = E.log.slice(-8).map(x => x.t.toFixed(2) + ' s  ' + x.m).join('\n'); if ($('#evLog').textContent !== lg) $('#evLog').textContent = lg;
   const ah = alertHTML(s); if (ah !== lastAlert) { lastAlert = ah; const a = $('#alert'); a.innerHTML = ah; a.hidden = !ah; }
-  $('#bPlay').textContent = running ? 'Pausa' : 'Marcha';
+  $('#bPlay').textContent = running ? '⏸ Pausar' : '▶ Iniciar'; $('#bDemo').hidden = s.mode !== 'intuitivo'; $('#profNote').hidden = !(s.faults.leakL2 && !s.memory);
   const b2 = $('#b0S2'); b2.setAttribute('aria-pressed', s.buttons['0S2']); b2.textContent = 'Ciclo continuo 0S2: ' + (s.buttons['0S2'] ? 'activado' : 'apagado');
   const bs = $('#bSup'); bs.setAttribute('aria-pressed', s.supply); bs.textContent = 'Suministro 0V0: ' + (s.supply ? 'abierto' : 'cerrado');
   $('#b0S1').classList.toggle('on', s.buttons['0S1']);
@@ -656,7 +682,7 @@ function syncCfg() {
   if (c.mode === 'libre') showTab('libre'); else if (!$('#p-libre').hidden) showTab('estado');
   $('#cMem').checked = c.memory; $('#sFeed').value = c.feed; $('#sFeed').disabled = !c.memory;
   $('#wTab').querySelectorAll('tr').forEach(tr => { const p = tr.dataset.p; tr.hidden = p.startsWith('0V2') && !c.memory; const sel = tr.querySelector('select'); sel.value = c.W[p] || 'none'; Array.from(sel.options).forEach(o => { o.disabled = !c.memory && (o.value === 'L1' || o.value === 'L2'); }); });
-  buildRoutes();
+  buildRoutes(); cfgStamp++;
 }
 function buildFree() {
   const tb = $('#wTab');
@@ -682,7 +708,7 @@ const api = {
   setSupply(b) { E.supply = !!b; },
   setSpeed(x) { speed = clamp(+x || 1, 0.25, 2); $('#speed').value = speed; $('#speedOut').textContent = speed + '×'; return speed; },
   step() { const m = E.step(); running = false; return m; },
-  run(ms) { E.advance(Math.max(0, +ms || 0)); return getState(); },
+  run(ms) { E.advance(clamp(+ms || 0, 0, 600000)); return getState(); },
   reset() { E.reset(); return getState(); },
   play() { running = true; }, pause() { running = false; },
   setFault(n, b) { const k = normFault(n); if (k) E.faults[k] = !!b; const c = document.querySelector(`[data-fault="${k}"]`); if (c) c.checked = !!b; return k; },
@@ -697,8 +723,9 @@ window.sim = api;
 /* ============================ 7. EVENTOS DE INTERFAZ ============================ */
 document.querySelectorAll('#modeSeg button').forEach(b => b.addEventListener('click', () => api.setMode(b.dataset.mode)));
 $('#bPlay').addEventListener('click', () => { running = !running; });
-$('#bStep').addEventListener('click', () => { const m = api.step(); $('#evLog').textContent = m; renderAll(); });
-$('#bReset').addEventListener('click', () => { api.reset(); renderAll(); });
+$('#bDemo').addEventListener('click', () => { api.demoSuperposicion(); running = false; renderAll(true); });
+$('#bStep').addEventListener('click', () => { api.step(); renderAll(true); });
+$('#bReset').addEventListener('click', () => { api.reset(); renderAll(true); });
 $('#speed').addEventListener('input', e => api.setSpeed(e.target.value));
 $('#bSup').addEventListener('click', () => { E.supply = !E.supply; });
 $('#b0S2').addEventListener('click', () => E.setSel(!E.sel));
@@ -707,7 +734,10 @@ $('#sFeed').addEventListener('change', e => api.setFeed(e.target.value));
 $('#bPreI').addEventListener('click', () => { api.setMode('intuitivo'); api.setMode('libre'); });
 $('#bPreC').addEventListener('click', () => { api.setMode('cascada'); api.setMode('libre'); });
 $('#bWide').addEventListener('click', e => { const w = $('#grid').classList.toggle('wide'); e.target.setAttribute('aria-pressed', w); });
-$('#bTheme').addEventListener('click', () => { const r = document.documentElement; const dark = r.dataset.theme ? r.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches; r.dataset.theme = dark ? 'light' : 'dark'; });
+const isDark = () => { const t = document.documentElement.dataset.theme; return t ? t === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches; };
+const themeMeta = () => { $('meta[name="theme-color"]').content = isDark() ? '#1b1f23' : '#fbfbfa'; };
+$('#bTheme').addEventListener('click', () => { document.documentElement.dataset.theme = isDark() ? 'light' : 'dark'; themeMeta(); });
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', themeMeta); themeMeta();
 document.querySelectorAll('#tabs .tab').forEach(t => t.addEventListener('click', () => showTab(t.dataset.tab)));
 $('#bVer').addEventListener('click', () => {
   const r = api.verify(), d = $('#verRes'); d.hidden = false; d.className = 'res ' + (r.ok ? 'ok' : 'bad');
@@ -717,7 +747,7 @@ $('#bProf').addEventListener('click', e => { const b = $('#profBox'); b.hidden =
 $('#profBox').addEventListener('change', e => { const k = e.target.dataset.fault; if (k) E.faults[k] = e.target.checked; });
 $('#bAns').addEventListener('click', () => {
   const a = Object.keys(E.faults).filter(k => E.faults[k]), d = $('#ansBox'); d.hidden = false; d.className = 'res';
-  d.innerHTML = a.length ? '<b>Fallas activas</b><ul>' + a.map(k => '<li><b>' + FAULTS[k] + '.</b> ' + FAULTHELP[k] + '</li>').join('') + '</ul>' : 'No hay fallas activas.';
+  d.innerHTML = a.length ? '<b>Fallas activas</b><ul>' + a.map(k => '<li><b>' + FAULTS[k] + '.</b> ' + FAULTHELP[k] + (k === 'leakL2' && !E.cfg.memory ? ' En este modo no existen L1 ni L2: no tiene efecto.' : '') + '</li>').join('') + '</ul>' : 'No hay fallas activas.';
 });
 /* pulsador 0S1: clic = pulso mínimo de 250 ms reales; mantener = señal larga */
 function uiPress() { clearTimeout(relTimer); api.press('0S1'); uiPress.at = performance.now(); }
@@ -726,6 +756,7 @@ const b0 = $('#b0S1');
 b0.addEventListener('pointerdown', e => { e.preventDefault(); uiPress(); });
 ['pointerup', 'pointerleave', 'pointercancel'].forEach(t => b0.addEventListener(t, uiRelease));
 b0.addEventListener('keydown', e => { if ((e.key === ' ' || e.key === 'Enter') && !e.repeat) { e.preventDefault(); uiPress(); } });
+b0.addEventListener('blur', uiRelease);
 b0.addEventListener('keyup', e => { if (e.key === ' ' || e.key === 'Enter') uiRelease(); });
 const clkg = c => sch.querySelector(`[data-c="${c}"]`);
 const g0 = clkg('0S1'); g0.addEventListener('pointerdown', e => { e.preventDefault(); uiPress(); }); ['pointerup', 'pointerleave', 'pointercancel'].forEach(t => g0.addEventListener(t, uiRelease));
@@ -771,8 +802,9 @@ async function init3D() {
     box(2.2, 0.25, 0.05, M(0x8a949e), 0.6, 0.125, -0.34);                         // riel trasero de guía
     box(0.24, 0.5, 0.6, M(0x444b52), 1.57, 0.25, 0);                               // tope
     const partM = M(0xd9b44a, { metalness: 0.1, roughness: 0.6 });
-    const mkPart = () => { const g = new THREE.Group(); const b = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.25, 0.5), partM); g.add(b); const im = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.02, 0.22), M(0x7a1f1f)); im.position.y = 0.125; im.visible = false; g.add(im); g.userData.im = im; scene.add(g); return g; };
-    const stack = [0, 1, 2].map(() => { const b = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.25, 0.5), partM); scene.add(b); return b; });
+    const partGeo = new THREE.BoxGeometry(0.5, 0.25, 0.5), imGeo = new THREE.BoxGeometry(0.22, 0.02, 0.22), imMat = M(0x7a1f1f);
+    const mkPart = () => { const g = new THREE.Group(); g.add(new THREE.Mesh(partGeo, partM)); const im = new THREE.Mesh(imGeo, imMat); im.position.y = 0.125; im.visible = false; g.add(im); g.userData.im = im; scene.add(g); return g; };
+    const stack = [0, 1, 2].map(() => { const b = new THREE.Mesh(partGeo, partM); scene.add(b); return b; });
     /* cilindro 1A1 (horizontal) */
     const bar1M = M(0x2e6fd8, { metalness: 0.4 }), bar2M = M(0xd8782e, { metalness: 0.4 });
     const barrel1 = cyl(0.14, bar1M, true); onX(barrel1, -2.7, -1.2); barrel1.position.y = 0.17;
@@ -797,11 +829,13 @@ async function init3D() {
     const barrels = [barrel1, barrel2], cham = [cap1, rch1, cap2, rch2];
     let cut = false;
     const applyCut = () => { barrels.forEach(b => { b.material.transparent = cut; b.material.opacity = cut ? 0.22 : 1; b.material.depthWrite = !cut; }); [pis1, pis2, cap1, rch1, cap2, rch2].forEach(m => { m.visible = cut; }); };
+    $('#cRot').addEventListener('change', e => { renderer.domElement.style.touchAction = e.target.checked ? 'none' : 'pan-y'; });
+    renderer.domElement.style.touchAction = 'pan-y';
     $('#cCut').addEventListener('change', e => { cut = e.target.checked; applyCut(); }); applyCut();
     const setCh = (m, on) => { m.material.color.set(on ? 0x2f80ff : 0x9aa0a6); m.material.opacity = on ? 0.85 : 0.5; m.material.emissive = new THREE.Color(on ? 0x0a3a99 : 0x000000); };
     /* piezas */
     let cur = mkPart(), old = null, partX = 0, stamped = false, lastPh = 1, lastT = 0, lastNow = performance.now();
-    const resetParts = () => { scene.remove(cur); if (old) { scene.remove(old); old = null; } cur = mkPart(); partX = 0; stamped = false; };
+    const resetParts = () => { lastPh = 1; scene.remove(cur); if (old) { scene.remove(old); old = null; } cur = mkPart(); partX = 0; stamped = false; };
     const resize = () => { const w = host.clientWidth, h = host.clientHeight; if (!w || !h) return; renderer.setSize(w, h, false); cam.aspect = w / h; cam.updateProjectionMatrix(); };
     new ResizeObserver(resize).observe(host); resize();
     view3d = {
@@ -826,18 +860,25 @@ async function init3D() {
 }
 
 /* ============================ 9. BUCLE ============================ */
-function renderAll() {
-  const r = ext(); render2D(r); renderDia(r); renderUI(getState());
+let sigLast = '', uiAt = 0, cfgStamp = 0, uiPend = false;
+function renderAll(force) {
+  E.refresh();
+  const sig = [E.t, E.p1, E.p2, E.v['1V1'], E.v['2V1'], E.v['0V2'], E.btn.down, E.sel, E.supply, JSON.stringify(E.faults), cfgStamp, running, speed].join('|');
+  const now = performance.now();
+  if (!force && sig === sigLast) { if (uiPend && now - uiAt >= 100) { uiPend = false; uiAt = now; renderUI(getState()); } return; }
+  sigLast = sig;
+  const r = ext(); render2D(r); renderDia(r);
+  if (force || now - uiAt >= 100) { uiPend = false; uiAt = now; renderUI(getState()); } else uiPend = true;
 }
 let lastT = performance.now();
 function frame(now) {
   const dt = Math.min(100, now - lastT); lastT = now;
   if (running && !document.hidden) E.advance(dt * speed);
   renderAll();
-  if (view3d) { try { view3d.render(); } catch (e) { view3d = null; } }
+  if (view3d) { try { view3d.render(); } catch (e) { view3d = null; const m = $('#msg3d'); m.textContent = 'La vista 3D se detuvo por un error. El simulador 2D sigue funcionando.'; m.hidden = false; } }
   requestAnimationFrame(frame);
 }
-buildFree(); syncCfg(); renderAll(); showTab('estado');
+buildFree(); syncCfg(); renderAll(true); showTab('estado');
 requestAnimationFrame(frame);
 init3D();
 })();
