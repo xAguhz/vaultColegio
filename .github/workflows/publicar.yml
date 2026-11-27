@@ -64,6 +64,9 @@ jobs:
           mkdir -p quartz/public/vaultSuzuki/3D/visor/laminas
           cp -r vault/vaultSuzuki/3D/visor/. quartz/public/vaultSuzuki/3D/visor/
           cp "vault/vaultSuzuki/Adjuntos/Suzuki Swift/"*.jpg quartz/public/vaultSuzuki/3D/visor/laminas/
+          # Simulador neumático (cascada A+ B+ B- A-, con vista 3D)
+          mkdir -p "quartz/public/vaultDoñetz/Simulador"
+          cp -r "vault/vaultDoñetz/Simulador/." "quartz/public/vaultDoñetz/Simulador/"
           # Hoja para imprimir de la charla de IA (busca el QR en ../Adjuntos/, que Quartz sí publica)
           mkdir -p quartz/public/vaultClaseProfes/hoja
           cp "vault/vaultClaseProfes/Exposición/Hoja para imprimir.html" quartz/public/vaultClaseProfes/hoja/index.html
