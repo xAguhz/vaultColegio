@@ -191,6 +191,19 @@ class Mapa:
             t = min(max(t, 0.0), 1.0)
             self.R[i] = min(self.R[i], r0 + t * (r1 - r0))
 
+    def corte_nariz(self, z0, r0, z1, r1, rn, dzc):
+        """Corte de un inserto con radio de punta rn: el centro está en punta + (dzc, rn)."""
+        n = max(1, int(math.hypot(z1 - z0, r1 - r0) / 0.05))
+        for k in range(n + 1):
+            t = k / n
+            zc, rc = z0 + t * (z1 - z0) + dzc, r0 + t * (r1 - r0) + rn
+            for i in self.celdas(zc - rn, zc + rn):
+                d = self.z[i] - zc
+                if abs(d) <= rn:
+                    rb = max(rc - math.sqrt(rn * rn - d * d), 0.0)
+                    if rb < self.R[i]:
+                        self.R[i] = rb
+
     def corte_ancho(self, za, zb, r):
         for i in self.celdas(za, zb):
             self.R[i] = min(self.R[i], r)
@@ -269,6 +282,7 @@ class Prog:
         self.linea("T%02d%02d" % (num, num))
         self.linea("G96 S%d M3" % vc)
         self.tool, self.ancho, self.porta, self.f = num, ancho, porta, None
+        self.nariz = NARIZ.get(num)
         self.x, self.z = 100.0, 100.0
 
     def _coords(self, x, z, ambos=False):
@@ -312,7 +326,7 @@ class Prog:
             za, zb = (z, z + self.ancho) if self.ancho else (z, z)
             if z > self.m.ztop + 0.01 + (self.ancho or 0):
                 continue
-            if x / 2 < self.m.maximo(za, zb) - 0.02:
+            if max(x / 2, 0.0) < self.m.maximo(za, zb) - 0.02:
                 aviso(self.av, "G00 dentro del material en X%s Z%s (T%d)"
                       % (fmt(x), fmt(z), self.tool or 0))
                 return
@@ -347,6 +361,20 @@ class Prog:
                 t = k / n
                 self.m.corte_ancho(z0 + t * (z1 - z0), z0 + t * (z1 - z0) + self.ancho,
                                    r0 + t * (r1 - r0))
+        elif getattr(self, "nariz", None):
+            rn, dzc = self.nariz
+            idx = list(self.m.celdas(min(z0, z1) - rn - DZ, max(z0, z1) + rn + DZ))
+            antes = {i: self.m.R[i] for i in idx}
+            self.m.corte_nariz(z0, r0, z1, r1, rn, dzc)
+            if abs(z1 - z0) > 1e-9:
+                cos_t = abs(z1 - z0) / max(math.hypot(z1 - z0, r1 - r0), 1e-9)
+                for i in idx:
+                    # cerca de los extremos el radio toca de costado una cara (no es profundidad)
+                    if min(abs(self.m.z[i] - z0 - dzc), abs(self.m.z[i] - z1 - dzc)) < rn + DZ:
+                        continue
+                    e = (antes[i] - self.m.R[i]) * cos_t
+                    if e > self.ap.get(self.tool, (0.0,))[0] and self.m.z[i] < -1e-6:
+                        self.ap[self.tool] = (e, self.m.z[i])
         else:
             self.m.corte_recta(z0, r0, z1, r1)
 
@@ -401,7 +429,9 @@ class Prog:
 
     # --- movimientos compuestos
     def xl_local(self, z):
-        return 2 * self.m.maximo(z - 0.35, z + 0.35) + 1.0
+        # con radio de punta, el inserto ocupa rn a cada lado del centro (corrido rn de la punta)
+        rn = self.nariz[0] if getattr(self, "nariz", None) else 0.0
+        return 2 * self.m.maximo(z - 0.35 - 2 * rn, z + 0.35 + 2 * rn) + 1.0
 
     def aproximar(self, x, z, feed):
         """Del cambio de herramienta (o de X seguro) al punto (x, z), sin rapido en material."""
@@ -416,9 +446,11 @@ class Prog:
         self.g01(x, feed=feed)
 
     def salir(self):
-        xl = self.xl_local(self.z)
+        # sale siempre hacia arriba: si el material de al lado es mas bajo, no se baja hasta el
+        xl = max(self.xl_local(self.z), self.x)
         if xl < self.xseg - 0.01:
-            self.g01(xl)
+            if xl > self.x + 1e-6:
+                self.g01(xl)
             self.g00(self.xseg)
         else:
             self.g01(self.xseg)
@@ -478,7 +510,146 @@ def zona_base(per, largo):
     return {"x": x_fin, "z": zf}
 
 
+# ---------------------------------------------- compensación del radio de punta (sin G41/G42)
+# El programa da la posición de la punta teórica (la que define el código de forma). El centro
+# del radio de punta tiene que recorrer el perfil corrido "r" hacia afuera; la punta teórica está
+# a (-r, -r) del centro con código de forma 3 (herramienta derecha) y a (+r, -r) con el 4 (izquierda).
+R_PUNTA = {1: 0.8, 3: 0.4, 4: 0.4}     # CNMG120408 y VNMG160404 (catálogo A10 y A14)
+
+
+def _tangente(s, t):
+    """Tangente unitaria (z, r) del tramo en t, recorriéndolo de p0 a p1."""
+    if not s.R:
+        dz, dr = s.dz, s.dx / 2
+        L = math.hypot(dz, dr) or 1.0
+        return dz / L, dr / L
+    a = s.a0 + t * s.sweep
+    sg = 1 if s.sweep >= 0 else -1
+    return -math.sin(a) * sg, math.cos(a) * sg
+
+
+def _corrido(s, d):
+    """Tramo del perfil corrido d hacia afuera. Elementos en (z, r): dict tipo/p0/p1/R/g/c."""
+    z0, r0, z1, r1 = s.p0[1], s.p0[0] / 2, s.p1[1], s.p1[0] / 2
+    tz, tr = _tangente(s, 0.0)
+    nz, nr = tr, -tz
+    if not s.R:
+        return {"tipo": "L", "p0": (z0 + d * nz, r0 + d * nr), "p1": (z1 + d * nz, r1 + d * nr)}
+    uz, ur = (z0 - s.zc) / s.R, (r0 - s.rc) / s.R
+    vz, vr = (z1 - s.zc) / s.R, (r1 - s.rc) / s.R
+    Rn = s.R + d if uz * nz + ur * nr > 0 else s.R - d
+    if Rn <= 1e-3:
+        return None
+    return {"tipo": "A", "p0": (s.zc + uz * Rn, s.rc + ur * Rn), "p1": (s.zc + vz * Rn, s.rc + vr * Rn),
+            "R": Rn, "g": s.g, "c": (s.zc, s.rc)}
+
+
+def _cortes(a, b):
+    """Intersecciones de las curvas completas (recta o círculo) de dos elementos."""
+    def recta(e):
+        (z0, r0), (z1, r1) = e["p0"], e["p1"]
+        return (z0, r0), (z1 - z0, r1 - r0)
+    def rc(p, v, c, R):
+        fz, fr = p[0] - c[0], p[1] - c[1]
+        A = v[0] ** 2 + v[1] ** 2
+        B = 2 * (fz * v[0] + fr * v[1])
+        C = fz * fz + fr * fr - R * R
+        disc = B * B - 4 * A * C
+        if A < 1e-12 or disc < 0:
+            return []
+        return [(p[0] + t * v[0], p[1] + t * v[1]) for t in ((-B + math.sqrt(disc)) / (2 * A), (-B - math.sqrt(disc)) / (2 * A))]
+    if a["tipo"] == "L" and b["tipo"] == "L":
+        (p, v), (q, w) = recta(a), recta(b)
+        den = v[0] * w[1] - v[1] * w[0]
+        if abs(den) < 1e-12:
+            return []
+        t = ((q[0] - p[0]) * w[1] - (q[1] - p[1]) * w[0]) / den
+        return [(p[0] + t * v[0], p[1] + t * v[1])]
+    if a["tipo"] == "L" or b["tipo"] == "L":
+        l, c = (a, b) if a["tipo"] == "L" else (b, a)
+        p, v = recta(l)
+        return rc(p, v, c["c"], c["R"])
+    (c1, R1), (c2, R2) = (a["c"], a["R"]), (b["c"], b["R"])
+    dz, dr = c2[0] - c1[0], c2[1] - c1[1]
+    D = math.hypot(dz, dr)
+    if D < 1e-12 or D > R1 + R2 or D < abs(R1 - R2):
+        return []
+    x = (D * D + R1 * R1 - R2 * R2) / (2 * D)
+    h = math.sqrt(max(R1 * R1 - x * x, 0.0))
+    mz, mr = c1[0] + x * dz / D, c1[1] + x * dr / D
+    return [(mz - h * dr / D, mr + h * dz / D), (mz + h * dr / D, mr - h * dz / D)]
+
+
+def compensar(grupo, extra, rn, codigo, antes=None, despues=None):
+    """Trayectoria de la punta teórica para seguir el grupo (en orden de perfil) con un inserto de
+    radio rn, dejando 'extra' mm de sobremetal (normal al perfil). antes/despues: tramos vecinos
+    del perfil que hace otra herramienta; si el rincón con ellos es cóncavo, se recorta contra
+    ellos para que el radio de punta no muerda la pieza."""
+    d = extra + rn
+    els, esquinas = [], []
+    for s in [antes] + list(grupo) + [despues]:
+        e = _corrido(s, d) if s is not None else None
+        if e is not None:
+            e["vecino"] = s is antes or s is despues
+            els.append(e)
+            esquinas.append((s.p0[1], s.p0[0] / 2))
+    out = []
+    for k, e in enumerate(els):
+        if out:
+            prev = out[-1]
+            q = esquinas[k]
+            if math.hypot(prev["p1"][0] - e["p0"][0], prev["p1"][1] - e["p0"][1]) > 1e-6:
+                t1 = prev["p1"][0] - prev["p0"][0], prev["p1"][1] - prev["p0"][1]
+                t2 = e["p1"][0] - e["p0"][0], e["p1"][1] - e["p0"][1]
+                if prev["tipo"] == "A":
+                    a = math.atan2(prev["p1"][1] - prev["c"][1], prev["p1"][0] - prev["c"][0])
+                    sg = -1 if prev["g"] == "G02" else 1
+                    t1 = (-math.sin(a) * sg, math.cos(a) * sg)
+                if e["tipo"] == "A":
+                    a = math.atan2(e["p0"][1] - e["c"][1], e["p0"][0] - e["c"][0])
+                    sg = -1 if e["g"] == "G02" else 1
+                    t2 = (-math.sin(a) * sg, math.cos(a) * sg)
+                cruz = t1[0] * t2[1] - t1[1] * t2[0]
+                if cruz > 0:      # esquina convexa: el centro del radio la rodea con un arco
+                    a0 = math.atan2(prev["p1"][1] - q[1], prev["p1"][0] - q[0])
+                    a1 = math.atan2(e["p0"][1] - q[1], e["p0"][0] - q[0])
+                    da = (a1 - a0 + math.pi) % (2 * math.pi) - math.pi
+                    out.append({"tipo": "A", "p0": prev["p1"], "p1": e["p0"], "R": d,
+                                "g": "G02" if da < 0 else "G03", "c": q})
+                else:             # esquina cóncava: se cortan los dos tramos corridos
+                    cand = _cortes(prev, e)
+                    if cand:
+                        I = min(cand, key=lambda p: math.hypot(p[0] - q[0], p[1] - q[1]))
+                        prev["p1"] = I
+                        e = dict(e)
+                        e["p0"] = I
+        out.append(e)
+    # los vecinos solo sirvieron para recortar: no se recorren (ni el arco de esquina hacia ellos)
+    while out and (out[0].get("vecino") or (len(out) > 1 and out[1].get("vecino") is False and False)):
+        out.pop(0)
+        if out and out[0]["tipo"] == "A" and out[0].get("c") and out[0]["R"] == d and "vecino" not in out[0]:
+            out.pop(0)
+    while out and out[-1].get("vecino"):
+        out.pop()
+        if out and out[-1]["tipo"] == "A" and out[-1]["R"] == d and "vecino" not in out[-1]:
+            out.pop()
+    dz = -rn if codigo == 3 else rn
+    res = []
+    for e in out:
+        p0 = (round(2 * (e["p0"][1] - rn), 3), round(e["p0"][0] + dz, 3))
+        p1 = (round(2 * (e["p1"][1] - rn), 3), round(e["p1"][0] + dz, 3))
+        if math.hypot((p1[0] - p0[0]) / 2, p1[1] - p0[1]) < 1e-3:
+            continue
+        if e["tipo"] == "L":
+            res.append(Prim(p0, p1))
+        else:
+            c = math.hypot((p1[0] - p0[0]) / 2, p1[1] - p0[1])
+            res.append(Prim(p0, p1, round(max(e["R"], c / 2 + 1e-4), 3), e["g"]))
+    return res
+
+
 VC_PIEZA = {}  # Vc (m/min) por herramienta, leída del JSON de la pieza
+NARIZ = {}     # herramienta -> (radio de punta, corrimiento Z del centro); solo con compensación
 
 # ------------------------------------------------------------------ estrategia "par"
 # TP con herramientas derecha e izquierda (como T0909/T1010 de los TP originales):
@@ -518,6 +689,8 @@ def ranuras_rectas(per):
 
 
 def generar_par(d, avisos):
+    NARIZ.clear()
+    NARIZ.update({1: (R_PUNTA[1], R_PUNTA[1]), 3: (R_PUNTA[3], R_PUNTA[3]), 4: (R_PUNTA[4], -R_PUNTA[4])})
     bd, bl = float(d["bruto"]["d"]), float(d["bruto"]["l"])
     largo = float(d["largo"])
     per = d["perfil"]
@@ -668,8 +841,42 @@ def generar_par(d, avisos):
         q = [(round(max(x, 0.0), 3), round(z, 3)) for x, z in q]
         return Prim(q[0], q[1], round(s.R * k, 3), s.g)
 
+    def sin_gubias(rec, rn, dzc, tol=0.01):
+        """Recorta el principio y el final de una pasada compensada donde el radio de punta
+        quedaría por debajo de la pieza terminada (gubia)."""
+        def ok(q):
+            zc, rc = q[1] + dzc, q[0] / 2 + rn
+            for i in mapa.celdas(zc - rn, zc + rn):
+                dd = mapa.z[i] - zc
+                if abs(dd) <= rn and rc - math.sqrt(rn * rn - dd * dd) < pmax[i] - tol and mapa.z[i] <= 0:
+                    return False
+            return True
+        def recorte(rec):
+            while rec:
+                s0 = rec[0]
+                n = max(4, int(s0.largo() / 0.05))
+                k = next((k for k in range(n + 1) if ok(s0.pt(k / n))), None)
+                if k is None:
+                    rec = rec[1:]
+                    continue
+                if k > 0:
+                    rec = [s0.cortar(k / n)[1]] + rec[1:]
+                return rec
+            return rec
+        rec = recorte(rec)
+        rec = [x.invertido() for x in reversed(recorte([x.invertido() for x in reversed(rec)]))]
+        return rec
+
+    def vecinos(g):
+        cerca = lambda p, q: abs(p[0] - q[0]) < 1e-6 and abs(p[1] - q[1]) < 1e-6
+        antes = next((s for s in segs if cerca(s.p1, g[0].p0)), None)
+        despues = next((s for s in segs if cerca(s.p0, g[-1].p1)), None)
+        return antes, despues
+
     for g in grupos_c:
-        orden = [paralelo(s, oc) for s in g]
+        orden = sin_gubias(compensar(g, oc / 2, R_PUNTA[1], 3, *vecinos(g)), R_PUNTA[1], R_PUNTA[1])
+        if not orden:
+            continue
         a = orden[0].p0
         P.aproximar(a[0], a[1], PAR["fc"])
         for s in orden:
@@ -810,33 +1017,34 @@ def generar_par(d, avisos):
                 continue
             for i in P.m.celdas(s.p0[1], s.p1[1]):
                 z = P.m.z[i]
-                if min(abs(z - s.p0[1]), abs(z - s.p1[1])) < 2 * DZ:
+                if min(abs(z - s.p0[1]), abs(z - s.p1[1])) < 1.01 * DZ:
                     continue
                 mx = max(mx, P.m.R[i] - pmax[i])
         return mx
 
-    def pasada(orden, feed):
+    def pasada(orden, feed, codigo=3):
+        """orden en sentido del perfil; la T0404 (codigo 4) lo recorre al reves (hacia +Z)."""
         orden = fusionar(orden)
+        rn = R_PUNTA.get(4 if codigo == 4 else 3, 0.4)
+        recorridos = []
         e = espesor(orden)
-        if e > 2.4:        # FP admite hasta 2,5 mm: primero una pasada previa paralela al perfil
-            k = round(max(0.3, e - 2.2), 2)
-            prev = [paralelo(s, 2 * k) for s in orden]
-            a = prev[0].p0
+        if e > 2.0:        # FP admite hasta 2,5 mm: primero una pasada previa paralela al perfil
+            recorridos.append(compensar(orden, round(max(0.3, e - 2.2), 2), rn, codigo, *vecinos(orden)))
+        recorridos.append(compensar(orden, 0.0, rn, codigo, *vecinos(orden)))
+        for rec in recorridos:
+            rec = sin_gubias(rec, rn, rn if codigo == 3 else -rn)
+            if not rec:
+                continue
+            if codigo == 4:
+                rec = [s.invertido() for s in reversed(rec)]
+            a = rec[0].p0
             P.aproximar(a[0], a[1], feed)
-            for s in prev:
+            for s in rec:
                 if s.R:
                     P.arco(s, feed)
                 else:
                     P.g01(None if abs(s.dx) < 1e-9 else s.p1[0], None if abs(s.dz) < 1e-9 else s.p1[1], feed)
             P.salir()
-        a = orden[0].p0
-        P.aproximar(a[0], a[1], feed)
-        for s in orden:
-            if s.R:
-                P.arco(s, feed)
-            else:
-                P.g01(None if abs(s.dx) < 1e-9 else s.p1[0], None if abs(s.dz) < 1e-9 else s.p1[1], feed)
-        P.salir()
 
     def inicio_libre(s, hacia_mas_z, tang, tol):
         """Primer t (0..1) del tramo desde el que el porta no toca la pieza terminada."""
@@ -874,13 +1082,12 @@ def generar_par(d, avisos):
     trabajos = []
     for g in grupos(lambda s: s.herr == 4):
         i_fin = segs.index(g[-1]) + 1
-        orden = []
+        orden = list(g)          # en orden de perfil; pasada() lo recorre hacia +Z
         if i_fin in a_cubrir:
             s = segs[i_fin]
             t = min(1.0, a_cubrir[i_fin] + 0.5 / max(s.largo(), 1e-9))
-            orden.append(s.cortar(t)[0].invertido() if t < 1.0 else s.invertido())
+            orden.append(s.cortar(t)[0] if t < 1.0 else s)
             del a_cubrir[i_fin]
-        orden += [s.invertido() for s in reversed(g)]
         trabajos.append(orden)
     for i, t in a_cubrir.items():
         s = segs[i]
@@ -889,7 +1096,7 @@ def generar_par(d, avisos):
     if trabajos:
         P.herramienta(4, 200, 0.0, ANG_PORTA[4])
         for orden in reversed(trabajos):
-            pasada(orden, ff)
+            pasada(orden, ff, 4)
         P.fin_herramienta()
 
     # ------------------------------------------------ T0505 tronzado
@@ -905,6 +1112,7 @@ def generar_par(d, avisos):
 
 
 def generar(d, avisos):
+    NARIZ.clear()
     if d.get("estrategia") == "par":
         VC_PIEZA.clear()
         VC_PIEZA.update({int(k): float(v) for k, v in d.get("vc", {}).items()})
@@ -1244,7 +1452,7 @@ def generar(d, avisos):
 
 
 # --------------------------------------------------------- verificador del texto .nc
-def interpretar_nc(lineas, mapa, bruto_d, largo):
+def interpretar_nc(lineas, mapa, bruto_d, largo, nariz=None):
     """Lee el texto del .nc y vuelve a simular el material (independiente del generador).
     Devuelve (mapa, errores, camino)."""
     err, camino = [], []
@@ -1261,14 +1469,16 @@ def interpretar_nc(lineas, mapa, bruto_d, largo):
             z, r = z0 + t * (z1 - z0), r0 + t * (r1 - r0)
             if rapido:
                 zb = z + w
-                if z <= mapa.ztop and r < mapa.maximo(z, zb) - 0.02:
+                if z <= mapa.ztop and max(r, 0.0) < mapa.maximo(z, zb) - 0.02:
                     err.append((n, "G00 dentro del material en X%s Z%s" % (fmt(2 * r), fmt(z))))
                     return
             elif w:
                 mapa.corte_ancho(z, z + w, r)
-            else:
+            elif not (nariz and st["tool"] in nariz):
                 mapa.corte_recta(z, r, z, r)
-        if not rapido and not w:
+        if not rapido and not w and nariz and st["tool"] in nariz:
+            mapa.corte_nariz(z0, r0, z1, r1, *nariz[st["tool"]])
+        elif not rapido and not w:
             mapa.corte_recta(z0, r0, z1, r1)
             # frenteado en la punta: la herramienta de derecha se lleva todo lo que esta en Z>z
             if abs(z1 - z0) < 1e-9 and z0 >= -1e-6 and x1 < x0 and st["tool"] in (1, 3, 9):
@@ -1330,7 +1540,11 @@ def interpretar_nc(lineas, mapa, bruto_d, largo):
             if cx is None or cz is None:
                 err.append((n, "Ciclo incompleto"))
                 continue
-            if m == 90:
+            if m == 90 and st["ancho"]:
+                # cuchilla de ranurar: ocupa [z, z + ancho] en todo el recorrido (hacia -Z o hacia +Z)
+                mapa.corte_ancho(min(z0, cz), max(z0, cz) + st["ancho"], cx / 2)
+                camino.append(("F", st["tool"], [(z0, cx / 2), (cz, cx / 2)]))
+            elif m == 90:
                 mapa.corte_recta(z0, cx / 2, cz, cx / 2)
                 camino.append(("F", st["tool"], [(z0, cx / 2), (cz, cx / 2)]))
             else:
@@ -1528,7 +1742,7 @@ def main():
     m2 = Mapa(6.0, -(largo + 14.0), bd / 2, 1.0)
     with open(ruta_nc, encoding="ascii", newline="") as f:
         lin = f.read().split("\r\n")
-    m2, errores, camino = interpretar_nc(lin, m2, bd, largo)
+    m2, errores, camino = interpretar_nc(lin, m2, bd, largo, dict(NARIZ) or None)
     sob, zs, exc, ze = comparar(m2, pmax, pmin, largo)
     ruta_png = os.path.join(args.salida, nombre + " trayectoria.png")
     dibujar_png(ruta_png, camino, prims_del_perfil(d["perfil"]), bd, largo)

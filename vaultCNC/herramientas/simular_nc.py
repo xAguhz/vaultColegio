@@ -120,7 +120,8 @@ def simular(lineas, sim, args):
             sim.err(n, "Movimiento de avance sin F definido")
         for p in (p1,):
             x, z = p
-            if x < 0 and not (-1 <= x < 0):
+            # hasta X-2: con compensación del radio de punta la punta teórica pasa un poco del eje
+            if x < 0 and not (-2 <= x < 0):
                 sim.err(n, "Avance con X=%g (negativo, pasa del eje)" % x)
             if sim.D is not None:
                 if x > sim.D + sim.margen:

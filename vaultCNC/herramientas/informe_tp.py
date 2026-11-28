@@ -357,6 +357,15 @@ def construir(args):
                                 'El inserto de ranurado mide 3,05 mm de ancho y tiene radio 0,2; el programa usa ese ancho para las '
                                 'ranuras y el tronzado. El programa usa solo G00, G01, G02, G03 y G90, sin ciclos automáticos '
                                 'como G71 o G72.')], 'left', 200))
+        cuerpo.append(para([run('Compensación del radio de punta: los insertos no terminan en punta viva, tienen radio '
+                                '(0,8 mm el CNMG120408 y 0,4 mm el VNMG160404, páginas A10 y A14). Si el programa siguiera las '
+                                'cotas del plano con la punta teórica, el radio dejaría material de más en las diagonales y '
+                                'marcaría escalones en los arcos donde se juntan la T0303 y la T0404. Por eso las pasadas de '
+                                'contorno y de terminación están calculadas para que el centro del radio recorra el perfil a '
+                                'la distancia del radio, y el programa da la posición de la punta teórica según el código de '
+                                'forma de cada herramienta (3 = derecha, 4 = izquierda). Por eso, en esas pasadas, algunas '
+                                'coordenadas no coinciden con las cotas del plano: el perfil que queda en la pieza sí '
+                                'coincide. En los rincones con ángulo vivo queda el radio del inserto (0,4 mm).')], 'left', 200))
     if not par:
       cuerpo.append(para([run('Selección de herramientas: la T0909 es un portaherramientas neutro DVVNN (72,5°) con el mismo inserto '
                             'VNMG160404FP de la T0303; copia el perfil en los dos sentidos, así que reemplaza a las dos herramientas '

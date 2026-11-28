@@ -22,11 +22,22 @@ Decisiones para que se pueda tornear:
 ## Resultados
 | Pieza | Profundidad máxima medida | Tiempo en WinUnisoft |
 |---|---|---|
-| Rey | T0101 1,8 · T0303 2,0 · T0404 0,3 mm | 23:15 |
-| Alfil | T0101 1,9 · T0303 1,8 · T0404 1,8 mm | 20:19 |
-| Reina | T0101 1,9 · T0303 1,8 · T0404 1,6 mm | 21:41 |
+| Rey | T0101 1,8 · T0303 2,0 · T0404 0,3 mm | 23:03 |
+| Alfil | T0101 2,1 · T0303 1,9 · T0404 1,8 mm | 20:24 |
+| Reina | T0101 2,1 · T0303 1,8 · T0404 1,8 mm | 21:44 |
 
 Las tres se simularon en la pantalla oculta **sin colisiones**. Los planos salen a escala 1:1 (FreeCAD en modo offscreen, sin ventana).
+
+## Compensación del radio de punta
+En la simulación aparecían tres defectos: una marca en la garganta de la reina, otra en la bolita, y material de más en la diagonal de la copa. Venían de que el programa seguía el perfil con la punta teórica, mientras que el inserto tiene radio (r 0,4). En las diagonales quedaba material, y en los arcos que terminan entre dos herramientas (T0303 de un lado y T0404 del otro) el error caía hacia lados opuestos y dejaba un escalón.
+
+Se evaluaron cuatro opciones: G41/G42, compensar en el programa, inserto de radio completo para la garganta, y radio 0 en el simulador. **El alumno eligió compensar en el programa**, sin códigos nuevos:
+- `compensar()` corre el perfil la distancia del radio de punta (más el sobremetal), rodea las esquinas convexas con un arco y recorta las cóncavas en la intersección. Después pasa del centro del radio a la punta teórica según el código de forma: 3 = (−r, −r) y 4 = (+r, −r).
+- Se aplica al contorno de la T0101 (r 0,8) y a las pasadas de la T0303 y la T0404 (r 0,4).
+- `sin_gubias()` recorta el principio y el final de cada pasada donde el radio tocaría por debajo del perfil terminado. Hace falta cuando la pasada empieza o termina al lado de un tramo que hace otra herramienta.
+- El mapa de material del generador y el verificador ahora simulan el radio de punta. La salida de cada pasada sube siempre, nunca baja.
+- Resultado: garganta, bolita y copa salen lisas en WinUnisoft. En los rincones con ángulo vivo queda el radio del inserto (0,24 a 0,4 mm), como en la pieza real.
+- En el programa, algunas coordenadas de esas pasadas no coinciden con las cotas del plano. El informe lo explica en las aclaraciones.
 
 ## Cambios en el generador (para piezas más altas)
 - **Fin del G90 en modo par:** termina contra las paredes verticales (antes frenaba 0,5 mm antes). La franja que quedaba obligaba a la pasada de contorno de la T0101 a sacar 6,8 mm de una vez, por encima del máximo del rompevirutas RP.

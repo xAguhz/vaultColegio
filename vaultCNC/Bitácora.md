@@ -174,3 +174,12 @@ El orquestador bajó del Drive los .zip de WinUnisoft, confirmó que son texto p
   - La medición de profundidad contaba como pasada las caras verticales (daba 6,8 mm y 7,3 mm). Ahora no cuenta la celda que está justo en la pared.
   - En la reina, la unión de la bola con la cúpula daba cotas de Ø3,18 y 3,21. La bola pasó a R2,5 y la unión quedó en Ø4 y Z−4.
 - **Resultado:** las tres simulan sin colisiones, en 20 a 23 minutos. Los informes están en Drive, en la carpeta "TP Completacarrera - Rey, Alfil y Reina (herramientas en par)".
+- **Compensación del radio de punta (28/11):**
+  - El alumno vio en WinUnisoft una marca en la garganta y otra en la bolita de la reina, y material de más en la diagonal de la copa.
+  - **Causa:** el programa no tenía en cuenta el radio de punta del inserto.
+  - Se le presentaron cuatro métodos y eligió compensar en el programa (`compensar()` y `sin_gubias()`). Ver [[TP Completacarrera - Rey, Alfil y Reina]].
+  - **Errores corregidos en el camino:**
+    - Al salir de la pasada, la herramienta bajaba en X al lado de una ranura, y el radio mordía el disco (sobrecorte de 2,5 mm).
+    - Una pasada que empezaba a mitad de la cara mordía la mitra del alfil (0,26 mm).
+    - El verificador no tomaba el ancho de la cuchilla en los G90 de la T0505 que avanzan hacia +Z.
+  - Las tres piezas simulan lisas y sin colisiones. Los informes nuevos explican la compensación.
