@@ -150,7 +150,8 @@ def partir_en_apice(prim):
     for k in range(-4, 5):
         ang = math.pi / 2 + k * math.pi
         t = (ang - prim.a0) / prim.sweep if abs(prim.sweep) > 1e-12 else -1
-        if 1e-6 < t < 1 - 1e-6:
+        # no partir si el apice cae en un extremo (quedaria un tramo de largo cero)
+        if t * prim.largo() > 1e-3 and (1 - t) * prim.largo() > 1e-3:
             cortes.append(t)
     cortes.sort()
     piezas, resto, t0 = [], prim, 0.0
@@ -332,6 +333,9 @@ class Prog:
                 else:
                     t = min(max((self.m.z[i] - z0) / (z1 - z0), 0.0), 1.0)
                     rt = r0 + t * (r1 - r0)
+                # la celda justo en el extremo del tramo puede ser una cara vertical (no es pasada)
+                if min(abs(self.m.z[i] - z0), abs(self.m.z[i] - z1)) < DZ * 1.01:
+                    continue
                 # espesor perpendicular a la pasada (en una pared empinada el radial engaña)
                 cos_t = abs(z1 - z0) / max(math.hypot(z1 - z0, r1 - r0), 1e-9)
                 e = (self.m.R[i] - rt) * cos_t
@@ -570,7 +574,9 @@ def generar_par(d, avisos):
             if pmax[i] + sg90 > D / 2 + 1e-9:
                 zl = z
                 break
-        z_fin = z_parte if zl is None else max(zl + MARGEN_Z, z_parte)
+        # termina contra la pared: si quedara una franja de MARGEN_Z a la altura de la pasada
+        # anterior, la pasada de contorno tendria que sacarla entera (mas de 6,4 mm)
+        z_fin = z_parte if zl is None else max(zl + DZ, z_parte)
         if z_fin > -0.3:
             break
         pasadas.append((D, round(z_fin, 3)))
@@ -596,12 +602,15 @@ def generar_par(d, avisos):
 
     # obstaculo para el porta: donde el contorno pasa, el material queda en perfil + sobremetal
     # (la propia pasada lo saca antes de que llegue el porta); en el resto, lo que dejo el G90
-    sube = [False] * len(mapa.R)
-    for s in segs:
-        if s.herr != "ranura" and s.dx >= -1e-9:
-            for i in mapa.celdas(s.p0[1], s.p1[1]):
-                sube[i] = True
-    obst = [min(mapa.R[i], pmax[i] + oc / 2) if sube[i] else mapa.R[i] for i in range(len(mapa.R))]
+    def obstaculos(tramos):
+        sube = [False] * len(mapa.R)
+        for s in tramos:
+            if s is not None:
+                for i in mapa.celdas(s.p0[1], s.p1[1]):
+                    sube[i] = True
+        return [min(mapa.R[i], pmax[i] + oc / 2) if sube[i] else mapa.R[i] for i in range(len(mapa.R))]
+
+    obst = obstaculos([s for s in segs if s.herr != "ranura" and s.dx >= -1e-9])
 
     def libre1(q):
         z, r = q[1], (q[0] + oc) / 2
@@ -614,8 +623,9 @@ def generar_par(d, avisos):
                 return False
         return True
 
-    piezas = []
-    for s in segs:
+    for _vuelta in range(6):     # se repite con los tramos que de verdad recorre el contorno
+      piezas = []
+      for s in segs:
         if s.herr == "ranura" or s.dx < -1e-9:
             piezas.append(None)
             continue
@@ -633,6 +643,10 @@ def generar_par(d, avisos):
             piezas.append(s)
         else:
             piezas.append(s.cortar(ts[k0])[1])
+      nuevo = obstaculos(piezas)
+      if nuevo == obst:
+          break
+      obst = nuevo
     grupos_c, act = [], []
     for s, pz in zip(segs, piezas):
         if pz is not None and (not act or (abs(act[-1].p1[0] - pz.p0[0]) < 1e-6 and abs(act[-1].p1[1] - pz.p0[1]) < 1e-6)):
@@ -698,7 +712,7 @@ def generar_par(d, avisos):
         valles.append(en)
     valles = [v for v in valles if v[0] - v[1] > 0.4]
     w = ANCHO_T5
-    mg = MARGEN_Z * 0.4
+    mg = DZ          # la cuchilla frena casi contra la pared (sin franja alta para el acabado)
 
     def prof(z0):          # radio minimo al que puede bajar la cuchilla en [z0, z0 + w]
         return max(pmax[i] for i in mapa.celdas(z0, z0 + w)) + sem_r
@@ -788,8 +802,33 @@ def generar_par(d, avisos):
                 fus.append(q)
         return fus
 
+    def espesor(orden):
+        """Material (radial) que queda sobre los tramos inclinados del grupo."""
+        mx = 0.0
+        for s in orden:
+            if abs(s.dz) < 1e-9:
+                continue
+            for i in P.m.celdas(s.p0[1], s.p1[1]):
+                z = P.m.z[i]
+                if min(abs(z - s.p0[1]), abs(z - s.p1[1])) < 2 * DZ:
+                    continue
+                mx = max(mx, P.m.R[i] - pmax[i])
+        return mx
+
     def pasada(orden, feed):
         orden = fusionar(orden)
+        e = espesor(orden)
+        if e > 2.4:        # FP admite hasta 2,5 mm: primero una pasada previa paralela al perfil
+            k = round(max(0.3, e - 2.2), 2)
+            prev = [paralelo(s, 2 * k) for s in orden]
+            a = prev[0].p0
+            P.aproximar(a[0], a[1], feed)
+            for s in prev:
+                if s.R:
+                    P.arco(s, feed)
+                else:
+                    P.g01(None if abs(s.dx) < 1e-9 else s.p1[0], None if abs(s.dz) < 1e-9 else s.p1[1], feed)
+            P.salir()
         a = orden[0].p0
         P.aproximar(a[0], a[1], feed)
         for s in orden:

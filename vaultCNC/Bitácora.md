@@ -160,3 +160,17 @@ El orquestador bajó del Drive los .zip de WinUnisoft, confirmó que son texto p
   - los títulos quedaban pegados a las tablas;
   - las cotas encadenadas se pisaban (`DIM_PASO` pasó de 4,6 a 5,5).
 - El TP es de otra alumna, del curso **Completacarrera**, no de 7°1. Se corrigieron el rótulo de los planos y los datos de los informes, y se renombraron la carpeta de Drive y esta nota.
+
+## 2026-11-28: TP Completacarrera, Rey, Alfil y Reina
+- **Pedido del alumno:** un croquis a mano con tres piezas, para otro alumno del mismo curso. Se pidió que FreeCAD también corra en segundo plano: ya lo hacía (`QT_QPA_PLATFORM=offscreen`).
+- **Medidas:** base Ø26 y lo demás en proporción. Las piezas miden 73 a 88 mm. Ver [[TP Completacarrera - Rey, Alfil y Reina]].
+- **El generador tuvo que cambiar para piezas largas:**
+  - El G90 termina contra las paredes.
+  - La T0505 frena a 0,05 mm de la pared.
+  - El acabado hace una pasada previa si le quedan más de 2,4 mm.
+  - El control de choque del contorno se recalcula con los tramos que de verdad recorre.
+  - El corte de arcos ya no falla cuando el ápice cae en un extremo.
+- **Errores encontrados y corregidos:**
+  - La medición de profundidad contaba como pasada las caras verticales (daba 6,8 mm y 7,3 mm). Ahora no cuenta la celda que está justo en la pared.
+  - En la reina, la unión de la bola con la cúpula daba cotas de Ø3,18 y 3,21. La bola pasó a R2,5 y la unión quedó en Ø4 y Z−4.
+- **Resultado:** las tres simulan sin colisiones, en 20 a 23 minutos. Los informes están en Drive, en la carpeta "TP Completacarrera - Rey, Alfil y Reina (herramientas en par)".
