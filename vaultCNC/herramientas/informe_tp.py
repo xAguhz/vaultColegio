@@ -309,11 +309,13 @@ def construir(args):
 
     # 5. programación CNC
     cuerpo.append(para([run('PROGRAMACIÓN CNC', sz=48, b=True)], 'left', 200, pb=True, keep=True))
-    mitad = (len(prog) + 1) // 2
+    # programa largo (más de 120 líneas): tres columnas, para que entre en una página
+    ncol = 3 if len(prog) > 120 else 2
+    paso = (len(prog) + ncol - 1) // ncol
     def col(ls):
         return ''.join(para([run(l, 'Courier New', 18)]) for l in ls)
-    cw = [W_TEXTO // 2, W_TEXTO - W_TEXTO // 2]
-    cuerpo.append(table([row([cell(col(prog[:mitad]), cw[0], 'top'), cell(col(prog[mitad:]), cw[1], 'top')], 300, split=True)], cw))
+    cw = [W_TEXTO // ncol] * (ncol - 1) + [W_TEXTO - (W_TEXTO // ncol) * (ncol - 1)]
+    cuerpo.append(table([row([cell(col(prog[k * paso:(k + 1) * paso]), cw[k], 'top') for k in range(ncol)], 300, split=True)], cw))
 
     def img(nombre):
         p = os.path.join(args.capturas, nombre) if args.capturas else ''
